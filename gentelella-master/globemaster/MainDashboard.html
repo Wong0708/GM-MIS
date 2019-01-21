@@ -16,6 +16,9 @@
     <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
     <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- FullCalendar -->
+    <link href="../vendors/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet">
+    <link href="../vendors/fullcalendar/dist/fullcalendar.print.css" rel="stylesheet" media="print">
     <!-- iCheck -->
     <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
 	
@@ -56,56 +59,82 @@
             <br />
 
             <!-- sidebar menu -->
-            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-              <div class="menu_section">
-                <h3>General</h3>
-                <ul class="nav side-menu">
-                  <li><a><i class="fa fa-edit"></i> Inventory Management <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a>Add Inventory<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu" class="collapse">
+                <div class="menu_section">
+                  <h3>General</h3>
+                  <ul class="nav side-menu">
+                    <li><a><i class="fa fa-home"></i> Dashboard </a>
+                      
+                    </li>
+                    <li><a><i class="fa fa-edit"></i> Inventory Management <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a>Add Inventory<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                              <li><a href="">Trading</a></li>
+                              <li><a href="">Depot</a></li>
+                          </ul>
+                        </li>
+                        <li><a>Inventory Scheduling <span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                              <li><a href="">Delivery Scheduling</a></li>
+                              <li><a href="">Restocking</a></li>
+                          </ul>
+                        </li>
+                        <li><a href="form_validation.html">Generate QR Code</a></li>
+                        <li><a href="form_wizards.html">Economic Order Quantity</a></li>
+                        <li><a href="form_upload.html">Form Upload</a></li>
+                        <li><a href="form_buttons.html">Form Buttons</a></li>
+                      </ul>
+                    </li>
+                    <li><a><i class="fa fa-desktop"></i> Sales Management <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a>Assets<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                            <li><a href="Assets_Trading.html">Trading</a></li>
+                            <li><a href="">Depot</a></li>
+                          </ul>                      
+                        </li>
+                        <li><a >Delivery Receipt</a>
+                             
+                        </li>
+                        <li><a >Sales Invoice<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
                             <li><a href="">Trading</a></li>
                             <li><a href="">Depot</a></li>
-                        </ul>
-                      </li>
-                      <li><a>Inventory Scheduling <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                            <li><a href="">Delivery Scheduling</a></li>
-                            <li><a href="">Restocking</a></li>
-                        </ul>
-                      </li>
-                      <li><a href="form_validation.html">Generate QR Code</a></li>
-                      <li><a href="form_wizards.html">Economic Order Quantity</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-desktop"></i> Sales Management <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="general_elements.html">General Elements</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-table"></i> Data Analytics <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="tables.html">Tables</a></li>
-                      <li><a href="tables_dynamic.html">Table Dynamic</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-bar-chart-o"></i> Data Visualization <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="chartjs.html">Chart JS</a></li>
-                      <li><a href="chartjs2.html">Chart JS2</a></li>
-                      <li><a href="morisjs.html">Moris JS</a></li>
-                      <li><a href="echarts.html">ECharts</a></li>
-                      <li><a href="other_charts.html">Other Charts</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-clone"></i>Reports <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="fixed_sidebar.html">Fixed Sidebar</a></li>
-                      <li><a href="fixed_footer.html">Fixed Footer</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
+                          </ul>  
+                        </li>
+                        
+                        <li><a href="Budget_Analysis.html">Budget Variance Analysis</span></a>
+  
+                        </li>
+                        <li><a href="EOQ.html">Economic Order Quantity</a></li>
+                        
+                      </ul>
+                    </li>
+                    <li><a><i class="fa fa-table"></i> Data Analytics <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="Forecasting.html">Forecasting</a></li>
+                        <li><a href="tables_dynamic.html">Predictive</a></li>
+                        <li><a href="tables_dynamic.html">Diagnostic</a></li>
+                      </ul>
+                    </li>
+                    <li><a><i class="fa fa-bar-chart-o"></i> Data Visualization <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="chartjs.html">Chart JS</a></li>
+                        <li><a href="chartjs2.html">Chart JS2</a></li>
+                        <li><a href="morisjs.html">Moris JS</a></li>
+                        <li><a href="echarts.html">ECharts</a></li>
+                        <li><a href="other_charts.html">Other Charts</a></li>
+                      </ul>
+                    </li>
+                    <li><a><i class="fa fa-clone"></i>Reports <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="fixed_sidebar.html">Fixed Sidebar</a></li>
+                        <li><a href="fixed_footer.html">Fixed Footer</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
               <!--<div class="menu_section">
                 <h3>Live On</h3>
                 <ul class="nav side-menu">
@@ -305,9 +334,59 @@
           </div> -->
           <!-- /top tiles -->
 
+<!-- Start of calendar -->
           <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
-              <div class="dashboard_graph">
+                <div class="page-title">
+                    <div class="title_left">
+                      <h3>Calendar <small>Click to add/edit events</small></h3>
+                    </div>
+      
+                    <div class="title_right">
+                      <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Search for...">
+                          <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+      
+                  <div class="clearfix"></div>
+      
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="x_panel">
+                        <div class="x_title">
+                          <h2>Calendar Events <small>Sessions</small></h2>
+                          <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                              <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Settings 1</a>
+                                </li>
+                                <li><a href="#">Settings 2</a>
+                                </li>
+                              </ul>
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                          </ul>
+                          <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+      
+                          <div id='calendar'></div>
+      
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              <!-- <div class="dashboard_graph">
 
                 <div class="row x_title">
                   <div class="col-md-6">
@@ -370,14 +449,87 @@
                 </div>
 
                 <div class="clearfix"></div>
-              </div>
+              </div> -->
             </div>
 
           </div>
           <br />
-
           <div class="row">
-
+            
+    <!-- calendar modal -->
+    <div id="CalenderModalNew" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+  
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title" id="myModalLabel">New Calendar Entry</h4>
+            </div>
+            <div class="modal-body">
+              <div id="testmodal" style="padding: 5px 20px;">
+                <form id="antoform" class="form-horizontal calender" role="form">
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Title</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="title" name="title">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Description</label>
+                    <div class="col-sm-9">
+                      <textarea class="form-control" style="height:55px;" id="descr" name="descr"></textarea>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default antoclose" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary antosubmit">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="CalenderModalEdit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+  
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title" id="myModalLabel2">Edit Calendar Entry</h4>
+            </div>
+            <div class="modal-body">
+  
+              <div id="testmodal2" style="padding: 5px 20px;">
+                <form id="antoform2" class="form-horizontal calender" role="form">
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Title</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" id="title2" name="title2">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Description</label>
+                    <div class="col-sm-9">
+                      <textarea class="form-control" style="height:55px;" id="descr2" name="descr"></textarea>
+                    </div>
+                  </div>
+  
+                </form>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default antoclose2" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary antosubmit2">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div id="fc_create" data-toggle="modal" data-target="#CalenderModalNew"></div>
+      <div id="fc_edit" data-toggle="modal" data-target="#CalenderModalEdit"></div>
+      <!-- /calendar modal -->
+<!-- End of calendar -->
 
             <div class="col-md-4 col-sm-4 col-xs-12">
               <div class="x_panel tile fixed_height_320">
@@ -983,6 +1135,9 @@
     <script src="../vendors/nprogress/nprogress.js"></script>
     <!-- Chart.js -->
     <script src="../vendors/Chart.js/dist/Chart.min.js"></script>
+    <!-- FullCalendar -->
+    <script src="../vendors/moment/min/moment.min.js"></script>
+    <script src="../vendors/fullcalendar/dist/fullcalendar.min.js"></script>
     <!-- gauge.js -->
     <script src="../vendors/gauge.js/dist/gauge.min.js"></script>
     <!-- bootstrap-progressbar -->
