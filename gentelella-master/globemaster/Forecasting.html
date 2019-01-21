@@ -313,11 +313,11 @@
                   <div class="x_title">
                     <h2>Item Forecasting</small></h2> 
                     <div class="col-md-3 col-sm-3 col-xs-3">
-                      <select class="form-control">
-                        <option>Choose option</option>
-                        <option>Naive</option>
-                        <option>Time-Series</option>
-                        <option>Short-Term</option>
+                      <select class="form-control" id="picksite">
+                        <option value = "">Choose option</option>
+                        <option value = "Naive.html">Naive</option>
+                        <option value = "Timeseries.html">Time-Series</option>
+                        <option value = "Shortterm.html">Short-Term</option>
                       </select>
                     </div>
                     <ul class="nav navbar-right panel_toolbox">
@@ -422,7 +422,7 @@
                     </table>
                   </div>
                 </div>
-                <p align = "right"><button type="button" class="btn btn-success" align = "right">Submit</button></p>
+                <p align = "right"><button type="button" class="btn btn-success" align = "right" id="executelink">Submit</button></p>
               </div>
             </div>
           </div>
@@ -509,6 +509,19 @@
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+
+    <!-- Select dropdown next page script -->
+    <script type="text/javascript">
+      $(document).ready(function() {
+          var newUrl = "";
+          $("#picksite").change(function() {
+              $newUrl = $("#picksite option:selected").val();
+          });
+          $("#executelink").click(function() {
+              location = $newUrl ;
+          });
+      });
+  </script>
 	
   </body>
 </html>
