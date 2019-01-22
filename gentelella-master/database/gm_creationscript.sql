@@ -231,3 +231,38 @@ DEFAULT CHARACTER SET = utf8;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`sales_trading` (
+  `item_id` INT(11) NOT NULL,
+  `item_name` VARCHAR(45) NULL DEFAULT NULL,
+  `item_price` DOUBLE NULL DEFAULT NULL,
+  `total_sold` DOUBLE NULL DEFAULT NULL,
+  `qty_sold` INT(11) NULL DEFAULT NULL,
+  INDEX `fk_sales_trading_items_trading1_idx` (`item_id` ASC),
+  CONSTRAINT `fk_sales_trading_items_trading1`
+    FOREIGN KEY (`item_id`)
+    REFERENCES `mydb`.`items_trading` (`item_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`sales_depot` (
+  `item_id` INT(11) NOT NULL,
+  `item_name` VARCHAR(45) NULL DEFAULT NULL,
+  `item_price` VARCHAR(45) NULL DEFAULT NULL,
+  `total_sold` VARCHAR(45) NULL DEFAULT NULL,
+  `qty_sold` VARCHAR(45) NULL DEFAULT NULL,
+  INDEX `fk_sales_depot_items_depot1_idx` (`item_id` ASC),
+  CONSTRAINT `fk_sales_depot_items_depot1`
+    FOREIGN KEY (`item_id`)
+    REFERENCES `mydb`.`items_depot` (`item_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
