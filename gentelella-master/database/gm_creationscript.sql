@@ -1,5 +1,5 @@
 -- MySQL Workbench Synchronization
--- Generated: 2019-01-22 14:59
+-- Generated: 2019-01-22 15:20
 -- Model: New Model
 -- Version: 1.0
 -- Project: Name of the project
@@ -10,17 +10,6 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-
-CREATE TABLE IF NOT EXISTS `mydb`.`inventory_depot` (
-)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-CREATE TABLE IF NOT EXISTS `mydb`.`inventory_trading` (
-  `item_id` INT(11) NOT NULL,
-  PRIMARY KEY (`item_id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`concessionaire` (
   `concess_id` INT(11) NOT NULL,
@@ -178,11 +167,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`order_details` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`table1` (
-)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`ref_itemtype` (
   `itemtype_id` INT(11) NOT NULL,
   `itemtype` VARCHAR(45) NULL DEFAULT NULL,
@@ -243,12 +227,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`ref_payment` (
   PRIMARY KEY (`payment_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
-
-CREATE TABLE IF NOT EXISTS `mydb`.`table2` (
-)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
