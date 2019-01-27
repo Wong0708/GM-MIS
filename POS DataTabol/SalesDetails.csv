@@ -1,0 +1,1 @@
+SalesDetailID,SalesID,ProductID,RecordDate,Price,Quantity,ItemDiscount,Status,VoucherDiscount,PercentTax,IsTaxIncluded,CostingType,Cost,TransactionSupplierDiscount,TransactionVoucherDiscount,GUID,TaxExcempt
