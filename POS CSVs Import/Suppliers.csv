@@ -1,1 +1,1 @@
-SupplierID,SupplierName,SupplierCode,Address,TelNo,FaxNo,IsDeleted,SupplierTypeID,ContactPerson,GUID,TerminalID,LastModified,Terms
+﻿SupplierID,SupplierName,SupplierCode,Address,TelNo,FaxNo,IsDeleted,SupplierTypeID,ContactPerson,GUID,TerminalID,LastModified,Terms

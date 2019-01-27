@@ -1,0 +1,8 @@
+﻿PaymentTypeID,Description,IsDeleted,PaymentCode
+1,Cash,FALSE,CASH
+2,Gift Cheque,FALSE,GC
+3,House Account,FALSE,HOUSE
+4,Credit Memo,FALSE,CREDITMEMO
+5,Other Income,FALSE,OTHERINCOME
+6,Credit Card,FALSE,CREDITCARD
+7,Check,FALSE,CHECK
