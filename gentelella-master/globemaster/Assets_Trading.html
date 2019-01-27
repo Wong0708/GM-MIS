@@ -529,14 +529,14 @@
                                       <span class="section">Item Information</span>
                   
                                       <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Customer <span class="required">*</span>
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Item Name <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                           <input id="customer" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="customer" placeholder="Customer Name" required="required" type="text">
                                         </div>
                                       </div>
                                       <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Truck Number <span class="required">*</span>
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Item Number <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                           <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" required="required" type="text">
@@ -556,39 +556,13 @@
                                           <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" required="required" type="text">
                                         </div>
                                       </div>
-                                      <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Delivery Receipt/ Sales Invoice Number <span class="required">*</span>
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                          <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" required="required" type="text">
-                                        </div>
-                                      </div>
-                                      <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Sales Agent
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                          <input type="email" id="email" name="email" class="form-control col-md-7 col-xs-12">
-                                        </div>
-                                      </div>
-                                      <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Remarks
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                          <input type="email" id="email2" name="confirm_email" data-validate-linked="email" class="form-control col-md-7 col-xs-12">
-                                        </div>
-                                      </div>
-                                      <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Others
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                          <textarea id="textarea" name="textarea" class="form-control col-md-7 col-xs-12"></textarea>
-                                        </div>
-                                      </div>
+
+                                                               
                                       <div class="ln_solid"></div>
                                       <div class="form-group">
                                         <div class="col-md-6 col-md-offset-3">
-                                          <button type="submit" class="btn btn-primary">Cancel</button>
-                                          <button id="send" type="submit" class="btn btn-success">Submit</button>
+                                          <button type="submit" class="btn btn-primary">Back</button>
+                                        
                                         </div>
                                       </div>
                                     </form>
@@ -724,6 +698,13 @@
                       </table>
                     </div>
 
+                   
+                          
+        
+                            <div id="echart_line" style="height:350px;"></div>
+        
+                        
+
          
         <!-- /page content -->
 
@@ -775,6 +756,10 @@
     <!-- bootstrap-daterangepicker -->
     <script src="../vendors/moment/min/moment.min.js"></script>
     <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+    <!-- ECharts -->
+    <script src="../vendors/echarts/dist/echarts.min.js"></script>
+    <script src="../vendors/echarts/map/js/world.js"></script>
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>

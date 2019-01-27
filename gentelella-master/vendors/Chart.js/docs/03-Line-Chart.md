@@ -61,7 +61,7 @@ pointStyle | `String, Array<String>, Image, Array<Image>` | The style of point. 
 An example data object using these attributes is shown below.
 ```javascript
 var data = {
-	labels: ["January", "February", "March", "April", "May", "June", "July"],
+	labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
 	datasets: [
 		{
 			label: "My First dataset",
