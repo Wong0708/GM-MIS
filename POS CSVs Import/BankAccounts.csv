@@ -1,0 +1,2 @@
+﻿BankAccountID,AccountNo,AccountName,BankID,Branch,GUID,IsDeleted
+1,12345,Test Account,0,Del Monte,E07C3C48-CE72-47AF-8859-1DCD28EB8D4C,FALSE

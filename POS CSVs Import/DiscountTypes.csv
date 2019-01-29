@@ -1,0 +1,4 @@
+﻿DiscountTypeID,Description,PercentDiscount,IsDeleted,DiscountCode
+0,Senior Citizen,10,FALSE,SENIOR
+1,Member Discount,15,FALSE,MEMBER
+100,Other Discount,0,FALSE,OTHERDISC

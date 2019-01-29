@@ -1,0 +1,8 @@
+﻿CreditCardTypeID,Description,CreditCardTypeCode,IsDeleted
+1,MasterCard,MASTERCARD,FALSE
+2,VISA,VISA,FALSE
+3,AMEXCO,AMEXCO,FALSE
+4,Far East,FAREAST,FALSE
+5,Unicard,UNICARD,FALSE
+6,Bancard,BANCARD,FALSE
+7,Diners,DINERS,FALSE
