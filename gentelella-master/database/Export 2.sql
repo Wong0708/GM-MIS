@@ -441,7 +441,51 @@ LOCK TABLES `warehouses` WRITE;
 INSERT INTO `warehouses` VALUES (1,'BULACAN'),(2,'EDSA DEPOT'),(3,'LAGUNA');
 /*!40000 ALTER TABLE `warehouses` ENABLE KEYS */;
 UNLOCK TABLES;
+CREATE TABLE IF NOT EXISTS `deliveries` (
+  `deliveryid` INT(11) NOT NULL,
+  `deliverytype` VARCHAR(45) NOT NULL,
+  `deliverystatus` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`deliveryid`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
 
+CREATE TABLE IF NOT EXISTS `delivery_details` (
+  `deliveryid` INT(11) NOT NULL,
+  `orders_ordernumber` INT(11) NULL DEFAULT NULL,
+  `destination` VARCHAR(45) NOT NULL,
+  `deliverydate` DATETIME NOT NULL,
+  `deli` VARCHAR(45) NULL DEFAULT NULL,
+  `drivers_driverid` INT(11) NOT NULL,
+  `drivername` VARCHAR(45) NOT NULL,
+  `trucknumber` VARCHAR(45) NOT NULL,
+  `salesagent` VARCHAR(45) NULL DEFAULT NULL,
+  `remarks` LONGTEXT NULL DEFAULT NULL,
+  INDEX `fk_delivery_details_deliveries1_idx` (`deliveryid` ASC),
+  INDEX `fk_delivery_details_orders1_idx` (`orders_ordernumber` ASC),
+  INDEX `fk_delivery_details_drivers1_idx` (`drivers_driverid` ASC),
+  CONSTRAINT `fk_delivery_details_deliveries1`
+    FOREIGN KEY (`deliveryid`)
+    REFERENCES `gm-mis`.`deliveries` (`deliveryid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_delivery_details_orders1`
+    FOREIGN KEY (`orders_ordernumber`)
+    REFERENCES `gm-mis`.`orders` (`ordernumber`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_delivery_details_drivers1`
+    FOREIGN KEY (`drivers_driverid`)
+    REFERENCES `gm-mis`.`drivers` (`driverid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+CREATE TABLE IF NOT EXISTS `drivers` (
+  `driverid` INT(11) NOT NULL,
+  PRIMARY KEY (`driverid`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
 --
 -- Dumping routines for database 'mydb'
 --
