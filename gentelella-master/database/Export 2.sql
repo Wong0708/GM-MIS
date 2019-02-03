@@ -42,6 +42,56 @@ LOCK TABLES `clients` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `granitetrackinglist`
+--
+
+DROP TABLE IF EXISTS `granitetrackinglist`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `granitetrackinglist` (
+  `gtrackingID` int(11) NOT NULL,
+  `Size` int(11) DEFAULT NULL,
+  PRIMARY KEY (`gtrackingID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `granitetrackinglist`
+--
+
+LOCK TABLES `granitetrackinglist` WRITE;
+/*!40000 ALTER TABLE `granitetrackinglist` DISABLE KEYS */;
+INSERT INTO `granitetrackinglist` VALUES (1,223),(2,236),(3,115),(4,116);
+/*!40000 ALTER TABLE `granitetrackinglist` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `joborderfabrication`
+--
+
+DROP TABLE IF EXISTS `joborderfabrication`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `joborderfabrication` (
+  `joborderID` int(11) NOT NULL,
+  `Desrciption` varchar(45) DEFAULT NULL,
+  `UnitPrice` double DEFAULT NULL,
+  `TotalAmount` double DEFAULT NULL,
+  `ReferenceDrawing` blob,
+  PRIMARY KEY (`joborderID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `joborderfabrication`
+--
+
+LOCK TABLES `joborderfabrication` WRITE;
+/*!40000 ALTER TABLE `joborderfabrication` DISABLE KEYS */;
+/*!40000 ALTER TABLE `joborderfabrication` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `concessionaire`
 --
 
