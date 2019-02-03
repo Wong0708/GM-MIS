@@ -63,6 +63,7 @@ CREATE TABLE `concessionaire` (
 
 LOCK TABLES `concessionaire` WRITE;
 /*!40000 ALTER TABLE `concessionaire` DISABLE KEYS */;
+INSERT INTO `concessionaire` VALUES (1,'Darda','7872 Anniversary Circle','(190) 5703683'),(2,'Meg','58648 Columbus Plaza','(706) 6928842'),(3,'Carrie','74 Commercial Alley','(934) 4272345'),(4,'Leora','6 Mendota Parkway','(982) 1333707'),(5,'Kenyon','5713 Northview Street','(178) 3826959'),(6,'Roana','853 Debra Way','(867) 7104611'),(7,'Benoit','329 South Point','(364) 7325104'),(8,'Nesta','939 Kingsford Park','(372) 5243573'),(9,'Hilde','2362 Prentice Road','(527) 1973667'),(10,'Lucila','2 Heath Court','(740) 7782095');
 /*!40000 ALTER TABLE `concessionaire` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -159,6 +160,7 @@ CREATE TABLE `items_depot` (
 
 LOCK TABLES `items_depot` WRITE;
 /*!40000 ALTER TABLE `items_depot` DISABLE KEYS */;
+INSERT INTO `items_depot` VALUES (1,'Slab A',1,'100',1,'2018-07-31 07:45:50','2019-09-01 06:00:00',10,1,1,1),(2,'Slab B',2,'100',2,'2018-08-01 07:45:00','2019-09-02 06:00:00',10,2,2,2),(3,'Slab C',3,'100',3,'2018-08-02 07:44:10','2019-09-03 06:00:00',10,3,3,3),(4,'Granite A',4,'100',4,'2018-08-03 07:43:20','2019-09-04 06:00:00',10,1,4,4),(5,'Granite B',5,'100',5,'2018-08-04 07:42:30','2019-09-05 06:00:00',10,2,5,5),(6,'Granite C',6,'100',6,'2018-08-05 07:41:40','2019-09-06 06:00:00',10,3,1,6),(7,'Granite D',7,'100',7,'2018-08-06 07:40:50','2019-09-07 06:00:00',10,1,2,7),(8,'Granite E',8,'100',8,'2018-08-07 07:40:00','2019-09-08 06:00:00',10,2,3,8),(9,'Granite F',9,'100',9,'2018-08-08 07:39:10','2019-09-09 06:00:00',10,3,4,9),(10,'Granite G',10,'100',10,'2018-08-09 07:38:20','2019-09-10 06:00:00',10,1,5,10),(11,'Slab D',1,'100',1,'2018-08-10 07:37:30','2019-09-11 06:00:00',10,2,1,11),(12,'Slab E',2,'100',2,'2018-08-11 07:36:40','2019-09-12 06:00:00',10,3,2,12),(13,'Slab F',3,'100',3,'2018-08-12 07:35:50','2019-09-13 06:00:00',10,1,3,13),(14,'Slab G',4,'100',4,'2018-08-13 07:35:00','2019-09-14 06:00:00',10,2,4,14),(15,'Granite H',5,'100',5,'2018-08-14 07:34:10','2019-09-15 06:00:00',10,3,5,15),(16,'Granite I',6,'100',6,'2018-08-15 07:33:20','2019-09-16 06:00:00',10,1,1,16),(17,'Granite J',7,'100',7,'2018-08-16 07:32:30','2019-09-17 06:00:00',10,2,2,17),(18,'Granite K',8,'100',8,'2018-08-17 07:31:40','2019-09-18 06:00:00',10,3,3,18),(19,'Slab H',9,'100',9,'2018-08-18 07:30:50','2019-09-19 06:00:00',10,1,4,19),(20,'Slab I',10,'100',10,'2018-08-19 07:30:00','2019-09-20 06:00:00',10,2,5,20);
 /*!40000 ALTER TABLE `items_depot` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -284,6 +286,7 @@ CREATE TABLE `ref_brands` (
 
 LOCK TABLES `ref_brands` WRITE;
 /*!40000 ALTER TABLE `ref_brands` DISABLE KEYS */;
+INSERT INTO `ref_brands` VALUES (1,'Schultz, Prosacco and Wolf'),(2,'Nolan-Satterfield'),(3,'Maggio-Abshire'),(4,'Towne and Sons'),(5,'Spinka Group'),(6,'Casper and Sons'),(7,'Gulgowski, Reichel and Dare'),(8,'Hintz, Harber and Rau'),(9,'Ward, King and Schimmel'),(10,'Gaylord-Dare');
 /*!40000 ALTER TABLE `ref_brands` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -452,4 +455,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-22 16:59:39
+-- Dump completed on 2019-01-22 17:09:36
