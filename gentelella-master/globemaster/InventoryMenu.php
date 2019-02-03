@@ -1,4 +1,14 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
+=======
+<?php
+
+?>
+
+
+
+
+>>>>>>> 656a52b4217693d6739023b1b7c83f564ac6b371
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -7,7 +17,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<<<<<<< HEAD
     <title>DataTables | Gentelella</title>
+=======
+    <title>Globe Master | Trading</title>
+>>>>>>> 656a52b4217693d6739023b1b7c83f564ac6b371
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -52,6 +66,7 @@
             <!-- /menu profile quick info -->
 
             <br />
+<<<<<<< HEAD
 			
 			<?php
         require_once("nav.php");    
@@ -59,6 +74,11 @@
 
             <!-- sidebar menu -->
             <!--div id="sidebar-menu" class="main_menu_side hidden-print main_menu" class="collapse">
+=======
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu" class="collapse">
+>>>>>>> 656a52b4217693d6739023b1b7c83f564ac6b371
                 <div class="menu_section">
                   <h3>General</h3>
                   <ul class="nav side-menu">
@@ -134,8 +154,11 @@
                     </li>
                   </ul>
                 </div>
+<<<<<<< HEAD
 				
 				
+=======
+>>>>>>> 656a52b4217693d6739023b1b7c83f564ac6b371
               <!--<div class="menu_section">
                 <h3>Live On</h3>
                 <ul class="nav side-menu">
