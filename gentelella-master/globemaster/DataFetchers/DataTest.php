@@ -5,8 +5,8 @@ header('Content-Type: application/json');
 //database
 define('DB_HOST', 'localhost');
 define('DB_USERNAME', 'root');
-define('DB_PASSWORD', '12345');
-define('DB_NAME', 'GMTradingDB');
+define('DB_PASSWORD', 'Rane0708!');
+define('DB_NAME', 'gmtradingdb');
 
 //get connection
 $mysqli = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
@@ -16,7 +16,7 @@ if(!$mysqli){
 }
 
 //query to get data from the table
-$query = sprintf("SELECT supplier_id FROM suppliers ORDER BY supplier_id");
+$query = sprintf("SELECT item_id, item_name, price, item_count FROM items_trading ORDER BY item_id");
 
 //execute query
 $result = $mysqli->query($query);

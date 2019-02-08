@@ -423,27 +423,44 @@
     <!-- Chart Data -->
     <script>
         // Bar chart
-			  
+
+      
 			if ($('#mybarChart').length ){ 
+
+			  $(document).ready(function()
+        {
+        $.ajax({
+          url: "http://localhost//GM-MIS/gentelella-master/globemaster/DataFetchers/DataTest.php",
+          method: "GET",
+          success: function(data) {
+            console.log(data);
+            var itemid = [];
+            var itemname = [];
+            var itemlabel = [];
+            var itemprice = [];
+            var itemcount = []
+
+            for(var i in data) 
+            {
+              itemid.push("Item " + data[i].item_id);
+              itemname.push(data[i].item_name);
+              itemlabel.push(data[i].item_name + "-" + "Item " + data[i].item_id);
+              itemprice.push(data[i].price);
+              itemcount.push(data[i].item_count);
+            }
 			  
 			  var ctx = document.getElementById("mybarChart");
 			  var mybarChart = new Chart(ctx, {
 				type: 'bar',
 				data: {
-				  labels: ["Wong", "Rane", "March", "April", "May", "June", "July"],
+				  labels: itemlabel,
 				  datasets: [{
-					label: '# of Votes',
+					label: 'Item Price',
 					backgroundColor: "#26B99A",
-					data: [51, 30, 40, 28, 92, 50, 45]
-				  }, {
-					label: '# of Votes',
-					backgroundColor: "#03586A",
-					data: [41, 56, 25, 48, 72, 34, 12]
-				  }, {
-					label: '# of Votes',
-					backgroundColor: "#42f4eb",
-					data: [22, 23, 13, 23, 44, 14, 54]
-				  }]
+          data: itemprice},{
+          label: 'Item Count',
+					backgroundColor: "#26B99A",
+					data: itemcount}]
 				},
 
 				options: {
@@ -455,10 +472,12 @@
 					}]
 				  }
 				}
-			  });
-			  
+			      });
+          }
+          })
+        })
 			} 
-      </script>
+  </script>
 	
   </body>
 </html>
