@@ -56,9 +56,7 @@
             <br />
 
             <!-- sidebar menu -->
-            <?php
-        require_once("nav.php");    
-        ?>
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu" class="collapse">
                 <div class="menu_section">
                   <h3>General</h3>
                   <ul class="nav side-menu">
@@ -385,9 +383,9 @@
     <!-- FastClick -->
     <script src="../vendors/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
-    <script src="../vendors/nprogress/nprogress.js"></script>
+    <script src="../vendors/nprogress/nprogress.js"></script> 
     <!-- Chart.js -->
-    <script src="../vendors/Chart.js/dist/Chart.min.js"></script>
+    <script src="../vendors/Chart.js/dist/Chart.js"></script>
     <!-- FullCalendar -->
     <script src="../vendors/moment/min/moment.min.js"></script>
     <script src="../vendors/fullcalendar/dist/fullcalendar.min.js"></script>
@@ -420,7 +418,47 @@
     <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
 
     <!-- Custom Theme Scripts -->
-    <script src="../build/js/custom.min.js"></script>
+    <script src="../build/js/custom.js"></script>
+
+    <!-- Chart Data -->
+    <script>
+        // Bar chart
+			  
+			if ($('#mybarChart').length ){ 
+			  
+			  var ctx = document.getElementById("mybarChart");
+			  var mybarChart = new Chart(ctx, {
+				type: 'bar',
+				data: {
+				  labels: ["Wong", "Rane", "March", "April", "May", "June", "July"],
+				  datasets: [{
+					label: '# of Votes',
+					backgroundColor: "#26B99A",
+					data: [51, 30, 40, 28, 92, 50, 45]
+				  }, {
+					label: '# of Votes',
+					backgroundColor: "#03586A",
+					data: [41, 56, 25, 48, 72, 34, 12]
+				  }, {
+					label: '# of Votes',
+					backgroundColor: "#42f4eb",
+					data: [22, 23, 13, 23, 44, 14, 54]
+				  }]
+				},
+
+				options: {
+				  scales: {
+					yAxes: [{
+					  ticks: {
+						beginAtZero: true
+					  }
+					}]
+				  }
+				}
+			  });
+			  
+			} 
+      </script>
 	
   </body>
 </html>
