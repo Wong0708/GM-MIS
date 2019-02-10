@@ -16,7 +16,7 @@ if(!$mysqli){
 }
 
 //query to get data from the table
-$query = sprintf("SELECT item_id, item_name, price, item_count FROM items_trading ORDER BY item_id");
+$query = sprintf("SELECT item_id, item_name, price, item_count FROM items_trading ORDER BY item_id LIMIT 12");
 
 //execute query
 $result = $mysqli->query($query);
