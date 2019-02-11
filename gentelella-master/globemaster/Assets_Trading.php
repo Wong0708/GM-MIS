@@ -275,7 +275,7 @@
             $totalPrice += $row['price'] * $itemQty; 
                                  
           }
-          echo'<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">';
+          echo'<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">'; //HTML to display TOTAL PROFIT and Cost
           echo'<span class="count_top">Total Profit: </span>';
             echo'<div class="count green">';
             echo $totalPrice;
@@ -283,7 +283,7 @@
           echo'</div>';
           echo'<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">';
           echo'<span class="count_top"><i class="fa fa-user"></i> Total Incurred Cost: </span>';
-          echo'<div class="count">764,567</div>';
+          echo'<div class="count">764,567</div>'; //COST: Needs to be clarified
           echo'</div>';          
           echo'</div>';
           ?> <!-- PHP END -->
@@ -309,120 +309,56 @@
                   <div id="chart_plot_01" class="demo-placeholder"></div>
                 </div>
 
-
-              
-
-
                 
-                <div class="col-md-3 col-sm-3 col-xs-12 bg-white">
+                <div class="col-md-3 col-sm-3 col-xs-12 bg-white"> 
                       <div class="x_panel tile fixed_height_320">
                         <div class="x_title">
-                          <h2>Top Selling: </h2>
-                          <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                              <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Settings 1</a>
-                                </li>
-                                <li><a href="#">Settings 2</a>
-                                </li>
-                              </ul>
-                            </li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                          </ul>
+                          <h2>Top Selling This Month: </h2>                          
                           <div class="clearfix"></div>
                         </div>
-                        <div class="x_content">
-                          <h4></h4>
-                          <div class="widget_summary">
-                            <div class="w_left w_25">
-                              <span>Item A: </span>
-                            </div>
-                            <div class="w_center w_55">
-                              <div class="progress">
-                                <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 66%;">
-                                  <span class="sr-only">60% Complete</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="w_right w_20">
-                              <span>123k</span>
-                            </div>
-                            <div class="clearfix"></div>
-                          </div>
-        
-                          <div class="widget_summary">
-                            <div class="w_left w_25">
-                              <span>Item B: </span>
-                            </div>
-                            <div class="w_center w_55">
-                              <div class="progress">
-                                <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 45%;">
-                                  <span class="sr-only">60% Complete</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="w_right w_20">
-                              <span>53k</span>
-                            </div>
-                            <div class="clearfix"></div>
-                          </div>
-                          <div class="widget_summary">
-                            <div class="w_left w_25">
-                              <span>Item C: </span>
-                            </div>
-                            <div class="w_center w_55">
-                              <div class="progress">
-                                <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                                  <span class="sr-only">60% Complete</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="w_right w_20">
-                              <span>23k</span>
-                            </div>
-                            <div class="clearfix"></div>
-                          </div>
-                          <div class="widget_summary">
-                            <div class="w_left w_25">
-                              <span>Item D: </span>
-                            </div>
-                            <div class="w_center w_55">
-                              <div class="progress">
-                                <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 5%;">
-                                  <span class="sr-only">60% Complete</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="w_right w_20">
-                              <span>3k</span>
-                            </div>
-                            <div class="clearfix"></div>
-                          </div>
-                          <div class="widget_summary">
-                            <div class="w_left w_25">
-                              <span>Item E: </span>
-                            </div>
-                            <div class="w_center w_55">
-                              <div class="progress">
-                                <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 2%;">
-                                  <span class="sr-only">60% Complete</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="w_right w_20">
-                              <span>1k</span>
-                            </div>
-                            <div class="clearfix"></div>
-                          </div>
-        
-                        </div>
-                      </div>
-                    </div>
+                
+                <?php
+                  require_once('mysql_connect.php');
 
+                  $query = "SELECT *, SUM(item_qty) as total_amount 
+                  FROM order_details 
+                  GROUP BY item_id 
+                  ORDER by total_amount 
+                  DESC LIMIT 5 "; //Query to get the 5 most sold items in current month.
+
+                  $resultOrderDetail = mysqli_query($dbc,$query);
+                  
+                  
+                  while($qtyfromOrderDetails = mysqli_fetch_array($resultOrderDetail,MYSQLI_ASSOC))
+                  { 
+                   
+                    $itemName =  $qtyfromOrderDetails['item_name'];
+                    $itemQty = $qtyfromOrderDetails['total_amount'];
+
+
+                    echo'     <div class="x_content">'; //Html to show the top 5 most sold assets in trading
+                    echo'         <h4></h4>';
+                    echo'   <div class="widget_summary">';
+                    echo'       <div class="w_right w_45">';
+                    echo'         <span>';
+                    echo '<b><font size="3" color="black">',$itemName,':</b></font>';
+                    echo'        </span>';
+                    echo'      </div>';
+                    echo'      ';
+                    echo'      <div class="w_right w_20">';
+                    echo'        <span>';
+                    echo '<b><font size="3" color="green">',$itemQty,'</b></font>'  ;
+                    echo'        </span>';
+                    echo'      </div>';
+                    echo'      <div class="clearfix"></div>';
+                    echo'     </div>';
+                    echo'  </div>';
+                   
+                  }                                 
+                  ?>    
+                    
+                    </div>
+                  </div>        
           </div>        
           <br />
 
@@ -515,13 +451,13 @@
                               echo '</td>';  
                               echo '<td>';
                               echo $row['price'] * $itemQty;
-                              echo '</td>';                           
+                              echo '</td>';  
+                              echo '<td class="last" ><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg">View Details</a></td>';                          
                               echo '</tr>';
                             }
                           ;    
                          ?>                                              
-                            <!-- <td class="last" ><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg">View Details</a> 
-
+   
                               <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                   <div class="modal-content">
@@ -534,8 +470,7 @@
                   
                                     <div class = "modal-body">
                                     <form class="form-horizontal form-label-left" novalidate>
-                  
-                                      
+                                                       
                                       <span class="section">Item Information</span>
                   
                                       <div class="item form-group">
@@ -579,8 +514,8 @@
                                   </div>
                                   </div>
                                 </div>
-                              </div>
-                            </td>  End MODAL -->
+                              </div><!-- End MODAL -->
+                             
                           
                         </tbody>
                       </table>
