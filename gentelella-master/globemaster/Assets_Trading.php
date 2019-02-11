@@ -2,15 +2,7 @@
 
 <?php
       require_once('mysql_connect.php');
-      $sql = "SELECT * FROM items_trading";
-      $result = mysqli_query($dbc, $sql);
-
-     while($row = mysqli_fetch_array($result))
-     {
-       echo $row[0];
-     }
-
-
+    
 ?> <!-- PHP END -->
 
 
@@ -240,27 +232,61 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-          <!-- top tiles -->
-          <div class="row tile_count">
-            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"> Target Sales: </span>
-              <div class="count">2500</div>
+        <!-- top tiles -->
+        <?php
+          require_once('mysql_connect.php');
+
+          $query = "SELECT SUM(item_qty) FROM order_details"; //Query for getting the Total Sales from Order Details
+          $resultOrderDetail = mysqli_query($dbc,$query);
+          $qtyfromOrderDeatils = mysqli_fetch_array($resultOrderDetail,MYSQLI_ASSOC);
+          $itemQty = $qtyfromOrderDeatils['SUM(item_qty)'];
+
+          echo'<div class="row tile_count">';
+          echo'<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">';  //HTML to display the Target Sales and Actual Total Sales
+          echo'<span class="count_top"> Target Sales: </span>';
+          echo'<div class="count">2500</div>';
               
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"> Total Sales: </span>
-              <div class="count">500</div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top">Total Profit: </span>
-              <div class="count green">2,500,000</div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Total Incurred Cost: </span>
-              <div class="count">764,567</div>
-            </div>
-           
-          </div>
+          echo'</div>';
+          echo'<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">';
+          echo'<span class="count_top"> Total Sales: </span>';
+            echo'<div class="count">'; 
+            echo $itemQty;
+            echo'</div>';
+          echo'</div>';
+          
+          $query = "SELECT * FROM items_trading"; //Query for getting the Total Profit of All Sales
+          $result=mysqli_query($dbc,$query);
+
+          $totalPrice = 0;
+
+          while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+          { 
+            $length = count($row);
+            $i = $row['item_id'];
+            foreach((array) $row['item_id'] as $count)
+            {
+              $query = "SELECT *,SUM(item_qty) as total_amount FROM order_details where item_id = $count GROUP BY item_id";
+              $resultOrderDetail = mysqli_query($dbc,$query);
+              $qtyfromOrderDeatils = mysqli_fetch_array($resultOrderDetail,MYSQLI_ASSOC);
+              $itemQty = $qtyfromOrderDeatils['total_amount'];
+             
+              
+            }   
+            $totalPrice += $row['price'] * $itemQty; 
+                                 
+          }
+          echo'<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">';
+          echo'<span class="count_top">Total Profit: </span>';
+            echo'<div class="count green">';
+            echo $totalPrice;
+            echo'</div>';
+          echo'</div>';
+          echo'<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">';
+          echo'<span class="count_top"><i class="fa fa-user"></i> Total Incurred Cost: </span>';
+          echo'<div class="count">764,567</div>';
+          echo'</div>';          
+          echo'</div>';
+          ?> <!-- PHP END -->
           <!-- /top tiles -->
 
           <div class="row">
@@ -397,12 +423,7 @@
                       </div>
                     </div>
 
-          </div>
-
-
-          
-
-        
+          </div>        
           <br />
 
           <div class="clearfix"></div>
@@ -474,11 +495,7 @@
                                 $qtyfromOrderDeatils = mysqli_fetch_array($resultOrderDetail,MYSQLI_ASSOC);
                                 $itemQty = $qtyfromOrderDeatils['total_amount'];
                                
-                              }
-                              
-                              
-                             
-                              
+                              }                                  
 
                               echo '<tr class="even pointer">';
                               echo '<td class="a-center">';
@@ -501,15 +518,8 @@
                               echo '</td>';                           
                               echo '</tr>';
                             }
-                         ?>
-
-                          <!--
-                            <td class=" ">G-11239222</td>
-                            <td class=" ">Granite Slab - Smooth </td>
-                            <td class=" ">P 9,000 <i class="success fa fa-long-arrow-up"></i></td>
-                            <td class=" ">60</td>
-                            <td class=" ">P 54,000</td> -->
-                                                  
+                          ;    
+                         ?>                                              
                             <!-- <td class="last" ><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg">View Details</a> 
 
                               <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
@@ -575,11 +585,7 @@
                         </tbody>
                       </table>
                     </div>
-
-                   
-                          
-        
-                            <div id="echart_line" style="height:350px;"></div>
+                           <!-- <div id="echart_line" style="height:350px;"></div> -->
         
                         
 
