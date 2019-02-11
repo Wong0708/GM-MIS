@@ -277,7 +277,7 @@
                       <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
                     </div>
                   </div>
-                </div>
+                
 
                 <div class="col-md-9 col-sm-9 col-xs-12">
                   <div id="chart_plot_01" class="demo-placeholder"></div>
@@ -402,6 +402,7 @@
 
           
 
+        
           <br />
 
           <div class="clearfix"></div>

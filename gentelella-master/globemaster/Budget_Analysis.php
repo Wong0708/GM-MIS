@@ -330,10 +330,178 @@
                       <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                       <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
                     </div></small></h3>
+                    
                   </div>
                 
                 </div>
+
+                <!-- Add Data module -->
+                <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target=".bs-example-modal-lg"><i class = "fa fa-plus"></i> Add Data</button>
+
+                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Add Expected Data</h4>
+                      </div>
+
+                      <div class = "modal-body">
+                      <form class="form-horizontal form-label-left" method="post" action= "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+
+                        <span class="section">Input for Expected Data Each Month</span>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Year <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="customer" class="form-control col-md-7 col-xs-12" name="year" placeholder = "Input a year of analysis" required type="number" min="1900" max="2099" step="1" value="2019" />
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">January <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="customer" class="form-control col-md-7 col-xs-12" name="jan" placeholder = "Input a monetary amount (e.g. 1000.00)" required type="number" required name="price" min="0" step=0.1 value = "0" />
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">February <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="customer" class="form-control col-md-7 col-xs-12" name="feb"  placeholder = "Input a monetary amount (e.g. 1000.00)" required type="number" required name="price" min="0" step=0.1 value = "0" />
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">March <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="customer" class="form-control col-md-7 col-xs-12" name="mar" placeholder = "Input a monetary amount (e.g. 1000.00)" required type="number" required name="price" min="0" step=0.1 value = "0"/>
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">April <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="customer" class="form-control col-md-7 col-xs-12" name="apr" placeholder = "Input a monetary amount (e.g. 1000.00)" required type="number" required name="price" min="0" step=0.1 value = "0"/>
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">May <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="customer" class="form-control col-md-7 col-xs-12" name="may" placeholder = "Input a monetary amount (e.g. 1000.00)" required type="number" required name="price" min="0" step=0.1 value = "0"/>
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">June <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="customer" class="form-control col-md-7 col-xs-12" name="jun" placeholder = "Input a monetary amount (e.g. 1000.00)" required type="number" required name="price" min="0" step=0.1 value = "0"/>
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">July <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="customer" class="form-control col-md-7 col-xs-12" name="jul" placeholder = "Input a monetary amount (e.g. 1000.00)" required type="number" required name="price" min="0" step=0.1 value = "0"/>
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">August <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="customer" class="form-control col-md-7 col-xs-12" name="aug" placeholder = "Input a monetary amount (e.g. 1000.00)" required type="number" required name="price" min="0" step=0.1 value = "0"/>
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">September <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="customer" class="form-control col-md-7 col-xs-12" name="sept" placeholder = "Input a monetary amount (e.g. 1000.00)" required type="number" required name="price" min="0" step=0.1 value = "0"/>
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">October <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="customer" class="form-control col-md-7 col-xs-12" name="oct" placeholder = "Input a monetary amount (e.g. 1000.00)" required type="number" required name="price" min="0" step=0.1 value = "0"/>
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">November <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="customer" class="form-control col-md-7 col-xs-12" name="nov" placeholder = "Input a monetary amount (e.g. 1000.00)" required type="number" required name="price" min="0" step=0.1 value = "0"/>
+                          </div>
+                        </div>
+                        <div class="item form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">December <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="customer" class="form-control col-md-7 col-xs-12" name="dec" placeholder = "Input a monetary amount (e.g. 1000.00)" required type="number" required name="price" min="0" step=0.1 value = "0"/>
+                            <br>
+                            <br>
+                            <br>
+                            <button type="submit" class="btn btn-success btn-lg" name = "submit" value = "submit">Submit </button>
+                            <button type="reset" class="btn btn-danger btn-lg">Reset </button>
+                            <!-- php start -->
+                            <?php
+                            $year = $jan = $feb = $mar = $apr = $may = $jun = $jul = $aug = $sept = $oct = $nov = $dec = "";
+
+                              if($_SERVER["REQUEST_METHOD"] == "POST")
+                              {
+                                $year = test_input($_POST['year']);
+                                $jan = test_input($_POST['jan']);
+                                $feb = test_input($_POST['feb']);
+                                $mar = test_input($_POST['mar']);
+                                $apr = test_input($_POST['apr']);
+                                $may = test_input($_POST['may']);
+                                $jun = test_input($_POST['jun']);
+                                $jul = test_input($_POST['jul']);
+                                $aug = test_input($_POST['aug']);
+                                $sept = test_input($_POST['sept']);
+                                $oct = test_input($_POST['oct']);
+                                $nov = test_input($_POST['nov']);
+                                $dec = test_input($_POST['dec']);
+
+                                $expected = array($_POST['jan'], $_POST['feb'], $_POST['mar'], $_POST['apr'], $_POST['may'], $_POST['jun'], $_POST['jul'], $_POST['aug'], $_POST['sept'], $_POST['aug'], $_POST['nov'], $_POST['dec']);
+                              }
+
+                              function test_input($data) {
+                                $data = trim($data);
+                                $data = stripslashes($data);
+                                $data = htmlspecialchars($data);
+                                return $data;
+                             }
+                            
+
+                             
+                             $test1 = array (112, 223, 334, 445, 445, 556, 775, 889)          
+                            ?>
+                            <!-- php end -->
+                          </div>
+                        </div>
+
+                        
+                        
+                      </form>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End Add Data Modal -->
                 
+                
+                <!-- test -->
+                <?php 
+                // foreach ($_POST as $a)
+                // echo $a;
+                ?>
+
+
+
                 <div class="row">
                   <div class="col-md-8 col-sm-8 col-xs-12">
                     <div class="x_panel">
@@ -357,9 +525,7 @@
                         <div class="clearfix"></div>
                       </div>
                       <div class="x_content">
-    
-                        <div id="mainb" style="height:350px;"></div>
-    
+                        <canvas id="mybarChart"></canvas>
                       </div>
                     </div>
                   </div>
@@ -478,10 +644,87 @@
     <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
 
     <!-- Custom Theme Scripts -->
-    <script src="../build/js/custom.min.js"></script>
+    <!-- <script src="../build/js/custom.min.js"></script>
 
     <script src="../vendors/echarts/dist/echarts.min.js"></script>
-    <script src="../vendors/echarts/map/js/world.js"></script>
+    <script src="../vendors/echarts/map/js/world.js"></script> -->
+    
+    <script>
+        // Bar chart
+
+      
+      if ($('#mybarChart').length )
+      { 
+
+			  $(document).ready(function()
+        {
+        $.ajax({
+          url: "http://localhost//GM-MIS/gentelella-master/globemaster/DataFetchers/DataTest.php",
+          method: "GET",
+          success: function(data) {
+            console.log(data);
+            var itemid = [];
+            var itemname = [];
+            var itemlabel = [];
+            var itemprice = [];
+            var itemcount = [];
+            var itemcount1 = <?php echo json_encode($test1); ?>;
+            var expected = <?php echo json_encode($expected); ?>;
+            var variancearray = [];
+
+            for(var i in data) 
+            {
+              itemid.push("Item " + data[i].item_id);
+              itemname.push(data[i].item_name);
+              itemlabel.push(data[i].item_name + "-" + "Item " + data[i].item_id);
+              itemprice.push(data[i].price);
+              itemcount.push(data[i].item_count);
+
+              variancearray.push(Math.abs(data[i].price - expected[i]));
+
+              console.log(variancearray);
+            }
+			  
+            var ctx = document.getElementById("mybarChart");
+            var mybarChart = new Chart(ctx, 
+            {
+              type: 'bar',
+              data: 
+              {
+                labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                datasets: [{
+                label: 'Actual Sales',
+                backgroundColor: "#26B99A",
+                data: itemprice},{
+                label: 'Expected Sales',
+                backgroundColor: "#273746",
+                data: expected},{
+                label: 'Sales Variance',
+                backgroundColor: "#DF013A",
+                data: variancearray}]
+            },
+
+              options: 
+              {
+                scales: 
+                {
+                  xAxes:[{stacked: true}],
+                  yAxes: 
+                  [{
+                    ticks: 
+                    {
+                      beginAtZero: true
+                    }
+                  }]
+                }
+              }
+            });
+          }
+        })
+      })
+    } 
+    
+  </script>
 	
   </body>
 </html>

@@ -425,7 +425,8 @@
         // Bar chart
 
       
-			if ($('#mybarChart').length ){ 
+      if ($('#mybarChart').length )
+      { 
 
 			  $(document).ready(function()
         {
@@ -438,7 +439,7 @@
             var itemname = [];
             var itemlabel = [];
             var itemprice = [];
-            var itemcount = []
+            var itemcount = [];
 
             for(var i in data) 
             {
@@ -449,34 +450,40 @@
               itemcount.push(data[i].item_count);
             }
 			  
-			  var ctx = document.getElementById("mybarChart");
-			  var mybarChart = new Chart(ctx, {
-				type: 'bar',
-				data: {
-				  labels: itemlabel,
-				  datasets: [{
-					label: 'Item Price',
-					backgroundColor: "#26B99A",
-          data: itemprice},{
-          label: 'Item Count',
-					backgroundColor: "#26B99A",
-					data: itemcount}]
-				},
+            var ctx = document.getElementById("mybarChart");
+            var mybarChart = new Chart(ctx, 
+            {
+              type: 'bar',
+              data: 
+              {
+                labels: itemlabel,
+                datasets: [{
+                label: 'Item Price',
+                backgroundColor: "#26B99A",
+                data: itemprice},{
+                label: 'Item Count',
+                backgroundColor: "#273746",
+                data: itemcount}]
+            },
 
-				options: {
-				  scales: {
-					yAxes: [{
-					  ticks: {
-						beginAtZero: true
-					  }
-					}]
-				  }
-				}
-			      });
+              options: 
+              {
+                scales: 
+                {
+                  yAxes: 
+                  [{
+                    ticks: 
+                    {
+                      beginAtZero: true
+                    }
+                  }]
+                }
+              }
+            });
           }
-          })
         })
-			} 
+      })
+    } 
   </script>
 	
   </body>
