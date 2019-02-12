@@ -54,9 +54,13 @@
             <!-- /menu profile quick info -->
 
             <br />
+			
+			<?php
+        require_once("nav.php");    
+        ?>
 
             <!-- sidebar menu -->
-            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu" class="collapse">
+            <!--div id="sidebar-menu" class="main_menu_side hidden-print main_menu" class="collapse">
                 <div class="menu_section">
                   <h3>General</h3>
                   <ul class="nav side-menu">

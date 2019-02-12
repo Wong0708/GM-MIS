@@ -7,15 +7,10 @@
                     </li>
                     <li><a><i class="fa fa-edit"></i> Inventory Management <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
-                        <li><a>Add Inventory<span class="fa fa-chevron-down"></span></a>
-                          <ul class="nav child_menu">
-                              <li><a href="">Trading</a></li>
-                              <li><a href="">Depot</a></li>
-                          </ul>
-                        </li>
+                        <li><a href="AddInventory.php">Add Inventory<span class="fa fa-chevron-down"></span></a>
                         <li><a>Inventory Scheduling <span class="fa fa-chevron-down"></span></a>
                           <ul class="nav child_menu">
-                              <li><a href="">Delivery Scheduling</a></li>
+                              <li><a href="Deliveries.php">Delivery Scheduling</a></li>
                               <li><a href="">Restocking</a></li>
                           </ul>
                         </li>
@@ -29,11 +24,11 @@
                       <ul class="nav child_menu">
                         <li><a>Assets<span class="fa fa-chevron-down"></span></a>
                           <ul class="nav child_menu">
-                            <li><a href="Assets_Trading.html">Trading</a></li>
+                            <li><a href="Assets_Trading.php">Trading</a></li>
                             <li><a href="">Depot</a></li>
                           </ul>                      
                         </li>
-                        <li><a >Delivery Receipt</a>
+                        <li><a href="Delivery Receipt.php">Delivery Receipt</a>
                              
                         </li>
                         <li><a >Sales Invoice<span class="fa fa-chevron-down"></span></a>
@@ -43,10 +38,10 @@
                           </ul>  
                         </li>
                         
-                        <li><a href="Budget_Analysis.html">Budget Variance Analysis</span></a>
+                        <li><a href="Budget_Analysis.php">Budget Variance Analysis</span></a>
   
                         </li>
-                        <li><a href="EOQ.html">Economic Order Quantity</a></li>
+                        <li><a href="EOQInventory.php">Economic Order Quantity</a></li>
                         
                       </ul>
                     </li>
@@ -55,15 +50,6 @@
                         <li><a href="Forecasting.html">Forecasting</a></li>
                         <li><a href="tables_dynamic.html">Predictive</a></li>
                         <li><a href="tables_dynamic.html">Diagnostic</a></li>
-                      </ul>
-                    </li>
-                    <li><a><i class="fa fa-bar-chart-o"></i> Data Visualization <span class="fa fa-chevron-down"></span></a>
-                      <ul class="nav child_menu">
-                        <li><a href="chartjs.html">Chart JS</a></li>
-                        <li><a href="chartjs2.html">Chart JS2</a></li>
-                        <li><a href="morisjs.html">Moris JS</a></li>
-                        <li><a href="echarts.html">ECharts</a></li>
-                        <li><a href="other_charts.html">Other Charts</a></li>
                       </ul>
                     </li>
                     <li><a><i class="fa fa-clone"></i>Reports <span class="fa fa-chevron-down"></span></a>
