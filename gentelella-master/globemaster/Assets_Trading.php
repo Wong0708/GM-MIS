@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+
+<?php
+      require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+    
+?> <!-- PHP END -->
+
+
+
+
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -223,27 +232,61 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-          <!-- top tiles -->
-          <div class="row tile_count">
-            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"> Target Sales: </span>
-              <div class="count">2500</div>
+        <!-- top tiles -->
+        <?php
+          require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+
+          $query = "SELECT SUM(item_qty) FROM order_details"; //Query for getting the Total Sales from Order Details
+          $resultOrderDetail = mysqli_query($dbc,$query);
+          $qtyfromOrderDeatils = mysqli_fetch_array($resultOrderDetail,MYSQLI_ASSOC);
+          $itemQty = $qtyfromOrderDeatils['SUM(item_qty)'];
+
+          echo'<div class="row tile_count">';
+          echo'<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">';  //HTML to display the Target Sales and Actual Total Sales
+          echo'<span class="count_top"> Target Sales: </span>';
+          echo'<div class="count">2500</div>';
               
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"> Total Sales: </span>
-              <div class="count">500</div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top">Total Profit: </span>
-              <div class="count green">2,500,000</div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Total Incurred Cost: </span>
-              <div class="count">764,567</div>
-            </div>
-           
-          </div>
+          echo'</div>';
+          echo'<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">';
+          echo'<span class="count_top"> Total Sales: </span>';
+            echo'<div class="count">'; 
+            echo $itemQty;
+            echo'</div>';
+          echo'</div>';
+          
+          $query = "SELECT * FROM items_trading"; //Query for getting the Total Profit of All Sales
+          $result=mysqli_query($dbc,$query);
+
+          $totalPrice = 0;
+
+          while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+          { 
+            $length = count($row);
+            $i = $row['item_id'];
+            foreach((array) $row['item_id'] as $count)
+            {
+              $query = "SELECT *,SUM(item_qty) as total_amount FROM order_details where item_id = $count GROUP BY item_id";
+              $resultOrderDetail = mysqli_query($dbc,$query);
+              $qtyfromOrderDeatils = mysqli_fetch_array($resultOrderDetail,MYSQLI_ASSOC);
+              $itemQty = $qtyfromOrderDeatils['total_amount'];
+             
+              
+            }   
+            $totalPrice += $row['price'] * $itemQty; 
+                                 
+          }
+          echo'<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">'; //HTML to display TOTAL PROFIT and Cost
+          echo'<span class="count_top">Total Profit: </span>';
+            echo'<div class="count green">';
+            echo $totalPrice;
+            echo'</div>';
+          echo'</div>';
+          echo'<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">';
+          echo'<span class="count_top"><i class="fa fa-user"></i> Total Incurred Cost: </span>';
+          echo'<div class="count">764,567</div>'; //COST: Needs to be clarified
+          echo'</div>';          
+          echo'</div>';
+          ?> <!-- PHP END -->
           <!-- /top tiles -->
 
           <div class="row">
@@ -265,117 +308,58 @@
                 <div class="col-md-9 col-sm-9 col-xs-12">
                   <div id="chart_plot_01" class="demo-placeholder"></div>
                 </div>
+
                 
-                <div class="col-md-3 col-sm-3 col-xs-12 bg-white">
+                <div class="col-md-3 col-sm-3 col-xs-12 bg-white"> 
                       <div class="x_panel tile fixed_height_320">
                         <div class="x_title">
-                          <h2>Top Selling: </h2>
-                          <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                            <li class="dropdown">
-                              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                              <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Settings 1</a>
-                                </li>
-                                <li><a href="#">Settings 2</a>
-                                </li>
-                              </ul>
-                            </li>
-                            <li><a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>
-                          </ul>
+                          <h2>Top Selling This Month: </h2>                          
                           <div class="clearfix"></div>
                         </div>
-                        <div class="x_content">
-                          <h4></h4>
-                          <div class="widget_summary">
-                            <div class="w_left w_25">
-                              <span>Item A: </span>
-                            </div>
-                            <div class="w_center w_55">
-                              <div class="progress">
-                                <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 66%;">
-                                  <span class="sr-only">60% Complete</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="w_right w_20">
-                              <span>123k</span>
-                            </div>
-                            <div class="clearfix"></div>
-                          </div>
-        
-                          <div class="widget_summary">
-                            <div class="w_left w_25">
-                              <span>Item B: </span>
-                            </div>
-                            <div class="w_center w_55">
-                              <div class="progress">
-                                <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 45%;">
-                                  <span class="sr-only">60% Complete</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="w_right w_20">
-                              <span>53k</span>
-                            </div>
-                            <div class="clearfix"></div>
-                          </div>
-                          <div class="widget_summary">
-                            <div class="w_left w_25">
-                              <span>Item C: </span>
-                            </div>
-                            <div class="w_center w_55">
-                              <div class="progress">
-                                <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
-                                  <span class="sr-only">60% Complete</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="w_right w_20">
-                              <span>23k</span>
-                            </div>
-                            <div class="clearfix"></div>
-                          </div>
-                          <div class="widget_summary">
-                            <div class="w_left w_25">
-                              <span>Item D: </span>
-                            </div>
-                            <div class="w_center w_55">
-                              <div class="progress">
-                                <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 5%;">
-                                  <span class="sr-only">60% Complete</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="w_right w_20">
-                              <span>3k</span>
-                            </div>
-                            <div class="clearfix"></div>
-                          </div>
-                          <div class="widget_summary">
-                            <div class="w_left w_25">
-                              <span>Item E: </span>
-                            </div>
-                            <div class="w_center w_55">
-                              <div class="progress">
-                                <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 2%;">
-                                  <span class="sr-only">60% Complete</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="w_right w_20">
-                              <span>1k</span>
-                            </div>
-                            <div class="clearfix"></div>
-                          </div>
-        
-                        </div>
-                      </div>
-                    </div>
+                
+                <?php
+                  require_once('mysql_connect.php');
 
-        
+                  $query = "SELECT *, SUM(item_qty) as total_amount 
+                  FROM order_details 
+                  GROUP BY item_id 
+                  ORDER by total_amount 
+                  DESC LIMIT 5 "; //Query to get the 5 most sold items in current month.
+
+                  $resultOrderDetail = mysqli_query($dbc,$query);
+                  
+                  
+                  while($qtyfromOrderDetails = mysqli_fetch_array($resultOrderDetail,MYSQLI_ASSOC))
+                  { 
+                   
+                    $itemName =  $qtyfromOrderDetails['item_name'];
+                    $itemQty = $qtyfromOrderDetails['total_amount'];
+
+
+                    echo'     <div class="x_content">'; //Html to show the top 5 most sold assets in trading
+                    echo'         <h4></h4>';
+                    echo'   <div class="widget_summary">';
+                    echo'       <div class="w_right w_45">';
+                    echo'         <span>';
+                    echo '<b><font size="3" color="black">',$itemName,':</b></font>';
+                    echo'        </span>';
+                    echo'      </div>';
+                    echo'      ';
+                    echo'      <div class="w_right w_20">';
+                    echo'        <span>';
+                    echo '<b><font size="3" color="green">',$itemQty,'</b></font>'  ;
+                    echo'        </span>';
+                    echo'      </div>';
+                    echo'      <div class="clearfix"></div>';
+                    echo'     </div>';
+                    echo'  </div>';
+                   
+                  }                                 
+                  ?>    
+                    
+                    </div>
+                  </div>        
+          </div>        
           <br />
 
           <div class="clearfix"></div>
@@ -426,21 +410,54 @@
                             </th>
                           </tr>
                         </thead>
-
                         <tbody>
-                          <tr class="even pointer">
-                            <td class="a-center ">
-                              <input type="checkbox" class="flat" name="table_records">
-                            </td>
-                            <td class=" ">G-11239222</td>
-                            <td class=" ">Granite Slab - Smooth </td>
-                            <td class=" ">P 9,000 <i class="success fa fa-long-arrow-up"></i></td>
-                            <td class=" ">60</td>
-                            <td class=" ">P 54,000</td>
-                           
-                            <td class=" last"><a href="#">View Details</a>
-                            <td class="last" ><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg">View Details</a> 
 
+                        <?php
+                            require_once('mysql_connect.php');
+                            $query = "SELECT * FROM items_trading";
+                            $result=mysqli_query($dbc,$query);
+
+                            
+                            
+
+                           while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                            { 
+                              $length = count($row);
+                              $i = $row['item_id'];
+                              foreach((array) $row['item_id'] as $count)
+                              {
+                                $query = "SELECT *,SUM(item_qty) as total_amount FROM order_details where item_id = $count GROUP BY item_id";
+                                $resultOrderDetail = mysqli_query($dbc,$query);
+                                $qtyfromOrderDeatils = mysqli_fetch_array($resultOrderDetail,MYSQLI_ASSOC);
+                                $itemQty = $qtyfromOrderDeatils['total_amount'];
+                               
+                              }                                  
+
+                              echo '<tr class="even pointer">';
+                              echo '<td class="a-center">';
+                              echo    '<input type="checkbox" class="flat" name="table_records">';
+                              echo  '</td>';
+                              echo '<td>';
+                              echo $row['item_id'];
+                              echo '</td>';  
+                              echo '<td>';
+                              echo $row['item_name'];
+                              echo '</td>'; 
+                              echo '<td>';
+                              echo $row['price'];
+                              echo '</td>';  
+                              echo '<td>';
+                              echo $itemQty;
+                              echo '</td>';  
+                              echo '<td>';
+                              echo $row['price'] * $itemQty;
+                              echo '</td>';  
+                              echo '<td class="last" ><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg">View Details</a></td>';                          
+                              echo '</tr>';
+                            }
+                          ;    
+                         ?>                                              
+   
                               <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                   <div class="modal-content">
@@ -453,8 +470,7 @@
                   
                                     <div class = "modal-body">
                                     <form class="form-horizontal form-label-left" novalidate>
-                  
-                                      
+                                                       
                                       <span class="section">Item Information</span>
                   
                                       <div class="item form-group">
@@ -498,139 +514,13 @@
                                   </div>
                                   </div>
                                 </div>
-                              </div>
-
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            <td class="a-center ">
-                              <input type="checkbox" class="flat" name="table_records">
-                            </td>
-                            <td class=" ">121000039</td>
-                            <td class=" ">May 23, 2014 11:30:12 PM</td>
-                            <td class=" ">121000208 <i class="success fa fa-long-arrow-up"></i>
-                            </td>
-                            <td class=" ">John Blank L</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$741.20</td>
-                            <td class=" last"><a href="#">View</a>
-                            </td>
-                          </tr>
-                          <tr class="even pointer">
-                            <td class="a-center ">
-                              <input type="checkbox" class="flat" name="table_records">
-                            </td>
-                            <td class=" ">121000038</td>
-                            <td class=" ">May 24, 2014 10:55:33 PM</td>
-                            <td class=" ">121000203 <i class="success fa fa-long-arrow-up"></i>
-                            </td>
-                            <td class=" ">Mike Smith</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$432.26</td>
-                            <td class=" last"><a href="#">View</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            <td class="a-center ">
-                              <input type="checkbox" class="flat" name="table_records">
-                            </td>
-                            <td class=" ">121000037</td>
-                            <td class=" ">May 24, 2014 10:52:44 PM</td>
-                            <td class=" ">121000204</td>
-                            <td class=" ">Mike Smith</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$333.21</td>
-                            <td class=" last"><a href="#">View</a>
-                            </td>
-                          </tr>
-                          <tr class="even pointer">
-                            <td class="a-center ">
-                              <input type="checkbox" class="flat" name="table_records">
-                            </td>
-                            <td class=" ">121000040</td>
-                            <td class=" ">May 24, 2014 11:47:56 PM </td>
-                            <td class=" ">121000210</td>
-                            <td class=" ">John Blank L</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$7.45</td>
-                            <td class=" last"><a href="#">View</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            <td class="a-center ">
-                              <input type="checkbox" class="flat" name="table_records">
-                            </td>
-                            <td class=" ">121000039</td>
-                            <td class=" ">May 26, 2014 11:30:12 PM</td>
-                            <td class=" ">121000208 <i class="error fa fa-long-arrow-down"></i>
-                            </td>
-                            <td class=" ">John Blank L</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$741.20</td>
-                            <td class=" last"><a href="#">View</a>
-                            </td>
-                          </tr>
-                          <tr class="even pointer">
-                            <td class="a-center ">
-                              <input type="checkbox" class="flat" name="table_records">
-                            </td>
-                            <td class=" ">121000038</td>
-                            <td class=" ">May 26, 2014 10:55:33 PM</td>
-                            <td class=" ">121000203</td>
-                            <td class=" ">Mike Smith</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$432.26</td>
-                            <td class=" last"><a href="#">View</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            <td class="a-center ">
-                              <input type="checkbox" class="flat" name="table_records">
-                            </td>
-                            <td class=" ">121000037</td>
-                            <td class=" ">May 26, 2014 10:52:44 PM</td>
-                            <td class=" ">121000204</td>
-                            <td class=" ">Mike Smith</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$333.21</td>
-                            <td class=" last"><a href="#">View</a>
-                            </td>
-                          </tr>
-
-                          <tr class="even pointer">
-                            <td class="a-center ">
-                              <input type="checkbox" class="flat" name="table_records">
-                            </td>
-                            <td class=" ">121000040</td>
-                            <td class=" ">May 27, 2014 11:47:56 PM </td>
-                            <td class=" ">121000210</td>
-                            <td class=" ">John Blank L</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$7.45</td>
-                            <td class=" last"><a href="#">View</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            <td class="a-center ">
-                              <input type="checkbox" class="flat" name="table_records">
-                            </td>
-                            <td class=" ">121000039</td>
-                            <td class=" ">May 28, 2014 11:30:12 PM</td>
-                            <td class=" ">121000208</td>
-                            <td class=" ">John Blank L</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$741.20</td>
-                            <td class=" last"><a href="#">View</a>
-                            </td>
-                          </tr>
+                              </div><!-- End MODAL -->
+                             
+                          
                         </tbody>
                       </table>
                     </div>
-
-                   
-                          
-        
-                            <div id="echart_line" style="height:350px;"></div>
+                           <!-- <div id="echart_line" style="height:350px;"></div> -->
         
                         
 
