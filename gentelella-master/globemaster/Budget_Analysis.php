@@ -224,7 +224,7 @@
                           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Year <span class="required">*</span>
                           </label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="customer" class="form-control col-md-7 col-xs-12" name="year" placeholder = "Input a year of analysis" required type="number" min="1900" max="2099" step="1" value="2019" />
+                            <input id="customer" class="form-control col-md-7 col-xs-12" name="year" placeholder = "Input a year of analysis" required type="number" min="2001" max="2099" step="1" value="2019" />
                           </div>
                         </div>
                         <div class="item form-group">
@@ -374,7 +374,16 @@
                   <div class="col-md-8 col-sm-8 col-xs-12">
                     <div class="x_panel">
                       <div class="x_title">
-                        <h2>Budget Graph</h2>
+                        <h2>
+                          <?php 
+                            if (isset($_POST["year"]))
+                            {
+                              echo "Sales Variance Analysis for Year ", $_POST['year'];
+                            }
+                            else 
+                              echo "Sales Variance Analysis for Year ", date('Y'); 
+                          ?>
+                        </h2>
                         <ul class="nav navbar-right panel_toolbox">
                           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                           </li>
@@ -406,35 +415,42 @@
                       <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-  
                       <table class="table table-bordered">
                         <thead>
                           <tr>
                             <th></th>
-                            <th>Planned Budget</th>
-                            <th>Actual Budget</th>
-                            
+                            <th>Expected Sales</th>
+                            <th>Actual Sales</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <th scope="row">Total: </th>
-                            <td>500,000</td>
-                            <td>480,000</td>
+                          <?php 
+                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                            $query = "SELECT * FROM items_trading";
+                            $result = mysqli_query($dbc,$query);
+                            $result1 = mysqli_fetch_array($result,MYSQLI_ASSOC);
+
+                            $actualsales[] = array($result1['price']);
+                            $count = 0;
+                            $months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
                             
-                          </tr>
-                          <tr>
-                            <th scope="row">Details:</th>
-                            <td>250,000 </td>
-                            <td>260,000</td>
+                              for($i=0; $i<=11; $i++)
+                              {
+                                echo '<tr>';
+                                echo '<td>';
+                                echo $months[$i];
+                                echo '</td>';
+                                echo '<td align= "right">';
+                                echo "₱",$expected[$i];
+                                echo '</td>';
+                                echo '<td align= "right">';
+                                echo "₱",$result1['price'];
+                                echo '</td>';
+                                echo '</tr>';
+                              }
                             
-                          </tr>
-                          <tr>
-                            <th scope="row">3</th>
-                            <td>250,000</td>
-                            <td> 220,000</td>
-                            
-                          </tr>
+                            print_r($actualsales);
+                          ?>
                         </tbody>
                       </table>
   
@@ -557,10 +573,10 @@
                   xAxes:[{stacked: true}],
                   yAxes: 
                   [{
-                    ticks: 
-                    {
-                      beginAtZero: true
-                    }
+                    // ticks: 
+                    // {
+                    //   beginAtZero: true
+                    // }
                   }]
                 }
               }
