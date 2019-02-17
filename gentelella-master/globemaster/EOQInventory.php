@@ -160,7 +160,7 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                  <h2 align="right">Cost of Purchase: <input type ="number" align="right"></h2> 
+                  <h2 align="right" required>Cost of Purchase: <input type ="number" align="right" required></h2> 
                     <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
                     <col width="1">
                     <col width="50">
