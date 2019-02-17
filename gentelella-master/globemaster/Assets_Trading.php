@@ -262,7 +262,8 @@
                         </div>
                 
                 <?php
-                  require_once('mysql_connect.php');
+                  require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                
 
                   $query = "SELECT *, SUM(item_qty) as total_amount 
                   FROM order_details 
@@ -357,7 +358,8 @@
                         <tbody>
 
                         <?php
-                            require_once('mysql_connect.php');
+                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                          
                             $query = "SELECT * FROM items_trading";
                             $result=mysqli_query($dbc,$query);
 
