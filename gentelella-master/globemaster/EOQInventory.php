@@ -162,18 +162,22 @@
                   <div class="x_content">
                     
                     <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
+                    <col width="1">
+                    <col width="50">
+                    <col width="150">
+                    <col width="50">
+                    <col width="50">
                       <thead>
                         <tr>
                           <th>
-							 <th><input type="checkbox" id="check-all" class="flat"></th>
-						  </th>
+                            <th><input type="checkbox" id="check-all" class="flat"></th>
+                            </th>
                           <th>Item Name</th>
                           <th>Description</th>
+                          <th>Inventory Cost</th>
                           
                         </tr>
                       </thead>
-
-
                       <tbody>
                         
                         <?php
@@ -191,6 +195,11 @@
                               echo'</td>';
                               echo'<td>';
                               echo $row['itemtype'];
+                              echo'</td>';
+                              echo'<td>';
+                              echo'<form action="POST" align="left">';
+                              echo' ₱<input type="number" name="invrntoryCost" id = "inventoryCost" style="text-align:right;">';                            
+                              echo' </form>';
                               echo'</td>';
                                echo '</tr>';
                             }?>              
@@ -281,6 +290,16 @@
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+    <script type="text/javascript">
+
+      function unhideInputText() {
+          if (document.getElementById('yesCheck').checked) {
+              document.getElementById('ifYes').style.visibility = 'visible';
+          } else {
+              document.getElementById('ifYes').style.visibility = 'hidden';
+          }
+
+      </script>
 	
   </body>
 </html>
