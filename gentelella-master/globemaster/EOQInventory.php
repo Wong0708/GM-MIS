@@ -155,12 +155,12 @@
                 <div class="x_panel">
                   <div class="x_title">
                     <!-- Note that only a maximum of 5 items can be checked -->
-                    <h2>Economic Order Quantity | Inventory</small></h2> 
+                    <h1>Economic Order Quantity | Inventory</small></h1> 
                     
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    
+                  <h2 align="right">Cost of Purchase: <input type ="number" align="right"></h2> 
                     <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
                     <col width="1">
                     <col width="50">
@@ -181,14 +181,18 @@
                       <tbody>
                         
                         <?php
+                         $count = 0;
                             require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
                             $query = "SELECT * FROM items_trading JOIN ref_itemtype WHERE ref_itemtype.itemtype_id = items_trading.itemtype_id";
                             $result=mysqli_query($dbc,$query);
                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                             { 
+                              
+                              
+                              //echo'<var> x = ',$count,'';
                               echo' <tr>';
                               echo '<td>';
-                              echo'<th><input type="checkbox" id="check-all" class="flat"></th>';
+                              echo'<th><input id = "checkMoTo" type="checkbox"  onclick="javascript:unhideInputText();"></th>';
                               echo'</td>';
                               echo'<td>';
                               echo $row['item_name'];
@@ -198,10 +202,11 @@
                               echo'</td>';
                               echo'<td>';
                               echo'<form action="POST" align="left">';
-                              echo' ₱<input type="number" name="invrntoryCost" id = "inventoryCost" style="text-align:right;">';                            
+                              echo' ₱<input id="',$count,'" type="number" name="inventoryCost" id = "inventoryCost" style="text-align:right;" display:none>';                            
                               echo' </form>';
                               echo'</td>';
                                echo '</tr>';
+                               $count++;
                             }?>              
                           
                       </tbody>
@@ -290,15 +295,22 @@
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+
     <script type="text/javascript">
+     window.onload = function() {
+        document.getElementById('2').style.display = 'none';
+    }
 
-      function unhideInputText() {
-          if (document.getElementById('yesCheck').checked) {
-              document.getElementById('ifYes').style.visibility = 'visible';
+      function unhideInputText() 
+      {
+        var count = "<?php echo $count;?>";
+        console.log(count);
+          if (document.getElementById('checkMoTo').checked) {
+              document.getElementById('2').style.visibility = 'block';
           } else {
-              document.getElementById('ifYes').style.visibility = 'hidden';
+              document.getElementById('2').style.visibility = 'none';
           }
-
+      }
       </script>
 	
   </body>
