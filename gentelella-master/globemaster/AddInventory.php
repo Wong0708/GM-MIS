@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<?php
+      require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+    
+?> <!-- PHP END -->
 <html lang="en">
 
 <head>
@@ -173,72 +177,220 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
+<<<<<<< Updated upstream
                     <h2>Add Inventory</h2>
                     
+=======
+                    <h2 >Add Inventory Items: <b>TRADING</b></h2>
+                    <!--<ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul> -->
+>>>>>>> Stashed changes
                     <div class="clearfix"></div>
                   </div>
+
                   <div class="x_content">
                     <br>
-                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="" method = "POST">
 
-                      <div class="form-group">
+                     <!-- <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Store</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <div id="gender" class="btn-group" data-toggle="buttons">
                             <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                              <input type="radio" name="gender" value="male" data-parsley-multiple="gender"> &nbsp; Depot &nbsp;
+                              <input type="radio" name="depot" value="Depot" onclick="toggleTradingtoDepot()"> &nbsp; Depot &nbsp;
+
                             </label>
                             <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                              <input type="radio" name="gender" value="female" data-parsley-multiple="gender"> Trading
+                              <input type="radio" name="trading" value="Trading"  onclick="toggleTradingtoDepot()"> Trading
                             </label>
                           </div>
                         </div>
-                      </div>
+                      </div> Toggle Trading/Depot Button --> 
+                  
+                      <script>
+                        function toggleTradingtoDepot()
+                        {
+                            var depot = document.getElementById("depotConcessionaire");
+                            var trade = document.getElementById("tradingSuppliers");
+                                trade.style.display = "none" 
+                               
+                        }
+                    </script> <!-- Script to Change Trading to Depot vice versa -->
+
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Item Name <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="last-name" name="item_name" required class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Amount</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="middle-name">
+                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="number" name="amount" required>
                         </div>
                       </div>
 					  <div class="form-group">
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Price</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="middle-name">
+                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="number" name="price">
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Warehouse <span class="required">*</span>
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Threshold</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="number" name="threshold">
+                        </div>
+                      </div>
+
+                      <div class="form-group" >
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Reference<span class="required">*</span>
                         </label>
-                        <select id="heard" class="form-control col-md-7 col-xs-12" required="">
+                        <select id="heard" class="form-control col-md-3 col-md-7 col-xs-12" required="" name = "selectItemtype" style=" width:250px";>
                             <option value="">Choose..</option>
-                            <option value="press">Press</option>
-                            <option value="net">Internet</option>
-                            <option value="mouth">Word of mouth</option>
+                                <?php
+                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+
+                                    $sql = "SELECT * FROM ref_itemtype";
+                                    $result=mysqli_query($dbc,$sql);
+                                    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                                    { 
+                                        echo'<option value="';
+                                        echo $row['itemtype'];
+                                        echo'">';
+                                        echo $row['itemtype'];
+                                        echo'</option>';
+                                    }                                   
+                                ?> <!-- PHP END -->                                                   
                         </select>
                       </div>
-					  <div class="form-group">
+
+                      
+                      <div class="form-group" id = "tradingSuppliers">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Warehouse<span class="required">*</span>
+                        </label>
+                        <select id="heard" class="form-control col-md-3 col-md-7 col-xs-12" required="" name = " selectWarehouse" style=" width:250px";>
+                            <option value="">Choose..</option>
+                                <?php
+                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+
+                                    $sql = "SELECT * FROM warehouses";
+                                    $result=mysqli_query($dbc,$sql);
+                                    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                                    { 
+                                        echo'<option value="';
+                                        echo $row['warehouse'];
+                                        echo'">';
+                                        echo $row['warehouse'];
+                                        echo'</option>';
+                                    }
+
+                                    
+                                ?> <!-- PHP END -->
+                                                    
+                        </select>
+                      </div>
+					  <div class="form-group" id = "depotConcessionaire">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Concessionaire <span class="required">*</span>
                         </label>
-                        <select id="heard" class="form-control col-md-7 col-xs-12" required="">
+                        <select id="heard" class="form-control col-md-7 col-xs-12" required="" style=" width:250px">
                             <option value="">Choose..</option>
-                            <option value="press">Press</option>
-                            <option value="net">Internet</option>
-                            <option value="mouth">Word of mouth</option>
+                            <?php
+                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+
+                                    $sql = "SELECT * FROM concessionaire";
+                                    $result=mysqli_query($dbc,$sql);
+                                    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                                    { 
+                                        echo'<option value="press">';
+                                        echo $row['concess_name'];
+                                        echo'</option>';
+                                    }
+
+
+                                ?> <!-- PHP END -->
                         </select>
                       </div>
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+<<<<<<< Updated upstream
                           
 						  <button class="btn btn-primary" type="reset">Reset</button>
                           <button type="submit" class="btn btn-success">Submit</button>
+=======
+                          <button class="btn btn-primary" type="button">Cancel</button>
+						  <button class="btn btn-danger" type="reset">Reset</button>
+                          <button type="submit" class="btn btn-success" name = "submitBtn">Submit</button>
+                          
+                          <?php
+                          require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                            if(isset($_POST['submitBtn']))
+                            {
+                                $itemName = $_POST['item_name']; //Stores the Values from Textbox in HTML
+                                $itemAmount = $_POST['amount'];
+                                $itemPrice = $_POST['price'];
+                                $itemThreshold = $_POST['threshold'];
+
+                                $warehouseIDfromSelect = $_POST['selectWarehouse'];
+                                $itemTypeIDfromSelect = $_POST['selectItemtype'];
+
+
+                                $queryWarehouseID = "SELECT warehouses.warehouse_id FROM warehouses WHERE warehouse = '$warehouseIDfromSelect'";
+                                $resultWarehouseID = mysqli_query($dbc,$queryWarehouseID);                                
+                                $rowWarehouseID = mysqli_fetch_assoc($resultWarehouseID); //Query for getting WarehouseID 
+
+                                $queryItemtypeID = "SELECT ref_itemtype.itemtype_id FROM ref_itemtype WHERE itemtype = '$itemTypeIDfromSelect'";
+                                $resultItemtype = mysqli_query($dbc,$queryItemtypeID);                                
+                                $rowItemtypeID = mysqli_fetch_assoc($resultItemtype); //Query For getting itemtypeID
+
+                                $queryItemID = "SELECT item_id FROM items_trading ORDER BY item_id DESC LIMIT 1 ";
+                                $resultItemID = mysqli_query($dbc,$queryItemID);
+                                $rowResultItemID = mysqli_fetch_assoc($resultItemID);
+
+                                
+                                
+                                // var_dump($resultWarehouseID);                               
+                                // print_r($queryWarehouseID);
+
+                                // echo $rowWarehouseID['warehouse_id'];
+                                // echo $rowItemtypeID['itemtype_id'];
+
+                                $WareHouseID = $rowWarehouseID['warehouse_id'];
+                                $ItemtypeID = $rowItemtypeID['itemtype_id'];
+                                $ItemID = $rowResultItemID['item_id']+1;
+
+                                echo  $ItemID;
+                              
+                                
+                                $sql = "INSERT INTO items_trading (item_id, item_name, itemtype_id, item_count, last_restock, last_update, threshold_amt, warehouse_id, supplier_id, price)
+                                Values(
+                                '$ItemID',
+                                '$itemName', 
+                                '$ItemtypeID',
+                                '$itemAmount', curdate(),curdate(),
+                                '$itemThreshold',
+                                '$WareHouseID',
+                                '1',
+                                '$itemPrice')";
+
+                                $result=mysqli_query($dbc,$sql);              
+                            }
+                          ?>
+>>>>>>> Stashed changes
                         </div>
                       </div>
 
@@ -246,6 +398,7 @@
                   </div>
                 </div>
               </div>
+             
 </body>
 
 <!-- /page content -->
