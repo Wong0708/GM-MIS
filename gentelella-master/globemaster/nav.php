@@ -2,12 +2,9 @@
                 <div class="menu_section">
                   <h3>General</h3>
                   <ul class="nav side-menu">
-                    <li><a><i class="fa fa-home"></i> Dashboard </a>
-                      
-                    </li>
                     <li><a><i class="fa fa-edit"></i> Inventory Management <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
-                        <li><a href="AddInventory.php">Add Inventory<span class="fa fa-chevron-down"></span></a>
+                        <li><a href="AddInventory.php">Add Inventory</a>
                         <li><a>Inventory Scheduling <span class="fa fa-chevron-down"></span></a>
                           <ul class="nav child_menu">
                               <li><a href="Deliveries.php">Delivery Scheduling</a></li>
@@ -16,8 +13,6 @@
                         </li>
                         <li><a href="form_validation.html">Generate QR Code</a></li>
                         <li><a href="form_wizards.html">Economic Order Quantity</a></li>
-                        <li><a href="form_upload.html">Form Upload</a></li>
-                        <li><a href="form_buttons.html">Form Buttons</a></li>
                       </ul>
                     </li>
                     <li><a><i class="fa fa-desktop"></i> Sales Management <span class="fa fa-chevron-down"></span></a>
@@ -54,8 +49,8 @@
                     </li>
                     <li><a><i class="fa fa-clone"></i>Reports <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu">
-                        <li><a href="fixed_sidebar.html">Fixed Sidebar</a></li>
-                        <li><a href="fixed_footer.html">Fixed Footer</a></li>
+                        <li><a href="">Report </a></li>
+                        <li><a href="">Report B </a></li>
                       </ul>
                     </li>
                   </ul>
