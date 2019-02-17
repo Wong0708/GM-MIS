@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<?php
+      require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+    
+?>
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -109,42 +113,7 @@
                     <span class="badge bg-green">6</span>
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
+                   
                     <li>
                       <a>
                         <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
@@ -206,71 +175,26 @@
 
 
                       <tbody>
-                        <tr>
-                          <td>
-							 <th><input type="checkbox" id="check-all" class="flat"></th>
-						  </td>
-                          <td>Tiger Nixon</td>
-                          <td>System Architect</td>
+                        
+                        <?php
+                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                            $query = "SELECT * FROM items_trading JOIN ref_itemtype WHERE ref_itemtype.itemtype_id = items_trading.itemtype_id";
+                            $result=mysqli_query($dbc,$query);
+                           while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                            { 
+                              echo' <tr>';
+                              echo '<td>';
+                              echo'<th><input type="checkbox" id="check-all" class="flat"></th>';
+                              echo'</td>';
+                              echo'<td>';
+                              echo $row['item_name'];
+                              echo'</td>';
+                              echo'<td>';
+                              echo $row['itemtype'];
+                              echo'</td>';
+                               echo '</tr>';
+                            }?>              
                           
-                        </tr>
-                        <tr>
-                         <td>
-							 <th><input type="checkbox" id="check-all" class="flat"></th>
-						  </td>
-                          <td>Garrett Winters</td>
-                          <td>Accountant</td>
-                         
-                        </tr>
-                        <tr>
-							<td>
-								 <th><input type="checkbox" id="check-all" class="flat"></th>
-						  </td>
-                          <td>Ashton Cox</td>
-                          <td>Junior Technical Author</td>
-                         
-                        </tr>
-                        <tr>
-                          <td>
-							 <th><input type="checkbox" id="check-all" class="flat"></th>
-						  </td>
-                          <td>Cedric Kelly</td>
-                          <td>Senior Javascript Developer</td>
-                         
-                        </tr>
-                        <tr>
-                          <td>
-							 <th><input type="checkbox" id="check-all" class="flat"></th>
-						  </td>
-                          <td>Airi Satou</td>
-                          <td>Accountant</td>
-                          
-                        </tr>
-                        <tr>
-                          <td>
-							 <th><input type="checkbox" id="check-all" class="flat"></th>
-						  </td>
-                          <td>Brielle Williamson</td>
-                          <td>Integration Specialist</td>
-                         
-                        </tr>
-                        <tr>
-                          <td>
-							 <th><input type="checkbox" id="check-all" class="flat"></th>
-						  </td>
-                          <td>Herrod Chandler</td>
-                          <td>Sales Assistant</td>
-                          
-                        </tr>
-                       
-                        <tr>
-                          <td>
-							 <th><input type="checkbox" id="check-all" class="flat"></th>
-						  </td>
-                          <td>Donna Snider</td>
-                          <td>Customer Support</td>
-                          
-                        </tr>
                       </tbody>
                     </table>
                   </div>
