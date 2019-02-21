@@ -341,40 +341,26 @@
                   require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
 
                 $count = 5;
-                while($count <= 0)
-                {
+                
                    
                     echo '<div class="row">';
                     echo '  <div class="x_content; col-md-9 col-sm-9 col-xs-12 bg-white">';
                     echo '      <div class="x_panel">';
                     echo '           <div class="x_title">';
-                    echo '               <h2>Line graph<small>Sessions</small></h2>';
+                    echo '               <h2>Items <small>Sessions</small></h2>';
                     echo '           <div class="clearfix"></div>';
                     echo '       </div>';
                     echo '    <div class="x_content">';
-                    echo '      <canvas id="lineChart" height = "100"></canvas>';
+                    echo '     <canvas id="mybarChart"> height = "50"></canvas>';
                     echo '    </div>';
                     echo '   </div>';
-                    echo '</div>';
-                    
-                }
-                echo '<div class="row">';
-                echo '<div class="x_content; col-md-9 col-sm-9 col-xs-12 bg-white">';
-                echo '<div class="x_panel">';
-                echo '   <div class="x_title">';
-                echo '      <h2>Line graph<small>Sessions</small></h2>';
-                echo '      <div class="clearfix"></div>';
-                echo '    </div>';
-                echo '    <div class="x_content">';
-                echo '      <canvas id="lineChart" height = "100"></canvas>';
-                echo '    </div>';
-                echo '   </div>';
-                echo '</div>';
-                echo '</div>';
+                    echo '  </div>';
+                    echo ' </div>';
+            
                
             ?> <!-- end of PHP -->
         
-            
+        
 
             
    

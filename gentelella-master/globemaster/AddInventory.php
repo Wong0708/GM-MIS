@@ -177,11 +177,7 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-<<<<<<< Updated upstream
-                    <h2>Add Inventory</h2>
-                    
-=======
-                    <h2 >Add Inventory Items: <b>TRADING</b></h2>
+                  <h2 >Add Inventory Items: <b>TRADING</b></h2>
                     <!--<ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -197,7 +193,7 @@
                       <li><a class="close-link"><i class="fa fa-close"></i></a>
                       </li>
                     </ul> -->
->>>>>>> Stashed changes
+                    
                     <div class="clearfix"></div>
                   </div>
 
@@ -230,34 +226,8 @@
                         }
                     </script> <!-- Script to Change Trading to Depot vice versa -->
 
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Item Name <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="last-name" name="item_name" required class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Amount</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="number" name="amount" required>
-                        </div>
-                      </div>
-					  <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Price</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="number" name="price">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Threshold</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="number" name="threshold">
-                        </div>
-                      </div>
-
-                      <div class="form-group" >
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Reference<span class="required">*</span>
+                    <div class="form-group" >
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Reference  <span class="required">*</span>
                         </label>
                         <select id="heard" class="form-control col-md-3 col-md-7 col-xs-12" required="" name = "selectItemtype" style=" width:250px";>
                             <option value="">Choose..</option>
@@ -277,6 +247,34 @@
                                 ?> <!-- PHP END -->                                                   
                         </select>
                       </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Item Name <span class="required">*</span>
+                        </label>
+                        <div class="col-md-2 col-sm-6 col-xs-12">
+                          <input type="text" id="last-name" name="item_name" required class="form-control col-md-7 col-xs-12" required style=" width:250px">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Quantity*</label>
+                        <div class="col-md-2 col-sm-6 col-xs-12">
+                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="number" name="amount" required style=" width:250px">
+                        </div>
+                      </div>
+					  <div class="form-group">
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Price*</label>
+                        <div class="col-md-2 col-sm-6 col-xs-12">
+                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="number" name="price" style=" width:250px">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Threshold*</label>
+                        <div class="col-md-2 col-sm-6 col-xs-12" >
+                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="number" name="threshold" style=" width:250px">
+                        </div>
+                      </div>
+
+                      
 
                       
                       <div class="form-group" id = "tradingSuppliers">
@@ -327,13 +325,8 @@
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-<<<<<<< Updated upstream
-                          
+                          <button class="btn btn-danger" type="button">Cancel</button>
 						  <button class="btn btn-primary" type="reset">Reset</button>
-                          <button type="submit" class="btn btn-success">Submit</button>
-=======
-                          <button class="btn btn-primary" type="button">Cancel</button>
-						  <button class="btn btn-danger" type="reset">Reset</button>
                           <button type="submit" class="btn btn-success" name = "submitBtn">Submit</button>
                           
                           <?php
@@ -390,7 +383,6 @@
                                 $result=mysqli_query($dbc,$sql);              
                             }
                           ?>
->>>>>>> Stashed changes
                         </div>
                       </div>
 

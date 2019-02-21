@@ -160,7 +160,13 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                  <h2 align="right" required>Cost of Purchase: <input type ="number" align="right" required></h2> 
+
+                  
+                    <form action="POST"  required>
+                     <h2 align="right"> Cost of Purchase: <input id ="costofpurchase" type ="number"  required> </h2>
+                    </form> 
+                  
+
                     <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
                     <col width="1">
                     <col width="50">
@@ -192,7 +198,7 @@
                               //echo'<var> x = ',$count,'';
                               echo' <tr>';
                               echo '<td>';
-                              echo'<th><input id = "checkMoTo" type="checkbox"  onclick="javascript:unhideInputText();"></th>';
+                              echo'<th><input id = "checkMoTo" type="checkbox" action)"></th>';
                               echo'</td>';
                               echo'<td>';
                               echo $row['item_name'];
@@ -202,11 +208,12 @@
                               echo'</td>';
                               echo'<td>';
                               echo'<form action="POST" align="left">';
-                              echo' ₱<input id="',$count,'" type="number" name="inventoryCost" id = "inventoryCost" style="text-align:right;" display:none>';                            
+                              echo' ₱<input id="',$count,'" type="number" name="inventoryCost"  style="text-align:right;" style="display:none">';                            
                               echo' </form>';
                               echo'</td>';
                                echo '</tr>';
                                $count++;
+                               $IDarray[] = $count;
                             }?>              
                           
                       </tbody>
@@ -214,12 +221,24 @@
                   </div>
                 </div>
                 <p align = "right"><button type="button" class="btn btn-success" align = "right" id="executelink">Submit</button></p>
+                <script>
+                function showInput(val)
+                {
+                    for(i=0;i<val.length-1;i++)
+                    {
+                            if(val[i].type=='hidden')
+                            {
+                                val[i].type='checkbox';
+                            }
+                        }
+                    }
+                </script>
               </div>
             </div>
           </div>
         </div>
        
-
+echo json_encode(variable of array from PHP);
           
         <!-- /page content -->
 
@@ -297,18 +316,15 @@
     <script src="../build/js/custom.min.js"></script>
 
     <script type="text/javascript">
-     window.onload = function() {
-        document.getElementById('2').style.display = 'none';
-    }
 
       function unhideInputText() 
       {
         var count = "<?php echo $count;?>";
         console.log(count);
-          if (document.getElementById('checkMoTo').checked) {
-              document.getElementById('2').style.visibility = 'block';
+          if (document.getElementById('checkMoTo').checked == true) {
+              document.getElementById('2').style.visibility = 'visibility';
           } else {
-              document.getElementById('2').style.visibility = 'none';
+              document.getElementById('2').style.visibility = 'hidden';
           }
       }
       </script>
