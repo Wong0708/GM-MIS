@@ -223,9 +223,9 @@
                             </style> <!-- To Remove the Up/Down Arrows from Date Selection -->
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div class="form-group" >
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Customer Name: </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-md-3 col-sm-12 col-xs-12">
                           <input style=" width:250px"; id="customerName" class="form-control col-md-7 col-xs-12" type="text" name="middle-name" readonly="readonly" >                               
                         </div>
                       </div>
