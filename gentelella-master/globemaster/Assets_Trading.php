@@ -262,8 +262,9 @@
                     <canvas id="lineChart"></canvas>
                   </div> -->
 
-                  <div class="x_content; col-md-12 col-sm-9 col-xs-12 bg-white">
+                  <div class="x_content; col-md-12 col-sm-9 col-xs-12 bg-white" id ="topSellingChart">
                     <canvas id="lineChart" height = "100"></canvas>
+                    
                   </div>
                   
 
@@ -547,7 +548,7 @@
 
     var expected = <?php echo json_encode($months); ?>;
 			 
-			if ($('#lineChart').length ){	
+			if ($('#topSellingChart').length ){	
 			
       var ctx = document.getElementById("lineChart");
       var lineChart = new Chart(ctx, {
@@ -574,7 +575,18 @@
         pointHoverBorderColor: "rgba(151,187,205,1)",
         pointBorderWidth: 1,
         data: [82, 23, 66, 9, 99, 4, 2]
+        }, {
+        label: "Item 3",
+        backgroundColor: "rgba(3, 90, 106, 0.3)",
+        borderColor: "rgba(3, 88, 106, 0.70)",
+        pointBorderColor: "rgba(3, 88, 106, 0.70)",
+        pointBackgroundColor: "rgba(3, 88, 106, 0.70)",
+        pointHoverBackgroundColor: "#fff",
+        pointHoverBorderColor: "rgba(151,187,205,1)",
+        pointBorderWidth: 1,
+        data: [81, 33, 96, 12, 59, 1, 122]
         }]
+        
       },
       });
     

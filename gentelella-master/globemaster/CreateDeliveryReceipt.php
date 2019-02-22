@@ -174,59 +174,120 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Create Delivery Receipt </h2>
+                    <h1><b>Create Delivery Receipt</b> </h1>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
                     <br>
                     <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Order Number: </span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <select id="orderNumberDropdown" class="form-control col-md-3 col-md-7 col-xs-12" required="" name = "selectItemtype" style=" width:250px";>
+                            <option value="">Choose..</option>
+                                <?php
+                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
 
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Store</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <div id="gender" class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                              <input type="radio" name="gender" value="male" data-parsley-multiple="gender"> &nbsp; Depot &nbsp;
-                            </label>
-                            <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                              <input type="radio" name="gender" value="female" data-parsley-multiple="gender"> Trading
-                            </label>
-                          </div>
+                                    $sql = "SELECT * FROM order_details where item_status = 'Deliver' ";
+                                    $result=mysqli_query($dbc,$sql);
+                                    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                                    { 
+                                        echo'<option value="';
+                                        echo $row['ordernumber'];
+                                        echo'">';
+                                        echo "OR -  ",$row['ordernumber'];
+                                        echo'</option>';
+                                    } 
+                                                                   
+                                ?> <!-- PHP END [ Getting the OR from DB ]-->                                                   
+                        </select>
                         </div>
                       </div>
+                     
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Delivery Date <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Delivery Date: </span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <input class="deliveryDate"  type="date"  style=" width:250px"id="deliveryDate" name="Delivery"  min="<?php echo date("Y-m-d", strtotime("+1days")); ?>">
+                            <style>
+                                    .deliveryDate {
+                                        -moz-appearance:textfield;
+                                    }
+                                    
+                                    .deliveryDate::-webkit-outer-spin-button,
+                                    .deliveryDate::-webkit-inner-spin-button {
+                                        -webkit-appearance: none;
+                                        margin: 0;
+                                    }
+                            </style> <!-- To Remove the Up/Down Arrows from Date Selection -->
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Customer Name</label>
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Customer Name: </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="middle-name">
+                          <input style=" width:250px"; id="customerName" class="form-control col-md-7 col-xs-12" type="text" name="middle-name" disabled >                               
                         </div>
                       </div>
+
+                      
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Store</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <div id="gender" class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                              <input type="radio" name="gender" value="male" data-parsley-multiple="gender"> &nbsp; Depot &nbsp;
-                            </label>
-                            <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                              <input type="radio" name="gender" value="female" data-parsley-multiple="gender"> Trading
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Products <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item: </span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+                          <input style=" width:250px"; id="itemfromOrders" class="date-picker form-control col-md-7 col-xs-12" type="text" disabled>
                         </div>
                       </div>
+
+                       <script type="text/javascript">
+                                     <?php
+                                        require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+
+                                        $sql = "SELECT * FROM order_details 
+                                        join clients ON order_details.client_id = clients.client_id
+                                        join items_trading ON order_details.item_id = items_trading.item_id
+                                        where item_status = 'Deliver'";
+
+                                        $result=mysqli_query($dbc,$sql);                                      
+
+                                        $orderNumber = array();
+                                        $customerName = array();
+                                        $itemName = array();
+                                        
+                                        echo  'var textBox = document.getElementById("customerName");';
+                                        echo  'var dropdown = document.getElementById("orderNumberDropdown");';
+                                        echo  'var itemBox = document.getElementById("itemfromOrders");';
+                                                          
+                                        // echo  "var getORNum = {$row['ordernumber']};";                                         
+                                        // echo "var customerName = '{$row['client_name']}';";                                            
+                                           
+                                        while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                                        {                                                                                     
+                                          $orderNumber[] = $row['ordernumber'];
+                                          $customerName[] = $row['client_name'];  
+                                          $itemName[] = $row['item_name'];
+                                                                                         
+                                        }
+                                        echo "var itemNameFromPHP = ".json_encode($itemName).";"; 
+                                        echo "var cusNameFromPHP = ".json_encode($customerName).";"; 
+                                        echo "var orderNumFromPHP = ".json_encode($orderNumber).";";                       
+                                        echo  " dropdown.onchange = function(){";
+                                        echo  " for (var i = 0; i < ".sizeof($orderNumber)."; i++) {  ";                                                                               
+                                            echo  "  if(dropdown.value == orderNumFromPHP[i])";
+                                            echo  "  {";
+                                            echo  "      textBox.value = cusNameFromPHP[i] ;";
+                                            echo  "      itemBox.value = itemNameFromPHP[i] ;";
+                                            echo  "  }"; 
+                                          echo  "  };";
+                                          
+                                        echo  " };";
+                                       
+                                                                    
+                                    ?> //PHP END   
+                                   
+                                   
+                            </script> <!-- Script to add Customer Name from DB with PHP inside -->                   
+
 					  <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 
                                     <div class="row">
@@ -303,7 +364,30 @@
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <button class="btn btn-primary" type="button">Cancel</button>
 						  <button class="btn btn-primary" type="reset">Reset</button>
-                          <button type="submit" class="btn btn-success">Submit</button>
+                          <button type="submit" name = "submitDeliveryReceipt" class="btn btn-success">Submit</button>
+
+                           <?php
+                            if(isset($_POST['submitDeliveryReceipt']))
+                                {
+                                        require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+
+                                        $sql = "SELECT * FROM order_details 
+                                        join clients ON order_details.client_id = clients.client_id
+                                        join items_trading ON order_details.item_id = items_trading.item_id
+                                        where item_status = 'Deliver'";
+
+                                        $result=mysqli_query($dbc,$sql);
+                                        $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
+                                        while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                                        { 
+                                            echo $row['ordernumber'];
+                                            echo $row['client_name'];
+                                        }
+                                       
+                                                                    
+                                     //PHP END 
+                                }
+                            ?>
                         </div>
                       </div>
 

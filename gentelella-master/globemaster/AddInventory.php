@@ -229,7 +229,7 @@
                     <div class="form-group" >
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Reference  <span class="required">*</span>
                         </label>
-                        <select id="heard" class="form-control col-md-3 col-md-7 col-xs-12" required="" name = "selectItemtype" style=" width:250px";>
+                        <select id="itemTypeDropdown" class="form-control col-md-3 col-md-7 col-xs-12" required="" name = "selectItemtype" style=" width:250px";>
                             <option value="">Choose..</option>
                                 <?php
                                     require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
@@ -243,7 +243,8 @@
                                         echo'">';
                                         echo $row['itemtype'];
                                         echo'</option>';
-                                    }                                   
+                                    } 
+                                                                   
                                 ?> <!-- PHP END -->                                                   
                         </select>
                       </div>
@@ -252,25 +253,42 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Item Name <span class="required">*</span>
                         </label>
                         <div class="col-md-2 col-sm-6 col-xs-12">
-                          <input type="text" id="last-name" name="item_name" required class="form-control col-md-7 col-xs-12" required style=" width:250px">
+                          <input type="text" id="item_name" name="itemname" required class="form-control col-md-7 col-xs-12" required style=" width:250px">
                         </div>
                       </div>
+
+                           <script type="text/javascript">
+                            var mytextbox = document.getElementById('item_name');
+                            var mydropdown = document.getElementById('itemTypeDropdown');
+
+                            mydropdown.onchange = function(){
+                                if(mydropdown.value == "Granite")
+                                {
+                                    mytextbox.value = "GR - ";
+                                }
+                                else if(mydropdown.value == "Tiles")
+                                {
+                                    mytextbox.value = "TL - ";
+                                }
+                            }
+                            </script> <!-- Script to add GR- or TL- to Item Name -->             
+
                       <div class="form-group">
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Quantity*</label>
                         <div class="col-md-2 col-sm-6 col-xs-12">
-                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="number" name="amount" required style=" width:250px">
+                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="number" name="amount" required style=" width:250px" min="0" oninput="this.value = Math.abs(this.value)">
                         </div>
                       </div>
 					  <div class="form-group">
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Price*</label>
                         <div class="col-md-2 col-sm-6 col-xs-12">
-                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="number" name="price" style=" width:250px">
+                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="number" name="price" style=" width:250px" min="0" oninput="this.value = Math.abs(this.value)">
                         </div>
                       </div>
                       <div class="form-group">
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Threshold*</label>
                         <div class="col-md-2 col-sm-6 col-xs-12" >
-                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="number" name="threshold" style=" width:250px">
+                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="number" name="threshold" style=" width:250px"min="0" oninput="this.value = Math.abs(this.value)">
                         </div>
                       </div>
 
@@ -317,6 +335,7 @@
                                         echo $row['concess_name'];
                                         echo'</option>';
                                     }
+                                  
 
 
                                 ?> <!-- PHP END -->
@@ -333,6 +352,8 @@
                           require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
                             if(isset($_POST['submitBtn']))
                             {
+                                
+
                                 $itemName = $_POST['item_name']; //Stores the Values from Textbox in HTML
                                 $itemAmount = $_POST['amount'];
                                 $itemPrice = $_POST['price'];
