@@ -174,7 +174,7 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h1><b>Create Delivery Receipt</b> </h1>
+                    <h1 align="center"><b>Create Delivery Receipt</b> </h1>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -226,7 +226,7 @@
                       <div class="form-group">
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Customer Name: </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input style=" width:250px"; id="customerName" class="form-control col-md-7 col-xs-12" type="text" name="middle-name" disabled >                               
+                          <input style=" width:250px"; id="customerName" class="form-control col-md-7 col-xs-12" type="text" name="middle-name" readonly="readonly" >                               
                         </div>
                       </div>
 
@@ -235,7 +235,22 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Item: </span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input style=" width:250px"; id="itemfromOrders" class="date-picker form-control col-md-7 col-xs-12" type="text" disabled>
+                          <input style=" width:250px"; id="itemfromOrders" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Quantity: </span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input style=" width:250px"; id="quantityfromOrders" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Price: </span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input style=" width:250px"; id="totalfromOrders" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
                         </div>
                       </div>
 
@@ -253,10 +268,14 @@
                                         $orderNumber = array();
                                         $customerName = array();
                                         $itemName = array();
+                                        $quantity = array();
+                                        $totalPrice = array();
                                         
                                         echo  'var textBox = document.getElementById("customerName");';
                                         echo  'var dropdown = document.getElementById("orderNumberDropdown");';
                                         echo  'var itemBox = document.getElementById("itemfromOrders");';
+                                        echo  'var quantityBox = document.getElementById("quantityfromOrders");';
+                                        echo  'var totalPriceBox = document.getElementById("totalfromOrders");';
                                                           
                                         // echo  "var getORNum = {$row['ordernumber']};";                                         
                                         // echo "var customerName = '{$row['client_name']}';";                                            
@@ -266,17 +285,24 @@
                                           $orderNumber[] = $row['ordernumber'];
                                           $customerName[] = $row['client_name'];  
                                           $itemName[] = $row['item_name'];
+                                          $quantity[] = $row['item_qty'];
+                                          $totalPrice[] = $row['item_qty'] * $row['item_price'];
                                                                                          
                                         }
                                         echo "var itemNameFromPHP = ".json_encode($itemName).";"; 
                                         echo "var cusNameFromPHP = ".json_encode($customerName).";"; 
-                                        echo "var orderNumFromPHP = ".json_encode($orderNumber).";";                       
+                                        echo "var orderNumFromPHP = ".json_encode($orderNumber).";";
+                                        echo "var quantityNumFromPHP = ".json_encode($quantity).";";
+                                        echo "var totalNumFromPHP = ".json_encode($totalPrice).";";
+
                                         echo  " dropdown.onchange = function(){";
                                         echo  " for (var i = 0; i < ".sizeof($orderNumber)."; i++) {  ";                                                                               
                                             echo  "  if(dropdown.value == orderNumFromPHP[i])";
                                             echo  "  {";
                                             echo  "      textBox.value = cusNameFromPHP[i] ;";
                                             echo  "      itemBox.value = itemNameFromPHP[i] ;";
+                                            echo  "      quantityBox.value = quantityNumFromPHP[i] ;";
+                                            echo  "      totalPriceBox.value = totalNumFromPHP[i] ;";
                                             echo  "  }"; 
                                           echo  "  };";
                                           
@@ -288,7 +314,7 @@
                                    
                             </script> <!-- Script to add Customer Name from DB with PHP inside -->                   
 
-					  <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+					  <!-- <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 
                                     <div class="row">
                                         <div class="col-sm-12">
@@ -358,10 +384,10 @@
                                         </div>
                                     </div>
 
-                                </div>
+                                </div> -->
                       <div class="ln_solid"></div>
                       <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" align="left">
                           <button class="btn btn-primary" type="button">Cancel</button>
 						  <button class="btn btn-primary" type="reset">Reset</button>
                           <button type="submit" name = "submitDeliveryReceipt" class="btn btn-success">Submit</button>

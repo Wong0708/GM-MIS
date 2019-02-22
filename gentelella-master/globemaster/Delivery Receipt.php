@@ -175,100 +175,10 @@
 
                     <!-- /top tiles -->
 
-                    <div class="col-sm-4">
-                        <div class="x_panel">
-                            <div class="x_title">
-                                <h2>Delivery Receipt List </h2>
-                                
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="x_content">
-                                <p class="text-muted font-13 m-b-30">
-                                    DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>
-                                </p>
-                                <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-
-                                    <select id="heard" class="form-control" required="">
-                                        <option value="">All</option>
-                                        <option value="Depot">Depot</option>
-                                        <option value="Trading">Trading</option>
-                                    </select>
-
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <table id="datatable" class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable_info">
-                                                <thead>
-                                                    <tr role="row">
-                                                        <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 263px;">Delivery Receipt Number</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Delivery date</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Origin</th>
-                                                    </tr>
-                                                </thead>
-
-
-                                                <tbody>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Airi Satou</td>
-                                                        <td>2008/11/28</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Angelica Ramos</td>
-                                                        <td>2009/10/09</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Ashton Cox</td>
-                                                        <td>2009/01/12</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Bradley Greer</td>
-                                                        <td>2012/10/13</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Brenden Wagner</td>
-                                                        <td>2011/06/07</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Brielle Williamson</td>
-                                                        <td>2012/12/02</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Bruno Nash</td>
-                                                        <td>2011/05/03</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Caesar Vance</td>
-                                                        <td>2011/12/12</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Cara Stevens</td>
-                                                        <td>2011/12/06</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Cedric Kelly</td>
-                                                        <td>2012/03/29</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
 
                     <!--TABLE OF DETAILS FOR DELIVERY RECEIPT-->
-                    <div class="col-sm-8">
+                    <div class="col-md-12 col-sm-9 col-xs-12">
                         <div class="x_panel">
                             <div class="x_title">
                                 <h2>Delivery receipt Details</h2>
@@ -370,8 +280,99 @@
                         </div>
                     </div>
 
+                    <div class="col-md-12 col-sm-9 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Delivery Receipt List </h2>
+                                
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                
+                                <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+
+                                    <select id="heard" class="form-control" required="">
+                                        <option value="">All</option>
+                                        <option value="Depot">Depot</option>
+                                        <option value="Trading">Trading</option>
+                                    </select>
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <table id="datatable" class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable_info">
+                                                <thead>
+                                                    <tr role="row">
+                                                        <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 263px;">Delivery Receipt Number</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Delivery date</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Origin</th>
+                                                    </tr>
+                                                </thead>
+
+
+                                                <tbody>
+                                                    <tr role="row" class="odd">
+                                                        <td class="sorting_1">Airi Satou</td>
+                                                        <td>2008/11/28</td>
+                                                        <td>Trading</td>
+                                                    </tr>
+                                                    <tr role="row" class="even">
+                                                        <td class="sorting_1">Angelica Ramos</td>
+                                                        <td>2009/10/09</td>
+                                                        <td>Depot</td>
+                                                    </tr>
+                                                    <tr role="row" class="odd">
+                                                        <td class="sorting_1">Ashton Cox</td>
+                                                        <td>2009/01/12</td>
+                                                        <td>Trading</td>
+                                                    </tr>
+                                                    <tr role="row" class="even">
+                                                        <td class="sorting_1">Bradley Greer</td>
+                                                        <td>2012/10/13</td>
+                                                        <td>Trading</td>
+                                                    </tr>
+                                                    <tr role="row" class="odd">
+                                                        <td class="sorting_1">Brenden Wagner</td>
+                                                        <td>2011/06/07</td>
+                                                        <td>Trading</td>
+                                                    </tr>
+                                                    <tr role="row" class="even">
+                                                        <td class="sorting_1">Brielle Williamson</td>
+                                                        <td>2012/12/02</td>
+                                                        <td>Depot</td>
+                                                    </tr>
+                                                    <tr role="row" class="odd">
+                                                        <td class="sorting_1">Bruno Nash</td>
+                                                        <td>2011/05/03</td>
+                                                        <td>Depot</td>
+                                                    </tr>
+                                                    <tr role="row" class="even">
+                                                        <td class="sorting_1">Caesar Vance</td>
+                                                        <td>2011/12/12</td>
+                                                        <td>Depot</td>
+                                                    </tr>
+                                                    <tr role="row" class="odd">
+                                                        <td class="sorting_1">Cara Stevens</td>
+                                                        <td>2011/12/06</td>
+                                                        <td>Depot</td>
+                                                    </tr>
+                                                    <tr role="row" class="even">
+                                                        <td class="sorting_1">Cedric Kelly</td>
+                                                        <td>2012/03/29</td>
+                                                        <td>Trading</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
+            
 </body>
 
 <!-- /page content -->
