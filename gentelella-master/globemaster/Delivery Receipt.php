@@ -178,37 +178,17 @@
                     
 
                     <!--TABLE OF DETAILS FOR DELIVERY RECEIPT-->
-                    <div class="col-md-12 col-sm-9 col-xs-12">
-                        <div class="x_panel">
+                    <div class="col-md-12 col-sm-9 col-xs-12" >
+                        <div class="x_panel" >
                             <div class="x_title">
-                                <h1>Delivery Receipt Details</h1>
-                                <ul class="nav navbar-right panel_toolbox">
-                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                    </li>
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#">Settings 1</a>
-                                            </li>
-                                            <li><a href="#">Settings 2</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                                    </li>
-                                </ul>
+                                <h1 align = "center">Delivery Receipt Details</h1>
+                                
                                 <div class="clearfix"></div>
                             </div>
+                           
                             <div class="x_content">
                                 <br>
-                                <form class="form-horizontal form-label-left">
-
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Delivery Receipt Store </label>
-                                        <div class="col-md-3 col-sm-9 col-xs-12">
-                                            <input type="text" class="form-control" disabled="disabled" placeholder="Disabled Input">
-                                        </div>
-                                    </div>
+                                <form class="form-horizontal form-label-center">
 
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Delivery Receipt Number </label>
@@ -236,10 +216,16 @@
                                             <input type="text" class="form-control" readonly="readonly" placeholder="Read-Only Input">
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Current Status</label>
+                                        <div class="col-md-3 col-sm-6 col-xs-6">
+                                            <input type="text" class="form-control" readonly="readonly">
+                                        </div>
+                                    </div>
 
-                                    <div class="row" align="center">
-                                        <div class="col-md-8 col-sm-9 col-xs-6"  align="center">
-                                            <table  align="center" id="datatable" class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable_info">
+                                    <div class="row" >
+                                        <div class="col-md-8 col-sm-9 col-xs-6"  >
+                                            <table  id="datatable" class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable_info">
                                                 <thead>
                                                     <tr role="row">
                                                         <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 263px;">Product</th>
@@ -276,6 +262,7 @@
                                     </div>
 
                                 </form>
+
                             </div>
                         </div>
                     </div>

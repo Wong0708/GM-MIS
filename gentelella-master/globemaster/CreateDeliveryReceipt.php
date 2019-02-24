@@ -189,14 +189,14 @@
                                 <?php
                                     require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
 
-                                    $sql = "SELECT * FROM order_details where item_status = 'Deliver' ";
+                                    $sql = "SELECT * FROM order_details where item_status = 'Deliver' group by ordernumber";
                                     $result=mysqli_query($dbc,$sql);
                                     while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                                     { 
                                         echo'<option value="';
                                         echo $row['ordernumber'];
                                         echo'">';
-                                        echo "OR -  ",$row['ordernumber'];
+                                        echo $row['ordernumber'];
                                         echo'</option>';
                                     } 
                                                                    
@@ -246,73 +246,7 @@
                           <input style=" width:250px"; id="quantityfromOrders" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
                         </div>
                       </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Price: </span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input style=" width:250px"; id="totalfromOrders" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
-                        </div>
-                      </div>
-
-                       <script type="text/javascript">
-                                     <?php
-                                        require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-
-                                        $sql = "SELECT * FROM order_details 
-                                        join clients ON order_details.client_id = clients.client_id
-                                        join items_trading ON order_details.item_id = items_trading.item_id
-                                        where item_status = 'Deliver'";
-
-                                        $result=mysqli_query($dbc,$sql);                                      
-
-                                        $orderNumber = array();
-                                        $customerName = array();
-                                        $itemName = array();
-                                        $quantity = array();
-                                        $totalPrice = array();
-                                        
-                                        echo  'var textBox = document.getElementById("customerName");';
-                                        echo  'var dropdown = document.getElementById("orderNumberDropdown");';
-                                        echo  'var itemBox = document.getElementById("itemfromOrders");';
-                                        echo  'var quantityBox = document.getElementById("quantityfromOrders");';
-                                        echo  'var totalPriceBox = document.getElementById("totalfromOrders");';
-                                                          
-                                        // echo  "var getORNum = {$row['ordernumber']};";                                         
-                                        // echo "var customerName = '{$row['client_name']}';";                                            
-                                           
-                                        while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                                        {                                                                                     
-                                          $orderNumber[] = $row['ordernumber'];
-                                          $customerName[] = $row['client_name'];  
-                                          $itemName[] = $row['item_name'];
-                                          $quantity[] = $row['item_qty'];
-                                          $totalPrice[] = $row['item_qty'] * $row['item_price'];
-                                                                                         
-                                        }
-                                        echo "var itemNameFromPHP = ".json_encode($itemName).";"; 
-                                        echo "var cusNameFromPHP = ".json_encode($customerName).";"; 
-                                        echo "var orderNumFromPHP = ".json_encode($orderNumber).";";
-                                        echo "var quantityNumFromPHP = ".json_encode($quantity).";";
-                                        echo "var totalNumFromPHP = ".json_encode($totalPrice).";";
-
-                                        echo  " dropdown.onchange = function(){";
-                                        echo  " for (var i = 0; i < ".sizeof($orderNumber)."; i++) {  ";                                                                               
-                                            echo  "  if(dropdown.value == orderNumFromPHP[i])";
-                                            echo  "  {";
-                                            echo  "      textBox.value = cusNameFromPHP[i] ;";
-                                            echo  "      itemBox.value = itemNameFromPHP[i] ;";
-                                            echo  "      quantityBox.value = quantityNumFromPHP[i] ;";
-                                            echo  "      totalPriceBox.value = totalNumFromPHP[i] ;";
-                                            echo  "  }"; 
-                                          echo  "  };";
-                                          
-                                        echo  " };";
-                                       
-                                                                    
-                                    ?> //PHP END   
-                                   
-                                   
-                            </script> <!-- Script to add Customer Name from DB with PHP inside -->                   
+                           
 
 					  <!-- <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 
@@ -385,6 +319,37 @@
                                     </div>
 
                                 </div> -->
+
+                         <div class="row" >
+                                        <div class="col-md-8 col-sm-9 col-xs-6"  >
+                                            <table  id="datatable" class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable_info">
+                                                <thead>
+                                                    <tr role="row">
+                                                        <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 263px;">Product</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Pieces</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Price per piece</th>
+                                                    </tr>
+                                                </thead>
+
+
+                                                <tbody>
+                                                    <tr role="row" class="odd">
+                                                        <td id="itemNameRow" ></td>
+                                                        <td id="itemQuantityRow" ></td>
+                                                        <td id="itemPriceRow" ></td>                                                                                                         
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Price: </span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input style=" width:250px"; id="totalfromOrders" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
+                        </div>
+                      </div>                           
+
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" align="left">
@@ -418,6 +383,8 @@
                       </div>
 
                     </form>
+
+                    
                   </div>
                 </div>
               </div>
@@ -488,6 +455,97 @@
 
 <!-- Custom Theme Scripts -->
 <script src="../build/js/custom.min.js"></script>
+
+<script type="text/javascript">
+    <?php
+    
+    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+    
+    echo  'var textBox = document.getElementById("customerName");';
+    echo  'var dropdown = document.getElementById("orderNumberDropdown");';
+    echo  'var itemBox = document.getElementById("itemfromOrders");';
+    echo  'var quantityBox = document.getElementById("quantityfromOrders");';
+    echo  'var totalPriceBox = document.getElementById("totalfromOrders");';
+
+    
+
+    $sql = "SELECT * FROM order_details 
+    join clients ON order_details.client_id = clients.client_id
+    join items_trading ON order_details.item_id = items_trading.item_id
+    where item_status = 'Deliver';
+    ";
+// and ordernumber = '$valueFromHtmlDropdown'
+    $result=mysqli_query($dbc,$sql);                                      
+
+    $orderNumber = array();
+    $customerName = array();
+    $itemName = array();
+    $quantity = array();
+    $pricePerItem = array();
+    $totalPrice = array();
+    
+    
+                        
+    // echo  "var getORNum = {$row['ordernumber']};";                                         
+    // echo "var customerName = '{$row['client_name']}';";                                            
+        
+    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+    {                                                                                     
+        $orderNumber[] = $row['ordernumber'];
+        $customerName[] = $row['client_name'];  
+        $itemName[] = $row['item_name'];
+        $quantity[] = $row['item_qty'];
+        $pricePerItem[] = $row['item_price'];
+        $totalPrice[] = $row['item_qty'] * $row['item_price'];
+
+        
+                                                        
+    }
+    echo "var itemNameFromPHP = ".json_encode($itemName).";"; 
+    echo "var cusNameFromPHP = ".json_encode($customerName).";"; 
+    echo "var orderNumFromPHP = ".json_encode($orderNumber).";";
+    echo "var quantityNumFromPHP = ".json_encode($quantity).";";
+    echo "var PriceNumFromPHP = ".json_encode($pricePerItem).";";
+    echo "var totalNumFromPHP = ".json_encode($totalPrice).";";
+
+    echo  " dropdown.onchange = function(){";
+    echo  " for (var i = 0; i < ".sizeof($orderNumber)."; i++) {  ";                                                                               
+        echo  "  if(dropdown.value == orderNumFromPHP[i])";
+            echo  "  {";
+            echo  "      textBox.value = cusNameFromPHP[i] ;";
+            echo  "      itemBox.value = itemNameFromPHP[i] ;";
+            echo  "      quantityBox.value = quantityNumFromPHP[i] ;";
+            echo  "      totalPriceBox.value = totalNumFromPHP[i] ;";
+            echo '  document.getElementById("itemNameRow").textContent = itemNameFromPHP[i]; ';
+            echo '  document.getElementById("itemQuantityRow").textContent = quantityNumFromPHP[i]; ';
+            echo '  document.getElementById("itemPriceRow").textContent = PriceNumFromPHP[i]; ';
+          
+             echo  "  }"; 
+        echo  "  };";
+        
+    echo  " };";
+    
+    
+                                
+?> //PHP END   
+                                   
+    var dropdownValue = dropdown.value;
+    document.getElementById("itemNameRow").textContent = 
+    "<?php $valueFromHtmlDropdown = '"+dropdownValue+"'; 
+     echo $valueFromHtmlDropdown;?>";
+    
+    
+   
+    // function jstophp(){
+
+
+    //     var javavar=document.getElementById("text").value;
+        
+    //     document.getElementById("rslt").innerHTML="<?php 
+    //     $phpvar='"+javavar+"'; 
+    //     echo $phpvar;?>";
+    //     }                           
+</script> <!-- Script to add Customer Name from DB with PHP inside --> 
 
 </body>
 
