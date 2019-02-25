@@ -150,77 +150,77 @@
           </div>
           <!-- /top tiles -->
          
-          
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <!-- Note that only a maximum of 5 items can be checked -->
-                    <h1>Economic Order Quantity | Inventory</small></h1> 
+         
+              <div class="col-md-12 col-sm-6 col-xs-6">
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <!-- Note that only a maximum of 5 items can be checked -->
+                      <h3>Economic Order Quantity | Inventory</h3> 
+                      
+                      <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content" >
+                   
+                      <table id="datatable" class="table table-striped table-bordered" width="300px" >                                   
+                        <thead>
+                          <tr>                     
+                            <th>Item Name</th>
+                            <th>Category</th>                                                     
+                          </tr>
+                        </thead>
+                        <tbody>
+                          
+                          <?php
+                         
+                              require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                              $query = "SELECT * FROM items_trading 
+                              JOIN ref_itemtype 
+                              WHERE ref_itemtype.itemtype_id = items_trading.itemtype_id";
+
+                              $result=mysqli_query($dbc,$query);
+
+                              $count = 0;
+                              $arrayofCount = array();
+                              while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                                { 
+
+                                  echo' <tr>';                                                       
+                                    echo'<td id = itemNameRow',$count,' width="250px">';
+                                    echo $row['item_name'];
+                                    echo'</td>';
+                                    echo'<td id = itemTypeRow',$count,' width="250px">';
+                                    echo $row['itemtype'];
+                                    echo'</td>';                            
+                                  echo '</tr>';
+                               
+                                $arrayofCount[] = $count;
+                                $count += 1;
+                              }?>              
+                            
+                        </tbody>
+                        <div class="x_content; col-md-12 col-sm-9 col-xs-12 bg-white" id ="topSellingChart">
+                    <canvas id="lineChart2" height = "100"></canvas>
                     
-                    <div class="clearfix"></div>
                   </div>
-                  <div class="x_content">
-                  <h2 align="right" required>Cost of Purchase: <input type ="number" align="right" required></h2> 
-                    <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
-                    <col width="1">
-                    <col width="50">
-                    <col width="150">
-                    <col width="50">
-                    <col width="50">
-                      <thead>
-                        <tr>
-                          <th>
-                            <th><input type="checkbox" id="check-all" class="flat"></th>
-                            </th>
-                          <th>Item Name</th>
-                          <th>Description</th>
-                          <th>Inventory Cost</th>
-                          
-                        </tr>
-                      </thead>
-                      <tbody>
-                        
-                        <?php
-                         $count = 0;
-                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-                            $query = "SELECT * FROM items_trading JOIN ref_itemtype WHERE ref_itemtype.itemtype_id = items_trading.itemtype_id";
-                            $result=mysqli_query($dbc,$query);
-                           while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                            { 
-                              
-                              
-                              //echo'<var> x = ',$count,'';
-                              echo' <tr>';
-                              echo '<td>';
-                              echo'<th><input id = "checkMoTo" type="checkbox"  onclick="javascript:unhideInputText();"></th>';
-                              echo'</td>';
-                              echo'<td>';
-                              echo $row['item_name'];
-                              echo'</td>';
-                              echo'<td>';
-                              echo $row['itemtype'];
-                              echo'</td>';
-                              echo'<td>';
-                              echo'<form action="POST" align="left">';
-                              echo' ₱<input id="',$count,'" type="number" name="inventoryCost" id = "inventoryCost" style="text-align:right;" display:none>';                            
-                              echo' </form>';
-                              echo'</td>';
-                               echo '</tr>';
-                               $count++;
-                            }?>              
-                          
-                      </tbody>
-                    </table>
+                       
+
+                      </table>
+                      
+                    </div>
                   </div>
+                  
+                  <p align = "right"><button type="button" class="btn btn-success" align = "right" id="executelink">Submit</button></p>
+                 
+                  
                 </div>
-                <p align = "right"><button type="button" class="btn btn-success" align = "right" id="executelink">Submit</button></p>
+                
               </div>
             </div>
+            
           </div>
-        </div>
+         
        
-
-          
+       
         <!-- /page content -->
 
         <!-- footer content -->
@@ -295,23 +295,56 @@
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+    <script>
+    // Line chart
 
-    <script type="text/javascript">
-     window.onload = function() {
-        document.getElementById('2').style.display = 'none';
-    }
+  var expected = <?php echo json_encode($months); ?>;
+    
+    if ($('#topSellingChart').length ){	
+    
+    var ctx = document.getElementById("lineChart2");
+    var lineChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: expected,
+      datasets: [{
+      label: "Holding Cost",
+      backgroundColor: "rgba(38, 185, 154, 0.31)",
+      borderColor: "rgba(38, 185, 154, 0.7)",
+      pointBorderColor: "rgba(38, 185, 154, 0.7)",
+      pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+      pointHoverBackgroundColor: "#fff",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointBorderWidth: 1,
+      data: [31, 74, 6, 39, 20, 85, 7]
+      }, {
+      label: "A",
+      backgroundColor: "rgba(3, 88, 106, 0.3)",
+      borderColor: "rgba(3, 88, 106, 0.70)",
+      pointBorderColor: "rgba(3, 88, 106, 0.70)",
+      pointBackgroundColor: "rgba(3, 88, 106, 0.70)",
+      pointHoverBackgroundColor: "#fff",
+      pointHoverBorderColor: "rgba(151,187,205,1)",
+      pointBorderWidth: 1,
+      data: [82, 23, 66, 9, 99, 4, 2]
+      }, {
+      label: "Item 3",
+      backgroundColor: "rgba(3, 90, 106, 0.3)",
+      borderColor: "rgba(3, 88, 106, 0.70)",
+      pointBorderColor: "rgba(3, 88, 106, 0.70)",
+      pointBackgroundColor: "rgba(3, 88, 106, 0.70)",
+      pointHoverBackgroundColor: "#fff",
+      pointHoverBorderColor: "rgba(151,187,205,1)",
+      pointBorderWidth: 1,
+      data: [81, 33, 96, 12, 59, 1, 122]
+      }]
+      
+    },
+    });
 
-      function unhideInputText() 
-      {
-        var count = "<?php echo $count;?>";
-        console.log(count);
-          if (document.getElementById('checkMoTo').checked) {
-              document.getElementById('2').style.visibility = 'block';
-          } else {
-              document.getElementById('2').style.visibility = 'none';
-          }
-      }
-      </script>
+}</script>
+
+  
 	
   </body>
 </html>
