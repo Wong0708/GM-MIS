@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<?php
+      require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+    
+?> <!-- PHP END -->
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -298,6 +302,95 @@
         <div class="right_col" role="main">
           <!-- top tiles -->
           <div class="row tile_count">
+
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-5 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Input EOQ Requirements</h2>                   
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method = "POST">
+
+                      <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">Inventory Holding:  <span class="required">* </span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" id="InventoryHoldingCost" name = "InventoryHoldingCostName"required="required" class="form-control col-md-7 col-xs-12" placeholder = "Input Percentage ( % )" min="0" oninput="this.value = Math.abs(this.value)">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-3 col-xs-12">Acquisition Cost:  <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" min="0" id="AcquisitionCost" name = "AcquisitionCostName"required="required" class="form-control col-md-7 col-xs-12" min="0" oninput="this.value = Math.abs(this.value)">
+                        </div>
+                      </div>             
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-12 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-danger" type="button">Cancel</button>
+						              <button class="btn btn-primary" type="reset">Reset</button>
+                          <button type="submit" class="btn btn-success" name = "SubmitBtn" onclick="return getConfirmation()">Submit</button>
+
+                           <?php
+                          require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                            if(isset($_POST['SubmitBtn']))
+                            {
+                                $inventoryHoldingPercentageFromHTML = $_POST['InventoryHoldingCostName'];
+                                $AcquistionCostFromHTML = $_POST['AcquisitionCostName'];
+
+                                echo'<br>';
+                                echo $inventoryHoldingPercentageFromHTML;
+                                echo'<br>';
+                                echo $AcquistionCostFromHTML;
+                               
+
+                                $sqlInsert = " REPLACE INTO ref_eoqformula (formulaID, InventoryCost, AcquisitionCost)
+                                VALUES ('1','$inventoryHoldingPercentageFromHTML', '$AcquistionCostFromHTML');";
+                                $result=mysqli_query($dbc,$sqlInsert); 
+                                
+                                if(!mysqli_query($dbc,$sqlInsert)) 
+                                {
+                                  die('Error: ' . mysqli_error($dbc));
+                                } 
+                                else 
+                                {
+                                    echo '<script language="javascript">';
+                                    echo 'alert("Successful!");';
+                                    echo '</script>';
+                                }
+                            }
+                          ?>
+                          <script>
+                            function getConfirmation() 
+                            {
+                              var retVal = confirm("Do you want to continue ?");
+                                if( retVal == true ) 
+                                {
+                                    
+                                    return true;
+                                } 
+                                else 
+                                {
+                                    
+                                    return false;
+                                }
+                            }
+                            </script>
+
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+           
 
           
            

@@ -171,17 +171,19 @@
                     
 
                     <!-- /top tiles -->
-<div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
                     <h1 align="center"><b>Create Delivery Receipt</b> </h1>
                     <div class="clearfix"></div>
                   </div>
+
                   <div class="x_content">
                     <br>
-                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Order Number: </span>
+
+                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="" >
+                    <div class="form-group" >
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" >Order Number: 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                         <select id="orderNumberDropdown" class="form-control col-md-3 col-md-7 col-xs-12" required="" name = "selectItemtype" style=" width:250px";>
@@ -189,24 +191,27 @@
                                 <?php
                                     require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
 
-                                    $sql = "SELECT * FROM order_details where item_status = 'Deliver' group by ordernumber";
-                                    $result=mysqli_query($dbc,$sql);
-                                    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                                    $sql1 = "SELECT * FROM order_details 
+                                    where item_status = 'Deliver' 
+                                    group by ordernumber 
+                                    order by orderdetailID";
+                                    $result1=mysqli_query($dbc,$sql1);
+                                    while($row1=mysqli_fetch_array($result1,MYSQLI_ASSOC))
                                     { 
                                         echo'<option value="';
-                                        echo $row['ordernumber'];
+                                        echo $row1['ordernumber'];
                                         echo'">';
-                                        echo $row['ordernumber'];
+                                        echo $row1['ordernumber'];
                                         echo'</option>';
                                     } 
                                                                    
-                                ?> <!-- PHP END [ Getting the OR from DB ]-->                                                   
+                                ?> <!-- PHP END [ Getting the OR Number from DB ]-->                                                   
                         </select>
                         </div>
-                      </div>
+                      </div> <!-- END Div of TAble -->
                      
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Delivery Date: </span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Delivery Date:
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input class="deliveryDate"  type="date"  style=" width:250px"id="deliveryDate" name="Delivery"  min="<?php echo date("Y-m-d", strtotime("+1days")); ?>">
@@ -223,16 +228,17 @@
                             </style> <!-- To Remove the Up/Down Arrows from Date Selection -->
                         </div>
                       </div>
+
                       <div class="form-group" >
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Customer Name: </label>
                         <div class="col-md-3 col-sm-12 col-xs-12">
-                          <input style=" width:250px"; id="customerName" class="form-control col-md-7 col-xs-12" type="text" name="middle-name" readonly="readonly" >                               
+                          <input style=" width:250px"; id="customerName" class="form-control col-md-7 col-xs-12" type="text" readonly="readonly" >                               
                         </div>
                       </div>
 
                       
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item: </span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item: 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input style=" width:250px"; id="itemfromOrders" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
@@ -240,110 +246,40 @@
                       </div>
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Quantity: </span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Quantity: 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input style=" width:250px"; id="quantityfromOrders" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
                         </div>
                       </div>
-                           
 
-					  <!-- <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <table id="datatable" class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable_info">
-                                                <thead>
-                                                    <tr role="row">
-                                                        <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 263px;">Delivery Receipt Number</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Delivery date</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Origin</th>
-                                                    </tr>
-                                                </thead>
-
-
-                                                <tbody>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Airi Satou</td>
-                                                        <td>2008/11/28</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Angelica Ramos</td>
-                                                        <td>2009/10/09</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Ashton Cox</td>
-                                                        <td>2009/01/12</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Bradley Greer</td>
-                                                        <td>2012/10/13</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Brenden Wagner</td>
-                                                        <td>2011/06/07</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Brielle Williamson</td>
-                                                        <td>2012/12/02</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Bruno Nash</td>
-                                                        <td>2011/05/03</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Caesar Vance</td>
-                                                        <td>2011/12/12</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Cara Stevens</td>
-                                                        <td>2011/12/06</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Cedric Kelly</td>
-                                                        <td>2012/03/29</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                </div> -->
 
                          <div class="row" >
-                                        <div class="col-md-8 col-sm-9 col-xs-6"  >
-                                            <table  id="datatable" class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable_info">
-                                                <thead>
-                                                    <tr role="row">
-                                                        <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 263px;">Product</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Pieces</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Price per piece</th>
-                                                    </tr>
-                                                </thead>
+                            <div class="col-md-8 col-sm-9 col-xs-6"  >
+                                <table  id="datatable" class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 263px;">Product</th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Pieces</th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Price per piece</th>
+                                        </tr>
+                                    </thead>
 
 
-                                                <tbody>
-                                                    <tr role="row" class="odd">
-                                                        <td id="itemNameRow" ></td>
-                                                        <td id="itemQuantityRow" ></td>
-                                                        <td id="itemPriceRow" ></td>                                                                                                         
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+                                    <tbody>
+                                    <tr role='row' class='odd'>
+                                            <!-- <td id="itemNameRow" ></td>
+                                            <td id="itemQuantityRow" ></td>
+                                            <td id="itemPriceRow" ></td>                                                                                                       -->
+                                    </tr>
+                                    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Price: </span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Price: 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input style=" width:250px"; id="totalfromOrders" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
@@ -353,31 +289,31 @@
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" align="left">
-                          <button class="btn btn-primary" type="button">Cancel</button>
+                          <button class="btn btn-danger" type="button">Cancel</button>
 						  <button class="btn btn-primary" type="reset">Reset</button>
                           <button type="submit" name = "submitDeliveryReceipt" class="btn btn-success">Submit</button>
 
                            <?php
-                            if(isset($_POST['submitDeliveryReceipt']))
-                                {
-                                        require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                            // if(isset($_POST['submitDeliveryReceipt']))
+                            //     {
+                            //             require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
 
-                                        $sql = "SELECT * FROM order_details 
-                                        join clients ON order_details.client_id = clients.client_id
-                                        join items_trading ON order_details.item_id = items_trading.item_id
-                                        where item_status = 'Deliver'";
+                            //             $sql = "SELECT * FROM order_details 
+                            //             join clients ON order_details.client_id = clients.client_id
+                            //             join items_trading ON order_details.item_id = items_trading.item_id
+                            //             where item_status = 'Deliver'";
 
-                                        $result=mysqli_query($dbc,$sql);
-                                        $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
-                                        while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                                        { 
-                                            echo $row['ordernumber'];
-                                            echo $row['client_name'];
-                                        }
+                            //             $result=mysqli_query($dbc,$sql);
+                            //             $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
+                            //             while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                            //             { 
+                            //                 echo $row['ordernumber'];
+                            //                 echo $row['client_name'];
+                            //             }
                                        
                                                                     
-                                     //PHP END 
-                                }
+                            //          //PHP END 
+                            //     }
                             ?>
                         </div>
                       </div>
@@ -387,7 +323,7 @@
                     
                   </div>
                 </div>
-              </div>
+              
 </body>
 
 <!-- /page content -->
@@ -395,8 +331,6 @@
 <!-- footer content -->
 
 <!-- /footer content -->
-</div>
-</div>
 
 <!-- jQuery -->
 <script src="../vendors/jquery/dist/jquery.min.js"></script>
@@ -455,97 +389,100 @@
 
 <!-- Custom Theme Scripts -->
 <script src="../build/js/custom.min.js"></script>
-
 <script type="text/javascript">
-    <?php
-    
-    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-    
-    echo  'var textBox = document.getElementById("customerName");';
-    echo  'var dropdown = document.getElementById("orderNumberDropdown");';
-    echo  'var itemBox = document.getElementById("itemfromOrders");';
-    echo  'var quantityBox = document.getElementById("quantityfromOrders");';
-    echo  'var totalPriceBox = document.getElementById("totalfromOrders");';
+                                    
+                                    
+                                    <?php
+                                    
+                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                    
+                                    echo  'var textBox = document.getElementById("customerName");';
+                                    echo  'var dropdown = document.getElementById("orderNumberDropdown");';
+                                    echo  'var itemBox = document.getElementById("itemfromOrders");';
+                                    echo  'var quantityBox = document.getElementById("quantityfromOrders");';
+                                    echo  'var totalPriceBox = document.getElementById("totalfromOrders");';
 
-    
+                                    
 
-    $sql = "SELECT * FROM order_details 
-    join clients ON order_details.client_id = clients.client_id
-    join items_trading ON order_details.item_id = items_trading.item_id
-    where item_status = 'Deliver';
-    ";
-// and ordernumber = '$valueFromHtmlDropdown'
-    $result=mysqli_query($dbc,$sql);                                      
+                                    $sql = "SELECT * FROM order_details 
+                                    join clients ON order_details.client_id = clients.client_id
+                                    join items_trading ON order_details.item_id = items_trading.item_id
+                                    where item_status = 'Deliver';";
+                                // and ordernumber = '$valueFromHtmlDropdown'
+                                    $result=mysqli_query($dbc,$sql);                                      
 
-    $orderNumber = array();
-    $customerName = array();
-    $itemName = array();
-    $quantity = array();
-    $pricePerItem = array();
-    $totalPrice = array();
-    
-    
-                        
-    // echo  "var getORNum = {$row['ordernumber']};";                                         
-    // echo "var customerName = '{$row['client_name']}';";                                            
-        
-    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-    {                                                                                     
-        $orderNumber[] = $row['ordernumber'];
-        $customerName[] = $row['client_name'];  
-        $itemName[] = $row['item_name'];
-        $quantity[] = $row['item_qty'];
-        $pricePerItem[] = $row['item_price'];
-        $totalPrice[] = $row['item_qty'] * $row['item_price'];
-
-        
+                                    $orderNumber = array();
+                                    $customerName = array();
+                                    $itemName = array();
+                                    $quantity = array();
+                                    $pricePerItem = array();
+                                    $totalPrice = array();
+                                    
+                                    
                                                         
-    }
-    echo "var itemNameFromPHP = ".json_encode($itemName).";"; 
-    echo "var cusNameFromPHP = ".json_encode($customerName).";"; 
-    echo "var orderNumFromPHP = ".json_encode($orderNumber).";";
-    echo "var quantityNumFromPHP = ".json_encode($quantity).";";
-    echo "var PriceNumFromPHP = ".json_encode($pricePerItem).";";
-    echo "var totalNumFromPHP = ".json_encode($totalPrice).";";
+                                    // echo  "var getORNum = {$row['ordernumber']};";                                         
+                                    // echo "var customerName = '{$row['client_name']}';";                                            
+                                        
+                                    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                                    {                                                                                     
+                                        $orderNumber[] = $row['ordernumber'];
+                                        $customerName[] = $row['client_name'];  
+                                        $itemName[] = $row['item_name'];
+                                        $quantity[] = $row['item_qty'];
+                                        $pricePerItem[] = $row['item_price'];
+                                        $totalPrice[] = $row['item_qty'] * $row['item_price'];
 
-    echo  " dropdown.onchange = function(){";
-    echo  " for (var i = 0; i < ".sizeof($orderNumber)."; i++) {  ";                                                                               
-        echo  "  if(dropdown.value == orderNumFromPHP[i])";
-            echo  "  {";
-            echo  "      textBox.value = cusNameFromPHP[i] ;";
-            echo  "      itemBox.value = itemNameFromPHP[i] ;";
-            echo  "      quantityBox.value = quantityNumFromPHP[i] ;";
-            echo  "      totalPriceBox.value = totalNumFromPHP[i] ;";
-            echo '  document.getElementById("itemNameRow").textContent = itemNameFromPHP[i]; ';
-            echo '  document.getElementById("itemQuantityRow").textContent = quantityNumFromPHP[i]; ';
-            echo '  document.getElementById("itemPriceRow").textContent = PriceNumFromPHP[i]; ';
-          
-             echo  "  }"; 
-        echo  "  };";
-        
-    echo  " };";
-    
-    
-                                
-?> //PHP END   
+                                    
+                                                                                        
+                                    }
+                                    
+                                    echo "var itemNameFromPHP = ".json_encode($itemName).";"; 
+                                    echo "var cusNameFromPHP = ".json_encode($customerName).";"; 
+                                    echo "var orderNumFromPHP = ".json_encode($orderNumber).";";
+                                    echo "var quantityNumFromPHP = ".json_encode($quantity).";";
+                                    echo "var PriceNumFromPHP = ".json_encode($pricePerItem).";";
+                                    echo "var totalNumFromPHP = ".json_encode($totalPrice).";";
+
                                    
-    var dropdownValue = dropdown.value;
-    document.getElementById("itemNameRow").textContent = 
-    "<?php $valueFromHtmlDropdown = '"+dropdownValue+"'; 
-     echo $valueFromHtmlDropdown;?>";
-    
-    
-   
-    // function jstophp(){
+
+                                    echo 'var table = document.getElementById("datatable");'; 
+                                    echo 'table.oldHTML=table.innerHTML;';
+                                
+                                    echo  " dropdown.onchange = function(){";
+                                        echo 'table.innerHTML=table.oldHTML;'; //returns to the first state of the Table;
+                                        
+                                    echo  " for (var i = 0; i < ".sizeof($orderNumber)."; i++) {  ";                                                                               
+                                        echo  "  if(dropdown.value == orderNumFromPHP[i])";
+                                            echo  "  {";
+
+                                           
+
+                                            echo  " textBox.value = cusNameFromPHP[i];";
+                                            echo  " itemBox.value = itemNameFromPHP[i] ;";
+                                            echo  " quantityBox.value = quantityNumFromPHP[i];";
+                                             echo  " totalPriceBox.value = totalNumFromPHP[i];";
+
+                                           
+                                            echo  "var newRow = document.getElementById('datatable').insertRow();";
+                                            echo  'newRow.innerHTML = "<tr><td>" +itemNameFromPHP[i]+ "</td> <td>" +quantityNumFromPHP[i]+ "</td> <td>"+PriceNumFromPHP[i]+"</td> </tr>";';
+
+                                            // echo '  document.getElementById("itemNameRow").textContent = itemNameFromPHP[i]; ';
+                                            // echo '  document.getElementById("itemQuantityRow").textContent = quantityNumFromPHP[i]; ';
+                                            // echo '  document.getElementById("itemPriceRow").textContent = PriceNumFromPHP[i]; ';                                                                                  
+                                            echo  "  }"; 
+                                          
+                                            
+                                        echo  "  };";
+                                        
+                                    echo  " };";
+                                    
+                                    
+                                                                
+                                ?> //PHP END                        
+</script> <!-- Script to add Order Details from DB with PHP inside --> 
+                                      
 
 
-    //     var javavar=document.getElementById("text").value;
-        
-    //     document.getElementById("rslt").innerHTML="<?php 
-    //     $phpvar='"+javavar+"'; 
-    //     echo $phpvar;?>";
-    //     }                           
-</script> <!-- Script to add Customer Name from DB with PHP inside --> 
 
 </body>
 

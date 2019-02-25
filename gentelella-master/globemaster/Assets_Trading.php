@@ -246,7 +246,7 @@
                 <div class="row x_title">
                 
                   <div class="col-md-6">
-                    <h3>Trading Assets: <large> <b>Top Selling Items</b> </large></h3>
+                    <h3>Trading Assets: <large> <b>Top Selling Items </b>[2019] </large></h3>
                     <br>
                     
                   </div>
@@ -263,7 +263,7 @@
                   </div> -->
 
                   <div class="x_content; col-md-12 col-sm-9 col-xs-12 bg-white" id ="topSellingChart">
-                    <canvas id="lineChart" height = "100"></canvas>
+                    <canvas id="lineChart1" height = "100"></canvas>
                     
                   </div>
                   
@@ -339,12 +339,12 @@
                         <thead>
                           <tr class="headings">
                             <th>
-                              <input type="checkbox" id="check-all" class="flat">
+                              <input type="checkbox" >
                             </th>
                             <th class="column-title">Item ID </th>
                             <th class="column-title">Item Name </th>
                             <th class="column-title">Price </th>
-                            <th class="column-title">Amount Sold </th>
+                            <th class="column-title">Quantity Sold </th>
                             <th class="column-title">Total Price Sold </th>
                             
                             <th class="column-title no-link last"><span class="nobr">Action</span>
@@ -380,7 +380,7 @@
 
                               echo '<tr class="even pointer">';
                               echo '<td class="a-center">';
-                              echo    '<input type="checkbox" class="flat" name="table_records">';
+                              echo    '<input type="checkbox">';
                               echo  '</td>';
                               echo '<td>';
                               echo $row['item_id'];
@@ -550,7 +550,7 @@
 			 
 			if ($('#topSellingChart').length ){	
 			
-      var ctx = document.getElementById("lineChart");
+      var ctx = document.getElementById("lineChart1");
       var lineChart = new Chart(ctx, {
       type: 'line',
       data: {

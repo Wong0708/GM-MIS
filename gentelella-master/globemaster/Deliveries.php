@@ -166,7 +166,7 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Deliveries <small>List of deliveries for Globe Master Trading</small></h3>
+                <h3>Deliveries: <small>List of deliveries for Globe Master Trading</small></h3>
               </div>
 
               
@@ -282,24 +282,22 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Deliveries<small>List of Deliveries for GlobeMaster</small></h2>
+                    <h2>Schedule Deliveries</h2>
     
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <p class="text-muted font-13 m-b-30">
-                      Responsive is an extension for DataTables that resolves that problem by optimising the table's layout for different screen sizes through the dynamic insertion and removal of columns from the table.
-                    </p>
+                   
 					
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
+                          <th>D.R./S.I.</th>
                           <th>Date</th>
                           <th>Driver</th>
                           <th>Truck #</th>
                           <th>Customer</th>
-                          <th>Destination</th>
-                          <th>D.R./S.I.</th>
+                          <th>Destination</th>                          
                           <th>Remarks</th>
                           <th>Sales Agent</th>
                           <th>Status</th>
@@ -307,7 +305,7 @@
                       </thead>
                       <tbody>
                         <tr>
-                          <td>Tiger</td>
+                          <td ><a  a href="CreateDeliveryReceipt.php">Tiger</a></td>
                           <td>Nixon</td>
                           <td>System Architect</td>
                           <td>Edinburgh</td>

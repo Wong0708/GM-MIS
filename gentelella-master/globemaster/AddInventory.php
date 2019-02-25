@@ -404,6 +404,7 @@
                                 $result=mysqli_query($dbc,$sql);              
                             }
                           ?>
+                          <alert> Item Added! </alert>
                         </div>
                       </div>
 
