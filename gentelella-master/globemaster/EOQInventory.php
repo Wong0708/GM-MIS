@@ -181,24 +181,24 @@
 
                               $count = 0;
                               $arrayofCount = array();
-                              while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                                { 
+                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                              { 
 
-                                  echo' <tr>';                                                       
-                                    echo'<td id = itemNameRow',$count,' width="250px">';
-                                    echo $row['item_name'];
-                                    echo'</td>';
-                                    echo'<td id = itemTypeRow',$count,' width="250px">';
-                                    echo $row['itemtype'];
-                                    echo'</td>';                            
-                                  echo '</tr>';
+                                echo' <tr>';                                                       
+                                  echo'<td id = itemNameRow',$count,' width="250px">';
+                                  echo $row['item_name'];
+                                  echo'</td>';
+                                  echo'<td id = itemTypeRow',$count,' width="250px">';
+                                  echo $row['itemtype'];
+                                  echo'</td>';                            
+                                echo '</tr>';
                                
                                 $arrayofCount[] = $count;
                                 $count += 1;
                               }?>              
                             
                         </tbody>
-                        <div class="x_content; col-md-12 col-sm-9 col-xs-12 bg-white" id ="topSellingChart">
+                        <div class="x_content; col-md-12 col-sm-9 col-xs-12 bg-white" id ="eoqchart">
                     <canvas id="lineChart2" height = "100"></canvas>
                     
                   </div>
@@ -297,10 +297,33 @@
     <script src="../build/js/custom.min.js"></script>
     <script>
     // Line chart
-
-  var expected = <?php echo json_encode($months); ?>;
     
-    if ($('#topSellingChart').length ){	
+        <?php 
+            
+            $query = "SELECT * FROM items_trading";
+            $result=mysqli_query($dbc,$query);
+
+          while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+            { 
+              $length = count($row);
+              $i = $row['item_id'];
+              foreach((array) $row['item_id'] as $count)
+              {
+                $query = "SELECT *,SUM(item_qty) as total_amount FROM order_details where item_id = $count GROUP BY item_id";
+                $resultOrderDetail = mysqli_query($dbc,$query);
+                $qtyfromOrderDeatils = mysqli_fetch_array($resultOrderDetail,MYSQLI_ASSOC);
+                $itemQty = $qtyfromOrderDeatils['total_amount'];
+                echo "var expected = ".json_encode($itemQty).";";
+              
+              }    
+              
+            }                              
+            
+            ?> 
+
+   
+    
+    if ($('#eoqchart').length ){	
     
     var ctx = document.getElementById("lineChart2");
     var lineChart = new Chart(ctx, {
@@ -327,24 +350,14 @@
       pointHoverBorderColor: "rgba(151,187,205,1)",
       pointBorderWidth: 1,
       data: [82, 23, 66, 9, 99, 4, 2]
-      }, {
-      label: "Item 3",
-      backgroundColor: "rgba(3, 90, 106, 0.3)",
-      borderColor: "rgba(3, 88, 106, 0.70)",
-      pointBorderColor: "rgba(3, 88, 106, 0.70)",
-      pointBackgroundColor: "rgba(3, 88, 106, 0.70)",
-      pointHoverBackgroundColor: "#fff",
-      pointHoverBorderColor: "rgba(151,187,205,1)",
-      pointBorderWidth: 1,
-      data: [81, 33, 96, 12, 59, 1, 122]
       }]
       
     },
     });
 
-}</script>
+}
+</script>
 
-  
 	
   </body>
 </html>

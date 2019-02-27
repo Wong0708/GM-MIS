@@ -166,7 +166,7 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Deliveries: <small>List of deliveries for Globe Master Trading</small></h3>
+                <h1>Deliveries: <small>List of deliveries for Globe Master Trading</small></h1>
               </div>
 
               
@@ -184,97 +184,7 @@
             </div>
 
 
-            <!-- Add Delivery Modal -->
-            <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target=".bs-example-modal-lg"><i class = "fa fa-plus"></i> Add Delivery</button>
-            
-            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
-              <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">Add Delivery Schedule</h4>
-                  </div>
-
-                  <div class = "modal-body">
-                  <form class="form-horizontal form-label-left" novalidate>
-
-                    <p>For alternative validation library <code>parsleyJS</code> check out in the <a href="form.html">form page</a>
-                    </p>
-                    <span class="section">Personal Info</span>
-
-                    <div class="item form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Customer <span class="required">*</span>
-                      </label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input id="customer" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="customer" placeholder="Customer Name" required="required" type="text">
-                      </div>
-                    </div>
-                    <div class="item form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Truck Number <span class="required">*</span>
-                      </label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" required="required" type="text">
-                      </div>
-                    </div>
-                    <div class="item form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Driver <span class="required">*</span>
-                      </label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" required="required" type="text">
-                      </div>
-                    </div>
-                    <div class="item form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Destination <span class="required">*</span>
-                      </label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" required="required" type="text">
-                      </div>
-                    </div>
-                    <div class="item form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Delivery Receipt/ Sales Invoice Number <span class="required">*</span>
-                      </label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" required="required" type="text">
-                      </div>
-                    </div>
-                    <div class="item form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Sales Agent
-                      </label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="email" id="email" name="email" class="form-control col-md-7 col-xs-12">
-                      </div>
-                    </div>
-                    <div class="item form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Remarks
-                      </label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="email" id="email2" name="confirm_email" data-validate-linked="email" class="form-control col-md-7 col-xs-12">
-                      </div>
-                    </div>
-                    <div class="item form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Status
-                      </label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <textarea id="textarea" name="textarea" class="form-control col-md-7 col-xs-12"></textarea>
-                      </div>
-                    </div>
-                    <div class="ln_solid"></div>
-                    <div class="form-group">
-                      <div class="col-md-6 col-md-offset-3">
-                        <button type="submit" class="btn btn-primary">Cancel</button>
-                        <button id="send" type="submit" class="btn btn-success">Submit</button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                </div>
-              </div>
-            </div>
-            <br>
-            <br>
-            <!-- End Delivery Modal -->
+          
             
             <div class="clearfix"></div>
 
@@ -292,20 +202,18 @@
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
-                          <th>D.R./S.I.</th>
+                          <th>D.R.</th>
                           <th>Date</th>
                           <th>Driver</th>
                           <th>Truck #</th>
                           <th>Customer</th>
-                          <th>Destination</th>                          
-                          <th>Remarks</th>
-                          <th>Sales Agent</th>
+                          <th>Destination</th>                          >                          
                           <th>Status</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td ><a  a href="CreateDeliveryReceipt.php">Tiger</a></td>
+                       
+                          <!-- <td ><a  a href="Delivery Receipt.php">Tiger</a></td>
                           <td>Nixon</td>
                           <td>System Architect</td>
                           <td>Edinburgh</td>
@@ -313,7 +221,41 @@
                           <td>2011/04/25</td>
                           <td>$320,800</td>
                           <td>5421</td>
-                          <td>t.nixon@datatables.net</td>
+                          <td>t.nixon@datatables.net</td> -->
+
+
+                          <?php 
+                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+
+                            $querytogetDBTable = "SELECT * FROM scheduledelivery";
+                            $resultofQuery =  mysqli_query($dbc, $querytogetDBTable);
+                            while($rowofResult=mysqli_fetch_array($resultofQuery,MYSQLI_ASSOC))
+                            {
+                              echo " <tr>";
+                                echo '<td> <a  a href="Delivery Receipt.php">';
+                                echo $rowofResult['delivery_Receipt'];
+                                echo '</a></td>';  
+                                echo '<td>';
+                                echo $rowofResult['delivery_Date'];
+                                echo '</td>'; 
+                                echo '<td>';
+                                echo $rowofResult['driver'];
+                                echo '</td>';  
+                                echo '<td>';
+                                echo $rowofResult['truck_Number'];
+                                echo '</td>';  
+                                echo '<td>';
+                                echo $rowofResult['customer_Name'];
+                                echo '</td>';  
+                                echo '<td>';
+                                echo $rowofResult['Destination'];
+                                echo '</td>';  
+                                echo '<td>';
+                                echo $rowofResult['delivery_status'];
+                                echo '</td>';
+                              echo "</tr>";
+                            };
+                          ?>
                         </tr>
                         
                       </tbody>
