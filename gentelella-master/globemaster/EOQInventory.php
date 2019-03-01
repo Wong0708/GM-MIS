@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<?php
+      require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+    
+?>
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -109,42 +113,7 @@
                     <span class="badge bg-green">6</span>
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
+                   
                     <li>
                       <a>
                         <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
@@ -181,108 +150,77 @@
           </div>
           <!-- /top tiles -->
          
-          
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <!-- Note that only a maximum of 5 items can be checked -->
-                    <h2>Economic Order Quantity | Inventory</small></h2> 
+         
+              <div class="col-md-12 col-sm-6 col-xs-6">
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <!-- Note that only a maximum of 5 items can be checked -->
+                      <h3>Economic Order Quantity | Inventory</h3> 
+                      
+                      <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content" >
+                   
+                      <table id="datatable" class="table table-striped table-bordered" width="300px" >                                   
+                        <thead>
+                          <tr>                     
+                            <th>Item Name</th>
+                            <th>Category</th>                                                     
+                          </tr>
+                        </thead>
+                        <tbody>
+                          
+                          <?php
+                         
+                              require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                              $query = "SELECT * FROM items_trading 
+                              JOIN ref_itemtype 
+                              WHERE ref_itemtype.itemtype_id = items_trading.itemtype_id";
+
+                              $result=mysqli_query($dbc,$query);
+
+                              $count = 0;
+                              $arrayofCount = array();
+                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                              { 
+
+                                echo' <tr>';                                                       
+                                  echo'<td id = itemNameRow',$count,' width="250px">';
+                                  echo $row['item_name'];
+                                  echo'</td>';
+                                  echo'<td id = itemTypeRow',$count,' width="250px">';
+                                  echo $row['itemtype'];
+                                  echo'</td>';                            
+                                echo '</tr>';
+                               
+                                $arrayofCount[] = $count;
+                                $count += 1;
+                              }?>              
+                            
+                        </tbody>
+                        <div class="x_content; col-md-12 col-sm-9 col-xs-12 bg-white" id ="eoqchart">
+                    <canvas id="lineChart2" height = "100"></canvas>
                     
-                    <div class="clearfix"></div>
                   </div>
-                  <div class="x_content">
-                    
-                    <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
-                      <thead>
-                        <tr>
-                          <th>
-							 <th><input type="checkbox" id="check-all" class="flat"></th>
-						  </th>
-                          <th>Item Name</th>
-                          <th>Description</th>
-                          
-                        </tr>
-                      </thead>
-
-
-                      <tbody>
-                        <tr>
-                          <td>
-							 <th><input type="checkbox" id="check-all" class="flat"></th>
-						  </td>
-                          <td>Tiger Nixon</td>
-                          <td>System Architect</td>
-                          
-                        </tr>
-                        <tr>
-                         <td>
-							 <th><input type="checkbox" id="check-all" class="flat"></th>
-						  </td>
-                          <td>Garrett Winters</td>
-                          <td>Accountant</td>
-                         
-                        </tr>
-                        <tr>
-							<td>
-								 <th><input type="checkbox" id="check-all" class="flat"></th>
-						  </td>
-                          <td>Ashton Cox</td>
-                          <td>Junior Technical Author</td>
-                         
-                        </tr>
-                        <tr>
-                          <td>
-							 <th><input type="checkbox" id="check-all" class="flat"></th>
-						  </td>
-                          <td>Cedric Kelly</td>
-                          <td>Senior Javascript Developer</td>
-                         
-                        </tr>
-                        <tr>
-                          <td>
-							 <th><input type="checkbox" id="check-all" class="flat"></th>
-						  </td>
-                          <td>Airi Satou</td>
-                          <td>Accountant</td>
-                          
-                        </tr>
-                        <tr>
-                          <td>
-							 <th><input type="checkbox" id="check-all" class="flat"></th>
-						  </td>
-                          <td>Brielle Williamson</td>
-                          <td>Integration Specialist</td>
-                         
-                        </tr>
-                        <tr>
-                          <td>
-							 <th><input type="checkbox" id="check-all" class="flat"></th>
-						  </td>
-                          <td>Herrod Chandler</td>
-                          <td>Sales Assistant</td>
-                          
-                        </tr>
                        
-                        <tr>
-                          <td>
-							 <th><input type="checkbox" id="check-all" class="flat"></th>
-						  </td>
-                          <td>Donna Snider</td>
-                          <td>Customer Support</td>
-                          
-                        </tr>
-                      </tbody>
-                    </table>
+
+                      </table>
+                      
+                    </div>
                   </div>
+                  
+                  <p align = "right"><button type="button" class="btn btn-success" align = "right" id="executelink">Submit</button></p>
+                 
+                  
                 </div>
-                <p align = "right"><button type="button" class="btn btn-success" align = "right" id="executelink">Submit</button></p>
+                
               </div>
             </div>
+            
           </div>
-        </div>
+         
        
-
-          
+       
         <!-- /page content -->
 
         <!-- footer content -->
@@ -357,6 +295,69 @@
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+    <script>
+    // Line chart
+    
+        <?php 
+            
+            $query = "SELECT * FROM items_trading";
+            $result=mysqli_query($dbc,$query);
+
+          while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+            { 
+              $length = count($row);
+              $i = $row['item_id'];
+              foreach((array) $row['item_id'] as $count)
+              {
+                $query = "SELECT *,SUM(item_qty) as total_amount FROM order_details where item_id = $count GROUP BY item_id";
+                $resultOrderDetail = mysqli_query($dbc,$query);
+                $qtyfromOrderDeatils = mysqli_fetch_array($resultOrderDetail,MYSQLI_ASSOC);
+                $itemQty = $qtyfromOrderDeatils['total_amount'];
+                echo "var expected = ".json_encode($itemQty).";";
+              
+              }    
+              
+            }                              
+            
+            ?> 
+
+   
+    
+    if ($('#eoqchart').length ){	
+    
+    var ctx = document.getElementById("lineChart2");
+    var lineChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: expected,
+      datasets: [{
+      label: "Holding Cost",
+      backgroundColor: "rgba(38, 185, 154, 0.31)",
+      borderColor: "rgba(38, 185, 154, 0.7)",
+      pointBorderColor: "rgba(38, 185, 154, 0.7)",
+      pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+      pointHoverBackgroundColor: "#fff",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointBorderWidth: 1,
+      data: [31, 74, 6, 39, 20, 85, 7]
+      }, {
+      label: "A",
+      backgroundColor: "rgba(3, 88, 106, 0.3)",
+      borderColor: "rgba(3, 88, 106, 0.70)",
+      pointBorderColor: "rgba(3, 88, 106, 0.70)",
+      pointBackgroundColor: "rgba(3, 88, 106, 0.70)",
+      pointHoverBackgroundColor: "#fff",
+      pointHoverBorderColor: "rgba(151,187,205,1)",
+      pointBorderWidth: 1,
+      data: [82, 23, 66, 9, 99, 4, 2]
+      }]
+      
+    },
+    });
+
+}
+</script>
+
 	
   </body>
 </html>

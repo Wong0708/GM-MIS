@@ -402,7 +402,7 @@
                         <div class="clearfix"></div>
                       </div>
                       <div class="x_content">
-                        <canvas id="mybarChart"></canvas>
+                        <canvas id="mybarChart" width="350" height="260">></canvas>
                       </div>
                     </div>
                   </div>
@@ -568,15 +568,24 @@
 
               options: 
               {
+                responsive: true,
                 scales: 
                 {
-                  xAxes:[{stacked: true}],
+                  xAxes: 
+                  [{
+                    ticks: 
+                    {
+                      beginAtZero: false
+                    } 
+                  }],
+                  // xAxes:[{stacked: true}],
                   yAxes: 
                   [{
-                    // ticks: 
-                    // {
-                    //   beginAtZero: true
-                    // }
+                    // stacked: true
+                    ticks: 
+                    {
+                      beginAtZero: false
+                    }
                   }]
                 }
               }

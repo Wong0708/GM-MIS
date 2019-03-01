@@ -171,146 +171,267 @@
                     
 
                     <!-- /top tiles -->
-<div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-12 col-sm-6 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Create Delivery Receipt </h2>
+                 
+                    <h1><b>Create Delivery Receipt: </b> [ DR - 
+                    <?php 
+                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+
+                        $query = "SELECT count(delivery_Receipt) as Count FROM mydb.scheduledelivery;";
+                        $resultofQuery = mysqli_query($dbc, $query);
+                        while($rowofResult=mysqli_fetch_array($resultofQuery,MYSQLI_ASSOC))
+                        {
+                            echo $rowofResult['Count'] + 1;
+                        };
+
+
+                  ?> <!-- PHP END -->
+                     ]
+                   
+                     </h1>
                     <div class="clearfix"></div>
                   </div>
+
                   <div class="x_content">
                     <br>
-                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
 
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Store</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <div id="gender" class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                              <input type="radio" name="gender" value="male" data-parsley-multiple="gender"> &nbsp; Depot &nbsp;
-                            </label>
-                            <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                              <input type="radio" name="gender" value="female" data-parsley-multiple="gender"> Trading
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Delivery Date <span class="required">*</span>
+                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-center" novalidate=""  method = "POST">
+                    <div class="form-group" >
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" >Order Number: 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
+                        <select id="orderNumberDropdown" class="form-control col-md-     col-md-7 col-xs-12" required="" name = "selectItemtype" style=" width:250px";>
+                            <option value="">Choose..</option>
+                                <?php
+                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+
+                                    $sql1 = "SELECT * FROM order_details 
+                                    where item_status = 'Deliver' 
+                                    group by ordernumber 
+                                    order by orderdetailID";
+                                    $result1=mysqli_query($dbc,$sql1);
+                                    while($row1=mysqli_fetch_array($result1,MYSQLI_ASSOC))
+                                    { 
+                                        echo'<option value="';
+                                        echo $row1['ordernumber'];
+                                        echo'">';
+                                        echo $row1['ordernumber'];
+                                        echo'</option>';
+                                    } 
+                                                                   
+                                ?> <!-- PHP END [ Getting the OR Number from DB ]-->                                                   
+                        </select>
                         </div>
-                      </div>
+                      </div> <!-- END Div of TAble -->
                       <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Customer Name</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="middle-name">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Store</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <div id="gender" class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                              <input type="radio" name="gender" value="male" data-parsley-multiple="gender"> &nbsp; Depot &nbsp;
-                            </label>
-                            <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                              <input type="radio" name="gender" value="female" data-parsley-multiple="gender"> Trading
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Products <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Expected Date: 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
+                          <input style=" width:250px"; id="expectedDate" name = "expectedDate" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
                         </div>
                       </div>
-					  <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                     
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Delivery Date:
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input class="deliveryDate"  type="date"  style=" width:250px"id="deliveryDate" name="deliveryDate"  min="<?php echo date("Y-m-d", strtotime("+1days")); ?>">
+                            <style>
+                                    .deliveryDate {
+                                        -moz-appearance:textfield;
+                                    }
+                                    
+                                    .deliveryDate::-webkit-outer-spin-button,
+                                    .deliveryDate::-webkit-inner-spin-button {
+                                        -webkit-appearance: none;
+                                        margin: 0;
+                                    }
+                            </style> <!-- To Remove the Up/Down Arrows from Date Selection -->
+                        </div>
+                      </div>
 
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <table id="datatable" class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable_info">
-                                                <thead>
-                                                    <tr role="row">
-                                                        <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 263px;">Delivery Receipt Number</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Delivery date</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Origin</th>
-                                                    </tr>
-                                                </thead>
+                      <div class="form-group" >
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Customer Name: </label>
+                        <div class="col-md-3 col-sm-12 col-xs-12">
+                          <input style=" width:250px"; id="customerName" name = "customerName" class="form-control col-md-7 col-xs-12" type="text" readonly="readonly" >                               
+                        </div>
+                      </div>
+
+                      
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Client Location: 
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input style=" width:250px"; id="locationFromClient" name = "locationFromClient" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Truck: 
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input style=" width:250px"; id="truckPlate" name = "truckPlate" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
+                        </div>
+                      </div>
+
+                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Driver: 
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input style=" width:250px"; id="driverName" name = "driverName" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
+                        </div>
+                      </div>
+
+                         <div class="row" >
+                            <div class="col-md-8 col-sm-9 col-xs-6"  >
+                                <table  id="datatable" class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 263px;">Product</th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Pieces</th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Price per piece</th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Fabrication Status</th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Payment Status</th>
+                                        </tr>
+                                    </thead>
 
 
-                                                <tbody>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Airi Satou</td>
-                                                        <td>2008/11/28</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Angelica Ramos</td>
-                                                        <td>2009/10/09</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Ashton Cox</td>
-                                                        <td>2009/01/12</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Bradley Greer</td>
-                                                        <td>2012/10/13</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Brenden Wagner</td>
-                                                        <td>2011/06/07</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Brielle Williamson</td>
-                                                        <td>2012/12/02</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Bruno Nash</td>
-                                                        <td>2011/05/03</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Caesar Vance</td>
-                                                        <td>2011/12/12</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Cara Stevens</td>
-                                                        <td>2011/12/06</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Cedric Kelly</td>
-                                                        <td>2012/03/29</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+                                    <tbody>
+                                    <tr role='row' class='odd'>
+                                            <!-- <td id="itemNameRow" ></td>
+                                            <td id="itemQuantityRow" ></td>
+                                            <td id="itemPriceRow" ></td>                                                                                                       -->
+                                    </tr>
+                                    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
 
-                                </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Price: 
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input style=" width:250px"; id="totalfromOrders" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
+                        </div>
+                      </div>                           
+
                       <div class="ln_solid"></div>
                       <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button class="btn btn-primary" type="button">Cancel</button>
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" align="left">
+                          <button class="btn btn-danger" type="button">Cancel</button>
 						  <button class="btn btn-primary" type="reset">Reset</button>
-                          <button type="submit" class="btn btn-success">Submit</button>
+                          <button type="submit" name = "submitDeliveryReceipt" class="btn btn-success">Submit</button>
+
+                           <?php
+                            if(isset($_POST['submitDeliveryReceipt']))
+                                {
+                                        require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+
+                                        $deliveryReceipt;
+                                        $dateFromHTML = $_POST['deliveryDate'];
+                                        $driverFromHTML = $_POST['driverName'];
+                                        $truckPlateFromHTML = $_POST['truckPlate'];
+                                        $customerNameFromHTML = $_POST['customerName'];
+                                        $destinationFromHTML = $_POST['locationFromClient'];
+
+
+                                        $query = "SELECT count(delivery_Receipt) as Count FROM mydb.scheduledelivery;";
+                                        $resultofQuery = mysqli_query($dbc, $query);
+                                        while($rowofResult=mysqli_fetch_array($resultofQuery,MYSQLI_ASSOC))
+                                        {
+                                            $deliveryReceipt = "DR - ".($rowofResult['Count'] + 1); //Get The Delivery Receipt
+                                        };
+
+                                        $queryItemID = "SELECT count(SchedID)+1 as Count FROM mydb.scheduledelivery; ";
+                                        $resultItemID = mysqli_query($dbc,$queryItemID);
+                                        $rowResultItemID = mysqli_fetch_assoc($resultItemID);
+                                        $SchedID = $rowResultItemID['Count']; // Get SchedID and Add 1 for DR - 
+
+                                        $insertQuery = "INSERT INTO scheduledelivery(
+                                        SchedID,
+                                        delivery_Receipt,
+                                        delivery_Date,
+                                        driver,
+                                        truck_Number,
+                                        customer_Name,
+                                        Destination,
+                                        delivery_status)
+                                        
+                                        VALUES('$SchedID',
+                                        '$deliveryReceipt',
+                                        '$dateFromHTML',
+                                        '$driverFromHTML',
+                                        '$truckPlateFromHTML',
+                                        '$customerNameFromHTML',
+                                        '$destinationFromHTML',
+                                        'IP');"; //Insert Required Element from HTML to DB
+
+                                         $result=mysqli_query($dbc,$insertQuery);
+                                        
+
+                                        $SelectOrderNumber = $_POST['selectItemtype'];
+                                        $OrderNumArray = array();
+                                        $OrderDetailID = array();
+
+                                        $queryToReplace = "SELECT orderdetailID, ordernumber, item_status FROM mydb.order_details";
+                                        $resulttoReplace = mysqli_query($dbc,$queryToReplace);
+                                        while($rowOfResult = mysqli_fetch_assoc($resulttoReplace))
+                                        {
+                                            $OrderNumArray[] = $rowOfResult['ordernumber'];
+                                            $OrderDetailID[] = $rowOfResult['orderdetailID'];
+                                        }
+
+                                        for ($i = 0; $i < sizeof($OrderNumArray); $i++)
+                                        {
+                                            if($OrderNumArray[$i] == $SelectOrderNumber)
+                                            {
+                                               $TEMP = $OrderDetailID[$i];
+                                               echo $TEMP;
+                                               $replaceQuery = "REPLACE INTO order_details (orderdetailID, item_status)
+                                                VALUES ('$TEMP', 'IP');";
+                                                $replaceResult =  mysqli_query($dbc,$replaceQuery);
+                                            }
+                                        }
+
+                                        //  echo $SchedID;
+                                        //  echo $deliveryReceipt;
+                                        // echo $dateFromHTML;
+                                        // echo  $driverFromHTML;
+                                        // echo $truckPlateFromHTML;
+                                        // echo $customerNameFromHTML;
+                                        // echo $destinationFromHTML;
+                                        
+                                    }    
+
+                            ?>
+                             <!-- <script>
+                            function getConfirmation() 
+                            {
+                              var retVal = confirm("Do you want to continue ?");
+                                if( retVal == true ) 
+                                {
+                                    
+                                    return true;
+                                } 
+                                else 
+                                {
+                                    
+                                    return false;
+                                }
+                            }
+                            </script> -->
                         </div>
                       </div>
 
                     </form>
+
+                    
                   </div>
                 </div>
-              </div>
+              
 </body>
 
 <!-- /page content -->
@@ -318,8 +439,6 @@
 <!-- footer content -->
 
 <!-- /footer content -->
-</div>
-</div>
 
 <!-- jQuery -->
 <script src="../vendors/jquery/dist/jquery.min.js"></script>
@@ -378,6 +497,138 @@
 
 <!-- Custom Theme Scripts -->
 <script src="../build/js/custom.min.js"></script>
+<script type="text/javascript">
+                                    
+                                    
+                                    <?php
+                                    
+                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                    
+                                    echo  'var textBox = document.getElementById("customerName");';
+                                    echo  'var dropdown = document.getElementById("orderNumberDropdown");';
+                                    echo  'var itemBox = document.getElementById("itemfromOrders");';
+                                    echo  'var quantityBox = document.getElementById("quantityfromOrders");';
+                                    echo  'var totalPriceBox = document.getElementById("totalfromOrders");';
+
+                                    echo  'var ExpectedDateBox = document.getElementById("expectedDate");';
+                                    echo  'var locationBox = document.getElementById("locationFromClient");';
+                                    echo  'var truckPlateBox = document.getElementById("truckPlate");';
+                                    echo  'var driverBox = document.getElementById("driverName");';
+                                    
+
+                                    $sql = "SELECT * FROM order_details 
+                                    join clients ON order_details.client_id = clients.client_id
+                                    join items_trading ON order_details.item_id = items_trading.item_id
+                                    join orders ON orders.ordernumber = order_details.ordernumber
+                                    where item_status = 'Deliver'
+                                    group by orderdetailID;";
+                                // and ordernumber = '$valueFromHtmlDropdown'
+                                    $result=mysqli_query($dbc,$sql);                                      
+
+                                    $orderNumber = array();
+                                    $customerName = array();
+                                    $itemName = array();
+                                    $quantity = array();
+                                    $pricePerItem = array();
+                                    $totalPrice = array();
+                                    
+                                    $fabricationStatus = array();
+                                    $paymentStatus = array();
+
+                                    $ExpectedDateFromHTML = array();
+                                    $locationFromHTML = array();
+
+                                    $driverFirstNameFromHTML = array();
+                                    $driverLastNameFromHTML = array();
+                                         
+                                    // echo  "var getORNum = {$row['ordernumber']};";                                         
+                                    // echo "var customerName = '{$row['client_name']}';";                                            
+                                        
+                                    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                                    {                                                                                     
+                                        $orderNumber[] = $row['ordernumber'];
+                                        $customerName[] = $row['client_name'];  
+                                        $itemName[] = $row['item_name'];
+                                        $quantity[] = $row['item_qty'];
+                                        $pricePerItem[] = $row['item_price'];
+                                        $totalPrice[] = $row['item_qty'] * $row['item_price'];
+
+                                        $fabricationStatus[] = $row['fabrication_status'];
+                                        $paymentStatus[] = $row['payment_status'];
+
+                                        $ExpectedDateFromHTML[] = $row['expected_date'];
+                                        $locationFromHTML[] = $row['client_city'];
+                                                                                        
+                                    }
+                                    $truckID = array();
+                                    $destinationID = array();
+                                    $sql1 = "SELECT * FROM destination
+                                    JOIN trucktable ON trucktable.truckID = destination.truckID
+                                    join driver ON driver.truckID = trucktable.truckID;";
+                                    $result1=mysqli_query($dbc,$sql1);
+                                    while($row1=mysqli_fetch_array($result1,MYSQLI_ASSOC))
+                                    { // W I P
+                                        $truckID[] = $row1['truckplate'];
+                                        $destinationID[] = $row1['DestinationName'];
+                                        $driverFirstNameFromHTML[]  = $row1['driverFirstName'];
+                                        $driverLastNameFromHTML[]  = $row1['driverLastName'];
+                                    }
+                                    
+                                    echo "var itemNameFromPHP = ".json_encode($itemName).";"; 
+                                    echo "var cusNameFromPHP = ".json_encode($customerName).";"; 
+                                    echo "var orderNumFromPHP = ".json_encode($orderNumber).";";
+                                    echo "var quantityNumFromPHP = ".json_encode($quantity).";";
+                                    echo "var PriceNumFromPHP = ".json_encode($pricePerItem).";";
+                                    echo "var totalNumFromPHP = ".json_encode($totalPrice).";";
+
+                                    echo "var fabricationStatusFromPHP = ".json_encode($fabricationStatus).";";
+                                    echo "var paymentStatusFromPHP = ".json_encode($paymentStatus).";";
+
+                                    echo "var expectedDateFromPHP = ".json_encode($ExpectedDateFromHTML).";";
+                                    echo "var locationFromPHP = ".json_encode($locationFromHTML).";";
+
+                                    echo "var truckPlateFromPHP = ".json_encode($truckID).";";
+                                    echo "var DestinationFromPHP = ".json_encode($destinationID).";";
+
+                                    echo "var driverFirstNameFromPHP = ".json_encode($driverFirstNameFromHTML).";";
+                                    echo "var driverLastNameFromPHP = ".json_encode($driverLastNameFromHTML).";";
+
+                                    echo 'var table = document.getElementById("datatable");'; 
+                                    echo 'table.oldHTML=table.innerHTML;';
+                                
+                                    echo  " dropdown.onchange = function(){";
+                                        echo 'table.innerHTML=table.oldHTML;'; //returns to the first state of the Table;
+                                        
+                                    echo  " for (var i = 0; i < ".sizeof($orderNumber)."; i++) {  ";                                                                               
+                                        echo  "  if(dropdown.value == orderNumFromPHP[i])";
+                                            echo  "  {";                                 
+                                             echo  " textBox.value = cusNameFromPHP[i];";               
+                                             echo  " totalPriceBox.value = totalNumFromPHP[i];";
+                                             echo  " ExpectedDateBox.value = expectedDateFromPHP[i];";
+                                             echo  " locationBox.value = locationFromPHP[i];"; 
+                                           
+                                             echo  " for (var j = 0; j < ".sizeof($truckID)."; j++) {  "; 
+                                                echo  "  if(locationFromPHP[i] == DestinationFromPHP[j])"; //checks if location is same as TruckDestinatrion
+                                                echo  "  {";
+                                                    echo  " truckPlateBox.value = truckPlateFromPHP[j];";
+                                                    echo  " driverBox.value = driverFirstNameFromPHP[j] + ' ' +driverLastNameFromPHP[j];";
+                                                echo  "  }"; 
+                                            echo  "  }"; // end 2nd forloop
+                                           
+                                            echo  "var newRow = document.getElementById('datatable').insertRow();";
+                                            echo  'newRow.innerHTML = "<tr><td>" +itemNameFromPHP[i]+ "</td> <td>" +quantityNumFromPHP[i]+ "</td> <td>"+PriceNumFromPHP[i]+"</td><td>" +fabricationStatusFromPHP[i]+ "</td><td>" +paymentStatusFromPHP[i]+ "</td></tr>";';
+                                                                         
+                                            echo  "  }"; //End IF
+                                          
+                                            
+                                        echo  "  };"; //END 1st Forloop
+                                        
+                                    echo  " };";  //End function                                                        
+                                ?> //PHP END                        
+</script> <!-- Script to add Order Details from DB with PHP inside --> 
+                                      
+
+
 
 </body>
 

@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<?php
+      require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+    
+?> <!-- PHP END -->
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -8,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" href="images/favicon.ico" type="image/ico" />
 
-    <title>GM MIS | Dashboard</title>
+    <title>GM MIS | Input Page</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -25,12 +29,6 @@
     <link href="../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
     <!-- bootstrap-daterangepicker -->
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-     <!-- Datatables -->
-     <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-     <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-     <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
@@ -42,7 +40,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="MainDashboard.html" class="site_title"><i class="fa fa-paw"></i><!-- replace with GM Logo --> <span>Globe Master</span></a>
+              <a href="MainDashboard.html" class="site_title"><img src="images/GM%20LOGO.png" width = "50" height = "50"><span>Globe Master</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -54,7 +52,7 @@
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
-                <h2>John Doe</h2>
+                <h2>SuperDuperUser!</h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -63,80 +61,81 @@
 
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu" class="collapse">
-              <div class="menu_section">
-                <h3>General</h3>
-                <ul class="nav side-menu">
-                  <li><a><i class="fa fa-home"></i> Dashboard </a>
-                    
-                  </li>
-                  <li><a><i class="fa fa-edit"></i> Inventory Management <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a>Add Inventory<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
+                <div class="menu_section">
+                  <h3>General</h3>
+                  <ul class="nav side-menu">
+                    <li><a><i class="fa fa-home"></i> Dashboard </a>
+                      
+                    </li>
+                    <li><a><i class="fa fa-edit"></i> Inventory Management <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a>Add Inventory<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                              <li><a href="">Trading</a></li>
+                              <li><a href="">Depot</a></li>
+                          </ul>
+                        </li>
+                        <li><a>Inventory Scheduling <span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                              <li><a href="">Delivery Scheduling</a></li>
+                              <li><a href="">Restocking</a></li>
+                          </ul>
+                        </li>
+                        <li><a href="form_validation.html">Generate QR Code</a></li>
+                        <li><a href="form_wizards.html">Economic Order Quantity</a></li>
+                        <li><a href="form_upload.html">Form Upload</a></li>
+                        <li><a href="form_buttons.html">Form Buttons</a></li>
+                      </ul>
+                    </li>
+                    <li><a><i class="fa fa-desktop"></i> Sales Management <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a>Assets<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                            <li><a href="Assets_Trading.html">Trading</a></li>
+                            <li><a href="">Depot</a></li>
+                          </ul>                      
+                        </li>
+                        <li><a >Delivery Receipt</a>
+                             
+                        </li>
+                        <li><a >Sales Invoice<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
                             <li><a href="">Trading</a></li>
                             <li><a href="">Depot</a></li>
-                        </ul>
-                      </li>
-                      <li><a>Inventory Scheduling <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                            <li><a href="">Delivery Scheduling</a></li>
-                            <li><a href="">Restocking</a></li>
-                        </ul>
-                      </li>
-                      <li><a href="form_validation.html">Generate QR Code</a></li>
-                      <li><a href="form_wizards.html">Economic Order Quantity</a></li>
-                      <li><a href="form_upload.html">Form Upload</a></li>
-                      <li><a href="form_buttons.html">Form Buttons</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-desktop"></i> Sales Management <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a>Assets<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                          <li><a href="Assets_Trading.html">Trading</a></li>
-                          <li><a href="">Depot</a></li>
-                        </ul>                      
-                      </li>
-                      <li><a >Delivery Receipt</a>
-                           
-                      </li>
-                      <li><a >Sales Invoice<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                          <li><a href="">Trading</a></li>
-                          <li><a href="">Depot</a></li>
-                        </ul>  
-                      </li>
-                      
-                      <li><a href="Budget_Analysis.html">Budget Variance Analysis</span></a>
-
-                      </li>
-                      <li><a href="EOQ.html">Economic Order Quantity</a></li>
-                      
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-table"></i> Data Analytics <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="tables.html">Tables</a></li>
-                      <li><a href="tables_dynamic.html">Table Dynamic</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-bar-chart-o"></i> Data Visualization <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="chartjs.html">Chart JS</a></li>
-                      <li><a href="chartjs2.html">Chart JS2</a></li>
-                      <li><a href="morisjs.html">Moris JS</a></li>
-                      <li><a href="echarts.html">ECharts</a></li>
-                      <li><a href="other_charts.html">Other Charts</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-clone"></i>Reports <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="fixed_sidebar.html">Fixed Sidebar</a></li>
-                      <li><a href="fixed_footer.html">Fixed Footer</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
+                          </ul>  
+                        </li>
+                        
+                        <li><a href="Budget_Analysis.html">Budget Variance Analysis</span></a>
+  
+                        </li>
+                        <li><a href="EOQ.html">Economic Order Quantity</a></li>
+                        
+                      </ul>
+                    </li>
+                    <li><a><i class="fa fa-table"></i> Data Analytics <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="Forecasting.html">Forecasting</a></li>
+                        <li><a href="tables_dynamic.html">Predictive</a></li>
+                        <li><a href="tables_dynamic.html">Diagnostic</a></li>
+                      </ul>
+                    </li>
+                    <li><a><i class="fa fa-bar-chart-o"></i> Data Visualization <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="chartjs.html">Chart JS</a></li>
+                        <li><a href="chartjs2.html">Chart JS2</a></li>
+                        <li><a href="morisjs.html">Moris JS</a></li>
+                        <li><a href="echarts.html">ECharts</a></li>
+                        <li><a href="other_charts.html">Other Charts</a></li>
+                      </ul>
+                    </li>
+                    <li><a><i class="fa fa-clone"></i>Reports <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="fixed_sidebar.html">Fixed Sidebar</a></li>
+                        <li><a href="fixed_footer.html">Fixed Footer</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
               <!--<div class="menu_section">
                 <h3>Live On</h3>
                 <ul class="nav side-menu">
@@ -303,53 +302,103 @@
         <div class="right_col" role="main">
           <!-- top tiles -->
           <div class="row tile_count">
-            
-          </div>
-          <!-- /top tiles -->
-         
-          
-            <div class="col-md-12 col-sm-12 col-xs-12">
+
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-5 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <!-- Note that only a maximum of 5 items can be checked -->
-                    <h2>Economic Order Quantity | Inventory</small></h2> 
-                   
+                    <h2>Input EOQ Requirements</h2>                   
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    
-                    <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
-                      <thead>
-                        <tr>
-                          <th>
-							 <th><input type="checkbox" id="check-all" class="flat"></th>
-						  </th>
-                          <th>Item Name</th>
-                          <th>Description</th>
-                          
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>
-                          <th><input type="checkbox" id="check-all" class="flat"></th>
-                          </td>
-                          <td>Tiger Nixon</td>
-                          <td>System Architect</td>
-                         
-                        </tr>/                                            
-                      </tbody>
-                    </table>
+                    <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method = "POST">
+
+                      <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">Inventory Holding:  <span class="required">* </span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" id="InventoryHoldingCost" name = "InventoryHoldingCostName"required="required" class="form-control col-md-7 col-xs-12" placeholder = "Input Percentage ( % )" min="0" oninput="this.value = Math.abs(this.value)">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-3 col-xs-12">Acquisition Cost:  <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" min="0" id="AcquisitionCost" name = "AcquisitionCostName"required="required" class="form-control col-md-7 col-xs-12" min="0" oninput="this.value = Math.abs(this.value)">
+                        </div>
+                      </div>             
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-12 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-danger" type="button">Cancel</button>
+						              <button class="btn btn-primary" type="reset">Reset</button>
+                          <button type="submit" class="btn btn-success" name = "SubmitBtn" onclick="return getConfirmation()">Submit</button>
+
+                           <?php
+                          require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                            if(isset($_POST['SubmitBtn']))
+                            {
+                                $inventoryHoldingPercentageFromHTML = $_POST['InventoryHoldingCostName'];
+                                $AcquistionCostFromHTML = $_POST['AcquisitionCostName'];
+
+                                echo'<br>';
+                                echo $inventoryHoldingPercentageFromHTML;
+                                echo'<br>';
+                                echo $AcquistionCostFromHTML;
+                               
+
+                                $sqlInsert = " REPLACE INTO ref_eoqformula (formulaID, InventoryCost, AcquisitionCost)
+                                VALUES ('1','$inventoryHoldingPercentageFromHTML', '$AcquistionCostFromHTML');";
+                                $result=mysqli_query($dbc,$sqlInsert); 
+                                
+                                if(!mysqli_query($dbc,$sqlInsert)) 
+                                {
+                                  die('Error: ' . mysqli_error($dbc));
+                                } 
+                                else 
+                                {
+                                    echo '<script language="javascript">';
+                                    echo 'alert("Successful!");';
+                                    echo '</script>';
+                                }
+                            }
+                          ?>
+                          <script>
+                            function getConfirmation() 
+                            {
+                              var retVal = confirm("Do you want to continue ?");
+                                if( retVal == true ) 
+                                {
+                                    
+                                    return true;
+                                } 
+                                else 
+                                {
+                                    
+                                    return false;
+                                }
+                            }
+                            </script>
+
+                        </div>
+                      </div>
+
+                    </form>
                   </div>
                 </div>
-                <p align = "right"><button type="button" class="btn btn-success" align = "right" id="executelink">Submit</button></p>
               </div>
             </div>
-          </div>
-        </div>
-       
+           
 
           
+           
+
+
+          
+          </div>
+        </div>
         <!-- /page content -->
 
         <!-- footer content -->
@@ -373,6 +422,9 @@
     <script src="../vendors/nprogress/nprogress.js"></script>
     <!-- Chart.js -->
     <script src="../vendors/Chart.js/dist/Chart.min.js"></script>
+    <!-- FullCalendar -->
+    <script src="../vendors/moment/min/moment.min.js"></script>
+    <script src="../vendors/fullcalendar/dist/fullcalendar.min.js"></script>
     <!-- gauge.js -->
     <script src="../vendors/gauge.js/dist/gauge.min.js"></script>
     <!-- bootstrap-progressbar -->
@@ -400,32 +452,6 @@
     <!-- bootstrap-daterangepicker -->
     <script src="../vendors/moment/min/moment.min.js"></script>
     <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-    <!-- jQuery -->
-    <script src="../vendors/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap -->
-    <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- FastClick -->
-    <script src="../vendors/fastclick/lib/fastclick.js"></script>
-    <!-- NProgress -->
-    <script src="../vendors/nprogress/nprogress.js"></script>
-    <!-- iCheck -->
-    <script src="../vendors/iCheck/icheck.min.js"></script>
-    <!-- Datatables -->
-    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-    <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-    <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-    <script src="../vendors/jszip/dist/jszip.min.js"></script>
-    <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
-    <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
