@@ -248,7 +248,11 @@
                   <div class="col-md-6">
                     <h3>Trading Assets: <large> <b>Top Selling Items </b>[2019] </large></h3>
                     <br>
+<<<<<<< HEAD
+                    <button type = "submit">Update List</button>
+=======
                     
+>>>>>>> 8c9a75ef0fd3a9ff67fa4b3c5d3932d353b7c08f
                   </div>
                   <div class="col-md-6">
                     <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">

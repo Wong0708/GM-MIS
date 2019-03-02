@@ -183,31 +183,45 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
+<<<<<<< HEAD
                                 
+=======
+>>>>>>> 03fd98c6643af94bdf050fa325a473303b5c000e
                                 <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-
+                                    <b>Show</b>
                                     <select id="heard" class="form-control" required="">
                                         <option value="">All</option>
                                         <option value="Depot">Depot</option>
                                         <option value="Trading">Trading</option>
                                     </select>
+                                    <b>Orders</b>
+                                    <br>
+                                    <br>
 
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <table id="datatable" class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable_info">
                                                 <thead>
                                                     <tr role="row">
+<<<<<<< HEAD
                                                         <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 263px;">Sales Invoice Number</th>
                                                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Client ID</th>
                                                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Order Date</th>
                                                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Delivery Date</th>
                                                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Payment Type</th>
                                                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Total Amount</th>
+=======
+                                                        <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 263px;">Order Number</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Order Date</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Expected Delivery Date</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Total</th>
+>>>>>>> 03fd98c6643af94bdf050fa325a473303b5c000e
                                                     </tr>
                                                 </thead>
 
 
                                                 <tbody>
+<<<<<<< HEAD
                                                      <?php
 
                             require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
@@ -242,6 +256,14 @@
                             }
 
                         ?>      
+=======
+                                                    <tr role="row" class="even">
+                                                        <td class="sorting_1">Cedric Kelly</td>
+                                                        <td>2012/03/29</td>
+                                                        <td>Trading</td>
+                                                        <td>Trading</td>
+                                                    </tr>
+>>>>>>> 03fd98c6643af94bdf050fa325a473303b5c000e
                                                 </tbody>
                                             </table>
                                         </div>

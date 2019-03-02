@@ -197,7 +197,7 @@
                   <div class="x_content">
                     <br>
 
-                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-center" novalidate=""  method = "POST">
+                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-center"  method = "POST">
                     <div class="form-group" >
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" >Order Number: 
                         </label>
@@ -229,7 +229,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Expected Date: 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input style=" width:250px"; id="expectedDate" name = "expectedDate" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
+                          <input style=" width:250px"; id="expectedDate" name = "expectedDate" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly" required>
                         </div>
                       </div>
                      
@@ -237,7 +237,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Delivery Date:
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input class="deliveryDate"  type="date"  style=" width:250px"id="deliveryDate" name="deliveryDate"  min="<?php echo date("Y-m-d", strtotime("+1days")); ?>">
+                          <input class="deliveryDate"  type="date"  style=" width:250px"id="deliveryDate" name="deliveryDate"  min="<?php echo date("Y-m-d", strtotime("+1days")); ?>" required/>
                             <style>
                                     .deliveryDate {
                                         -moz-appearance:textfield;
@@ -323,7 +323,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" align="left">
                           <button class="btn btn-danger" type="button">Cancel</button>
 						  <button class="btn btn-primary" type="reset">Reset</button>
-                          <button type="submit" name = "submitDeliveryReceipt" class="btn btn-success">Submit</button>
+                          <button type="submit" name = "submitDeliveryReceipt" class="btn btn-success" >Submit</button>
 
                            <?php
                             if(isset($_POST['submitDeliveryReceipt']))
@@ -336,7 +336,7 @@
                                         $truckPlateFromHTML = $_POST['truckPlate'];
                                         $customerNameFromHTML = $_POST['customerName'];
                                         $destinationFromHTML = $_POST['locationFromClient'];
-
+                                        $SelectOrderNumber = $_POST['selectItemtype'];
 
                                         $query = "SELECT count(delivery_Receipt) as Count FROM mydb.scheduledelivery;";
                                         $resultofQuery = mysqli_query($dbc, $query);
@@ -350,29 +350,51 @@
                                         $rowResultItemID = mysqli_fetch_assoc($resultItemID);
                                         $SchedID = $rowResultItemID['Count']; // Get SchedID and Add 1 for DR - 
 
-                                        $insertQuery = "INSERT INTO scheduledelivery(
-                                        SchedID,
-                                        delivery_Receipt,
-                                        delivery_Date,
-                                        driver,
-                                        truck_Number,
-                                        customer_Name,
-                                        Destination,
-                                        delivery_status)
-                                        
-                                        VALUES('$SchedID',
-                                        '$deliveryReceipt',
-                                        '$dateFromHTML',
-                                        '$driverFromHTML',
-                                        '$truckPlateFromHTML',
-                                        '$customerNameFromHTML',
-                                        '$destinationFromHTML',
-                                        'IP');"; //Insert Required Element from HTML to DB
 
-                                         $result=mysqli_query($dbc,$insertQuery);
+
+                                        $orderNumArray = array();
+                                        $queryOrderDetails = "SELECT ordernumber from order_details WHERE item_status = 'Deliver'";
+                                        $resultOrderDetails = mysqli_query($dbc,$queryOrderDetails);
+                                        while($rowResult = mysqli_fetch_array($resultOrderDetails))
+                                        {
+                                            $orderNumArray[] = $rowResult['ordernumber'];
+                                        };
+
+                                        for($i = 0; $i < sizeof($orderNumArray); $i++)
+                                        {
+                                            echo $orderNumArray[$i];
+                                            if($orderNumArray[$i] == $SelectOrderNumber) //Inserts Values based on Ordernumber to secure details 
+                                            {
+                                                
+                                                $insertQuery = "INSERT INTO scheduledelivery(
+                                                    SchedID,
+                                                    delivery_Receipt,
+                                                    ordernumber,
+                                                    delivery_Date,
+                                                    driver,
+                                                    truck_Number,
+                                                    customer_Name,
+                                                    Destination,
+                                                    delivery_status)
+                                                    
+                                                    VALUES('$SchedID',
+                                                    '$deliveryReceipt',
+                                                    '$SelectOrderNumber',
+                                                    '$dateFromHTML',
+                                                    '$driverFromHTML',
+                                                    '$truckPlateFromHTML',
+                                                    '$customerNameFromHTML',
+                                                    '$destinationFromHTML',
+                                                    'IP');"; //Insert Required Element from HTML to DB
+            
+                                                $result=mysqli_query($dbc,$insertQuery);
+                                                $SchedID++; //Add +1 to Primary to Avoid Error on Duplicate key
+                                            }                                        
+                                        };
+                                       
                                         
 
-                                        $SelectOrderNumber = $_POST['selectItemtype'];
+                                        
                                         $OrderNumArray = array();
                                         $OrderDetailID = array();
 
@@ -389,40 +411,16 @@
                                             if($OrderNumArray[$i] == $SelectOrderNumber)
                                             {
                                                $TEMP = $OrderDetailID[$i];
-                                               echo $TEMP;
-                                               $replaceQuery = "REPLACE INTO order_details (orderdetailID, item_status)
-                                                VALUES ('$TEMP', 'IP');";
-                                                $replaceResult =  mysqli_query($dbc,$replaceQuery);
+                                              
+                                                $replaceQuery = "UPDATE order_details 
+                                                set item_status = 'IP'
+                                                where orderdetailID = '$TEMP' AND item_status = 'Deliver';";
+                                                $replaceResult =  mysqli_query($dbc,$replaceQuery); //Update Order_details table to replace 'Delvier' with 'IP'
                                             }
-                                        }
-
-                                        //  echo $SchedID;
-                                        //  echo $deliveryReceipt;
-                                        // echo $dateFromHTML;
-                                        // echo  $driverFromHTML;
-                                        // echo $truckPlateFromHTML;
-                                        // echo $customerNameFromHTML;
-                                        // echo $destinationFromHTML;
-                                        
+                                        }                                        
                                     }    
 
                             ?>
-                             <!-- <script>
-                            function getConfirmation() 
-                            {
-                              var retVal = confirm("Do you want to continue ?");
-                                if( retVal == true ) 
-                                {
-                                    
-                                    return true;
-                                } 
-                                else 
-                                {
-                                    
-                                    return false;
-                                }
-                            }
-                            </script> -->
                         </div>
                       </div>
 

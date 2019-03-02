@@ -236,11 +236,66 @@
 
 
                                                 <tbody>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Stone</td>
-                                                        <td>200</td>
-                                                        <td>20</td>
-                                                    </tr>
+                                                   <?php    
+
+                                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+
+                                                    $orderNumberArray = array();
+                                                    $itemName = array();
+                                                    $quantity = array();
+                                                    $pricePerItem = array();
+                                                    
+                                                    $queryToGetItemList = "SELECT * FROM order_details WHERE item_status ='IP'";
+                                                    $resultofQuery1 = mysqli_query($dbc, $queryToGetItemList);
+                                                    while($rowofResult1=mysqli_fetch_array($resultofQuery1,MYSQLI_ASSOC))
+                                                    {
+                                                        $orderNumberArray[] = $rowofResult1['ordernumber']; 
+                                                        $itemName[] = $rowofResult1['item_name'];
+                                                        $quantity[] = $rowofResult1['item_qty'];
+                                                        $pricePerItem[] = $rowofResult1['item_price'];
+
+                                                    //    echo "Result of RowResult = ", $rowofResult1['ordernumber'] ,"<br>";
+                                                    //    echo "Result of OrderNumArray = ", $orderNumberArray[0] ,"<br>";
+                                                    }
+                                                    
+
+
+                                                    $SchedDelivOrderNumber = array(); 
+
+                                                    $sqlToGetTableValue = "SELECT * FROM scheduledelivery";
+                                                    $resultofQuery2 = mysqli_query($dbc, $sqlToGetTableValue);
+                                                    while($rowofResult2=mysqli_fetch_array($resultofQuery2,MYSQLI_ASSOC))
+                                                    {
+                                                        $SchedDelivOrderNumber[] = $rowofResult2['ordernumber'];
+                                                        // echo $rowofResult2['ordernumber'];
+                                                    }
+                                                    for($i = 0; $i < sizeof($orderNumberArray); $i++)
+                                                    {
+                                                        if($orderNumberArray[$i] == $SchedDelivOrderNumber[$i])
+                                                        {
+                                                            echo '<tr>';                                                                 
+                                                                echo '<td>';
+                                                                echo $itemName[$i];
+                                                                echo '</td>';  
+                                                                echo '<td>';
+                                                                echo $quantity[$i];
+                                                                echo '</td>'; 
+                                                                echo '<td>';
+                                                                echo $pricePerItem[$i];
+                                                                echo '</td>';                                                                   
+                                                            echo '</tr>';
+                                                        }
+                                                        echo "SchedNUM = ", $SchedDelivOrderNumber[$i] ,"<br>";
+
+                                                       echo $orderNumberArray[$i], "<br>";
+                                                    }
+                                               
+                                                   
+
+                                                    
+                                                    
+
+                                                   ?> <!-- PHP END -->
                                                 </tbody>
                                             </table>
                                         </div>
@@ -421,6 +476,10 @@
 
 <!-- Custom Theme Scripts -->
 <script src="../build/js/custom.min.js"></script>
+
+<script>
+
+</script>
 
 </body>
 
