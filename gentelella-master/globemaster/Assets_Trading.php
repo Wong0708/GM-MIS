@@ -34,6 +34,12 @@
     <link href="../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
     <!-- bootstrap-daterangepicker -->
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <!-- Datatables -->
+    <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+     <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+     <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
@@ -238,15 +244,20 @@
               <div class="dashboard_graph">
 
                 <div class="row x_title">
+                
                   <div class="col-md-6">
-                    <h3>Trading Asset <small></small></h3>
+                    <h3>Trading Assets: <large> <b>Top Selling Items </b>[2019] </large></h3>
                     <br>
+<<<<<<< HEAD
                     <button type = "submit">Update List</button>
+=======
+                    
+>>>>>>> 8c9a75ef0fd3a9ff67fa4b3c5d3932d353b7c08f
                   </div>
                   <div class="col-md-6">
                     <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                       <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                      <span>December 30, 2014 - January 28, 2020</span> <b class="caret"></b>
+                      <span>December 30, 2010 - January 28, 2020</span> <b class="caret"></b>
                     </div>
                   </div>
                 
@@ -255,11 +266,14 @@
                     <canvas id="lineChart"></canvas>
                   </div> -->
 
-                  <div class="x_content; col-md-9 col-sm-9 col-xs-12 bg-white">
-                    <canvas id="lineChart" height = "100"></canvas>
+                  <div class="x_content; col-md-12 col-sm-9 col-xs-12 bg-white" id ="topSellingChart">
+                    <canvas id="lineChart1" height = "100"></canvas>
+                    
                   </div>
+                  
 
-                  <div class="col-md-3 col-sm-3 col-xs-12 bg-white"> 
+
+                 <!-- <div class="col-md-3 col-sm-3 col-xs-12 bg-white"> 
                       <div class="x_panel tile fixed_height_320">
                         <div class="x_title">
                           <h2>Top Selling This Month: </h2>                          
@@ -267,49 +281,49 @@
                         </div>
                 
                 <?php
-                  require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                  // require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
                 
 
-                  $query = "SELECT *, SUM(item_qty) as total_amount 
-                  FROM order_details 
-                  GROUP BY item_id 
-                  ORDER by total_amount 
-                  DESC LIMIT 5 "; //Query to get the 5 most sold items in current month.
+                  // $query = "SELECT *, SUM(item_qty) as total_amount 
+                  // FROM order_details 
+                  // GROUP BY item_id 
+                  // ORDER by total_amount 
+                  // DESC LIMIT 5 "; //Query to get the 5 most sold items in current month.
 
-                  $resultOrderDetail = mysqli_query($dbc,$query);
+                  // $resultOrderDetail = mysqli_query($dbc,$query);
                   
                   
-                  while($qtyfromOrderDetails = mysqli_fetch_array($resultOrderDetail,MYSQLI_ASSOC))
-                  { 
+                  // while($qtyfromOrderDetails = mysqli_fetch_array($resultOrderDetail,MYSQLI_ASSOC))
+                  // { 
                    
-                    $itemName =  $qtyfromOrderDetails['item_name'];
-                    $itemQty = $qtyfromOrderDetails['total_amount'];
+                  //   $itemName =  $qtyfromOrderDetails['item_name'];
+                  //   $itemQty = $qtyfromOrderDetails['total_amount'];
 
 
-                    echo'     <div class="x_content">'; //Html to show the top 5 most sold assets in trading
-                    echo'         <h4></h4>';
-                    echo'   <div class="widget_summary">';
-                    echo'       <div class="w_right w_45">';
-                    echo'         <span>';
-                    echo '<b><font size="3" color="black">',$itemName,':</b></font>';
-                    echo'        </span>';
-                    echo'      </div>';
-                    echo'      ';
-                    echo'      <div class="w_right w_20">';
-                    echo'        <span>';
-                    echo '<b><font size="3" color="green">',$itemQty,'</b></font>'  ;
-                    echo'        </span>';
-                    echo'      </div>';
-                    echo'      <div class="clearfix"></div>';
-                    echo'     </div>';
-                    echo'  </div>';
+                  //   echo'     <div class="x_content">'; //Html to show the top 5 most sold assets in trading
+                  //   echo'         <h4></h4>';
+                  //   echo'   <div class="widget_summary">';
+                  //   echo'       <div class="w_right w_45">';
+                  //   echo'         <span>';
+                  //   echo '<b><font size="3" color="black">',$itemName,':</b></font>';
+                  //   echo'        </span>';
+                  //   echo'      </div>';
+                  //   echo'      ';
+                  //   echo'      <div class="w_right w_20">';
+                  //   echo'        <span>';
+                  //   echo '<b><font size="3" color="green">',$itemQty,'</b></font>'  ;
+                  //   echo'        </span>';
+                  //   echo'      </div>';
+                  //   echo'      <div class="clearfix"></div>';
+                  //   echo'     </div>';
+                  //   echo'  </div>';
                    
-                  }                                 
+                  // }                                 
                   ?>    
                     
                     </div>
                   </div>        
-          </div>        
+          </div>        -->
           <br />
 
           <div class="clearfix"></div>
@@ -318,39 +332,23 @@
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Asset List <small></small></h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                      <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                          <li><a href="#">Settings 1</a>
-                          </li>
-                          <li><a href="#">Settings 2</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
-                    </ul>
+                   
                     <div class="clearfix"></div>
                   </div>
 
                   <div class="x_content">
 
-                     
-
                     <div class="table-responsive">
-                      <table class="table table-striped jambo_table bulk_action">
+                      <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
                         <thead>
                           <tr class="headings">
                             <th>
-                              <input type="checkbox" id="check-all" class="flat">
+                              <input type="checkbox" >
                             </th>
                             <th class="column-title">Item ID </th>
                             <th class="column-title">Item Name </th>
                             <th class="column-title">Price </th>
-                            <th class="column-title">Amount Sold </th>
+                            <th class="column-title">Quantity Sold </th>
                             <th class="column-title">Total Price Sold </th>
                             
                             <th class="column-title no-link last"><span class="nobr">Action</span>
@@ -386,7 +384,7 @@
 
                               echo '<tr class="even pointer">';
                               echo '<td class="a-center">';
-                              echo    '<input type="checkbox" class="flat" name="table_records">';
+                              echo    '<input type="checkbox">';
                               echo  '</td>';
                               echo '<td>';
                               echo $row['item_id'];
@@ -505,6 +503,8 @@
     <script src="../vendors/Flot/jquery.flot.time.js"></script>
     <script src="../vendors/Flot/jquery.flot.stack.js"></script>
     <script src="../vendors/Flot/jquery.flot.resize.js"></script>
+     <!-- FastClick -->
+     <script src="../vendors/fastclick/lib/fastclick.js"></script>
     <!-- Flot plugins -->
     <script src="../vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
     <script src="../vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
@@ -518,13 +518,29 @@
     <!-- bootstrap-daterangepicker -->
     <script src="../vendors/moment/min/moment.min.js"></script>
     <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- Datatables -->
+    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    <script src="../vendors/jszip/dist/jszip.min.js"></script>
+    <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
+    <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
     <!-- ECharts -->
     <script src="../vendors/echarts/dist/echarts.min.js"></script>
     <script src="../vendors/echarts/map/js/world.js"></script>
 
-    <!-- Custom Theme Scripts -->
-    <!-- <script src="../build/js/custom.js"></script> -->
+     <!-- Custom Theme Scripts -->
+     <script src="../build/js/custom.min.js"></script>
 
 
     <?php
@@ -536,9 +552,9 @@
 
     var expected = <?php echo json_encode($months); ?>;
 			 
-			if ($('#lineChart').length ){	
+			if ($('#topSellingChart').length ){	
 			
-      var ctx = document.getElementById("lineChart");
+      var ctx = document.getElementById("lineChart1");
       var lineChart = new Chart(ctx, {
       type: 'line',
       data: {
@@ -563,7 +579,18 @@
         pointHoverBorderColor: "rgba(151,187,205,1)",
         pointBorderWidth: 1,
         data: [82, 23, 66, 9, 99, 4, 2]
+        }, {
+        label: "Item 3",
+        backgroundColor: "rgba(3, 90, 106, 0.3)",
+        borderColor: "rgba(3, 88, 106, 0.70)",
+        pointBorderColor: "rgba(3, 88, 106, 0.70)",
+        pointBackgroundColor: "rgba(3, 88, 106, 0.70)",
+        pointHoverBackgroundColor: "#fff",
+        pointHoverBorderColor: "rgba(151,187,205,1)",
+        pointBorderWidth: 1,
+        data: [81, 33, 96, 12, 59, 1, 122]
         }]
+        
       },
       });
     

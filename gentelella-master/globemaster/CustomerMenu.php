@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>GM MIS | View Deliveries</title>
+    <title>GM MIS | View Customers</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -166,7 +166,7 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h1>Deliveries: <small>List of deliveries for Globe Master Trading</small></h1>
+                <h3>Customers <small>List of Customers for Globe Master Trading</small></h3>
               </div>
 
               
@@ -184,7 +184,117 @@
             </div>
 
 
-          
+            <!-- Add Customer Modal -->
+            <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target=".bs-example-modal-lg"><i class = "fa fa-plus"></i> Add Customer</button>
+            
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Add a Customer Profile</h4>
+                  </div>
+
+                  <div class = "modal-body">
+                  <form class="form-horizontal form-label-left" method="post" action= "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+
+                    <span class="section">Customer Info</span>
+
+                    <div class="item form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span class="required">*</span>
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="customer" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="Customer Name" required="required" type="text">
+                      </div>
+                    </div>
+                    <div class="item form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Contact Number <span class="required">*</span>
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="contact" placeholder="both name(s) e.g Jon Doe" required="required" type="text">
+                      </div>
+                    </div>
+                    <div class="item form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Email <span class="required">*</span>
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="email" placeholder="both name(s) e.g Jon Doe" required="required" type="email">
+                      </div>
+                    </div>
+                    <div class="item form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Address
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <textarea id="textarea" name="address" class="form-control col-md-7 col-xs-12"></textarea>
+                      </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                      <div class="col-md-6 col-md-offset-3">
+                        <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        <button id="send" type="submit" class="btn btn-success">Submit</button>
+                      </div>
+                    </div>
+                    <!-- Add Inventory -->
+                    <!-- Finished general insert, but create a status column for customer -->
+                    <?php
+                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+
+                            $name = $idinsert = $contact = $email = $address = $status = "";
+
+                              if($_SERVER["REQUEST_METHOD"] == "POST")
+                              {
+                                $query = "SELECT max(client_id) FROM clients";
+                                $result1=mysqli_query($dbc,$query);
+                                
+                                $id = mysqli_fetch_array($result1,MYSQLI_ASSOC);
+                                
+                                $idinsert = $id["max(client_id)"] + 1;
+                                // echo $idinsert; for testing
+
+                                $name = test_input($_POST['name']);
+                                $contact = test_input($_POST['contact']);
+                                $email = test_input($_POST['email']);
+                                $address = test_input($_POST['address']);
+                                // $status = test_input($_POST['status']);
+
+                                if(isset($_POST['submit']))
+                                {
+                                  echo '<script language="javascript">';
+                                  echo 'alert(Are you sure you want to enter the following data?)';  //not showing an alert box.
+                                  echo '</script>';
+                                }
+
+                                $sql = "INSERT INTO clients (client_id, client_name, client_address, client_contactno, client_email)
+                                  Values(
+                                  '$idinsert',
+                                  '$name', 
+                                  '$address',
+                                  '$contact',
+                                  '$email')";
+
+                                $resultinsert = mysqli_query($dbc,$sql);
+
+                              }
+
+                              function test_input($data) 
+                              {
+                                $data = trim($data);
+                                $data = stripslashes($data);
+                                $data = htmlspecialchars($data);
+                                return $data;
+                             }
+                      ?>
+                  </form>
+                </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <br>
+            <!-- End Delivery Modal -->
             
             <div class="clearfix"></div>
 
@@ -192,76 +302,42 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Schedule Deliveries</h2>
+                    <h2>Customers<small>List of Customers for GlobeMaster</small></h2>
     
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                   
 					
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
-                          <th>D.R.</th>
-                          <th>Date</th>
-                          <th>Driver</th>
-                          <th>Truck #</th>
-                          <th>Customer</th>
-                          <th>Destination</th>                          >                          
+                          <th>Customer ID</th>
+                          <th>Customer Name</th>
+                          <th>Contact Number</th>
+                          <th>E-mail Address</th>
                           <th>Status</th>
                         </tr>
                       </thead>
-                      <tbody>
-                       
-                          <!-- <td ><a  a href="Delivery Receipt.php">Tiger</a></td>
-                          <td>Nixon</td>
-                          <td>System Architect</td>
-                          <td>Edinburgh</td>
-                          <td>61</td>
-                          <td>2011/04/25</td>
-                          <td>$320,800</td>
-                          <td>5421</td>
-                          <td>t.nixon@datatables.net</td> -->
-
-
-                          <?php 
+                      <?php
                             require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                          
+                            $query = "SELECT * FROM clients";
+                            $result=mysqli_query($dbc,$query);
 
-                            $querytogetDBTable = "SELECT * FROM scheduledelivery";
-                            $resultofQuery =  mysqli_query($dbc, $querytogetDBTable);
-                            while($rowofResult=mysqli_fetch_array($resultofQuery,MYSQLI_ASSOC))
-                            {
-                              echo " <tr>";
-                                echo '<td> <a  a href="Delivery Receipt.php">';
-                                echo $rowofResult['delivery_Receipt'];
-                                echo '</a></td>';  
-                                echo '<td>';
-                                echo $rowofResult['delivery_Date'];
-                                echo '</td>'; 
-                                echo '<td>';
-                                echo $rowofResult['driver'];
-                                echo '</td>';  
-                                echo '<td>';
-                                echo $rowofResult['truck_Number'];
-                                echo '</td>';  
-                                echo '<td>';
-                                echo $rowofResult['customer_Name'];
-                                echo '</td>';  
-                                echo '<td>';
-                                echo $rowofResult['Destination'];
-                                echo '</td>';  
-                                echo '<td>';
-                                echo $rowofResult['delivery_status'];
-                                echo '</td>';
-                              echo "</tr>";
-                            };
-                          ?>
-                        </tr>
-                        
-                      </tbody>
+                            echo "<tbody>";
+
+                            while ($clients = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
+                                //output a row here
+                                echo "<tr><td>".($clients['client_id'])."</td>";
+                                echo "<td>".($clients['client_name'])."</td>";
+                                echo "<td>".($clients['client_contactno'])."</td>";
+                                echo "<td>".($clients['client_email'])."</td>";
+                                echo "<td>".($clients['client_id'])."</td></tr>";
+                            }
+
+                            echo "</tbody>";
+                      ?>
                     </table>
-					
-					
                   </div>
                 </div>
               </div>
@@ -305,6 +381,13 @@
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+
+    <!-- Prevent POST Resubmission -->
+    <script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+    </script>
 
   </body>
 </html>

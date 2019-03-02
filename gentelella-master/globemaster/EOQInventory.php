@@ -150,77 +150,77 @@
           </div>
           <!-- /top tiles -->
          
-          
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <!-- Note that only a maximum of 5 items can be checked -->
-                    <h1>Economic Order Quantity | Inventory</small></h1> 
+         
+              <div class="col-md-12 col-sm-6 col-xs-6">
+                  <div class="x_panel">
+                    <div class="x_title">
+                      <!-- Note that only a maximum of 5 items can be checked -->
+                      <h3>Economic Order Quantity | Inventory</h3> 
+                      
+                      <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content" >
+                   
+                      <table id="datatable" class="table table-striped table-bordered" width="300px" >                                   
+                        <thead>
+                          <tr>                     
+                            <th>Item Name</th>
+                            <th>Category</th>                                                     
+                          </tr>
+                        </thead>
+                        <tbody>
+                          
+                          <?php
+                         
+                              require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                              $query = "SELECT * FROM items_trading 
+                              JOIN ref_itemtype 
+                              WHERE ref_itemtype.itemtype_id = items_trading.itemtype_id";
+
+                              $result=mysqli_query($dbc,$query);
+
+                              $count = 0;
+                              $arrayofCount = array();
+                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                              { 
+
+                                echo' <tr>';                                                       
+                                  echo'<td id = itemNameRow',$count,' width="250px">';
+                                  echo $row['item_name'];
+                                  echo'</td>';
+                                  echo'<td id = itemTypeRow',$count,' width="250px">';
+                                  echo $row['itemtype'];
+                                  echo'</td>';                            
+                                echo '</tr>';
+                               
+                                $arrayofCount[] = $count;
+                                $count += 1;
+                              }?>              
+                            
+                        </tbody>
+
+                        <div class="x_content; col-md-12 col-sm-9 col-xs-12 bg-white" id ="eoqchartID">
+
+                          <canvas id="eoqChart" height = "100"> </canvas>
                     
-                    <div class="clearfix"></div>
+                        </div>
+                       
+                      </table>                     
+                    </div>
                   </div>
-                  <div class="x_content">
-                  <h2 align="right">Cost of Purchase: <input type ="number" align="right"></h2> 
-                    <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
-                    <col width="1">
-                    <col width="50">
-                    <col width="150">
-                    <col width="50">
-                    <col width="50">
-                      <thead>
-                        <tr>
-                          <th>
-                            <th><input type="checkbox" id="check-all" class="flat"></th>
-                            </th>
-                          <th>Item Name</th>
-                          <th>Description</th>
-                          <th>Inventory Cost</th>
-                          
-                        </tr>
-                      </thead>
-                      <tbody>
-                        
-                        <?php
-                         $count = 0;
-                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-                            $query = "SELECT * FROM items_trading JOIN ref_itemtype WHERE ref_itemtype.itemtype_id = items_trading.itemtype_id";
-                            $result=mysqli_query($dbc,$query);
-                           while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                            { 
-                              
-                              
-                              //echo'<var> x = ',$count,'';
-                              echo' <tr>';
-                              echo '<td>';
-                              echo'<th><input id = "checkMoTo" type="checkbox"  onclick="javascript:unhideInputText();"></th>';
-                              echo'</td>';
-                              echo'<td>';
-                              echo $row['item_name'];
-                              echo'</td>';
-                              echo'<td>';
-                              echo $row['itemtype'];
-                              echo'</td>';
-                              echo'<td>';
-                              echo'<form action="POST" align="left">';
-                              echo' ₱<input id="',$count,'" type="number" name="inventoryCost" id = "inventoryCost" style="text-align:right;" display:none>';                            
-                              echo' </form>';
-                              echo'</td>';
-                               echo '</tr>';
-                               $count++;
-                            }?>              
-                          
-                      </tbody>
-                    </table>
-                  </div>
+                  
+                  <p align = "right"><button type="button" class="btn btn-success" align = "right" id="executelink">Submit</button></p>
+                 
+                  
                 </div>
-                <p align = "right"><button type="button" class="btn btn-success" align = "right" id="executelink">Submit</button></p>
+                
               </div>
             </div>
+            
           </div>
-        </div>
+         
        
-
-          
+       
         <!-- /page content -->
 
         <!-- footer content -->
@@ -293,25 +293,64 @@
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
+      <!-- ECharts -->
+      <script src="../vendors/echarts/dist/echarts.min.js"></script>
+    <script src="../vendors/echarts/map/js/world.js"></script>
+
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+    <script>
+    // Line chart
 
-    <script type="text/javascript">
-     window.onload = function() {
-        document.getElementById('2').style.display = 'none';
-    }
+          <?php 
+            
+            $query = "SELECT * FROM items_trading";
+            $result=mysqli_query($dbc,$query);
+            $itemQty = array();
 
-      function unhideInputText() 
-      {
-        var count = "<?php echo $count;?>";
-        console.log(count);
-          if (document.getElementById('checkMoTo').checked) {
-              document.getElementById('2').style.visibility = 'block';
-          } else {
-              document.getElementById('2').style.visibility = 'none';
-          }
-      }
-      </script>
+          while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+            { 
+              $length = count($row);
+              $i = $row['item_id'];
+              foreach((array) $i as $count)
+              {
+                $query = "SELECT *,SUM(item_qty) as total_amount FROM order_details where item_id = '$count' GROUP BY item_id";
+                $resultOrderDetail = mysqli_query($dbc,$query);
+                $qtyfromOrderDeatils = mysqli_fetch_array($resultOrderDetail,MYSQLI_ASSOC);
+                $itemQty[] = $qtyfromOrderDeatils['total_amount'];
+
+              }    
+              
+            }                                         
+            ?>   
+var expected = <?php  echo json_encode($itemQty)?>;
+var ctx = document.getElementById("eoqChart");
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: expected,
+        datasets: [{
+            label: "Item Quantity",
+            data: expected,
+            backgroundColor: [
+                'rgba(38, 185, 154, 0.31)'
+            ],
+            borderColor: 
+                'rgba(38, 185, 154, 0.7)',
+            pointBorderColor: "rgba(38, 185, 154, 0.7)",
+            pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+            pointHoverBackgroundColor: "#fff",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointBorderWidth: 1,
+           
+        }]
+    },
+    
+});    
+</script>
+
+  
+
 	
   </body>
 </html>
