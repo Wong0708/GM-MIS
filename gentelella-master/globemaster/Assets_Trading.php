@@ -241,7 +241,7 @@
                   <div class="col-md-6">
                     <h3>Trading Asset <small></small></h3>
                     <br>
-                    <button>Update List</button>
+                    <button type = "submit">Update List</button>
                   </div>
                   <div class="col-md-6">
                     <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
