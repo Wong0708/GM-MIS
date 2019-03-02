@@ -198,14 +198,14 @@
                               }?>              
                             
                         </tbody>
-                        <div class="x_content; col-md-12 col-sm-9 col-xs-12 bg-white" id ="eoqchart">
-                    <canvas id="lineChart2" height = "100"></canvas>
-                    
-                  </div>
-                       
 
-                      </table>
-                      
+                        <div class="x_content; col-md-12 col-sm-9 col-xs-12 bg-white" id ="eoqchartID">
+
+                          <canvas id="eoqChart" height = "100"> </canvas>
+                    
+                        </div>
+                       
+                      </table>                     
                     </div>
                   </div>
                   
@@ -293,70 +293,63 @@
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
+      <!-- ECharts -->
+      <script src="../vendors/echarts/dist/echarts.min.js"></script>
+    <script src="../vendors/echarts/map/js/world.js"></script>
+
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
     <script>
     // Line chart
-    
-        <?php 
+
+          <?php 
             
             $query = "SELECT * FROM items_trading";
             $result=mysqli_query($dbc,$query);
+            $itemQty = array();
 
           while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
             { 
               $length = count($row);
               $i = $row['item_id'];
-              foreach((array) $row['item_id'] as $count)
+              foreach((array) $i as $count)
               {
-                $query = "SELECT *,SUM(item_qty) as total_amount FROM order_details where item_id = $count GROUP BY item_id";
+                $query = "SELECT *,SUM(item_qty) as total_amount FROM order_details where item_id = '$count' GROUP BY item_id";
                 $resultOrderDetail = mysqli_query($dbc,$query);
                 $qtyfromOrderDeatils = mysqli_fetch_array($resultOrderDetail,MYSQLI_ASSOC);
-                $itemQty = $qtyfromOrderDeatils['total_amount'];
-                echo "var expected = ".json_encode($itemQty).";";
-              
+                $itemQty[] = $qtyfromOrderDeatils['total_amount'];
+
               }    
               
-            }                              
-            
-            ?> 
-
-   
-    
-    if ($('#eoqchart').length ){	
-    
-    var ctx = document.getElementById("lineChart2");
-    var lineChart = new Chart(ctx, {
+            }                                         
+            ?>   
+var expected = <?php  echo json_encode($itemQty)?>;
+var ctx = document.getElementById("eoqChart");
+var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: expected,
-      datasets: [{
-      label: "Holding Cost",
-      backgroundColor: "rgba(38, 185, 154, 0.31)",
-      borderColor: "rgba(38, 185, 154, 0.7)",
-      pointBorderColor: "rgba(38, 185, 154, 0.7)",
-      pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
-      pointHoverBackgroundColor: "#fff",
-      pointHoverBorderColor: "rgba(220,220,220,1)",
-      pointBorderWidth: 1,
-      data: [31, 74, 6, 39, 20, 85, 7]
-      }, {
-      label: "A",
-      backgroundColor: "rgba(3, 88, 106, 0.3)",
-      borderColor: "rgba(3, 88, 106, 0.70)",
-      pointBorderColor: "rgba(3, 88, 106, 0.70)",
-      pointBackgroundColor: "rgba(3, 88, 106, 0.70)",
-      pointHoverBackgroundColor: "#fff",
-      pointHoverBorderColor: "rgba(151,187,205,1)",
-      pointBorderWidth: 1,
-      data: [82, 23, 66, 9, 99, 4, 2]
-      }]
-      
+        labels: expected,
+        datasets: [{
+            label: "Item Quantity",
+            data: expected,
+            backgroundColor: [
+                'rgba(38, 185, 154, 0.31)'
+            ],
+            borderColor: 
+                'rgba(38, 185, 154, 0.7)',
+            pointBorderColor: "rgba(38, 185, 154, 0.7)",
+            pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+            pointHoverBackgroundColor: "#fff",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointBorderWidth: 1,
+           
+        }]
     },
-    });
-
-}
+    
+});    
 </script>
+
+  
 
 	
   </body>
