@@ -173,6 +173,20 @@
                           <?php
                          
                               require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+
+                              $sqlToFormula = "SELECT * FROM ref_eoqformula";
+                              $resultOfSql = mysqli_query($dbc,$sqlToFormula);
+                    
+                              $AcquisitionCostFromDB = array();
+                              $HoldingCostFromDB = array();
+                    
+                              while($rowOfResult=mysqli_fetch_array($resultOfSql,MYSQLI_ASSOC))
+                              { 
+                                $AcquisitionCostFromDB[] = $rowOfResult['AcquisitionCost'];
+                                $HoldingCostFromDB[] = $rowOfResult['InventoryCost'];
+                              }
+                    
+
                               $query = "SELECT * FROM items_trading 
                               JOIN ref_itemtype 
                               WHERE ref_itemtype.itemtype_id = items_trading.itemtype_id";
@@ -183,9 +197,11 @@
                               $arrayofCount = array();// to give unique ID to <td> in tabol
 
                               $itemNameArray = array();
+                              $itemPrice = array();
                             while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                               { 
                                 $itemNameArray[] = $row['item_name'];
+                                $itemPrice[] = $row['price'];
 
                                 echo' <tr>';                                                       
                                   echo'<td id = itemNameRow',$count,' width="250px">';
@@ -198,13 +214,62 @@
                                
                                 $arrayofCount[] = $count;
                                 $count += 1;
+
+
                               }
+                              echo '<script text/javascript>';
+
+                              echo "var arrayCountFromPHP = ".json_encode($arrayofCount).";"; 
+                              echo "var itemNameFromPHP = ".json_encode($itemNameArray).";"; 
+                              echo "var ItemPriceFromPHP = ".json_encode($itemPrice).";"; 
+                              echo 'var AcquisitionCostFromPHP = '.json_encode($AcquisitionCostFromDB).';';
+                              echo 'var HoldingCostFromPHP = '.json_encode($HoldingCostFromDB).';';
+
+                              echo 'for(var i = 0; i < ',sizeof($arrayofCount),'; i++){';
+                                     
+                                                       
+                                echo "var ItemNameFromTable = document.getElementById('itemNameRow'+ arrayCountFromPHP[i].toString());";
+                                echo 'var getName = ItemNameFromTable.innerText;'; //Gets the TEXT inside table
+                               
+                                echo 'if(itemNameFromPHP[i].toString() == getName){';
+                                  echo 'var Price = ItemPriceFromPHP[i];';
+       
+                                  echo 'ItemNameFromTable.addEventListener("click", calculateEoQ);';                            
+                                        echo 'function calculateEoQ(){';  
+                                        echo "var eoq = Math.sqrt((2 * 800 * AcquisitionCostFromPHP[0]) / ((HoldingCostFromPHP[0]/100) * Price));";
+                                        echo 'var Final = eoq.toFixed(2);';
+                                        echo 'ItemNameFromTable.textContent = Final;';
+                                        echo 'console.log(Final);';
+                                     
+                                        echo '};'; // END Function
+                                    echo '};'; //EnD IF
+                                echo '};'; //End For 
                               
+
+                              echo '</script>';
+                              // $TheEOQ = sqrt(
+                              //   (2 * 687.5 *  $AcquisitionCostFromDB[0]) / (($HoldingCostFromDB[0]/100) * $itemPrice[$i])
+                              // );
+                    
+                              // echo round($TheEOQ, 2);
 
                               
                               ?>              
                             
                         </tbody>
+                      
+                          
+                       
+                         
+                          
+
+                              console.log(x);
+                          
+                       
+                                    
+                          
+                          
+                        
 
                         <div class="x_content; col-md-12 col-sm-9 col-xs-12 bg-white" id ="eoqchartID">
 
@@ -229,45 +294,30 @@
           </div>
           <?php
           require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-          $sqlToFormula = "SELECT * FROM ref_eoqformula";
-          $resultOfSql = mysqli_query($dbc,$sqlToFormula);
+         
 
-          $AcquisitionCostFromDB = array();
-          $HoldingCostFromDB = array();
-
-          while($rowOfResult=mysqli_fetch_array($resultOfSql,MYSQLI_ASSOC))
-          { 
-            $AcquisitionCostFromDB[] = $rowOfResult['AcquisitionCost'];
-            $HoldingCostFromDB[] = $rowOfResult['InventoryCost'];
-          }
-
-
-          $itemPrice = array();
+          // $itemPrice = array();
           
-          $queryToGetItemPrice = "SELECT * FROM items_trading";
-          $resultOfQuery=mysqli_query($dbc,$queryToGetItemPrice);
-          while($rowOfResultQuery=mysqli_fetch_array($resultOfQuery,MYSQLI_ASSOC))
-          { 
-            for($i = 0; $i < sizeof($itemNameArray); $i++)
-            {
-              if($rowOfResultQuery['item_name']==$itemNameArray[$i])
-              {
-                $itemPrice[] = $rowOfResultQuery['price'];
-                // echo  $itemPrice[$i]; 
-              }
-            }
-          }
+          // $queryToGetItemPrice = "SELECT * FROM items_trading";
+          // $resultOfQuery=mysqli_query($dbc,$queryToGetItemPrice);
+          // while($rowOfResultQuery=mysqli_fetch_array($resultOfQuery,MYSQLI_ASSOC))
+          // { 
+          //   for($i = 0; $i < sizeof($itemNameArray); $i++)
+          //   {
+          //     if($rowOfResultQuery['item_name']==$itemNameArray[$i])
+          //     {
+          //       $itemPrice[] = $rowOfResultQuery['price'];
+          //       // echo  $itemPrice[$i]; 
+          //     }
+          //   }
+          // }
 
           
           
           // echo $AcquisitionCostFromDB[0], "<br>";
           // echo $HoldingCostFromDB[0]/100;
 
-          $TheEOQ = sqrt(
-            (2 * 687.5 *  $AcquisitionCostFromDB[0]) / (($HoldingCostFromDB[0]/100) * $itemPrice[0])
-           );
-
-           echo round($TheEOQ, 2);
+          
           ?> <!-- END PHP EOQ FORMULA -->
          
        
