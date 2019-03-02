@@ -180,9 +180,12 @@
                               $result=mysqli_query($dbc,$query);
 
                               $count = 0;
-                              $arrayofCount = array();
+                              $arrayofCount = array();// to give unique ID to <td> in tabol
+
+                              $itemNameArray = array();
                             while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                               { 
+                                $itemNameArray[] = $row['item_name'];
 
                                 echo' <tr>';                                                       
                                   echo'<td id = itemNameRow',$count,' width="250px">';
@@ -195,7 +198,11 @@
                                
                                 $arrayofCount[] = $count;
                                 $count += 1;
-                              }?>              
+                              }
+                              
+
+                              
+                              ?>              
                             
                         </tbody>
 
@@ -203,21 +210,65 @@
 
                           <canvas id="eoqChart" height = "100"> </canvas>
                     
+                        </div> <!-- Canvas Div -->
+                        
+                        <div class="slidecontainer">
+                          <input type="range" min="1" max="<?php  echo "BR"; ?>" value="50" class="slider" id="rangeSlider">
+                          <p>Value: <span id="value"></span></p>
                         </div>
+
                        
                       </table>                     
                     </div>
-                  </div>
-                  
-                  <p align = "right"><button type="button" class="btn btn-success" align = "right" id="executelink">Submit</button></p>
-                 
-                  
+                  </div>             
                 </div>
                 
               </div>
             </div>
             
           </div>
+          <?php
+          require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+          $sqlToFormula = "SELECT * FROM ref_eoqformula";
+          $resultOfSql = mysqli_query($dbc,$sqlToFormula);
+
+          $AcquisitionCostFromDB = array();
+          $HoldingCostFromDB = array();
+
+          while($rowOfResult=mysqli_fetch_array($resultOfSql,MYSQLI_ASSOC))
+          { 
+            $AcquisitionCostFromDB[] = $rowOfResult['AcquisitionCost'];
+            $HoldingCostFromDB[] = $rowOfResult['InventoryCost'];
+          }
+
+
+          $itemPrice = array();
+          
+          $queryToGetItemPrice = "SELECT * FROM items_trading";
+          $resultOfQuery=mysqli_query($dbc,$queryToGetItemPrice);
+          while($rowOfResultQuery=mysqli_fetch_array($resultOfQuery,MYSQLI_ASSOC))
+          { 
+            for($i = 0; $i < sizeof($itemNameArray); $i++)
+            {
+              if($rowOfResultQuery['item_name']==$itemNameArray[$i])
+              {
+                $itemPrice[] = $rowOfResultQuery['price'];
+                // echo  $itemPrice[$i]; 
+              }
+            }
+          }
+
+          
+          
+          // echo $AcquisitionCostFromDB[0], "<br>";
+          // echo $HoldingCostFromDB[0]/100;
+
+          $TheEOQ = sqrt(
+            (2 * 687.5 *  $AcquisitionCostFromDB[0]) / (($HoldingCostFromDB[0]/100) * $itemPrice[0])
+           );
+
+           echo round($TheEOQ, 2);
+          ?> <!-- END PHP EOQ FORMULA -->
          
        
        
@@ -303,7 +354,7 @@
     // Line chart
 
           <?php 
-            
+             require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
             $query = "SELECT * FROM items_trading";
             $result=mysqli_query($dbc,$query);
             $itemQty = array();
@@ -348,6 +399,53 @@ var myChart = new Chart(ctx, {
     
 });    
 </script>
+
+
+<script>
+  var slider = document.getElementById("rangeSlider");
+  var output = document.getElementById("value");
+  output.innerHTML = slider.value;
+
+  slider.oninput = function() {
+    output.innerHTML = this.value;
+  }
+</script> <!-- Script to Get Value of OnChange from Slider -->
+  <style>
+      .slidecontainer {
+        width: 100%;
+      }
+
+      .slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 25px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+      }
+
+      .slider:hover {
+        opacity: 1;
+      }
+
+      .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        background: #4CAF50;
+        cursor: pointer;
+      }
+
+      .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        background: #4CAF50;
+        cursor: pointer;
+      }
+  </style>
 
   
 
