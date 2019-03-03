@@ -206,35 +206,36 @@
                       <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span class="required">*</span>
                       </label>
                       <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input id="customer" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="Customer Name" required="required" type="text">
+                        <input id="customer" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="Please enter the customer's name" required="required" type="text">
                       </div>
                     </div>
                     <div class="item form-group">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Contact Number <span class="required">*</span>
                       </label>
                       <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="contact" placeholder="both name(s) e.g Jon Doe" required="required" type="text">
+                        <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="contact" placeholder="Please enter the customer contact number" required="required" type="text">
                       </div>
                     </div>
                     <div class="item form-group">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Email <span class="required">*</span>
                       </label>
                       <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="email" placeholder="both name(s) e.g Jon Doe" required="required" type="email">
+                        <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="email" placeholder="Please enter the customer's e-mail address" required="required" type="email">
                       </div>
                     </div>
                     <div class="item form-group">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Address
                       </label>
                       <div class="col-md-6 col-sm-6 col-xs-12">
-                        <textarea id="textarea" name="address" class="form-control col-md-7 col-xs-12"></textarea>
+                        <textarea id="textarea" name="address" class="form-control col-md-7 col-xs-12" placeholder="Please enter the customer's delivery address"></textarea>
                       </div>
                     </div>
                     <div class="ln_solid"></div>
                     <div class="form-group">
                       <div class="col-md-6 col-md-offset-3">
                         <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                        <button id="send" type="submit" class="btn btn-success">Submit</button>
+                        <button class="btn btn-primary" data-dismiss="modal">Reset</button>
+                        <button id="send" type="submit" class="btn btn-success" onclick="confirmalert()">Submit</button>
                       </div>
                     </div>
                     <!-- Add Inventory -->
@@ -260,12 +261,10 @@
                                 $address = test_input($_POST['address']);
                                 // $status = test_input($_POST['status']);
 
-                                if(isset($_POST['submit']))
-                                {
                                   echo '<script language="javascript">';
                                   echo 'alert(Are you sure you want to enter the following data?)';  //not showing an alert box.
                                   echo '</script>';
-                                }
+                              
 
                                 $sql = "INSERT INTO clients (client_id, client_name, client_address, client_contactno, client_email)
                                   Values(
@@ -386,6 +385,14 @@
     <script>
     if ( window.history.replaceState ) {
         window.history.replaceState( null, null, window.location.href );
+    }
+    </script>
+
+    <!-- Alert Box -->
+    <script>
+    function confirmalert()
+    {
+      window.alert("Are you sure you want to enter the following data?");
     }
     </script>
 
