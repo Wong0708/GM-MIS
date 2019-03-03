@@ -193,33 +193,33 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Delivery Receipt Number </label>
                                         <div class="col-md-3 col-sm-9 col-xs-12">
-                                            <input type="text" class="form-control" disabled="disabled" placeholder="Disabled Input">
+                                            <input type="text" id = "drNumber" class="form-control" readonly="readonly" >
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Delivery Date</label>
                                         <div class="col-md-3 col-sm-9 col-xs-12">
-                                            <input type="text" class="form-control" readonly="readonly" placeholder="Read-Only Input">
+                                            <input type="text" id = "drDate" class="form-control" readonly="readonly" >
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Destination</label>
                                         <div class="col-md-3 col-sm-9 col-xs-12">
-                                            <input type="text" class="form-control" readonly="readonly" placeholder="Read-Only Input">
+                                            <input type="text" id = "drDestination" class="form-control" readonly="readonly" >
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Customer Name</label>
                                         <div class="col-md-3 col-sm-6 col-xs-6">
-                                            <input type="text" class="form-control" readonly="readonly" placeholder="Read-Only Input">
+                                            <input type="text" id = "drCusName" class="form-control" readonly="readonly" >
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Current Status</label>
                                         <div class="col-md-3 col-sm-6 col-xs-6">
-                                            <input type="text" class="form-control" readonly="readonly">
+                                            <input type="text" id = "drStatus" class="form-control" readonly="readonly">
                                         </div>
                                     </div>
 
@@ -262,15 +262,25 @@
 
                                                     $SchedDelivOrderNumber = array(); 
 
-                                                    $sqlToGetTableValue = "SELECT * FROM scheduledelivery";
+                                                    echo ( $_POST['delivrow0']);
+                                                    
+                                                    
+                                                    $sqlToGetTableValue = "SELECT * FROM scheduledelivery ORDER BY ordernumber";
                                                     $resultofQuery2 = mysqli_query($dbc, $sqlToGetTableValue);
                                                     while($rowofResult2=mysqli_fetch_array($resultofQuery2,MYSQLI_ASSOC))
                                                     {
                                                         $SchedDelivOrderNumber[] = $rowofResult2['ordernumber'];
                                                         // echo $rowofResult2['ordernumber'];
                                                     }
-                                                    for($i = 0; $i < sizeof($orderNumberArray); $i++)
-                                                    {
+                                                    for($i = 0; $i < sizeof($SchedDelivOrderNumber); $i++)
+                                                    { 
+                                                       
+                                                       
+                                                        echo "OR from Array =", $orderNumberArray[$i], "<br>"; 
+                                                        echo "Dr OR = ",$SchedDelivOrderNumber[$i],"<br>";
+                                                        echo "Item Name: ", $itemName[$i], "<br>";
+
+                                                      
                                                         if($orderNumberArray[$i] == $SchedDelivOrderNumber[$i])
                                                         {
                                                             echo '<tr>';                                                                 
@@ -283,11 +293,12 @@
                                                                 echo '<td>';
                                                                 echo $pricePerItem[$i];
                                                                 echo '</td>';                                                                   
-                                                            echo '</tr>';
-                                                        }
-                                                        echo "SchedNUM = ", $SchedDelivOrderNumber[$i] ,"<br>";
+                                                            echo '</tr>';              
 
-                                                       echo $orderNumberArray[$i], "<br>";
+                                                        }
+                                                        // echo "SchedNUM = ", $SchedDelivOrderNumber[$i] ,"<br>";
+
+                                                    //    echo $orderNumberArray[$i], "<br>";
                                                     }
                                                
                                                    

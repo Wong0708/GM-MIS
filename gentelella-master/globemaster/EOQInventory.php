@@ -225,25 +225,33 @@
                               echo 'var AcquisitionCostFromPHP = '.json_encode($AcquisitionCostFromDB).';';
                               echo 'var HoldingCostFromPHP = '.json_encode($HoldingCostFromDB).';';
 
-                              echo 'for(var i = 0; i < ',sizeof($arrayofCount),'; i++){';
+                              echo 'for(var i = 0; i < '.sizeof($itemNameArray).'; i++){';
                                      
                                                        
                                 echo "var ItemNameFromTable = document.getElementById('itemNameRow'+ arrayCountFromPHP[i].toString());";
                                 echo 'var getName = ItemNameFromTable.innerText;'; //Gets the TEXT inside table
+                                echo 'var nameArray = [];';
+                                echo 'nameArray.push(getName);';
                                
-                                echo 'if(itemNameFromPHP[i].toString() == getName){';
-                                  echo 'var Price = ItemPriceFromPHP[i];';
-       
-                                  echo 'ItemNameFromTable.addEventListener("click", calculateEoQ);';                            
-                                        echo 'function calculateEoQ(){';  
-                                        echo "var eoq = Math.sqrt((2 * 800 * AcquisitionCostFromPHP[0]) / ((HoldingCostFromPHP[0]/100) * Price));";
-                                        echo 'var Final = eoq.toFixed(2);';
-                                        echo 'ItemNameFromTable.textContent = Final;';
-                                        echo 'console.log(Final);';
-                                     
-                                        echo '};'; // END Function
-                                    echo '};'; //EnD IF
-                                echo '};'; //End For 
+
+                                // echo 'for(var j = 0; j < '.sizeof($itemNameArray).'; j++){';
+                                 
+
+                                  echo 'if(itemNameFromPHP[i].toString() == nameArray[i]){'; //WIP
+                                    echo 'var Price = ItemPriceFromPHP[i];';
+        
+                                    echo 'ItemNameFromTable.addEventListener("click", calculateEoQ);'; 
+
+                                          echo 'function calculateEoQ(){';  
+                                          echo "var eoq = Math.sqrt((2 * 800 * AcquisitionCostFromPHP[0]) / ((HoldingCostFromPHP[0]/100) * Price));";
+                                          echo 'var Final = eoq.toFixed(2);';
+                                          echo 'ItemNameFromTable.textContent = Final;';
+                                          echo 'console.log(Price);';
+                                            
+                                          echo '};'; // END Function
+                                        echo '};'; //EnD IF
+                                      // echo '};'; //End 2nd For 
+                                echo '};'; //End 1st For 
                               
 
                               echo '</script>';
@@ -256,20 +264,7 @@
                               
                               ?>              
                             
-                        </tbody>
-                      
-                          
-                       
-                         
-                          
-
-                              console.log(x);
-                          
-                       
-                                    
-                          
-                          
-                        
+                        </tbody>                                              
 
                         <div class="x_content; col-md-12 col-sm-9 col-xs-12 bg-white" id ="eoqchartID">
 
@@ -278,8 +273,24 @@
                         </div> <!-- Canvas Div -->
                         
                         <div class="slidecontainer">
-                          <input type="range" min="1" max="<?php  echo "BR"; ?>" value="50" class="slider" id="rangeSlider">
+                          <input type="range" min="1" max="50" value="50" class="slider" id="rangeSlider"> </input>
+                         
                           <p>Value: <span id="value"></span></p>
+                          Set Estimated Annual Demand: <input id = "maxInput" type ="number" min = "0"> </input>
+                          <!-- <script>
+                            $('#maxInput').keydown(function (event) 
+                            {
+                              var keypressed = event.keyCode || event.which;
+                              if (keypressed == 13) 
+                              {
+                                $("#maxInput").attr({
+                                    "max" : maxInput
+                                    
+                                  });
+                              } //End IF
+                            }); //End Function
+                          </script> -->
+                          
                         </div>
 
                        

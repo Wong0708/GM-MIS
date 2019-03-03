@@ -198,7 +198,7 @@
                   </div>
                   <div class="x_content">
                    
-					
+                  <form method = "POST" action = "Delivery Receipt.php">
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
@@ -207,7 +207,7 @@
                           <th>Driver</th>
                           <th>Truck #</th>
                           <th>Customer</th>
-                          <th>Destination</th>                          >                          
+                          <th>Destination</th>                                                   
                           <th>Status</th>
                         </tr>
                       </thead>
@@ -229,12 +229,16 @@
 
                             $querytogetDBTable = "SELECT * FROM scheduledelivery";
                             $resultofQuery =  mysqli_query($dbc, $querytogetDBTable);
+                            $count = 0;
+                            $postmalone;
                             while($rowofResult=mysqli_fetch_array($resultofQuery,MYSQLI_ASSOC))
                             {
+
                               echo " <tr>";
-                                echo '<td> <a  a href="Delivery Receipt.php">';
+                                echo '<td  name = "delivrow',$count,'"> <input type="hidden" name = "delivrow',$count,'"  value ="',$rowofResult['delivery_Receipt'],'"><a href="Delivery Receipt.php">';
+                                 
                                 echo $rowofResult['delivery_Receipt'];
-                                echo '</a></td>';  
+                                echo '</input></a></td>';  
                                 echo '<td>';
                                 echo $rowofResult['delivery_Date'];
                                 echo '</td>'; 
@@ -254,12 +258,21 @@
                                 echo $rowofResult['delivery_status'];
                                 echo '</td>';
                               echo "</tr>";
+                              $count++;
+                              
+                                if(isset($_POST["delivrow".$count ]))
+                                {
+                                  echo $_POST["delivrow".$count ];  
+                                }
+                                
+                              // echo $_POST["delivRow',$count,'"];
                             };
                           ?>
                         </tr>
                         
                       </tbody>
                     </table>
+                    </form>
 					
 					
                   </div>
