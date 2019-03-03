@@ -204,7 +204,7 @@
                 </div>
 
                 <!-- Add Data module -->
-                <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target=".bs-example-modal-lg"><i class = "fa fa-plus"></i> Add Data</button>
+                <!-- <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target=".bs-example-modal-lg"><i class = "fa fa-plus"></i> Add Data</button>
 
                 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
                   <div class="modal-dialog modal-lg">
@@ -313,9 +313,9 @@
                             <br>
                             <br>
                             <button type="submit" class="btn btn-success btn-lg" name = "submit" value = "submit">Submit </button>
-                            <button type="reset" class="btn btn-danger btn-lg">Reset </button>
+                            <button type="reset" class="btn btn-danger btn-lg">Reset </button> -->
                             <!-- php start -->
-                            <?php
+                            <!-- <?php
                             $year = $jan = $feb = $mar = $apr = $may = $jun = $jul = $aug = $sept = $oct = $nov = $dec = "";
 
                               if($_SERVER["REQUEST_METHOD"] == "POST")
@@ -347,9 +347,9 @@
 
                              
                              $test1 = array (112, 223, 334, 445, 445, 556, 775, 889)          
-                            ?>
+                            ?> -->
                             <!-- php end -->
-                          </div>
+                          <!-- </div>
                         </div>
 
                         
@@ -358,7 +358,7 @@
                     </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <!-- End Add Data Modal -->
                 
                 
