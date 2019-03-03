@@ -9,26 +9,22 @@ if(isset($_POST['login']))
     require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
     $checkuser = "SELECT * FROM gm_users WHERE username = '{$_SESSION['username']}' AND password = '{$_SESSION['password']}'";
     $result=mysqli_query($dbc,$checkuser);
-    
-    
-    
-    if(mysqli_num_rows($result) > 0) 
-        {
-            header("Location: http://".$_SERVER['HTTP_HOST'].
-                dirname($_SERVER['PHP_SELF'])."/MainDashboard.php");
-          //print_r ($result);
-          //echo print_r ($row);
-            
-        }
-        else
-        {
-            echo $error = "Invalid login, please try again";
-            $message = "Please try again.";
-            //echo $_SESSION['username'];
-            //echo $_SESSION['password'];
-            
-        }
-}
+    $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
+    if(mysqli_num_rows($result) > 0)
+    {
+        $_SESSION["username"] = $row["username"];
+        $_SESSION["usertype"] = $row["usertype_id"];
+        $_SESSION["firstname"] = $row["first_name"];
+        $_SESSION["lastname"] = $row["last_name"];
+
+        header("Location: http://".$_SERVER['HTTP_HOST'].
+            dirname($_SERVER['PHP_SELF'])."/MainDashboard.php");
+    }
+    else
+    {
+        $error = "Invalid login, please try again.";
+    }
+  }
 ?>
 
 <!DOCTYPE html>
@@ -64,7 +60,7 @@ if(isset($_POST['login']))
             <div><img src = "images/GM LOGO.png" style = "width:100%;height:40%" class = "center" alt = "Globe Master Logo Here!">
             </div>
               <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
-              <h1>Hello!</h1>
+              <h1><font color = "#082656">Welcome! </font>  </h1>
               <div>
                 <input type="text" class="form-control" id="loginuser" name="loginuser" placeholder="Username" required />
               </div>
@@ -72,8 +68,15 @@ if(isset($_POST['login']))
                 <input type="password" class="form-control" id="loginpass" name="loginpass" placeholder="Password" required />
               </div>
               <div>
-                <button class="btn btn-default submit" name="login">Log in</button>
-                <button class="reset_pass" href="#">Lost your password?</button>
+                <button class="btn btn-success submit" name="login">Log in</button>
+                <br>
+                <br>
+                <?php 
+                  if(isset($error))
+                  {
+                    echo "<h4><b><font color ='red'> $error</font></h4>";
+                  } 
+                ?>
               </div>
 
               <div class="clearfix"></div>
@@ -83,9 +86,11 @@ if(isset($_POST['login']))
                 <br>
 
                 <div>
+                  <font color = "black">
                   <p>Created by:</p>
                   <h1><i class="fa fa-hand-o-right"></i> G S M - Wong</h1> <!-- Replace Icon with Group Logo -->
                   <p>All rights reserved.</p>
+                  </font>
                 </div>
               </div>
             </form>
