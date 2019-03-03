@@ -42,7 +42,7 @@
         
             <!-- /menu profile quick info -->
 
-            <br />
+            
 
             <!-- sidebar menu -->
             <?php
@@ -50,14 +50,8 @@
         ?>
               
 
-            </div>
-            <!-- /sidebar menu -->
-
-            <!-- /menu footer buttons -->
             
-            <!-- /menu footer buttons -->
-          </div>
-        
+        </div>
 
        
 
