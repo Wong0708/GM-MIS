@@ -34,135 +34,11 @@
 <body class="nav-md">
     <div class="container body">
         <div class="main_container">
-            <div class="col-md-3 left_col">
-                <div class="left_col scroll-view">
-                    <div class="navbar nav_title" style="border: 0;">
-                        <a href="MainDashboard.html" class="site_title"><i class="fa fa-paw"></i><!-- replace with GM Logo --> <span>Globe Master</span></a>
-                    </div>
-
-                    <div class="clearfix"></div>
-
-                    <!-- menu profile quick info -->
-                    <div class="profile clearfix">
-                        <div class="profile_pic">
-                            <img src="images/img.jpg" alt="..." class="img-circle profile_img">
-                        </div>
-                        <div class="profile_info">
-                            <span>Welcome,</span>
-                            <h2>John Doe</h2>
-                        </div>
-                    </div>
-                    <!-- /menu profile quick info -->
-
-                    <br />
-
-                    <!-- sidebar menu -->
-                    <?php
-        require_once("nav.php");    
-        ?>
-                        
-            </div>
+            <?php
+                require_once("nav.php");    
+            ?>
+        </div>
             <!-- /sidebar menu -->
-
-                    </div>
-                </div>
-
-                <!-- top navigation -->
-                <div class="top_nav">
-                    <div class="nav_menu">
-                        <nav>
-                            <div class="nav toggle">
-                                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
-                            </div>
-
-                            <ul class="nav navbar-nav navbar-right">
-                                <li class="">
-                                    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        <img src="images/img.jpg" alt="">John Doe
-                                        <span class=" fa fa-angle-down"></span>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                        <li><a href="javascript:;"> Profile</a></li>
-                                        <li>
-                                            <a href="javascript:;">
-                                                <span class="badge bg-red pull-right">50%</span>
-                                                <span>Settings</span>
-                                            </a>
-                                        </li>
-                                        <li><a href="javascript:;">Help</a></li>
-                                        <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
-                                    </ul>
-                                </li>
-
-                                <li role="presentation" class="dropdown">
-                                    <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa fa-envelope-o"></i>
-                                        <span class="badge bg-green">6</span>
-                                    </a>
-                                    <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                                        <li>
-                                            <a>
-                                                <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                                <span>
-                                                    <span>John Smith</span>
-                                                    <span class="time">3 mins ago</span>
-                                                </span>
-                                                <span class="message">
-                                                    Film festivals used to be do-or-die moments for movie makers. They were where...
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a>
-                                                <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                                <span>
-                                                    <span>John Smith</span>
-                                                    <span class="time">3 mins ago</span>
-                                                </span>
-                                                <span class="message">
-                                                    Film festivals used to be do-or-die moments for movie makers. They were where...
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a>
-                                                <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                                <span>
-                                                    <span>John Smith</span>
-                                                    <span class="time">3 mins ago</span>
-                                                </span>
-                                                <span class="message">
-                                                    Film festivals used to be do-or-die moments for movie makers. They were where...
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a>
-                                                <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                                <span>
-                                                    <span>John Smith</span>
-                                                    <span class="time">3 mins ago</span>
-                                                </span>
-                                                <span class="message">
-                                                    Film festivals used to be do-or-die moments for movie makers. They were where...
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <div class="text-center">
-                                                <a>
-                                                    <strong>See All Alerts</strong>
-                                                    <i class="fa fa-angle-right"></i>
-                                                </a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                <!-- /top navigation -->
 
                 <!-- page content -->
                 <div class="right_col" role="main">
@@ -197,7 +73,7 @@
                   <div class="x_content">
                     <br>
 
-                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-center" novalidate=""  method = "POST">
+                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-center"  method = "POST">
                     <div class="form-group" >
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" >Order Number: 
                         </label>
@@ -229,7 +105,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Expected Date: 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input style=" width:250px"; id="expectedDate" name = "expectedDate" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
+                          <input style=" width:250px"; id="expectedDate" name = "expectedDate" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly" required>
                         </div>
                       </div>
                      
@@ -237,7 +113,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Delivery Date:
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input class="deliveryDate"  type="date"  style=" width:250px"id="deliveryDate" name="deliveryDate"  min="<?php echo date("Y-m-d", strtotime("+1days")); ?>">
+                          <input class="deliveryDate"  type="date"  style=" width:250px"id="deliveryDate" name="deliveryDate"  min="<?php echo date("Y-m-d", strtotime("+1days")); ?>" required/>
                             <style>
                                     .deliveryDate {
                                         -moz-appearance:textfield;
@@ -323,7 +199,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" align="left">
                           <button class="btn btn-danger" type="button">Cancel</button>
 						  <button class="btn btn-primary" type="reset">Reset</button>
-                          <button type="submit" name = "submitDeliveryReceipt" class="btn btn-success">Submit</button>
+                          <button type="submit" name = "submitDeliveryReceipt" class="btn btn-success" >Submit</button>
 
                            <?php
                             if(isset($_POST['submitDeliveryReceipt']))
@@ -336,7 +212,7 @@
                                         $truckPlateFromHTML = $_POST['truckPlate'];
                                         $customerNameFromHTML = $_POST['customerName'];
                                         $destinationFromHTML = $_POST['locationFromClient'];
-
+                                        $SelectOrderNumber = $_POST['selectItemtype'];
 
                                         $query = "SELECT count(delivery_Receipt) as Count FROM mydb.scheduledelivery;";
                                         $resultofQuery = mysqli_query($dbc, $query);
@@ -350,29 +226,52 @@
                                         $rowResultItemID = mysqli_fetch_assoc($resultItemID);
                                         $SchedID = $rowResultItemID['Count']; // Get SchedID and Add 1 for DR - 
 
-                                        $insertQuery = "INSERT INTO scheduledelivery(
-                                        SchedID,
-                                        delivery_Receipt,
-                                        delivery_Date,
-                                        driver,
-                                        truck_Number,
-                                        customer_Name,
-                                        Destination,
-                                        delivery_status)
-                                        
-                                        VALUES('$SchedID',
-                                        '$deliveryReceipt',
-                                        '$dateFromHTML',
-                                        '$driverFromHTML',
-                                        '$truckPlateFromHTML',
-                                        '$customerNameFromHTML',
-                                        '$destinationFromHTML',
-                                        'IP');"; //Insert Required Element from HTML to DB
 
-                                         $result=mysqli_query($dbc,$insertQuery);
+
+                                        $orderNumArray = array();
+                                        $queryOrderDetails = "SELECT ordernumber from order_details WHERE item_status = 'Deliver'";
+                                        $resultOrderDetails = mysqli_query($dbc,$queryOrderDetails);
+                                        while($rowResult = mysqli_fetch_array($resultOrderDetails))
+                                        {
+                                            $orderNumArray[] = $rowResult['ordernumber'];
+                                        };
+
+                                        for($i = 0; $i < sizeof($orderNumArray); $i++)
+                                        {
+                                            echo $orderNumArray[$i];
+                                            if($orderNumArray[$i] == $SelectOrderNumber) //Inserts Values based on Ordernumber to secure details 
+                                            {
+                                                
+                                                $insertQuery = "INSERT INTO scheduledelivery(
+                                                    SchedID,
+                                                    delivery_Receipt,
+                                                    ordernumber,
+                                                    delivery_Date,
+                                                    driver,
+                                                    truck_Number,
+                                                    customer_Name,
+                                                    Destination,
+                                                    delivery_status)
+                                                    
+                                                    VALUES('$SchedID',
+                                                    '$deliveryReceipt',
+                                                    '$SelectOrderNumber',
+                                                    '$dateFromHTML',
+                                                    '$driverFromHTML',
+                                                    '$truckPlateFromHTML',
+                                                    '$customerNameFromHTML',
+                                                    '$destinationFromHTML',
+                                                    'IP');"; //Insert Required Element from HTML to DB
+            
+                                                $result=mysqli_query($dbc,$insertQuery);
+                                                $SchedID++; //Add +1 to Primary to Avoid Error on Duplicate key
+                                                $deliveryReceipt++;
+                                            }                                        
+                                        };
+                                       
                                         
 
-                                        $SelectOrderNumber = $_POST['selectItemtype'];
+                                        
                                         $OrderNumArray = array();
                                         $OrderDetailID = array();
 
@@ -389,40 +288,16 @@
                                             if($OrderNumArray[$i] == $SelectOrderNumber)
                                             {
                                                $TEMP = $OrderDetailID[$i];
-                                               echo $TEMP;
-                                               $replaceQuery = "REPLACE INTO order_details (orderdetailID, item_status)
-                                                VALUES ('$TEMP', 'IP');";
-                                                $replaceResult =  mysqli_query($dbc,$replaceQuery);
+                                              
+                                                $replaceQuery = "UPDATE order_details 
+                                                set item_status = 'IP'
+                                                where orderdetailID = '$TEMP' AND item_status = 'Deliver';";
+                                                $replaceResult =  mysqli_query($dbc,$replaceQuery); //Update Order_details table to replace 'Delvier' with 'IP'
                                             }
-                                        }
-
-                                        //  echo $SchedID;
-                                        //  echo $deliveryReceipt;
-                                        // echo $dateFromHTML;
-                                        // echo  $driverFromHTML;
-                                        // echo $truckPlateFromHTML;
-                                        // echo $customerNameFromHTML;
-                                        // echo $destinationFromHTML;
-                                        
+                                        }                                        
                                     }    
 
                             ?>
-                             <!-- <script>
-                            function getConfirmation() 
-                            {
-                              var retVal = confirm("Do you want to continue ?");
-                                if( retVal == true ) 
-                                {
-                                    
-                                    return true;
-                                } 
-                                else 
-                                {
-                                    
-                                    return false;
-                                }
-                            }
-                            </script> -->
                         </div>
                       </div>
 

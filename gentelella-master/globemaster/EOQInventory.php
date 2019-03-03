@@ -43,105 +43,10 @@
   <body class="nav-md">
     <div class="container body">
       <div class="main_container">
-        <div class="col-md-3 left_col">
-          <div class="left_col scroll-view">
-            <div class="navbar nav_title" style="border: 0;">
-              <a href="MainDashboard.html" class="site_title"><i class="fa fa-paw"></i><!-- replace with GM Logo --> <span>Globe Master</span></a>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <!-- menu profile quick info -->
-            <div class="profile clearfix">
-              <div class="profile_pic">
-                <img src="images/img.jpg" alt="..." class="img-circle profile_img">
-              </div>
-              <div class="profile_info">
-                <span>Welcome,</span>
-                <h2>John Doe</h2>
-              </div>
-            </div>
-            <!-- /menu profile quick info -->
-
-            <br />
-
-            <!-- sidebar menu -->
-            <?php
-        require_once("nav.php");    
+        <?php
+          require_once("nav.php");    
         ?>
-              
-
-            </div>
-            <!-- /sidebar menu -->
-
-            <!-- /menu footer buttons -->
-            
-            <!-- /menu footer buttons -->
-          </div>
-        </div>
-
-        <!-- top navigation -->
-        <div class="top_nav">
-          <div class="nav_menu">
-            <nav>
-              <div class="nav toggle">
-                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
-              </div>
-
-              <ul class="nav navbar-nav navbar-right">
-                <li class="">
-                  <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="">John Doe
-                    <span class=" fa fa-angle-down"></span>
-                  </a>
-                  <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;"> Profile</a></li>
-                    <li>
-                      <a href="javascript:;">
-                        <span class="badge bg-red pull-right">50%</span>
-                        <span>Settings</span>
-                      </a>
-                    </li>
-                    <li><a href="javascript:;">Help</a></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
-                  </ul>
-                </li>
-
-                <li role="presentation" class="dropdown">
-                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-envelope-o"></i>
-                    <span class="badge bg-green">6</span>
-                  </a>
-                  <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                   
-                    <li>
-                      <a>
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <div class="text-center">
-                        <a>
-                          <strong>See All Alerts</strong>
-                          <i class="fa fa-angle-right"></i>
-                        </a>
-                      </div>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-        <!-- /top navigation -->
-
+      </div>
         <!-- page content -->
         <div class="right_col" role="main">
           <!-- top tiles -->
@@ -173,6 +78,20 @@
                           <?php
                          
                               require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+
+                              $sqlToFormula = "SELECT * FROM ref_eoqformula";
+                              $resultOfSql = mysqli_query($dbc,$sqlToFormula);
+                    
+                              $AcquisitionCostFromDB = array();
+                              $HoldingCostFromDB = array();
+                    
+                              while($rowOfResult=mysqli_fetch_array($resultOfSql,MYSQLI_ASSOC))
+                              { 
+                                $AcquisitionCostFromDB[] = $rowOfResult['AcquisitionCost'];
+                                $HoldingCostFromDB[] = $rowOfResult['InventoryCost'];
+                              }
+                    
+
                               $query = "SELECT * FROM items_trading 
                               JOIN ref_itemtype 
                               WHERE ref_itemtype.itemtype_id = items_trading.itemtype_id";
@@ -180,9 +99,14 @@
                               $result=mysqli_query($dbc,$query);
 
                               $count = 0;
-                              $arrayofCount = array();
+                              $arrayofCount = array();// to give unique ID to <td> in tabol
+
+                              $itemNameArray = array();
+                              $itemPrice = array();
                             while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                               { 
+                                $itemNameArray[] = $row['item_name'];
+                                $itemPrice[] = $row['price'];
 
                                 echo' <tr>';                                                       
                                   echo'<td id = itemNameRow',$count,' width="250px">';
@@ -195,29 +119,122 @@
                                
                                 $arrayofCount[] = $count;
                                 $count += 1;
-                              }?>              
-                            
-                        </tbody>
-                        <div class="x_content; col-md-12 col-sm-9 col-xs-12 bg-white" id ="eoqchart">
-                    <canvas id="lineChart2" height = "100"></canvas>
-                    
-                  </div>
-                       
 
-                      </table>
-                      
+
+                              }
+                              echo '<script text/javascript>';
+
+                              echo "var arrayCountFromPHP = ".json_encode($arrayofCount).";"; 
+                              echo "var itemNameFromPHP = ".json_encode($itemNameArray).";"; 
+                              echo "var ItemPriceFromPHP = ".json_encode($itemPrice).";"; 
+                              echo 'var AcquisitionCostFromPHP = '.json_encode($AcquisitionCostFromDB).';';
+                              echo 'var HoldingCostFromPHP = '.json_encode($HoldingCostFromDB).';';
+
+                              echo 'for(var i = 0; i < '.sizeof($itemNameArray).'; i++){';
+                                     
+                                                       
+                                echo "var ItemNameFromTable = document.getElementById('itemNameRow'+ arrayCountFromPHP[i].toString());";
+                                echo 'var getName = ItemNameFromTable.innerText;'; //Gets the TEXT inside table
+                                echo 'var nameArray = [];';
+                                echo 'nameArray.push(getName);';
+                               
+
+                                // echo 'for(var j = 0; j < '.sizeof($itemNameArray).'; j++){';
+                                 
+
+                                  echo 'if(itemNameFromPHP[i].toString() == nameArray[i]){'; //WIP
+                                    echo 'var Price = ItemPriceFromPHP[i];';
+        
+                                    echo 'ItemNameFromTable.addEventListener("click", calculateEoQ);'; 
+
+                                          echo 'function calculateEoQ(){';  
+                                          echo "var eoq = Math.sqrt((2 * 800 * AcquisitionCostFromPHP[0]) / ((HoldingCostFromPHP[0]/100) * Price));";
+                                          echo 'var Final = eoq.toFixed(2);';
+                                          echo 'ItemNameFromTable.textContent = Final;';
+                                          echo 'console.log(Price);';
+                                            
+                                          echo '};'; // END Function
+                                        echo '};'; //EnD IF
+                                      // echo '};'; //End 2nd For 
+                                echo '};'; //End 1st For 
+                              
+
+                              echo '</script>';
+                              // $TheEOQ = sqrt(
+                              //   (2 * 687.5 *  $AcquisitionCostFromDB[0]) / (($HoldingCostFromDB[0]/100) * $itemPrice[$i])
+                              // );
+                    
+                              // echo round($TheEOQ, 2);
+
+                              
+                              ?>              
+                            
+                        </tbody>                                              
+
+                        <div class="x_content; col-md-12 col-sm-9 col-xs-12 bg-white" id ="eoqchartID">
+
+                          <canvas id="eoqChart" height = "100"> </canvas>
+                    
+                        </div> <!-- Canvas Div -->
+                        
+                        <div class="slidecontainer">
+                          <input type="range" min="1" max="50" value="50" class="slider" id="rangeSlider"> </input>
+                         
+                          <p>Value: <span id="value"></span></p>
+                          Set Estimated Annual Demand: <input id = "maxInput" type ="number" min = "0"> </input>
+                          <!-- <script>
+                            $('#maxInput').keydown(function (event) 
+                            {
+                              var keypressed = event.keyCode || event.which;
+                              if (keypressed == 13) 
+                              {
+                                $("#maxInput").attr({
+                                    "max" : maxInput
+                                    
+                                  });
+                              } //End IF
+                            }); //End Function
+                          </script> -->
+                          
+                        </div>
+
+                       
+                      </table>                     
                     </div>
-                  </div>
-                  
-                  <p align = "right"><button type="button" class="btn btn-success" align = "right" id="executelink">Submit</button></p>
-                 
-                  
+                  </div>             
                 </div>
                 
               </div>
             </div>
             
           </div>
+          <?php
+          require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+         
+
+          // $itemPrice = array();
+          
+          // $queryToGetItemPrice = "SELECT * FROM items_trading";
+          // $resultOfQuery=mysqli_query($dbc,$queryToGetItemPrice);
+          // while($rowOfResultQuery=mysqli_fetch_array($resultOfQuery,MYSQLI_ASSOC))
+          // { 
+          //   for($i = 0; $i < sizeof($itemNameArray); $i++)
+          //   {
+          //     if($rowOfResultQuery['item_name']==$itemNameArray[$i])
+          //     {
+          //       $itemPrice[] = $rowOfResultQuery['price'];
+          //       // echo  $itemPrice[$i]; 
+          //     }
+          //   }
+          // }
+
+          
+          
+          // echo $AcquisitionCostFromDB[0], "<br>";
+          // echo $HoldingCostFromDB[0]/100;
+
+          
+          ?> <!-- END PHP EOQ FORMULA -->
          
        
        
@@ -293,70 +310,110 @@
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
+      <!-- ECharts -->
+      <script src="../vendors/echarts/dist/echarts.min.js"></script>
+    <script src="../vendors/echarts/map/js/world.js"></script>
+
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
     <script>
     // Line chart
-    
-        <?php 
-            
+
+          <?php 
+             require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
             $query = "SELECT * FROM items_trading";
             $result=mysqli_query($dbc,$query);
+            $itemQty = array();
 
           while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
             { 
               $length = count($row);
               $i = $row['item_id'];
-              foreach((array) $row['item_id'] as $count)
+              foreach((array) $i as $count)
               {
-                $query = "SELECT *,SUM(item_qty) as total_amount FROM order_details where item_id = $count GROUP BY item_id";
+                $query = "SELECT *,SUM(item_qty) as total_amount FROM order_details where item_id = '$count' GROUP BY item_id";
                 $resultOrderDetail = mysqli_query($dbc,$query);
                 $qtyfromOrderDeatils = mysqli_fetch_array($resultOrderDetail,MYSQLI_ASSOC);
-                $itemQty = $qtyfromOrderDeatils['total_amount'];
-                echo "var expected = ".json_encode($itemQty).";";
-              
+                $itemQty[] = $qtyfromOrderDeatils['total_amount'];
+
               }    
               
-            }                              
-            
-            ?> 
-
-   
-    
-    if ($('#eoqchart').length ){	
-    
-    var ctx = document.getElementById("lineChart2");
-    var lineChart = new Chart(ctx, {
+            }                                         
+            ?>   
+var expected = <?php  echo json_encode($itemQty)?>;
+var ctx = document.getElementById("eoqChart");
+var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: expected,
-      datasets: [{
-      label: "Holding Cost",
-      backgroundColor: "rgba(38, 185, 154, 0.31)",
-      borderColor: "rgba(38, 185, 154, 0.7)",
-      pointBorderColor: "rgba(38, 185, 154, 0.7)",
-      pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
-      pointHoverBackgroundColor: "#fff",
-      pointHoverBorderColor: "rgba(220,220,220,1)",
-      pointBorderWidth: 1,
-      data: [31, 74, 6, 39, 20, 85, 7]
-      }, {
-      label: "A",
-      backgroundColor: "rgba(3, 88, 106, 0.3)",
-      borderColor: "rgba(3, 88, 106, 0.70)",
-      pointBorderColor: "rgba(3, 88, 106, 0.70)",
-      pointBackgroundColor: "rgba(3, 88, 106, 0.70)",
-      pointHoverBackgroundColor: "#fff",
-      pointHoverBorderColor: "rgba(151,187,205,1)",
-      pointBorderWidth: 1,
-      data: [82, 23, 66, 9, 99, 4, 2]
-      }]
-      
+        labels: expected,
+        datasets: [{
+            label: "Item Quantity",
+            data: expected,
+            backgroundColor: [
+                'rgba(38, 185, 154, 0.31)'
+            ],
+            borderColor: 
+                'rgba(38, 185, 154, 0.7)',
+            pointBorderColor: "rgba(38, 185, 154, 0.7)",
+            pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+            pointHoverBackgroundColor: "#fff",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointBorderWidth: 1,
+           
+        }]
     },
-    });
-
-}
+    
+});    
 </script>
+
+
+<script>
+  var slider = document.getElementById("rangeSlider");
+  var output = document.getElementById("value");
+  output.innerHTML = slider.value;
+
+  slider.oninput = function() {
+    output.innerHTML = this.value;
+  }
+</script> <!-- Script to Get Value of OnChange from Slider -->
+  <style>
+      .slidecontainer {
+        width: 100%;
+      }
+
+      .slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 25px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+      }
+
+      .slider:hover {
+        opacity: 1;
+      }
+
+      .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        background: #4CAF50;
+        cursor: pointer;
+      }
+
+      .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        background: #4CAF50;
+        cursor: pointer;
+      }
+  </style>
+
+  
 
 	
   </body>

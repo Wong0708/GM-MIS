@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>DataTables | Inventory</title>
+    <title>GM MIS | View Deliveries</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -32,55 +32,250 @@
     <div class="container body">
       <div class="main_container">
         
-
-            
-			
-			<?php
+            <!-- sidebar menu -->
+            <?php
         require_once("nav.php");    
         ?>
-		
-		<!-- sidebar menu -->
-            
 
             
-            <!-- /sidebar menu -->
+        </div>
 
-            <!-- /menu footer buttons -->
-            
-            <!-- /menu footer buttons -->
+        <!-- top navigation -->
+        <div class="top_nav">
+          <div class="nav_menu">
+            <nav>
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                  <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <img src="images/img.jpg" alt="">John Doe
+                    <span class=" fa fa-angle-down"></span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-usermenu pull-right">
+                    <li><a href="javascript:;"> Profile</a></li>
+                    <li>
+                      <a href="javascript:;">
+                        <span class="badge bg-red pull-right">50%</span>
+                        <span>Settings</span>
+                      </a>
+                    </li>
+                    <li><a href="javascript:;">Help</a></li>
+                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                  </ul>
+                </li>
+
+                <li role="presentation" class="dropdown">
+                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-envelope-o"></i>
+                    <span class="badge bg-green">6</span>
+                  </a>
+                  <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                    <li>
+                      <a>
+                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <div class="text-center">
+                        <a>
+                          <strong>See All Alerts</strong>
+                          <i class="fa fa-angle-right"></i>
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
           </div>
-        
-
+        </div>
+        <!-- /top navigation -->
 
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                  <h1>Globemaster Inventory<br></h1>
+                <h3>Sales Invoice Generation</h3>
               </div>
-                <small>This is where the users will be able to add and remove inventory based on the data tables provided by the company. These can be editable and can be subjected to changes in accordance to the
-                  desires of the head</small> <br>
+
+              
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
 
-              <div class="clearfix"></div>
+
+            <!-- Add Delivery Modal -->
+            <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target=".bs-example-modal-lg"><i class = "fa fa-plus"></i> Generate Invoice</button>
+            
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Add Delivery Schedule</h4>
+                  </div>
+
+                  <div class = "modal-body">
+                  <form class="form-horizontal form-label-left" novalidate>
+
+                    <p>For alternative validation library <code>parsleyJS</code> check out in the <a href="form.html">form page</a>
+                    </p>
+                    <span class="section">Personal Info</span>
+
+                    <div class="item form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Customer <span class="required">*</span>
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="customer" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="customer" placeholder="Customer Name" required="required" type="text">
+                      </div>
+                    </div>
+                    <div class="item form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Truck Number <span class="required">*</span>
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" required="required" type="text">
+                      </div>
+                    </div>
+                    <div class="item form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Driver <span class="required">*</span>
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" required="required" type="text">
+                      </div>
+                    </div>
+                    <div class="item form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Destination <span class="required">*</span>
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" required="required" type="text">
+                      </div>
+                    </div>
+                    <div class="item form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Delivery Receipt/ Sales Invoice Number <span class="required">*</span>
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" required="required" type="text">
+                      </div>
+                    </div>
+                    <div class="item form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Sales Agent
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="email" id="email" name="email" class="form-control col-md-7 col-xs-12">
+                      </div>
+                    </div>
+                    <div class="item form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Remarks
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="email" id="email2" name="confirm_email" data-validate-linked="email" class="form-control col-md-7 col-xs-12">
+                      </div>
+                    </div>
+                    <div class="item form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Others
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <textarea id="textarea" name="textarea" class="form-control col-md-7 col-xs-12"></textarea>
+                      </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                      <div class="col-md-6 col-md-offset-3">
+                        <button type="submit" class="btn btn-primary">Cancel</button>
+                        <button id="send" type="submit" class="btn btn-success">Submit</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <br>
+            <!-- End Delivery Modal -->
+            
+            <div class="clearfix"></div>
+
+            <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2><small>Users</small></h2>
-                    
+                    <h2>List of Orders/Invoices</h2>
+    
                     <div class="clearfix"></div>
                   </div>
-                  <div class="x_content"><table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                  <div class="x_content">
+					
+                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
-                          <th>Item name</th>
-                          <th>Item type</th>
-                          <th>Count</th>
-                          <th>Warehouse</th>
-                          <th>Concessionaire</th>
-                          <th>Price</th>
-                          
+                          <th>Date</th>
+                          <th>Driver</th>
+                          <th>Truck #</th>
+                          <th>Customer</th>
+                          <th>Destination</th>
+                          <th>D.R./S.I.</th>
+                          <th>Remarks</th>
+                          <th>Sales Agent</th>
+                          <th>Others</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -91,6 +286,9 @@
                           <td>Edinburgh</td>
                           <td>61</td>
                           <td>2011/04/25</td>
+                          <td>$320,800</td>
+                          <td>5421</td>
+                          <td>t.nixon@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Garrett</td>
@@ -99,6 +297,9 @@
                           <td>Tokyo</td>
                           <td>63</td>
                           <td>2011/07/25</td>
+                          <td>$170,750</td>
+                          <td>8422</td>
+                          <td>g.winters@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Ashton</td>
@@ -107,6 +308,9 @@
                           <td>San Francisco</td>
                           <td>66</td>
                           <td>2009/01/12</td>
+                          <td>$86,000</td>
+                          <td>1562</td>
+                          <td>a.cox@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Cedric</td>
@@ -115,6 +319,9 @@
                           <td>Edinburgh</td>
                           <td>22</td>
                           <td>2012/03/29</td>
+                          <td>$433,060</td>
+                          <td>6224</td>
+                          <td>c.kelly@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Airi</td>
@@ -123,6 +330,9 @@
                           <td>Tokyo</td>
                           <td>33</td>
                           <td>2008/11/28</td>
+                          <td>$162,700</td>
+                          <td>5407</td>
+                          <td>a.satou@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Brielle</td>
@@ -131,6 +341,9 @@
                           <td>New York</td>
                           <td>61</td>
                           <td>2012/12/02</td>
+                          <td>$372,000</td>
+                          <td>4804</td>
+                          <td>b.williamson@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Herrod</td>
@@ -139,6 +352,9 @@
                           <td>San Francisco</td>
                           <td>59</td>
                           <td>2012/08/06</td>
+                          <td>$137,500</td>
+                          <td>9608</td>
+                          <td>h.chandler@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Rhona</td>
@@ -147,6 +363,9 @@
                           <td>Tokyo</td>
                           <td>55</td>
                           <td>2010/10/14</td>
+                          <td>$327,900</td>
+                          <td>6200</td>
+                          <td>r.davidson@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Colleen</td>
@@ -155,6 +374,9 @@
                           <td>San Francisco</td>
                           <td>39</td>
                           <td>2009/09/15</td>
+                          <td>$205,500</td>
+                          <td>2360</td>
+                          <td>c.hurst@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Sonya</td>
@@ -163,6 +385,9 @@
                           <td>Edinburgh</td>
                           <td>23</td>
                           <td>2008/12/13</td>
+                          <td>$103,600</td>
+                          <td>1667</td>
+                          <td>s.frost@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Jena</td>
@@ -171,6 +396,9 @@
                           <td>London</td>
                           <td>30</td>
                           <td>2008/12/19</td>
+                          <td>$90,560</td>
+                          <td>3814</td>
+                          <td>j.gaines@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Quinn</td>
@@ -179,6 +407,9 @@
                           <td>Edinburgh</td>
                           <td>22</td>
                           <td>2013/03/03</td>
+                          <td>$342,000</td>
+                          <td>9497</td>
+                          <td>q.flynn@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Charde</td>
@@ -187,6 +418,9 @@
                           <td>San Francisco</td>
                           <td>36</td>
                           <td>2008/10/16</td>
+                          <td>$470,600</td>
+                          <td>6741</td>
+                          <td>c.marshall@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Haley</td>
@@ -195,6 +429,9 @@
                           <td>London</td>
                           <td>43</td>
                           <td>2012/12/18</td>
+                          <td>$313,500</td>
+                          <td>3597</td>
+                          <td>h.kennedy@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Tatyana</td>
@@ -203,6 +440,9 @@
                           <td>London</td>
                           <td>19</td>
                           <td>2010/03/17</td>
+                          <td>$385,750</td>
+                          <td>1965</td>
+                          <td>t.fitzpatrick@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Michael</td>
@@ -211,6 +451,9 @@
                           <td>London</td>
                           <td>66</td>
                           <td>2012/11/27</td>
+                          <td>$198,500</td>
+                          <td>1581</td>
+                          <td>m.silva@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Paul</td>
@@ -219,6 +462,9 @@
                           <td>New York</td>
                           <td>64</td>
                           <td>2010/06/09</td>
+                          <td>$725,000</td>
+                          <td>3059</td>
+                          <td>p.byrd@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Gloria</td>
@@ -227,6 +473,9 @@
                           <td>New York</td>
                           <td>59</td>
                           <td>2009/04/10</td>
+                          <td>$237,500</td>
+                          <td>1721</td>
+                          <td>g.little@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Bradley</td>
@@ -235,6 +484,9 @@
                           <td>London</td>
                           <td>41</td>
                           <td>2012/10/13</td>
+                          <td>$132,000</td>
+                          <td>2558</td>
+                          <td>b.greer@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Dai</td>
@@ -243,6 +495,9 @@
                           <td>Edinburgh</td>
                           <td>35</td>
                           <td>2012/09/26</td>
+                          <td>$217,500</td>
+                          <td>2290</td>
+                          <td>d.rios@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Jenette</td>
@@ -251,6 +506,9 @@
                           <td>New York</td>
                           <td>30</td>
                           <td>2011/09/03</td>
+                          <td>$345,000</td>
+                          <td>1937</td>
+                          <td>j.caldwell@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Yuri</td>
@@ -259,6 +517,9 @@
                           <td>New York</td>
                           <td>40</td>
                           <td>2009/06/25</td>
+                          <td>$675,000</td>
+                          <td>6154</td>
+                          <td>y.berry@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Caesar</td>
@@ -267,6 +528,9 @@
                           <td>New York</td>
                           <td>21</td>
                           <td>2011/12/12</td>
+                          <td>$106,450</td>
+                          <td>8330</td>
+                          <td>c.vance@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Doris</td>
@@ -275,6 +539,9 @@
                           <td>Sidney</td>
                           <td>23</td>
                           <td>2010/09/20</td>
+                          <td>$85,600</td>
+                          <td>3023</td>
+                          <td>d.wilder@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Angelica</td>
@@ -283,6 +550,9 @@
                           <td>London</td>
                           <td>47</td>
                           <td>2009/10/09</td>
+                          <td>$1,200,000</td>
+                          <td>5797</td>
+                          <td>a.ramos@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Gavin</td>
@@ -291,6 +561,9 @@
                           <td>Edinburgh</td>
                           <td>42</td>
                           <td>2010/12/22</td>
+                          <td>$92,575</td>
+                          <td>8822</td>
+                          <td>g.joyce@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Jennifer</td>
@@ -299,6 +572,9 @@
                           <td>Singapore</td>
                           <td>28</td>
                           <td>2010/11/14</td>
+                          <td>$357,650</td>
+                          <td>9239</td>
+                          <td>j.chang@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Brenden</td>
@@ -307,6 +583,9 @@
                           <td>San Francisco</td>
                           <td>28</td>
                           <td>2011/06/07</td>
+                          <td>$206,850</td>
+                          <td>1314</td>
+                          <td>b.wagner@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Fiona</td>
@@ -315,6 +594,9 @@
                           <td>San Francisco</td>
                           <td>48</td>
                           <td>2010/03/11</td>
+                          <td>$850,000</td>
+                          <td>2947</td>
+                          <td>f.green@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Shou</td>
@@ -323,6 +605,9 @@
                           <td>Tokyo</td>
                           <td>20</td>
                           <td>2011/08/14</td>
+                          <td>$163,000</td>
+                          <td>8899</td>
+                          <td>s.itou@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Michelle</td>
@@ -331,6 +616,9 @@
                           <td>Sidney</td>
                           <td>37</td>
                           <td>2011/06/02</td>
+                          <td>$95,400</td>
+                          <td>2769</td>
+                          <td>m.house@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Suki</td>
@@ -339,6 +627,9 @@
                           <td>London</td>
                           <td>53</td>
                           <td>2009/10/22</td>
+                          <td>$114,500</td>
+                          <td>6832</td>
+                          <td>s.burks@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Prescott</td>
@@ -347,6 +638,9 @@
                           <td>London</td>
                           <td>27</td>
                           <td>2011/05/07</td>
+                          <td>$145,000</td>
+                          <td>3606</td>
+                          <td>p.bartlett@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Gavin</td>
@@ -355,6 +649,9 @@
                           <td>San Francisco</td>
                           <td>22</td>
                           <td>2008/10/26</td>
+                          <td>$235,500</td>
+                          <td>2860</td>
+                          <td>g.cortez@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Martena</td>
@@ -363,6 +660,9 @@
                           <td>Edinburgh</td>
                           <td>46</td>
                           <td>2011/03/09</td>
+                          <td>$324,050</td>
+                          <td>8240</td>
+                          <td>m.mccray@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Unity</td>
@@ -371,6 +671,9 @@
                           <td>San Francisco</td>
                           <td>47</td>
                           <td>2009/12/09</td>
+                          <td>$85,675</td>
+                          <td>5384</td>
+                          <td>u.butler@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Howard</td>
@@ -379,6 +682,9 @@
                           <td>San Francisco</td>
                           <td>51</td>
                           <td>2008/12/16</td>
+                          <td>$164,500</td>
+                          <td>7031</td>
+                          <td>h.hatfield@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Hope</td>
@@ -387,6 +693,9 @@
                           <td>San Francisco</td>
                           <td>41</td>
                           <td>2010/02/12</td>
+                          <td>$109,850</td>
+                          <td>6318</td>
+                          <td>h.fuentes@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Vivian</td>
@@ -395,6 +704,9 @@
                           <td>San Francisco</td>
                           <td>62</td>
                           <td>2009/02/14</td>
+                          <td>$452,500</td>
+                          <td>9422</td>
+                          <td>v.harrell@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Timothy</td>
@@ -403,6 +715,9 @@
                           <td>London</td>
                           <td>37</td>
                           <td>2008/12/11</td>
+                          <td>$136,200</td>
+                          <td>7580</td>
+                          <td>t.mooney@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Jackson</td>
@@ -411,6 +726,9 @@
                           <td>New York</td>
                           <td>65</td>
                           <td>2008/09/26</td>
+                          <td>$645,750</td>
+                          <td>1042</td>
+                          <td>j.bradshaw@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Olivia</td>
@@ -419,6 +737,9 @@
                           <td>Singapore</td>
                           <td>64</td>
                           <td>2011/02/03</td>
+                          <td>$234,500</td>
+                          <td>2120</td>
+                          <td>o.liang@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Bruno</td>
@@ -427,6 +748,9 @@
                           <td>London</td>
                           <td>38</td>
                           <td>2011/05/03</td>
+                          <td>$163,500</td>
+                          <td>6222</td>
+                          <td>b.nash@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Sakura</td>
@@ -435,6 +759,9 @@
                           <td>Tokyo</td>
                           <td>37</td>
                           <td>2009/08/19</td>
+                          <td>$139,575</td>
+                          <td>9383</td>
+                          <td>s.yamamoto@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Thor</td>
@@ -443,6 +770,9 @@
                           <td>New York</td>
                           <td>61</td>
                           <td>2013/08/11</td>
+                          <td>$98,540</td>
+                          <td>8327</td>
+                          <td>t.walton@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Finn</td>
@@ -451,6 +781,9 @@
                           <td>San Francisco</td>
                           <td>47</td>
                           <td>2009/07/07</td>
+                          <td>$87,500</td>
+                          <td>2927</td>
+                          <td>f.camacho@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Serge</td>
@@ -459,6 +792,9 @@
                           <td>Singapore</td>
                           <td>64</td>
                           <td>2012/04/09</td>
+                          <td>$138,575</td>
+                          <td>8352</td>
+                          <td>s.baldwin@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Zenaida</td>
@@ -467,6 +803,9 @@
                           <td>New York</td>
                           <td>63</td>
                           <td>2010/01/04</td>
+                          <td>$125,250</td>
+                          <td>7439</td>
+                          <td>z.frank@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Zorita</td>
@@ -475,6 +814,9 @@
                           <td>San Francisco</td>
                           <td>56</td>
                           <td>2012/06/01</td>
+                          <td>$115,000</td>
+                          <td>4389</td>
+                          <td>z.serrano@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Jennifer</td>
@@ -483,6 +825,9 @@
                           <td>Edinburgh</td>
                           <td>43</td>
                           <td>2013/02/01</td>
+                          <td>$75,650</td>
+                          <td>3431</td>
+                          <td>j.acosta@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Cara</td>
@@ -491,6 +836,9 @@
                           <td>New York</td>
                           <td>46</td>
                           <td>2011/12/06</td>
+                          <td>$145,600</td>
+                          <td>3990</td>
+                          <td>c.stevens@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Hermione</td>
@@ -499,6 +847,9 @@
                           <td>London</td>
                           <td>47</td>
                           <td>2011/03/21</td>
+                          <td>$356,250</td>
+                          <td>1016</td>
+                          <td>h.butler@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Lael</td>
@@ -507,6 +858,9 @@
                           <td>London</td>
                           <td>21</td>
                           <td>2009/02/27</td>
+                          <td>$103,500</td>
+                          <td>6733</td>
+                          <td>l.greer@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Jonas</td>
@@ -515,6 +869,9 @@
                           <td>San Francisco</td>
                           <td>30</td>
                           <td>2010/07/14</td>
+                          <td>$86,500</td>
+                          <td>8196</td>
+                          <td>j.alexander@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Shad</td>
@@ -523,6 +880,9 @@
                           <td>Edinburgh</td>
                           <td>51</td>
                           <td>2008/11/13</td>
+                          <td>$183,000</td>
+                          <td>6373</td>
+                          <td>s.decker@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Michael</td>
@@ -531,6 +891,9 @@
                           <td>Singapore</td>
                           <td>29</td>
                           <td>2011/06/27</td>
+                          <td>$183,000</td>
+                          <td>5384</td>
+                          <td>m.bruce@datatables.net</td>
                         </tr>
                         <tr>
                           <td>Donna</td>
@@ -539,6 +902,9 @@
                           <td>New York</td>
                           <td>27</td>
                           <td>2011/01/25</td>
+                          <td>$112,000</td>
+                          <td>4226</td>
+                          <td>d.snider@datatables.net</td>
                         </tr>
                       </tbody>
                     </table>
