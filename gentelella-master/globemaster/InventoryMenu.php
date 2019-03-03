@@ -33,7 +33,7 @@
       <div class="main_container">
         
 
-            <br />
+            
 			
 			<?php
         require_once("nav.php");    
@@ -42,7 +42,7 @@
 		<!-- sidebar menu -->
             
 
-            </div>
+            
             <!-- /sidebar menu -->
 
             <!-- /menu footer buttons -->

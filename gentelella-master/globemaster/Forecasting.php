@@ -39,7 +39,7 @@
   <body class="nav-md">
     <div class="container body">
       <div class="main_container">
-            <br />
+            
 
             <!-- sidebar menu -->
             <?php
@@ -47,7 +47,7 @@
         ?>
               
 
-            </div>
+            
             <!-- /sidebar menu -->
 
             <!-- /menu footer buttons -->
