@@ -1,3 +1,16 @@
+<?php
+
+if(!(isset($_SESSION['usertype']))){
+    header("Location: http://".$_SERVER['HTTP_HOST'].
+        dirname($_SERVER['PHP_SELF'])."/login.php");
+}
+if($_SESSION['user_status'] == "Active - New Account" AND $_SERVER['REQUEST_URI'] != "/Sugarhouse/systemfiles/NewAccount.php" ){
+    header("Location: http://".$_SERVER['HTTP_HOST'].
+        dirname($_SERVER['PHP_SELF'])."/NewAccount.php");
+}
+
+?>
+
     <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
