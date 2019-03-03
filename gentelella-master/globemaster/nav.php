@@ -1,4 +1,11 @@
-
+<?php
+session_start();
+$_SESSION['user'] = 1;
+if(!(isset($_SESSION['usertype']))){
+    header("Location: http://".$_SERVER['HTTP_HOST'].
+        dirname($_SERVER['PHP_SELF'])."/login.php");
+}
+?>
 
     <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
@@ -14,8 +21,20 @@
                 <img src="images/img.jpg" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
-                <span>Welcome,</span>
-                <h2>SuperDuperUser!</h2>
+                <span>
+                <?php
+                  require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                  $checkuser = "SELECT usertype FROM gm_usertype WHERE usertype_id = '{$_SESSION['usertype']}'";
+                  $result=mysqli_query($dbc,$checkuser);
+                  $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
+              
+                    echo "<h2>Welcome, ";
+                    echo $row['usertype'];
+                    echo "!</h2>";
+                  
+        
+                ?>
+                </span>
               </div>
             </div>
             <!-- /menu profile quick info -->

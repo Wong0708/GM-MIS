@@ -24,6 +24,7 @@ if(isset($_POST['login']))
     {
         $error = "Invalid login, please try again.";
     }
+    // echo $_SESSION["usertype"], $_SESSION["username"];
   }
 ?>
 
