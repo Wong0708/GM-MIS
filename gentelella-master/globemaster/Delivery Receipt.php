@@ -150,8 +150,7 @@
                                                         echo "OR from Array =", $orderNumberArray[$i], "<br>"; 
                                                         echo "Dr OR = ",$SchedDelivOrderNumber[$i],"<br>";
                                                         echo "Item Name: ", $itemName[$i], "<br>";
-
-                                                      
+                                                                                                         
                                                         if($orderNumberArray[$i] == $SchedDelivOrderNumber[$i])
                                                         {
                                                             echo '<tr>';                                                                 
@@ -165,7 +164,6 @@
                                                                 echo $pricePerItem[$i];
                                                                 echo '</td>';                                                                   
                                                             echo '</tr>';              
-
                                                         }
                                                         // echo "SchedNUM = ", $SchedDelivOrderNumber[$i] ,"<br>";
 

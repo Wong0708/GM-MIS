@@ -134,11 +134,11 @@
                               echo "</tr>";
                               $count++;
                               
-                                if(isset($_POST["delivrow".$count ]))
-                                {
-                                  echo $_POST["delivrow".$count ];  
-                                }
-                                
+                                // if(isset($_POST["delivrow".$count ]))
+                                // {
+                                //   echo $_POST["delivrow".$count ];  
+                                // }
+                                $_SESSION['GET_DEV'] = "delivrow".$count;
                               // echo $_POST["delivRow',$count,'"];
                             };
                           ?>

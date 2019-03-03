@@ -265,6 +265,7 @@
             
                                                 $result=mysqli_query($dbc,$insertQuery);
                                                 $SchedID++; //Add +1 to Primary to Avoid Error on Duplicate key
+                                                $deliveryReceipt++;
                                             }                                        
                                         };
                                        
