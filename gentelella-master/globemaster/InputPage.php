@@ -38,7 +38,7 @@
     <div class="container body">
       <div class="main_container">
 
-            <br />
+            
 
         <!-- page content -->
         <div class="right_col" role="main">

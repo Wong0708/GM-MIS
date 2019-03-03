@@ -35,12 +35,14 @@
       <div class="main_container">
         
 
-            <br />
+          
 
             <!-- sidebar menu -->
             <?php
         require_once("nav.php");    
         ?>
+
+        </div>
 
         <!-- page content -->
         <div class="right_col" role="main">
