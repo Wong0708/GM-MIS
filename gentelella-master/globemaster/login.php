@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-
+session_destroy();
 if(isset($_POST['login']))
 {
     $_SESSION['username'] = $_POST['loginuser'];
@@ -12,7 +12,7 @@ if(isset($_POST['login']))
     $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
     if(mysqli_num_rows($result) > 0)
     {
-        $_SESSION["username"] = $row["username"];
+        $_SESSION["username"] = $row['username'];
         $_SESSION["usertype"] = $row["usertype_id"];
         $_SESSION["firstname"] = $row["first_name"];
         $_SESSION["lastname"] = $row["last_name"];

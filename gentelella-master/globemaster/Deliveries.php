@@ -109,8 +109,7 @@
                             {
 
                               echo " <tr>";
-                                echo '<td  name = "delivrow',$count,'"> <input type="hidden" name = "delivrow',$count,'"  value ="',$rowofResult['delivery_Receipt'],'"><a href="Delivery Receipt.php">';
-                                 
+                                echo '<td  id = "delivrow',$count,'"  value ="',$rowofResult['delivery_Receipt'],'"   onclick="getDR(this)"> <a href="Delivery Receipt.php">';                              
                                 echo $rowofResult['delivery_Receipt'];
                                 echo '</input></a></td>';  
                                 echo '<td>';
@@ -138,7 +137,7 @@
                                 // {
                                 //   echo $_POST["delivrow".$count ];  
                                 // }
-                                $_SESSION['GET_DEV'] = "delivrow".$count;
+                                // $_SESSION['GET_DEV'] = "delivrow".$count;
                               // echo $_POST["delivRow',$count,'"];
                             };
                           ?>
@@ -192,6 +191,14 @@
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+
+    <script text/javascript>
+         function getDR(obj) {
+            alert(obj.textContent);
+            var textFromDeliveriesPage = obj.textContent;
+            localStorage.setItem("DRfromDeliveriesPage",textFromDeliveriesPage);
+         }
+    </script>
 
   </body>
 </html>
