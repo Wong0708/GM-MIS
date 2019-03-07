@@ -1,6 +1,6 @@
-
-    <div class="col-md-3 left_col">
+        <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
+
             <div class="navbar nav_title" style="border: 0;">
                 <a href="MainDashboard.php" class="site_title"><img src="images/GM%20LOGO.png" width = "50" height = "50"><b>Globe Master</b></a>
             </div>
@@ -8,18 +8,21 @@
             <div class="clearfix"></div>
 
             <!-- menu profile quick info -->
-            <div class="profile clearfix">
+            <!-- <div class="profile clearfix">
+
               <div class="profile_pic">
                 <img src="images/img.jpg" alt="..." class="img-circle profile_img">
               </div>
+
               <div class="profile_info">
                 <span>Welcome,</span>
                 <h2>SuperDuperUser!</h2>
               </div>
-            </div>
+
+            </div> -->
             <!-- /menu profile quick info -->
 
-            <br />
+            
 
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
@@ -28,34 +31,72 @@
 
                   <li><a><i class="fa fa-archive"></i> Inventory <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      
+
+                      <?php
+                      if($_SESSION['usertype_id'] == 1 OR $_SESSION['usertype_id'] == 2 OR $_SESSION['usertype_id'] == 3 OR $_SESSION['usertype_id'] == 4){
+                      ?>
+
                       <li><a href="AddInventory.php">Add Inventory Items</a></li>
-                      <li><a href="Assets_Trading.php">View Inventory</a></li>
-                      
-                      <li><a>Economic Order Quantity (EOQ)<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                            <li><a href="InputPage.php">Input EOQ Details</a></li>
-                            <li><a href="EOQInventory.php">View Inventory EOQ</a></li>
-                        </ul>
-                      </li>
+                      <li><a href="ViewInventory.php">View Inventory</a></li>
+
+                      <?
+                        }
+                      ?>
+
+                      <?php
+                      if($_SESSION['usertype_id'] == 1 OR $_SESSION['usertype_id'] == 2 OR $_SESSION['usertype_id'] == 3){
+                      ?>
+
+                      <li><a href="index2.html">Economic Order Quantity (EOQ)</a></li>
+                      <ul class="nav child_menu">
+                          <li><a href="index.html">Input EOQ Details</a></li>
+                          <li><a href="index2.html">View Inventory EOQ</a></li>
+                      </ul>
                       <li><a href="index2.html">Item Sales Visualization</a></li>
-                      
+
+                      <?
+                        }
+                      ?>
+                      <?php
+                      if($_SESSION['usertype_id'] == 3 OR $_SESSION['usertype_id'] == 4){
+                      ?>
+
                       <li><a href="index2.html">Generate QR Code</a></li>
-                      
+
+                      <?
+                        }
+                      ?>
+
+                      <?php
+                      if($_SESSION['usertype_id'] == 2 OR $_SESSION['usertype_id'] == 2 OR $_SESSION['usertype_id'] == 3){
+                      ?>
+
                       <li><a href="index2.html">Discounts</a></li>
-                      
+
+                      <?
+                        }
+                      ?>
+
                     </ul>
                   </li>
 
-                  
+                  <?php
+                    if($_SESSION['usertype_id'] == 1 OR $_SESSION['usertype_id'] == 4 OR $_SESSION['usertype_id'] == 5){
+                  ?>
 
                   <li><a><i class="fa fa-car"></i> Deliveries <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="Deliveries.php">View Deliveries</a></li>
+                      <li><a href="form_advanced.html">View Deliveries</a></li>
                     </ul>
                   </li>
 
-                  
+                  <?
+                        }
+                  ?>
+
+                  <?php
+                    if($_SESSION['usertype_id'] == 3 OR $_SESSION['usertype_id'] == 4 OR $_SESSION['usertype_id'] == 5){
+                  ?>
 
                   <li><a><i class="fa fa-external-link-square"></i> Orders <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
@@ -64,38 +105,65 @@
                     </ul>
                   </li>
 
-                  
+                  <?
+                        }
+                  ?>
 
                   <li><a><i class="fa fa-user"></i> Clients <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      
+                    
+                      <?php
+                      if($_SESSION['usertype_id'] == 2 OR $_SESSION['usertype_id'] == 3){
+                      ?>
+
                       <li><a href="ViewClients.php">View Clients</a></li>
-                      
+
+                      <?
+                        }
+                      ?>
+
+                      <?php
+                      if($_SESSION['usertype_id'] == 2){
+                      ?>
+
                       <li><a href="tables_dynamic.html">Client Order Approval</a></li>
-                      
+                      <?
+                        }
+                      ?>
+
                     </ul>
                   </li>
 
-                  
+                  <?php
+                    if($_SESSION['usertype_id'] == 1 OR $_SESSION['usertype_id'] == 2 OR $_SESSION['usertype_id'] == 3){
+                  ?>
+
                   <li><a><i class="fa fa-bar-chart-o"></i> Data Analytics <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
+
                       <li><a> Sales <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                           <li><a href="index.html">Sales Variance Analysis</a></li>
                           <li><a href="index2.html">Sales Forecasting</a></li>
                         </ul>
                       </li>
+
                       <li><a> Inventory <span class="fa fa-chevron-down"></span></a>
                           <ul class="nav child_menu">
                               <li><a href="index2.html">Inventory Forecasting</a></li>
                           </ul>
                       </li>
+                      
                     </ul>
                   </li>
 
-                  
+                  <?
+                        }
+                  ?>
 
-                  
+                  <?php
+                    if($_SESSION['usertype_id'] == 1 OR $_SESSION['usertype_id'] == 3){
+                  ?>
 
                   <li><a><i class="fa fa-folder-open"></i> Reports <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
@@ -105,7 +173,9 @@
                     </ul>
                   </li>
 
-                  
+                  <?
+                        }
+                  ?>
 
                 </ul>
               </div>
@@ -113,7 +183,7 @@
             <!-- /sidebar menu -->
 
             <!-- /menu footer buttons -->
-            <div class="sidebar-footer hidden-small">
+            <!-- <div class="sidebar-footer hidden-small">
               <a data-toggle="tooltip" data-placement="top" title="Settings">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
               </a>
@@ -126,13 +196,13 @@
               <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
-            </div>
+            </div> -->
             <!-- /menu footer buttons -->
           </div>
         </div>
 
         <!-- top navigation -->
-        <div class="top_nav">
+        <!-- <div class="top_nav">
           <div class="nav_menu">
             <nav>
               <div class="nav toggle">
@@ -226,4 +296,6 @@
             </nav>
           </div>
         </div>
+        </div>
+        </div> -->
         <!-- /top navigation -->
