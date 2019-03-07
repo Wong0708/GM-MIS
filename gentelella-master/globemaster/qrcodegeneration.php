@@ -3,6 +3,10 @@
     //     return '<img id = "qrID" src="http://chart.apis.google.com/chart?chs=' . $size . 'x' . $size . '&cht=qr&chl=' . urlencode($url) . '" />';
     // }
 
+    // Include Print Function
+    include("print.php");
+    // --
+
     if (isset($_GET['var_PHP_data'])) {
       print_r( $_GET['var_PHP_data']);
     } else {
@@ -97,7 +101,7 @@
                   </div>
                   <div class="x_content">
                     <p class="text-muted font-13 m-b-30">
-                      Select an inventory item to generate a QR code respectively.
+                      Select an inventory SKU to generate a QR code respectively. <br><font color = "red"> The QR code changes based on the clicked SKU. Please scan the QR code to confirm.</font>
                     </p>
 					
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
@@ -171,7 +175,7 @@
                 </div>
               </div>
               <br><br><br><br><br><br><br><br><br><br>
-                <div class="col-md-2 col-sm-2 col-xs-12">
+                <div class="col-md-2 col-sm-2 col-xs-12" id = "printQR">
 
                  <input type='text' style='display:none' id='itemid' value = ''/>
                  <input type='text' style='display:none' id='itemname' value = ''/>
@@ -184,8 +188,10 @@
                  <!-- <div id = 'result'></div> -->
 
                  <img id = "qrID" src="http://chart.apis.google.com/chart?chs=170x170&cht=qr&chl=Globe Master Trading" alt="http://chart.apis.google.com/chart?chs=170x170&cht=qr&chl=Globe Master Trading"/>
-
+                
+                 
                 </div>
+                <center><button type="button" class="btn btn-primary" onclick="printDiv('printQR')"><i class="fa fa-print"></i> Print Me!</button></center>
               </div>
             </div>
           </div>
@@ -291,7 +297,7 @@
             supplierVal.value = supplier[i];
             warehouseVal.value = warehouse[i];
             priceVal.value = price[i];
-            combineVal.value = "SKU: " + itemid[i] + "|" + "Item Name: " + itemname[i] + "|" + "Item Type: " + itemtype[i] + "|" + "Supplier: " + supplier[i] + "|" + "Warehouse Location: " + warehouse[i] + "|" + "Item Price: " + price[i];
+            combineVal.value = "SKU: " + itemid[i] + " | " + "Item Name: " + itemname[i] + " | " + "Item Type: " + itemtype[i] + " | " + "Supplier: " + supplier[i] + " | " + "Warehouse Location: " + warehouse[i] + " | " + "Item Price: " + price[i];
             // alert(combineVal);
 
             var var_data = [itemid[i], itemname[i], itemtype[i], supplier[i], warehouse[i], price[i]];
@@ -312,6 +318,7 @@
       }
     </script>
 	
+  <script>
   </body>
 </html>
 <?php } ?>

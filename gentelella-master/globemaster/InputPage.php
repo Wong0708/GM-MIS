@@ -36,6 +36,9 @@
 
   <body class="nav-md">
     <div class="container body">
+    <?php
+            require_once("nav.php");    
+            ?>
       <div class="main_container">
 
             
@@ -46,6 +49,7 @@
           <div class="row tile_count">
 
             <div class="clearfix"></div>
+
             <div class="row">
               <div class="col-md-5 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -123,6 +127,43 @@
                                 }
                             }
                             </script>
+
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+             <div class="clearfix"></div>
+            
+            <div class="row">
+              <div class="col-md-5 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Input Target Sales for NEXT Month</h2>                   
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method = "POST">
+
+                      <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">Target Sales:  <span class="required">* </span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" id="targetSales" name = "targetSales"required="required" class="form-control col-md-7 col-xs-12" min="0">
+                        </div>
+                      </div>
+                                
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-12 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-danger" type="button">Cancel</button>
+						              <button class="btn btn-primary" type="reset">Reset</button>
+                          <button type="submit" class="btn btn-success" name = "SubmitBtn" onclick="return getConfirmation()">Submit</button>
 
                         </div>
                       </div>
