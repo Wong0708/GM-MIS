@@ -55,7 +55,7 @@ if(!(isset($_SESSION['usertype']))){
                           <li><a href="index2.html">View Inventory EOQ</a></li>
                       </ul>
                       <li><a href="index2.html">Item Sales Visualization</a></li>
-                      <li><a href="qrcodegeneration.php">Generate QR Code</a></li>
+                      <li><a href="index2.html">Generate QR Code</a></li>
                       <li><a href="index2.html">Discounts</a></li>
                     </ul>
                   </li>
@@ -114,7 +114,7 @@ if(!(isset($_SESSION['usertype']))){
               <a data-toggle="tooltip" data-placement="top" title="Lock">
                 <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
               </a>
-              <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+              <a data-toggle="tooltip" data-placement="top" title="Logout" href="logout.php">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
             </div>
@@ -145,7 +145,7 @@ if(!(isset($_SESSION['usertype']))){
                       </a>
                     </li>
                     <li><a href="javascript:;">Help</a></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                    <li><a href="logout.php"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>
 
