@@ -109,7 +109,7 @@
                                 $itemPrice[] = $row['price'];
 
                                 echo' <tr>';                                                       
-                                  echo'<td id = itemNameRow',$count,' width="250px">';
+                                  echo'<td id = itemNameRow',$count,' width="250px" onclick="myTD(this)">';
                                   echo $row['item_name'];
                                   echo'</td>';
                                   echo'<td id = itemTypeRow',$count,' width="250px">';
@@ -130,35 +130,35 @@
                               echo 'var AcquisitionCostFromPHP = '.json_encode($AcquisitionCostFromDB).';';
                               echo 'var HoldingCostFromPHP = '.json_encode($HoldingCostFromDB).';';
 
-                              echo 'for(var i = 0; i < '.sizeof($itemNameArray).'; i++){';
-                                     
-                                                       
-                                echo "var ItemNameFromTable = document.getElementById('itemNameRow'+ arrayCountFromPHP[i].toString());";
-                                echo 'var getName = ItemNameFromTable.innerText;'; //Gets the TEXT inside table
-                                echo 'var nameArray = [];';
-                                echo 'nameArray.push(getName);';
-                               
+                            
 
-                                // echo 'for(var j = 0; j < '.sizeof($itemNameArray).'; j++){';
-                                 
+                                echo 'function myTD(obj) {';
+                                  // echo ' alert(obj.innerHTML);';
+                                  echo 'var textFromHTML = obj.innerHTML;';
 
-                                  echo 'if(itemNameFromPHP[i].toString() == nameArray[i]){'; //WIP
-                                    echo 'var Price = ItemPriceFromPHP[i];';
-        
-                                    echo 'ItemNameFromTable.addEventListener("click", calculateEoQ);'; 
+                                    echo 'for(var i = 0; i < itemNameFromPHP.length; i++){';   
 
-                                          echo 'function calculateEoQ(){';  
-                                          echo "var eoq = Math.sqrt((2 * 800 * AcquisitionCostFromPHP[0]) / ((HoldingCostFromPHP[0]/100) * Price));";
+                                        echo 'if(itemNameFromPHP[i] == textFromHTML ){';
+
+                                          echo 'console.log("Text From HTML = " + textFromHTML);';
+
+                                          echo 'console.log(itemNameFromPHP[i]);';
+
+                                          echo "var eoq = Math.sqrt((2 * 800 * AcquisitionCostFromPHP[0]) / ((HoldingCostFromPHP[0]/100) * ItemPriceFromPHP[i]));";
                                           echo 'var Final = eoq.toFixed(2);';
-                                          echo 'ItemNameFromTable.textContent = Final;';
-                                          echo 'console.log(Price);';
-                                            
-                                          echo '};'; // END Function
-                                        echo '};'; //EnD IF
-                                      // echo '};'; //End 2nd For 
-                                echo '};'; //End 1st For 
-                              
+                                          // echo 'tableCell[i].textContent = Final;';
+                                          echo 'console.log(Final);';
+                                          // echo'break;';
 
+                                        echo '};'; //End IF
+
+                                    echo ' }'; //End For
+
+                                echo ' }'; //END Function
+
+
+
+                                
                               echo '</script>';
                               // $TheEOQ = sqrt(
                               //   (2 * 687.5 *  $AcquisitionCostFromDB[0]) / (($HoldingCostFromDB[0]/100) * $itemPrice[$i])
@@ -167,8 +167,50 @@
                               // echo round($TheEOQ, 2);
 
                               
-                              ?>              
+                              // echo 'for(var i = 0; i < '.sizeof($itemNameArray).'; i++){';
+
+
+                              //   // echo 'for(var j = 0; j < '.sizeof($itemNameArray).'; j++){';
+                                 
+                              //     echo 'ItemNameFromTable[i].addEventListener("click", calculateEoQ);'; 
+
+                              //     echo 'if(itemNameFromPHP[i].toString() == nameArray[i]){'; //WIP
+
+                                    
+                              //       echo 'console.log(itemNameFromPHP[i]);';
+                              //       echo 'console.log(nameArray[i]);';
+
+                              // echo "var ItemNameFromTable = tableCell.document.getElementById('itemNameRow' + arrayCountFromPHP[i]);";
+
+                              // echo "ItemNameFromTable[i].addEventListener('click', calculateEoQ);";
+                              // echo 'console.log(ItemNameFromTable[i]);';
+
+
                             
+                              //           echo '};'; //EnD IF
+                              //         // echo '};'; //End 2nd For 
+                              //   echo '};'; //End 1st For 
+                              
+                                // echo "var tableCell = document.getElementsByTagName('td'); ";
+
+                               
+                                // echo 'var getName = ItemNameFromTable.innerText;'; //Gets the TEXT inside table
+                                // echo 'var nameArray = [];';
+                                // echo 'nameArray.push(getName);';
+
+                                // echo 'for(var i = 0; i < tableCell.length; i++){';       
+
+                                //   echo "var ItemNameFromTable = tableCell.document.getElementById('itemNameRow' + arrayCountFromPHP[i]);";
+
+                                //   echo "ItemNameFromTable[i].addEventListener('click', calculateEoQ);";
+                                //   echo 'console.log(ItemNameFromTable[i]);';
+
+                                // echo ' }';
+
+                              ?>     
+                              
+                                  
+                           
                         </tbody>                                              
 
                         <div class="x_content; col-md-12 col-sm-9 col-xs-12 bg-white" id ="eoqchartID">
