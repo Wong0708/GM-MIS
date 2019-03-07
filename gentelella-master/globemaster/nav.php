@@ -55,7 +55,7 @@ if(!(isset($_SESSION['usertype']))){
                           <li><a href="index2.html">View Inventory EOQ</a></li>
                       </ul>
                       <li><a href="index2.html">Item Sales Visualization</a></li>
-                      <li><a href="index2.html">Generate QR Code</a></li>
+                      <li><a href="qrcodegeneration.php">Generate QR Code</a></li>
                       <li><a href="index2.html">Discounts</a></li>
                     </ul>
                   </li>
