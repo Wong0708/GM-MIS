@@ -84,8 +84,8 @@
         ?>
       </div>
         <!-- page content -->
-      <div class="right_col" role="main">
-      <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="right_col" role="main" style = "min-height: 1075px;">
+        <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
                     <h1>QR Code Generator</h1>
@@ -198,7 +198,7 @@
         </div>
       </div>
     </div>
-  </div>
+ </div>
 </div>
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
