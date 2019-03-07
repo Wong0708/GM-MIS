@@ -1,19 +1,8 @@
-<?php
 
-if(!(isset($_SESSION['usertype']))){
-    header("Location: http://".$_SERVER['HTTP_HOST'].
-        dirname($_SERVER['PHP_SELF'])."/login.php");
-}
-if($_SESSION['user_status'] == "Active - New Account" AND $_SERVER['REQUEST_URI'] != "/Sugarhouse/systemfiles/NewAccount.php" ){
-    header("Location: http://".$_SERVER['HTTP_HOST'].
-        dirname($_SERVER['PHP_SELF'])."/NewAccount.php");
-}
-
-?>
     <div class="col-md-3 left_col">
-        <div class="left_col scroll-view">
+          <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.php" class="site_title"><i class="fa fa-home"></i> <span>Sugarhouse</span></a>
+                <a href="MainDashboard.php" class="site_title"><img src="images/GM%20LOGO.png" width = "50" height = "50"><b>Globe Master</b></a>
             </div>
 
             <div class="clearfix"></div>
@@ -21,248 +10,151 @@ if($_SESSION['user_status'] == "Active - New Account" AND $_SERVER['REQUEST_URI'
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="images/user.png" alt="..." class="img-circle profile_img">
+                <img src="images/img.jpg" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
-                <h2><?php echo $_SESSION["fullname"]; ?></h2>
+                <h2>SuperDuperUser!</h2>
               </div>
             </div>
-            <!-- /menu profile quick info --> 
+            <!-- /menu profile quick info -->
 
             <br />
 
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
-                <h3>General</h3>
                 <ul class="nav side-menu">
-                    
-                    <?php
-                    if($_SESSION['jobID'] == 1 OR $_SESSION['jobID'] == 6 OR $_SESSION['usertype'] == 1){
-                    ?>
-                    
-                  <li><a><i class="fa fa-list-alt"></i> Orders <span class="fa fa-chevron-down"></span></a>
+
+                  <li><a><i class="fa fa-archive"></i> Inventory <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="CreateOrder.php">Create Order Form</a></li>
-                      <li><a href="ViewOrder.php">View Orders</a></li>
-                      <li><a href="EditOrders.php">Edit Orders</a></li>
-                    </ul>
-                  </li>
-                    
-                    <?php
-                    }
-                    ?>
-                
-                  <li><a><i class="fa fa-archive"></i> Inventory<span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                        
-                        <?php
-                        if($_SESSION['jobID'] == 1 OR $_SESSION['jobID'] == 6 OR $_SESSION['usertype'] == 1 OR $_SESSION['jobID'] == 4 OR $_SESSION['jobID'] == 5){
-                        ?>
-                        
-                        <li><a>Materials<span class="fa fa-chevron-down"></span></a>
-                          <ul class="nav child_menu">
-                              
-                            <li class="sub_menu"><a href="ViewMaterials.php">View Materials</a>
-                            </li>
-                              
-                            <?php
-                            if($_SESSION['jobID'] == 1 OR $_SESSION['jobID'] == 6 OR $_SESSION['usertype'] == 1 OR $_SESSION['jobID'] == 4){
-                            ?>
-                              
-                            <li class="sub_menu"><a href="AddMaterials.php">Add Materials</a>
-                            </li>
-                              
-                            <li class="sub_menu"><a href="EditMaterials.php">Edit Materials</a>
-                            </li> 
-                              
-                            <?php
-                            }
-                            ?>
-                              
-                          </ul>
-                        </li>
-                        
-                        <?php
-                        }
-                        ?>
-                        
-                        <?php
-                        if($_SESSION['jobID'] == 1 OR $_SESSION['jobID'] == 6 OR $_SESSION['usertype'] == 1 OR $_SESSION['jobID'] == 4 OR $_SESSION['jobID'] == 5){
-                        ?>
-                        
-                        <li><a>Inventory<span class="fa fa-chevron-down"></span></a>
-                          <ul class="nav child_menu">
-                              
-                            <li class="sub_menu"><a href="ViewInventory.php">View Inventory</a>
-                            </li>
-                              
-                            <?php
-                            if($_SESSION['jobID'] == 1 OR $_SESSION['jobID'] == 6 OR $_SESSION['usertype'] == 1 OR $_SESSION['jobID'] == 4){
-                            ?>
-                              
-                            <li class="sub_menu"><a href="AddInventory.php">Add Inventory</a>
-                            </li>
-                              
-                            <li class="sub_menu"><a href="EditInventory.php">Edit Inventory</a>
-                            </li> 
-                              
-                            <?php
-                            }
-                            ?>
-                              
-                          </ul>
-                        </li>
-                        
-                        <?php
-                        }
-                        ?>
-                        
-                        <li><a>Products<span class="fa fa-chevron-down"></span></a>
-                          <ul class="nav child_menu">
-                              
-                            <li class="sub_menu"><a href="ViewProducts.php">View Products</a>
-                            </li>
-                              
-                            <?php
-                            if($_SESSION['jobID'] == 1 OR $_SESSION['jobID'] == 6 OR $_SESSION['usertype'] == 1 OR $_SESSION['jobID'] == 4){
-                            ?>
-                              
-                            <li class="sub_menu"><a href="AddProducts.php">Add Products</a>
-                            </li>
-                              
-                            <li class="sub_menu"><a href="EditProducts.php">Edit Products</a>
-                            </li>
-                              
-                            <?php
-                            }
-                            ?>
-                              
-                          </ul>
-                        </li>
-                        
-                        <?php
-                        if($_SESSION['jobID'] == 1 OR $_SESSION['jobID'] == 6 OR $_SESSION['usertype'] == 1 OR $_SESSION['jobID'] == 4 OR $_SESSION['jobID'] == 5){
-                        ?>
-                        
-                        <li><a>Restock Inventory<span class="fa fa-chevron-down"></span></a>
-                          <ul class="nav child_menu">
-                              
-                            <?php
-                            if($_SESSION['jobID'] == 1 OR $_SESSION['jobID'] == 6 OR $_SESSION['usertype'] == 1 OR $_SESSION['jobID'] == 4){
-                            ?>
-                              
-                            <li class="sub_menu"><a href="CreatePO.php">Create Purchase Order</a>
-                            </li>
-                              
-                            <li class="sub_menu"><a href="ReceivePurchaseOrders.php">Receive Purchase Orders</a>
-                            </li>
-                              
-                            <?php
-                            }
-                            ?>
-                              
-                            <li class="sub_menu"><a href="ViewPurchaseOrders.php">View Purchase Orders</a>
-                            </li> 
-                              
-                          </ul>
-                        </li>
-                        
-                        <?php
-                        }
-                        ?>
-                        
-                        <?php
-                        if($_SESSION['jobID'] == 1 OR $_SESSION['jobID'] == 6 OR $_SESSION['usertype'] == 1 OR $_SESSION['jobID'] == 4 OR $_SESSION['jobID'] == 5){
-                        ?>
-                        
-                        <li><a>Suppliers<span class="fa fa-chevron-down"></span></a>
-                          <ul class="nav child_menu">
-                              
-                            <li class="sub_menu"><a href="ViewSuppliers.php">View Suppliers</a>
-                            </li>
-                              
-                            <?php
-                            if($_SESSION['jobID'] == 1 OR $_SESSION['jobID'] == 6 OR $_SESSION['usertype'] == 1 OR $_SESSION['jobID'] == 4){
-                            ?>
-                              
-                            <li class="sub_menu"><a href="AddSupplier.php">Add Supplier</a>
-                            </li>
-                              
-                            <li class="sub_menu"><a href="EditSuppliers.php">Edit Suppliers</a>
-                            </li>  
-                              
-                            <?php
-                            }
-                            ?>
-                              
-                          </ul>
-                        </li>
-                        
-                        <?php
-                        }
-                        ?>
-                        
-                    </ul>
-                  </li> 
-                          
-                  <?php
-                  if($_SESSION['jobID'] == 1 OR $_SESSION['jobID'] == 6 OR $_SESSION['usertype'] == 1 OR $_SESSION['jobID'] == 2){
-                  ?>
-                
-                  <li><a><i class="fa fa-folder-open-o"></i> Reports <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                        
-                      <li><a href="SalesReport.php">View Sales Report</a></li>
-                        
                       <?php
-                      if($_SESSION['jobID'] == 1 OR $_SESSION['jobID'] == 6 OR $_SESSION['usertype'] == 1){
+                      if($_SESSION['usertype_id'] == 1 OR $_SESSION['usertype_id'] == 2 OR $_SESSION['usertype_id'] == 3 OR $_SESSION['usertype_id'] == 4){
                       ?>
-                        
-                      <li><a href="InventoryReport.php">View Inventory Report</a></li>
-                        
+                      <li><a href="AddInventory.php">Add Inventory Items</a></li>
+                      <li><a href="ViewInventory.php">View Inventory</a></li>
+                      <?
+                        }
+                      ?>
                       <?php
-                      }
+                      if($_SESSION['usertype_id'] == 1 OR $_SESSION['usertype_id'] == 2 OR $_SESSION['usertype_id'] == 3){
                       ?>
-                        
+                      <li><a href="index2.html">Economic Order Quantity (EOQ)</a></li>
+                      <ul class="nav child_menu">
+                          <li><a href="index.html">Input EOQ Details</a></li>
+                          <li><a href="index2.html">View Inventory EOQ</a></li>
+                      </ul>
+                      <li><a href="index2.html">Item Sales Visualization</a></li>
+                      <?
+                        }
+                      ?>
+                      <?php
+                    if($_SESSION['usertype_id'] == 3 OR $_SESSION['usertype_id'] == 4){
+                    ?>
+                      <li><a href="index2.html">Generate QR Code</a></li>
+                      <?
+                        }
+                      ?>
+                      <?php
+                      if($_SESSION['usertype_id'] == 2 OR $_SESSION['usertype_id'] == 2 OR $_SESSION['usertype_id'] == 3){
+                      ?>
+                      <li><a href="index2.html">Discounts</a></li>
+                      <?
+                        }
+                      ?>
                     </ul>
                   </li>
 
-                  <li><a><i class="fa fa-users"></i> Accounts <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                        
-                      <?php
-                      if($_SESSION['jobID'] == 1 OR $_SESSION['jobID'] == 6 OR $_SESSION['usertype'] == 1){
-                      ?>
-                        
-                      <li><a active href="RegisterUser.php">Register Account</a></li>
-                        
-                      <?php
-                      }
-                      ?>
-                        
-                      <li><a  href="ViewAccounts.php">View Accounts</a></li>
-                        
-                      <?php
-                      if($_SESSION['jobID'] == 1 OR $_SESSION['jobID'] == 6 OR $_SESSION['usertype'] == 1){
-                      ?>
-                        
-                      <li><a href="EditAccounts.php">Edit Accounts</a></li>
-                        
-                      <?php
-                      }
-                      ?>
-                        
-                    </ul>
-                  </li> 
-                    
                   <?php
-                  }
-                  ?> 
-                    
-                </ul>      
-              </div>  
+                    if($_SESSION['usertype_id'] == 1 OR $_SESSION['usertype_id'] == 4 OR $_SESSION['usertype_id'] == 5){
+                  ?>
+
+                  <li><a><i class="fa fa-car"></i> Deliveries <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="form_advanced.html">View Deliveries</a></li>
+                    </ul>
+                  </li>
+
+                  <?
+                        }
+                  ?>
+
+                  <?php
+                    if($_SESSION['usertype_id'] == 3 OR $_SESSION['usertype_id'] == 4 OR $_SESSION['usertype_id'] == 5){
+                  ?>
+
+                  <li><a><i class="fa fa-external-link-square"></i> Orders <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="ViewOrders.php">View Orders</a></li>
+                      <li><a href="ViewFabJobOrders.php">View Fabrication Job Orders</a></li>
+                    </ul>
+                  </li>
+
+                  <?
+                        }
+                  ?>
+
+                  <li><a><i class="fa fa-user"></i> Clients <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <?php
+                      if($_SESSION['usertype_id'] == 2 OR $_SESSION['usertype_id'] == 3){
+                      ?>
+                      <li><a href="ViewClients.php">View Clients</a></li>
+                      <?
+                        }
+                      ?>
+                      <?php
+                      if($_SESSION['usertype_id'] == 2){
+                      ?>
+                      <li><a href="tables_dynamic.html">Client Order Approval</a></li>
+                      <?
+                        }
+                      ?>
+                    </ul>
+                  </li>
+
+                  <?php
+                    if($_SESSION['usertype_id'] == 1 OR $_SESSION['usertype_id'] == 2 OR $_SESSION['usertype_id'] == 3){
+                  ?>
+
+                  <li><a><i class="fa fa-bar-chart-o"></i> Data Analytics <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a> Sales <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                          <li><a href="index.html">Sales Variance Analysis</a></li>
+                          <li><a href="index2.html">Sales Forecasting</a></li>
+                        </ul>
+                      </li>
+                      <li><a> Inventory <span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                              <li><a href="index2.html">Inventory Forecasting</a></li>
+                          </ul>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <?
+                        }
+                  ?>
+
+                  <?php
+                    if($_SESSION['usertype_id'] == 1 OR $_SESSION['usertype_id'] == 3){
+                  ?>
+
+                  <li><a><i class="fa fa-folder-open"></i> Reports <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="fixed_sidebar.html">Inventory Report</a></li>
+                      <li><a href="fixed_footer.html">Sales Report</a></li>
+                      <li><a href="fixed_footer.html">Delivery Report</a></li>
+                    </ul>
+                  </li>
+
+                  <?
+                        }
+                  ?>
+
+                </ul>
+              </div>
             </div>
             <!-- /sidebar menu -->
 
@@ -277,7 +169,7 @@ if($_SESSION['user_status'] == "Active - New Account" AND $_SERVER['REQUEST_URI'
               <a data-toggle="tooltip" data-placement="top" title="Lock">
                 <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
               </a>
-              <a data-toggle="tooltip" data-placement="top" title="Logout" onclick="destroySession();">
+              <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
             </div>
@@ -296,16 +188,84 @@ if($_SESSION['user_status'] == "Active - New Account" AND $_SERVER['REQUEST_URI'
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/user.png" alt=""><?php echo $_SESSION["fullname"]; ?>
+                    <img src="images/img.jpg" alt="">John Doe
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
+                    <li><a href="javascript:;"> Profile</a></li>
                     <li>
-                      <a data-toggle="modal" data-target=".bs-example-modal-lg">
-                        <span>Change Password</span>
+                      <a href="javascript:;">
+                        <span class="badge bg-red pull-right">50%</span>
+                        <span>Settings</span>
                       </a>
                     </li>
-                    <li><a onclick="destroySession();"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                    <li><a href="javascript:;">Help</a></li>
+                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                  </ul>
+                </li>
+
+                <li role="presentation" class="dropdown">
+                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-envelope-o"></i>
+                    <span class="badge bg-green">6</span>
+                  </a>
+                  <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                    <li>
+                      <a>
+                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <div class="text-center">
+                        <a>
+                          <strong>See All Alerts</strong>
+                          <i class="fa fa-angle-right"></i>
+                        </a>
+                      </div>
+                    </li>
                   </ul>
                 </li>
               </ul>
@@ -313,100 +273,3 @@ if($_SESSION['user_status'] == "Active - New Account" AND $_SERVER['REQUEST_URI'
           </div>
         </div>
         <!-- /top navigation -->
-
-        <!-- Change password modal -->
-
-          <div id="modalChangePassword" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="false">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
-                  </button>
-                  <h4 class="modal-title" id="myModalLabel">Edit Password</h4>
-                </div>
-                <div class="modal-body">
-                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" method="POST">
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Old Password<span class="required">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="password" id="oldPassword" required="required" class="form-control col-md-7 col-xs-12" name="oldPassword" value="">
-                            </div>
-                            <label class="control-label red" id="oldPasswordLabel" for="first-name">
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">New Password<span class="required">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="password" id="newPassword" required="required" class="form-control col-md-7 col-xs-12" name="newPassword" value="">
-                            </div>
-                            <label class="control-label red" id="newPasswordLabel" for="first-name">
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Repeat New Password<span class="required">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="password" id="repeatPassword" required="required" class="form-control col-md-7 col-xs-12" name="repeatPassword" value="">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" id="closeEditPassword" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="changePassword();">Save changes</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-    <script>
-
-    function changePassword() {
-        let oldPassword = document.getElementById("oldPassword").valueOf().value;
-        let newPassword = document.getElementById("newPassword").valueOf().value;
-        let repeatPassword = document.getElementById("repeatPassword").valueOf().value;
-        $.ajax({
-            type: 'POST',
-            url: "ajax/changePassword.php",
-            data:{
-                oldPassword: oldPassword,
-                newPassword: newPassword,
-                repeatPassword: repeatPassword
-            },
-            success: function(result){
-                document.getElementById("oldPassword").valueOf().value = "";
-                document.getElementById("newPassword").valueOf().value = "";
-                document.getElementById("repeatPassword").valueOf().value = "";
-
-                if(result == 1) {
-                    document.getElementById("oldPasswordLabel").innerHTML = "Old password is invalid!";
-                    document.getElementById("newPasswordLabel").innerHTML = "";
-                }
-                else if(result == 2) {
-                    document.getElementById("oldPasswordLabel").innerHTML = "";
-                    document.getElementById("newPasswordLabel").innerHTML = "Passwords do not match!";
-                }
-                else if(result == 3){
-                    alert("Successfully changed your password.");
-                    document.getElementById("oldPasswordLabel").innerHTML = "";
-                    document.getElementById("newPasswordLabel").innerHTML = "";
-                    document.getElementById("closeEditPassword");
-                }
-            }});
-        }
-
-    function destroySession(){
-
-        $.ajax({
-            type: 'POST',
-            url: "ajax/destroySession.php",
-            success: function(result){
-                window.location.href = "login.php";
-            }
-        });
-    }
-
-</script>
