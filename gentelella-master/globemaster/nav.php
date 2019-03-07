@@ -1,5 +1,4 @@
-
-    <div class="col-md-3 left_col">
+<div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
                 <a href="MainDashboard.php" class="site_title"><img src="images/GM%20LOGO.png" width = "50" height = "50"><b>Globe Master</b></a>

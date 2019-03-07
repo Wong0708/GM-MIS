@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-session_destroy();
+// session_destroy();
 if(isset($_POST['login']))
 {
     $_SESSION['username'] = $_POST['loginuser'];

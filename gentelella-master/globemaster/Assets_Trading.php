@@ -215,7 +215,7 @@
                             <th>
                               <input type="checkbox" >
                             </th>
-                            <th class="column-title">Item ID </th>
+                            <th class="column-title">SKU </th>
                             <th class="column-title">Item Name </th>
                             <th class="column-title">Price </th>
                             <th class="column-title">Quantity Sold </th>
@@ -235,9 +235,6 @@
                           
                             $query = "SELECT * FROM items_trading";
                             $result=mysqli_query($dbc,$query);
-
-                            
-                            
 
                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                             { 
@@ -277,63 +274,7 @@
                           ;    
                          ?>                                              
    
-                              <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                  <div class="modal-content">
-                  
-                                    <div class="modal-header">
-                                      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
-                                      </button>
-                                      <h4 class="modal-title" id="myModalLabel">Trading</h4>
-                                    </div>
-                  
-                                    <div class = "modal-body">
-                                    <form class="form-horizontal form-label-left" novalidate>
-                                                       
-                                      <span class="section">Item Information</span>
-                  
-                                      <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Item Name <span class="required">*</span>
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                          <input id="customer" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="customer" placeholder="Customer Name" required="required" type="text">
-                                        </div>
-                                      </div>
-                                      <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Item Number <span class="required">*</span>
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                          <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" required="required" type="text">
-                                        </div>
-                                      </div>
-                                      <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Driver <span class="required">*</span>
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                          <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" required="required" type="text">
-                                        </div>
-                                      </div>
-                                      <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Destination <span class="required">*</span>
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                          <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" required="required" type="text">
-                                        </div>
-                                      </div>
-
-                                                               
-                                      <div class="ln_solid"></div>
-                                      <div class="form-group">
-                                        <div class="col-md-6 col-md-offset-3">
-                                          <button type="submit" class="btn btn-primary">Back</button>
-                                        
-                                        </div>
-                                      </div>
-                                    </form>
-                                  </div>
-                                  </div>
-                                </div>
-                              </div><!-- End MODAL -->
+                            
                              
                           
                         </tbody>
