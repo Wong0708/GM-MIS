@@ -109,9 +109,9 @@
                             {
 
                               echo " <tr>";
-                                echo '<td  id = "delivrow',$count,'"  value ="',$rowofResult['delivery_Receipt'],'"   onclick="getDR(this)"> <a href="Delivery Receipt.php">';                              
+                                echo '<td  id = "delivrow',$count,'"  value="',$rowofResult['delivery_Receipt'],'"  onclick="getDR(this)"> <a href="Delivery Receipt.php">';            
                                 echo $rowofResult['delivery_Receipt'];
-                                echo '</input></a></td>';  
+                                echo '</a></td>';  
                                 echo '<td>';
                                 echo $rowofResult['delivery_Date'];
                                 echo '</td>'; 
@@ -196,7 +196,7 @@
          function getDR(obj) {
             alert(obj.textContent);
             var textFromDeliveriesPage = obj.textContent;
-            localStorage.setItem("DRfromDeliveriesPage",textFromDeliveriesPage);
+            localStorage.setItem('DRfromDeliveriesPage',textFromDeliveriesPage);
          }
     </script>
 

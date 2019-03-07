@@ -83,19 +83,19 @@
 
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Customer Name</label>
-                                        <div class="col-md-3 col-sm-6 col-xs-6">
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
                                             <input type="text" id = "drCusName" class="form-control" readonly="readonly" >
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Current Status</label>
-                                        <div class="col-md-3 col-sm-6 col-xs-6">
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
                                             <input type="text" id = "drStatus" class="form-control" readonly="readonly">
                                         </div>
                                     </div>
 
                                     <div class="row" >
-                                        <div class="col-md-8 col-sm-9 col-xs-6"  >
+                                        <div class="col-md-8 col-sm-9 col-xs-12"  >
                                             <table  id="datatable" class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable_info">
                                                 <thead>
                                                     <tr role="row">
@@ -118,7 +118,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Total</label>
                                         <div class="col-md-3 col-sm-9 col-xs-6">
-                                            <input   type="text" class="form-control" readonly="readonly" placeholder="Read-Only Input">
+                                            <input   type="text" id = "drTotal" class="form-control" readonly="readonly" placeholder="Read-Only Input">
                                         </div>
                                     </div>
 
@@ -126,7 +126,7 @@
                                     <div class="form-group">
                                         <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                                             <button type="button" class="btn btn-primary">Edit</button>
-                                            <button type="reset" class="btn btn-warning">Archive</button>
+                                            <button type="reset" class="btn btn-warning" onclick="clearLocalStorage()">Archive</button>
                                         </div>
                                     </div>
 
@@ -299,6 +299,7 @@ $orderNumberArray = array();
 $itemName = array();
 $quantity = array();
 $pricePerItem = array();
+$totalPrice = array();
 
 $queryToGetItemList = "SELECT * FROM order_details WHERE item_status ='IP'";
 $resultofQuery1 = mysqli_query($dbc, $queryToGetItemList);
@@ -308,16 +309,18 @@ while($rowofResult1=mysqli_fetch_array($resultofQuery1,MYSQLI_ASSOC))
     $itemName[] = $rowofResult1['item_name'];
     $quantity[] = $rowofResult1['item_qty'];
     $pricePerItem[] = $rowofResult1['item_price'];
+    $totalPrice[] = $rowofResult1['item_qty'] * $rowofResult1['item_price'];
 
-//    echo "Result of RowResult = ", $rowofResult1['ordernumber'] ,"<br>";
-//    echo "Result of OrderNumArray = ", $orderNumberArray[0] ,"<br>";
 }
 
 
 
 $SchedDelivOrderNumber = array(); 
 $SchedDelivDR = array();
-
+$SchedDelivDate = array();
+$SchedDelivDestination = array();
+$SchedDelivCusName = array();
+$SchedDelivStatus = array();
 
 
 $sqlToGetTableValue = "SELECT * FROM scheduledelivery";
@@ -325,38 +328,67 @@ $resultofQuery2 = mysqli_query($dbc, $sqlToGetTableValue);
 while($rowofResult2=mysqli_fetch_array($resultofQuery2,MYSQLI_ASSOC))
 {
     $SchedDelivOrderNumber[] = $rowofResult2['ordernumber'];
+
     $SchedDelivDR[] = $rowofResult2['delivery_Receipt'];
-    // echo $rowofResult2['ordernumber'];
+    $SchedDelivDate[] = $rowofResult2['delivery_Date'];
+    $SchedDelivDestination[] = $rowofResult2['Destination'];
+    $SchedDelivCusName[] = $rowofResult2['customer_Name'];
+    $SchedDelivStatus[] =  $rowofResult2['delivery_status'];
 }
     echo '<script text/javascript>';
+    echo "var deliverNumberfromHTML = document.getElementById('drNumber');";
+    echo "var deliverDatefromHTML = document.getElementById('drDate');";
+    echo "var deliverDestinationfromHTML = document.getElementById('drDestination');";
+    echo "var deliverCusNamefromHTML = document.getElementById('drCusName');";
+    echo "var deliverStatusfromHTML = document.getElementById('drStatus');";
+    echo "var deliverTotalfromHTML = document.getElementById('drTotal');";  //Gets HTML elements (Textbox)
+    
+    echo "var drDateFromPHP = ".json_encode($SchedDelivDate).";";
+    echo "var drDesFromPHP = ".json_encode($SchedDelivDestination).";";
+    echo "var drCusFromPHP = ".json_encode($SchedDelivCusName).";";
+    echo "var drStatFromPHP = ".json_encode($SchedDelivStatus).";";
+    echo "var DRFromPHP = ".json_encode($SchedDelivDR).";"; //Values from Sched Delivery Table
 
-    // echo 'window.onload = alert(localStorage.getItem("DRfromDeliveriesPage"));';
 
-    echo "var DRFromPHP = ".json_encode($SchedDelivDR).";"; 
     echo "var ItemNameFromPHP = ".json_encode($itemName).";"; 
     echo "var ItemQuantityFromPHP = ".json_encode($quantity).";"; 
     echo "var ItemPriceFromPHP = ".json_encode($pricePerItem).";"; 
+    echo "var ItemTotalFromPHP = ".json_encode($totalPrice).";"; //Values from order_details table
+   
 
-    echo 'var GetDR = localStorage.getItem("DRfromDeliveriesPage");';
+    echo 'var GetDR = localStorage.getItem("DRfromDeliveriesPage");'; //Gets the text to compare fron Deliveries.php
 
         echo 'for(var i = 0; i < DRFromPHP.length ; i++){';   
             
-            echo 'console.log("Value From Receipts.php = " + DRFromPHP[i]);';
-            echo 'console.log("Value from Delvieries.php = " + GetDR);';
-            echo 'if(GetDR == DRFromPHP[i]) {';
-              
-                // echo 'console.log(ItemNameFromPHP[i]);';
-                // echo 'console.log(ItemQuantityFromPHP[i]);';
-                // echo 'console.log(ItemPriceFromPHP[i]);';
-               
+           
+            echo 'if(GetDR.trim() == DRFromPHP[i].trim()) {';
+                echo 'console.log("Value From Receipts.php = " + DRFromPHP[i]);';
+                echo 'console.log("Value from Delvieries.php = " + GetDR);';
+            
+            echo 'deliverNumberfromHTML.value = DRFromPHP[i];';
+            echo 'deliverDatefromHTML.value = drDateFromPHP[i];';
+            echo 'deliverDestinationfromHTML.value = drDesFromPHP[i];';
+            echo 'deliverCusNamefromHTML.value = drCusFromPHP[i];';
+            echo 'deliverStatusfromHTML.value = drStatFromPHP[i];';
+            echo 'deliverTotalfromHTML.value = ItemTotalFromPHP[i];';
 
             echo  "var newRow = document.getElementById('datatable').insertRow();";
             echo  'newRow.innerHTML = "<tr><td>" +ItemNameFromPHP[i]+ "</td> <td>" +ItemQuantityFromPHP[i]+ "</td><td>" +ItemPriceFromPHP[i]+ "</td></tr>";';
+            echo 'localStorage.removeItem("DRfromDeliveriesPage")';
+            
               
             echo '  }'; // End IF  
         echo ' }';// END FOR
 echo '</script>';
 ?> <!-- PHP END -->
+
+<script>
+// To Clear localstorage =temporary
+    function clearLocalStorage()  
+    {
+        localStorage.clear();
+    }
+</script>
 
 </body>
 

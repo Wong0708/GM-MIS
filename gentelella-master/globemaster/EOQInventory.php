@@ -140,6 +140,8 @@
 
                                         echo 'if(itemNameFromPHP[i] == textFromHTML ){';
 
+                                          echo 'console.log("Text From HTML = " + textFromHTML);';
+
                                           echo 'console.log(itemNameFromPHP[i]);';
 
                                           echo "var eoq = Math.sqrt((2 * 800 * AcquisitionCostFromPHP[0]) / ((HoldingCostFromPHP[0]/100) * ItemPriceFromPHP[i]));";
