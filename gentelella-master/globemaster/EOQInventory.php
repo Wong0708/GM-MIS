@@ -119,94 +119,14 @@
                                
                                 $arrayofCount[] = $count;
                                 $count += 1;
-
-
                               }
-                              echo '<script text/javascript>';
-
-                              echo "var arrayCountFromPHP = ".json_encode($arrayofCount).";"; 
-                              echo "var itemNameFromPHP = ".json_encode($itemNameArray).";"; 
-                              echo "var ItemPriceFromPHP = ".json_encode($itemPrice).";"; 
-                              echo 'var AcquisitionCostFromPHP = '.json_encode($AcquisitionCostFromDB).';';
-                              echo 'var HoldingCostFromPHP = '.json_encode($HoldingCostFromDB).';';
-
-                            
-
-                                echo 'function myTD(obj) {';
-                                  // echo ' alert(obj.innerHTML);';
-                                  echo 'var textFromHTML = obj.innerHTML;';
-
-                                    echo 'for(var i = 0; i < itemNameFromPHP.length; i++){';   
-
-                                        echo 'if(itemNameFromPHP[i] == textFromHTML ){';
-
-                                          echo 'console.log("Text From HTML = " + textFromHTML);';
-
-                                          echo 'console.log(itemNameFromPHP[i]);';
-
-                                          echo "var eoq = Math.sqrt((2 * 800 * AcquisitionCostFromPHP[0]) / ((HoldingCostFromPHP[0]/100) * ItemPriceFromPHP[i]));";
-                                          echo 'var Final = eoq.toFixed(2);';
-                                          // echo 'tableCell[i].textContent = Final;';
-                                          echo 'console.log(Final);';
-                                          // echo'break;';
-
-                                        echo '};'; //End IF
-
-                                    echo ' }'; //End For
-
-                                echo ' }'; //END Function
-
-
-
-                                
-                              echo '</script>';
-                              // $TheEOQ = sqrt(
-                              //   (2 * 687.5 *  $AcquisitionCostFromDB[0]) / (($HoldingCostFromDB[0]/100) * $itemPrice[$i])
-                              // );
-                    
-                              // echo round($TheEOQ, 2);
-
-                              
-                              // echo 'for(var i = 0; i < '.sizeof($itemNameArray).'; i++){';
-
-
-                              //   // echo 'for(var j = 0; j < '.sizeof($itemNameArray).'; j++){';
-                                 
-                              //     echo 'ItemNameFromTable[i].addEventListener("click", calculateEoQ);'; 
-
-                              //     echo 'if(itemNameFromPHP[i].toString() == nameArray[i]){'; //WIP
-
-                                    
-                              //       echo 'console.log(itemNameFromPHP[i]);';
-                              //       echo 'console.log(nameArray[i]);';
-
-                              // echo "var ItemNameFromTable = tableCell.document.getElementById('itemNameRow' + arrayCountFromPHP[i]);";
-
-                              // echo "ItemNameFromTable[i].addEventListener('click', calculateEoQ);";
-                              // echo 'console.log(ItemNameFromTable[i]);';
-
-
-                            
-                              //           echo '};'; //EnD IF
-                              //         // echo '};'; //End 2nd For 
-                              //   echo '};'; //End 1st For 
-                              
-                                // echo "var tableCell = document.getElementsByTagName('td'); ";
-
-                               
-                                // echo 'var getName = ItemNameFromTable.innerText;'; //Gets the TEXT inside table
-                                // echo 'var nameArray = [];';
-                                // echo 'nameArray.push(getName);';
-
-                                // echo 'for(var i = 0; i < tableCell.length; i++){';       
-
-                                //   echo "var ItemNameFromTable = tableCell.document.getElementById('itemNameRow' + arrayCountFromPHP[i]);";
-
-                                //   echo "ItemNameFromTable[i].addEventListener('click', calculateEoQ);";
-                                //   echo 'console.log(ItemNameFromTable[i]);';
-
-                                // echo ' }';
-
+                                echo '<script>';
+                                  echo 'var arrayCountFromPHP = '.json_encode($arrayofCount).';';
+                                  echo 'var itemNameFromPHP = '.json_encode($itemNameArray).';';
+                                  echo ' var ItemPriceFromPHP = '.json_encode($itemPrice).';';
+                                  echo ' var AcquisitionCostFromPHP = '.json_encode($AcquisitionCostFromDB).';';
+                                  echo ' var HoldingCostFromPHP = '.json_encode($HoldingCostFromDB).';'; //Gets Necessary Variables from PHP to be used in javascript
+                                echo '</script>'
                               ?>     
                               
                                   
@@ -219,24 +139,30 @@
                     
                         </div> <!-- Canvas Div -->
                         
-                        <div class="slidecontainer">
+                        <div class="slidecontainer" id = "sliderAmount">
                           <input type="range" min="1" max="50" value="50" class="slider" id="rangeSlider"> </input>
                          
                           <p>Value: <span id="value"></span></p>
-                          Set Estimated Annual Demand: <input id = "maxInput" type ="number" min = "0"> </input>
-                          <!-- <script>
-                            $('#maxInput').keydown(function (event) 
+                          Set Estimated Annual Demand: <input id = "maxInput" type ="number" min = "0" onkeydown="return processKey(event)" value = "0"> </input>
+                          <script>
+                          function processKey(e)
                             {
-                              var keypressed = event.keyCode || event.which;
-                              if (keypressed == 13) 
-                              {
-                                $("#maxInput").attr({
-                                    "max" : maxInput
-                                    
-                                  });
-                              } //End IF
-                            }); //End Function
-                          </script> -->
+                                if (null == e)
+                                    e = window.event ;
+                                if (e.keyCode == 13)  {
+                                    // document.getElementById("maxInput").click();
+                                   
+                                    var getInputEntered = document.getElementById("maxInput");
+                                    var getValueofInputEntered = getInputEntered.value;
+
+                                    var slider = document.getElementById("rangeSlider");
+                                    slider.setAttribute("max",getValueofInputEntered); 
+
+                                   
+                                    return false;
+                                }
+                            }
+                          </script>
                           
                         </div>
 
@@ -455,8 +381,48 @@ var myChart = new Chart(ctx, {
       }
   </style>
 
-  
 
+<script text/javascript>
+
+
+
+var demand = rangeSlider.value;
+ var slide = document.getElementById('rangeSlider'),
+    sliderDiv = document.getElementById("sliderAmount");
+slider.onchange = function()
+{
+  
+  demand = this.value;
+}
+
+function myTD(obj) {
+//  alert(obj.innerHTML);
+var textFromHTML = obj.innerHTML;
+
+  for(var i = 0; i < itemNameFromPHP.length; i++){  
+
+      if(itemNameFromPHP[i] == textFromHTML )
+      {
+
+        console.log("Text From HTML = " + textFromHTML);
+      console.log(itemNameFromPHP[i]);
+
+        var eoq = Math.sqrt((2 * demand * AcquisitionCostFromPHP[0]) / ((HoldingCostFromPHP[0]/100) * ItemPriceFromPHP[i]));
+        var Final = eoq.toFixed(2);
+        // echo 'tableCell[i].textContent = Final;
+        console.log(Final);
+        // echo'break;';
+
+      };//End IF
+
+  } //End For
+
+} //END Function
+
+
+
+  
+</script>
 	
   </body>
 </html>
