@@ -6,11 +6,23 @@ if(!(isset($_SESSION['usertype']))){
         dirname($_SERVER['PHP_SELF'])."/login.php");
 }
 ?>
+<script type="text/javascript"> 
+  function display_c(){
+    var refresh=1000; // Refresh rate in milli seconds
+    mytime=setTimeout('display_ct()',refresh)
+  }
 
+  function display_ct() {
+    var x = new Date()
+    document.getElementById('ct').innerHTML = x;
+    tt=display_c();
+ }
+ 
+</script>
     <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-                <a href="MainDashboard.php" class="site_title"><img src="images/GM%20LOGO.png" width = "50" height = "50"><b>Globe Master</b></a>
+                <a href="MainDashboard.php" class="site_title"><img src="images/GM%20LOGO.png" width = "50" height = "50" onload = "display_ct()"><b>Globe Master</b></a>
             </div>
 
             <div class="clearfix"></div>
@@ -27,10 +39,17 @@ if(!(isset($_SESSION['usertype']))){
                   $checkuser = "SELECT usertype FROM gm_usertype WHERE usertype_id = '{$_SESSION['usertype']}'";
                   $result=mysqli_query($dbc,$checkuser);
                   $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
+
+                  $checkuser1 = "SELECT * FROM gm_users WHERE usertype_id = '{$_SESSION['usertype']}'";
+                  $result1=mysqli_query($dbc,$checkuser1);
+                  $row1=mysqli_fetch_array($result1,MYSQLI_ASSOC);
               
                     echo "<h2>Welcome, ";
+                    echo $row1['first_name']." ".$row1['last_name'];
+                    echo "!</h2>";  
+                    echo "<b>";
                     echo $row['usertype'];
-                    echo "!</h2>";
+                    echo "</b>";
                   
         
                 ?>
@@ -125,12 +144,16 @@ if(!(isset($_SESSION['usertype']))){
         <!-- top navigation -->
         <div class="top_nav">
           <div class="nav_menu">
+          
             <nav>
+            
               <div class="nav toggle">
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                
               </div>
 
               <ul class="nav navbar-nav navbar-right">
+              
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     <img src="images/img.jpg" alt="">John Doe
@@ -148,8 +171,10 @@ if(!(isset($_SESSION['usertype']))){
                     <li><a href="logout.php"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>
-
-                <li role="presentation" class="dropdown">
+                
+            <div id='ct' class="monika" style="font-size:120%"></div>
+                
+                <!-- <li role="presentation" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
                     <span class="badge bg-green">6</span>
@@ -210,11 +235,14 @@ if(!(isset($_SESSION['usertype']))){
                           <i class="fa fa-angle-right"></i>
                         </a>
                       </div>
-                    </li>
+                    </li> -->
                   </ul>
                 </li>
               </ul>
             </nav>
           </div>
         </div>
+        
         <!-- /top navigation -->
+
+<!-- Clock Script -->

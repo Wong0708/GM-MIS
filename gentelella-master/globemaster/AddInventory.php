@@ -1,19 +1,47 @@
-<!DOCTYPE html>
 <?php
-      require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-    
-?> <!-- PHP END -->
-<html lang="en">
 
-<head>
+if(isset($_POST['add']))
+{
+    $supplier = $_POST['supplier'];
+    $itemtype = $_POST['itemcategory'];
+    $itemname = $_POST['itemname'];
+    $warehouse = $_POST['warehouse'];
+    $threshold = $_POST['threshold'];
+    $price = $_POST['price'];
+    $sku = $_POST['sku'];
+    
+    require_once('mysql_connect.php');
+    $queryItemType = "SELECT UPPER(LEFT(itemtype, 3)) itemconcat FROM ref_itemtype WHERE itemtype_id =" . $itemtype . ";";
+    $resultItemType = mysqli_query($dbc,$queryItemType);
+    $rowItemType=mysqli_fetch_array($resultItemType,MYSQLI_ASSOC);
+    $itemConcatType = $rowItemType['itemconcat'];
+    
+    
+        require_once('mysql_connect.php');
+        $query="SELECT item_name from items_trading where item_name= '{$itemname}'";
+        $result=mysqli_query($dbc,$query);
+        if ($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
+            echo "<script> alert('Inventory already exists'); </script>";
+        }else{
+              $query="INSERT INTO items_trading(item_name, itemtype_id, item_count, last_restock, last_update, threshold_amt, warehouse_id, supplier_id, price, sku_id)
+                VALUES('$itemname', '$itemtype', '0', '', '', '$threshold', '$warehouse', '$supplier', '$price', '$sku')";
+                $result=mysqli_query($dbc,$query);
+                echo "<script> alert('Item added'); </script>";
+        }
+}
+
+?>
+
+
+<html lang="en">
+  <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="images/favicon.ico" type="image/ico" />
-
-    <title>GM MIS | Add Inventory</title>
+	  
+    <title>Gentelella Alela! | </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -23,334 +51,198 @@
     <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- iCheck -->
     <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-
-    <!-- bootstrap-progressbar -->
-    <link href="../vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
-    <!-- JQVMap -->
-    <link href="../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet" />
+    <!-- bootstrap-wysiwyg -->
+    <link href="../vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
+    <!-- Select2 -->
+    <link href="../vendors/select2/dist/css/select2.min.css" rel="stylesheet">
+    <!-- Switchery -->
+    <link href="../vendors/switchery/dist/switchery.min.css" rel="stylesheet">
+    <!-- starrr -->
+    <link href="../vendors/starrr/dist/starrr.css" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
-</head>
+  </head>
 
-<body class="nav-md">
+  <body class="nav-md">
     <div class="container body">
-        <div class="main_container">
-					<?php
-                    require_once("nav.php");    
-                    ?>
-
-            </div>
+      <div class="main_container">
+            <!-- sidebar menu -->
+            <?php
+                require_once("nav.php");    
+            ?>
             <!-- /sidebar menu -->
-
-
-                <!-- page content -->
-                <div class="right_col" role="main">
-                    <!-- top tiles -->
-                    
-                    
-
-                    <!-- /top tiles -->
-<div class="col-md-12 col-sm-12 col-xs-12">
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h1>Add Inventory</h1><br>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2 >Add Inventory Items: <b>TRADING</b></h2>
-                    <!--<ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                      <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                          <li><a href="#">Settings 1</a>
-                          </li>
-                          <li><a href="#">Settings 2</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
-                    </ul> -->
+                    <p class="text-muted font-13 m-b-30">
+                      This is where the users will be able to add and remove inventory based on the data tables provided by the company. These can be editable and can be subjected to changes in accordance to the
+                  desires of the head different screen sizes through the dynamic insertion and removal of columns from the table.
+                    </p>
                     <div class="clearfix"></div>
                   </div>
-
                   <div class="x_content">
-                    <br>
-                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="" method = "POST">
+                    <br />
+                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" data-parsley-validate class="form-horizontal form-label-left">
 
-                     <!-- <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Store</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <div id="gender" class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                              <input type="radio" name="depot" value="Depot" onclick="toggleTradingtoDepot()"> &nbsp; Depot &nbsp;
-
-                            </label>
-                            <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                              <input type="radio" name="trading" value="Trading"  onclick="toggleTradingtoDepot()"> Trading
-                            </label>
-                          </div>
-                        </div>
-                      </div> Toggle Trading/Depot Button --> 
-                  
-                      <script>
-                        function toggleTradingtoDepot()
-                        {
-                            var depot = document.getElementById("depotConcessionaire");
-                            var trade = document.getElementById("tradingSuppliers");
-                                trade.style.display = "none" 
-                               
-                        }
-                    </script> <!-- Script to Change Trading to Depot vice versa -->
-                    <div class = "form-group">
-                    <p style = "color:red"><b> *All fields are required </b></p>
-                    </div>
-                    <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">SKU<span class="required">*</span></label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="middle-name" class="form-control col-md-3 col-md-7 col-xs-12" type="number" name="SKU">
-                        </div>
-                    </div>
-                    <div class="form-group" >
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Reference<span class="required">*</span>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Category <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                        <select id="heard" class="form-control col-md-6 col-md-6 col-xs-12" required="" name = "selectItemtype" style=" width:250px";>
-                            <option value="">Choose..</option>
-                                <?php
-                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-
-                                    $sql = "SELECT * FROM ref_itemtype";
-                                    $result=mysqli_query($dbc,$sql);
-                                    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                                    { 
-                                        echo'<option value="';
-                                        echo $row['itemtype'];
-                                        echo'">';
-                                        echo $row['itemtype'];
-                                        echo'</option>';
-                                    }                                   
-                                ?> <!-- PHP END -->                                                   
-                        </select>
+                         <?php
+                                require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                $query = "SELECT * FROM ref_itemtype";
+                                $result=mysqli_query($dbc,$query);
+                                $option = "";
+                                while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                                {
+                                    $option .= '<option value = "'.$row['itemtype_id'].'">'.$row['itemtype'].'</option>';
+                                }
+                            ?>
+                            <select name="itemcategory" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                            <?php echo $option ?>
+                            </select>
                         </div>
                       </div>
-
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Stock Keeping Unit (SKU) <span class="required">*</span>
+                        </label>
+                         <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" name="sku" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Choose Supplier <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <?php
+                                require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                $query = "SELECT * FROM suppliers";
+                                $result=mysqli_query($dbc,$query);
+                                $option = "";
+                                while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                                {
+                                    $option .= '<option value = "'.$row['supplier_id'].'">'.$row['supplier_name'].'</option>';
+                                }
+                            ?>
+                            <select name="supplier" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                            <?php echo $option ?>
+                            </select>
+                        </div>
+                      </div><br><br>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Item Name <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="last-name" name="item_name" required class="form-control col-md-7 col-xs-12">
+                          <input type="text" name="itemname" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Amount<span class="required">*</span></label>
+                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Warehouse Location</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="number" name="amount" required>
-                        </div>
-                      </div>
-					  <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Price<span class="required">*</span></label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="number" name="price">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Threshold<span class="required">*</span></label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="middle-name" class="form-control col-md-3 col-md-7 col-xs-12" type="number" name="threshold">
-                        </div>
-                      </div>
-
-                      
-
-                      
-                      <div class="form-group" id = "tradingSuppliers">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Warehouse<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                        <select id="heard" class="form-control col-md-3 col-md-7 col-xs-12" required="" name = " selectWarehouse" style=" width:250px";>
-                            <option value="">Choose..</option>
-                                <?php
-                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-
-                                    $sql = "SELECT * FROM warehouses";
-                                    $result=mysqli_query($dbc,$sql);
-                                    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                                    { 
-                                        echo'<option value="';
-                                        echo $row['warehouse'];
-                                        echo'">';
-                                        echo $row['warehouse'];
-                                        echo'</option>';
-                                    }
-
-                                    
-                                ?> <!-- PHP END -->
-                                                    
-                        </select>
-                        </div>
-                      </div>
-					  <div class="form-group" id = "depotConcessionaire">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Concessionaire <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                        <select id="heard" class="form-control col-md-7 col-xs-12" required="" style=" width:250px">
-                            <option value="">Choose..</option>
-                            <?php
-                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-
-                                    $sql = "SELECT * FROM concessionaire";
-                                    $result=mysqli_query($dbc,$sql);
-                                    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                                    { 
-                                        echo'<option value="press">';
-                                        echo $row['concess_name'];
-                                        echo'</option>';
-                                    }
-
-
-                                ?> <!-- PHP END -->
-                        </select>
-                        </div>
-                      </div>
-                      <div class="ln_solid"></div>
-                      <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button class="btn btn-danger" type="button">Cancel</button>
-						  <button class="btn btn-primary" type="reset">Reset</button>
-                          <button type="submit" class="btn btn-success" name = "submitBtn">Submit</button>
-                          
                           <?php
-                          require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-                            if(isset($_POST['submitBtn']))
-                            {
-                                $itemName = $_POST['item_name']; //Stores the Values from Textbox in HTML
-                                $itemAmount = $_POST['amount'];
-                                $itemPrice = $_POST['price'];
-                                $itemThreshold = $_POST['threshold'];
-
-                                $warehouseIDfromSelect = $_POST['selectWarehouse'];
-                                $itemTypeIDfromSelect = $_POST['selectItemtype'];
-
-
-                                $queryWarehouseID = "SELECT warehouses.warehouse_id FROM warehouses WHERE warehouse = '$warehouseIDfromSelect'";
-                                $resultWarehouseID = mysqli_query($dbc,$queryWarehouseID);                                
-                                $rowWarehouseID = mysqli_fetch_assoc($resultWarehouseID); //Query for getting WarehouseID 
-
-                                $queryItemtypeID = "SELECT ref_itemtype.itemtype_id FROM ref_itemtype WHERE itemtype = '$itemTypeIDfromSelect'";
-                                $resultItemtype = mysqli_query($dbc,$queryItemtypeID);                                
-                                $rowItemtypeID = mysqli_fetch_assoc($resultItemtype); //Query For getting itemtypeID
-
-                                $queryItemID = "SELECT item_id FROM items_trading ORDER BY item_id DESC LIMIT 1 ";
-                                $resultItemID = mysqli_query($dbc,$queryItemID);
-                                $rowResultItemID = mysqli_fetch_assoc($resultItemID);
-
-                                
-                                
-                                // var_dump($resultWarehouseID);                               
-                                // print_r($queryWarehouseID);
-
-                                // echo $rowWarehouseID['warehouse_id'];
-                                // echo $rowItemtypeID['itemtype_id'];
-
-                                $WareHouseID = $rowWarehouseID['warehouse_id'];
-                                $ItemtypeID = $rowItemtypeID['itemtype_id'];
-                                $ItemID = $rowResultItemID['item_id']+1;
-
-                                echo  $ItemID;
-                              
-                                
-                                $sql = "INSERT INTO items_trading (item_id, item_name, itemtype_id, item_count, last_restock, last_update, threshold_amt, warehouse_id, supplier_id, price)
-                                Values(
-                                '$ItemID',
-                                '$itemName', 
-                                '$ItemtypeID',
-                                '$itemAmount', curdate(),curdate(),
-                                '$itemThreshold',
-                                '$WareHouseID',
-                                '1',
-                                '$itemPrice')";
-
-                                $result=mysqli_query($dbc,$sql);              
-                            }
-                          ?>
+                                require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                $query = "SELECT * FROM warehouses";
+                                $result=mysqli_query($dbc,$query);
+                                $option = "";
+                                while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                                {
+                                    $option .= '<option value = "'.$row['warehouse_id'].'">'.$row['warehouse'].'</option>';
+                                }
+                            ?>
+                            <select name="warehouse" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                            <?php echo $option ?>
+                            </select>
                         </div>
                       </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Threshold Amount <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input name="threshold" class="form-control col-md-7 col-xs-12" required="required" type="text">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Unit Price <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input name="price" class="form-control col-md-7 col-xs-12" required="required" type="text">
+                        </div>
+                      </div><div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <button name="add" class="btn btn-success" type="submit" class="btn btn-success">Add</button>
+						              <button class="btn btn-primary" type="reset">Reset</button>
+                        </div>
+                      </div>
+                      
 
                     </form>
                   </div>
                 </div>
               </div>
-             
-</body>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
 
-<!-- /page content -->
+        <!-- footer content -->
+        <footer>
+          <div class="pull-right">
+            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+      </div>
+    </div>
 
-<!-- footer content -->
-
-<!-- /footer content -->
-</div>
-</div>
-
-<!-- jQuery -->
-<script src="../vendors/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap -->
-<script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- FastClick -->
-<script src="../vendors/fastclick/lib/fastclick.js"></script>
-<!-- NProgress -->
-<script src="../vendors/nprogress/nprogress.js"></script>
-<!-- Chart.js -->
-<script src="../vendors/Chart.js/dist/Chart.min.js"></script>
-<!-- gauge.js -->
-<script src="../vendors/gauge.js/dist/gauge.min.js"></script>
-<!-- bootstrap-progressbar -->
-<script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-<!-- iCheck -->
-<script src="../vendors/iCheck/icheck.min.js"></script>
-<!-- Skycons -->
-<script src="../vendors/skycons/skycons.js"></script>
-<!-- Flot -->
-<script src="../vendors/Flot/jquery.flot.js"></script>
-<script src="../vendors/Flot/jquery.flot.pie.js"></script>
-<script src="../vendors/Flot/jquery.flot.time.js"></script>
-<script src="../vendors/Flot/jquery.flot.stack.js"></script>
-<script src="../vendors/Flot/jquery.flot.resize.js"></script>
-<!-- Flot plugins -->
-<script src="../vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
-<script src="../vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
-<script src="../vendors/flot.curvedlines/curvedLines.js"></script>
-<!-- DateJS -->
-<script src="../vendors/DateJS/build/date.js"></script>
-<!-- JQVMap -->
-<script src="../vendors/jqvmap/dist/jquery.vmap.js"></script>
-<script src="../vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
-<script src="../vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
-<!-- bootstrap-daterangepicker -->
-<script src="../vendors/moment/min/moment.min.js"></script>
-<script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-
-<!-- Datatables -->
-<script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-<script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-<script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-<script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-<script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-<script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-<script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-<script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-<script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-<script src="../vendors/jszip/dist/jszip.min.js"></script>
-<script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
-<script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
-
-<!-- Custom Theme Scripts -->
-<script src="../build/js/custom.min.js"></script>
-
-</body>
-
+    <!-- jQuery -->
+    <script src="../vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="../vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="../vendors/nprogress/nprogress.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- iCheck -->
+    <script src="../vendors/iCheck/icheck.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="../vendors/moment/min/moment.min.js"></script>
+    <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- bootstrap-wysiwyg -->
+    <script src="../vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+    <script src="../vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+    <script src="../vendors/google-code-prettify/src/prettify.js"></script>
+    <!-- jQuery Tags Input -->
+    <script src="../vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+    <!-- Switchery -->
+    <script src="../vendors/switchery/dist/switchery.min.js"></script>
+    <!-- Select2 -->
+    <script src="../vendors/select2/dist/js/select2.full.min.js"></script>
+    <!-- Parsley -->
+    <script src="../vendors/parsleyjs/dist/parsley.min.js"></script>
+    <!-- Autosize -->
+    <script src="../vendors/autosize/dist/autosize.min.js"></script>
+    <!-- jQuery autocomplete -->
+    <script src="../vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+    <!-- starrr -->
+    <script src="../vendors/starrr/dist/starrr.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="../build/js/custom.min.js"></script>
+	
+  </body>
 </html>

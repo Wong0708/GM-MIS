@@ -148,7 +148,7 @@
                             $price[] = $rowofResult['price'];
 
                             echo " <tr>";
-                              echo '<td id = "SKU" onclick = "SKUclick(this), OnQRDataChange()">';
+                              echo '<td id = "SKU" onclick = "SKUclick(this), OnQRDataChange()"  onMouseOver="this.style.cursor="hand"">';
                               echo $rowofResult['item_id'];
                               echo '</input></a></td>';  
                               echo '<td>';
@@ -177,7 +177,7 @@
               <br><br><br><br><br><br><br><br><br><br>
                 <div class="col-md-2 col-sm-2 col-xs-12" id = "printQR">
 
-                 <input type='text' style='display:none' id='itemid' value = ''/>
+                 <input type='text' style='' id='itemid' value = ''/>
                  <input type='text' style='display:none' id='itemname' value = ''/>
                  <input type='text' style='display:none' id='itemtype' value = ''/>
                  <input type='text' style='display:none' id='supplier' value = ''/>
