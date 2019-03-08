@@ -229,7 +229,10 @@
 
 
                                         $orderNumArray = array();
-                                        $queryOrderDetails = "SELECT ordernumber from order_details WHERE item_status = 'Deliver'";
+                                        $queryOrderDetails = "SELECT * FROM mydb.orders
+                                        join order_details ON orders.ordernumber = order_details.ordernumber 
+                                        WHERE item_status = 'Deliver'
+                                        group By orders.ordernumber";
                                         $resultOrderDetails = mysqli_query($dbc,$queryOrderDetails);
                                         while($rowResult = mysqli_fetch_array($resultOrderDetails))
                                         {

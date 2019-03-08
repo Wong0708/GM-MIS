@@ -101,6 +101,8 @@ if(isset($_POST['add']))
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Category <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
+
+                        <select name="itemcategory" id="selectItemType" required="required" class="form-control col-md-7 col-xs-12" onchange="getType(this)">
                          <?php
                                 require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
                                 $query = "SELECT * FROM ref_itemtype";
@@ -108,11 +110,10 @@ if(isset($_POST['add']))
                                 $option = "";
                                 while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                                 {
-                                    $option .= '<option value = "'.$row['itemtype_id'].'">'.$row['itemtype'].'</option>';
+                                    echo'<option value = "'.$row['itemtype'].'">'.$row['itemtype'].'</option>';
                                 }
                             ?>
-                            <select name="itemcategory" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
-                            <?php echo $option ?>
+ 
                             </select>
                         </div>
                       </div>
@@ -146,7 +147,7 @@ if(isset($_POST['add']))
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Item Name <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="itemname" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" name="itemname" id="itemName" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
@@ -243,6 +244,41 @@ if(isset($_POST['add']))
     <script src="../vendors/starrr/dist/starrr.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+
+    <script>
+  <?php
+  
+  require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+  $arrayOfPrefix = array();
+  $arrayOfItemType = array();
+  $query = "SELECT * FROM ref_itemtype";
+  $result=mysqli_query($dbc,$query);
+  while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+  {
+    $arrayOfPrefix[] = $row['item_prefix'];
+    $arrayOfItemType[] = $row['itemtype'];
+  }
+
+  echo "var PrefixFromPHP = ".json_encode($arrayOfPrefix).";";
+  echo "var itemTypeFromPHP = ".json_encode($arrayOfItemType).";";
+  ?>
+  
+     function getType(selectItemType)    
+     {
+      var dropdownValue = selectItemType.value;
+       for (var i = 0; i < PrefixFromPHP.length; i++)
+       {
+         if(itemTypeFromPHP[i] == dropdownValue)
+         {
+          var item = document.getElementById('itemName');
+          item.value = PrefixFromPHP[i]+" ";
+          console.log(PrefixFromPHP[i]);
+         }
+       }
+      
+     
+     }
+    </script>
 	
   </body>
 </html>
