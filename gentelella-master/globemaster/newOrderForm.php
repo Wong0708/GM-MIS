@@ -1,42 +1,4 @@
-<?php
 
-if(isset($_POST['add']))
-{
-   if(!isset($_SESSION['itemArray']) || count($_SESSION['itemArray']) == 0){
-        echo '<script>alert("No product added");</script>';
-    }
-    else{
-        require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-        $query="SELECT COUNT(*) from orders AS 'numorders';";
-        $result=mysqli_query($dbc,$query);
-        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-        $ordernumber = $row['numorders'] + 1;
-        
-        $clientID = $_POST['clientID'];
-        $orderDate = $_POST['orderDate'];
-        $expectedDelivery = $_POST['expectedDelivery'];
-        $paymentID = $_POST['payment'];
-        
-        
-        $query="INSERT INTO orders(orderNumber, clientID, paymentID, orderDate, comments, totalPayment, orderstatus)
-                VALUES('$orderID', '$clientID', '$paymentID', '$orderDate', '$comments', '$totalPayment', 'Pending');";
-        $result=mysqli_query($dbc,$query);
-
-        $ctr = 0;
-        if(isset($_SESSION['itemArray'])) {
-            while ($ctr < count($_SESSION['itemArray'])) {
-                $query="INSERT INTO order_details(orderNumber, productID, branchID, qtyOrdered)
-                        VALUES('$orderID', ".$_SESSION['itemArray'][$ctr].",'$branchID',".$_SESSION['quantityArray'][$ctr].");";
-                $result=mysqli_query($dbc, $query);
-
-                $ctr++;
-            }
-        }
-        unset($_SESSION['itemArray']);
-        unset($_SESSION['quantityArray']);
-    }
-}
-?>
     <html lang="en">
 
     <head>
@@ -46,7 +8,7 @@ if(isset($_POST['add']))
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Sugarhouse </title>
+        <title>GM - Order Form </title>
 
         <!-- Bootstrap -->
         <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -69,6 +31,9 @@ if(isset($_POST['add']))
 
         <!-- Custom Theme Style -->
         <link href="../build/css/custom.min.css" rel="stylesheet">
+        <!-- JQUERY Required Scripts -->
+        <script type="text/javascript" src="js/script.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> 
     </head>
 
     <body class="nav-md">
@@ -128,9 +93,9 @@ if(isset($_POST['add']))
                                                                           <th>Item Type</th>
                                                                           <th>Supplier</th>
                                                                           <th>Price</th>
-                                                                          
-                                                                          <th></th>
-                                                                          <th class="col-md-1 col-sm-12 col-xs-12">Quantity</th>
+                                                                         
+                                                                          <th class="col-md-1 col-sm-1 col-xs-1">Quantity</th>
+                                                                          <th>Add to Cart</th>
                                                                         </tr>
                                                                       </thead>
                                                                       <tbody>
@@ -140,7 +105,7 @@ if(isset($_POST['add']))
                                                                             $query = "SELECT * FROM items_trading;";
                                                                             $result1=mysqli_query($dbc,$query);
 
-                                                                           
+                                                                           $itemCountArray = array();
                                                                             while($row=mysqli_fetch_array($result1,MYSQLI_ASSOC) )
                                                                             {
                                                                                     $queryItemType = "SELECT itemtype FROM ref_itemtype WHERE itemtype_id =" . $row['itemtype_id'] . ";";
@@ -158,8 +123,8 @@ if(isset($_POST['add']))
                                                                                     $rowSupplierName=mysqli_fetch_array($resultSupplierName,MYSQLI_ASSOC);
                                                                                     $supplierName = $rowSupplierName['supplier_name'];
 
-
-                                                                                    echo '<tr>';
+                                                                                       
+                                                                                    echo '<tr class ="tableRow">';
                                                                                         echo '<td id = ',$row['item_id'],' >';
                                                                                         echo $row['item_name'];
                                                                                         echo '</td>';
@@ -170,16 +135,17 @@ if(isset($_POST['add']))
                                                                                         echo $supplierName;
                                                                                         echo '</td>';
                                                                                         echo '<td>';
-                                                                                        echo  'Php'." ".number_format($row['price'], 2);
+                                                                                        echo  '₱'." ".number_format($row['price'], 2);
                                                                                         echo '</td>';
-                                                                                        
+                                                                                                                                               
                                                                                         echo '<td>';
-                                                                                        echo '<button class="btn btn-success" type="button" onclick="addProductToOrder name ="add" value ="',$row['item_id'],'" > + </button>';
+                                                                                        echo '<input type="number"  id="quantity',$row['item_id'],'" name="quantity',$row['item_id'],'"  required= "required" min="1"  value="" placeholder ="0"></input>';
                                                                                         echo '</td>';
-                                                                                        
+
                                                                                         echo '<td>';
-                                                                                        echo '<input type="number" id="quantity" name="quantity',$row['item_id'],'"  required= "required" class="form-control col-md-5 col-xs-12" onkeyup="checkEnoughQuantity();" value="0"></input>';
+                                                                                        echo '<button type="button" class="btn btn-success" name ="add" value ="',$row['item_id'],'" > + </button>';
                                                                                         echo '</td>';
+
                                                                                     echo '</tr>';                                                                                  
                                                                             }
                                                                         ?>  
@@ -214,59 +180,9 @@ if(isset($_POST['add']))
                                                                     </div>
                                                                     <div class="x_content">
                         <div id="productTable">
-                            <?php
-                            if(isset($_SESSION['itemArray']) AND isset($_SESSION['quantityArray'])){
-                                $table ='
-                                <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
-                                  <thead>
-                                    <tr>
-                                         <th>Item Name</th>
-                                         <th>Item Type</th>
-                                         <th>Price</th>
-                                         <th>Quantity</th>
-                                         <th>Action</th>
-                                    </tr>   
-                                  </thead>
-                                  <tbody>';
-                                $totalPayment = 0;
-                                $ctr = 0;
-                                if(isset($_SESSION['itemArray'])) {
-                                    while ($ctr < count($_SESSION['itemArray'])) {
-                                        $queryProduct = 'SELECT * FROM items_trading WHERE item_id ='.$_SESSION['itemArray'][$ctr].';';
-                                        $resultProduct = mysqli_query($dbc, $queryProduct);
-                                        $rowProduct = mysqli_fetch_array($resultProduct,MYSQLI_ASSOC);
-                                        $productName = $rowProduct['item_name'];
-                                        $price = $rowProduct['price'];
-                                        
-                                        $queryItemType = "SELECT itemtype FROM ref_itemtype WHERE itemtype_id =" . $row['itemtype_id'] . ";";
-                                        $resultItemType = mysqli_query($dbc,$queryItemType);
-                                        $rowItemType=mysqli_fetch_array($resultItemType,MYSQLI_ASSOC);
-                                        $itemType = $rowItemType['itemtype'];
-                                     
-
-                                        $table = $table.'<tr>';
-                                        $table = $table.'<td>'.$productName.'</td>
-                                                         <td>'.$itemType.'</td>
-                                                         <td>'.$_SESSION['quantityArray'][$ctr].'</td>
-                                                         <td>'.$_SESSION['quantityArray'][$ctr]*$price.'</td>;
-                                                         
-                                                         <td><button type="button" onclick="removeProductFromOrder('.$ctr.');" class="btn btn-danger">Delete</button></td>';
-                                        $table = $table.'</tr>';
-                                        $totalPayment = $totalPayment + $_SESSION['quantityArray'][$ctr]*$price;
-                                        $ctr++;
-                                    }
-                                }
-
-                                $table = $table.'
-                                  </tbody>
-                                </table>
-                                <input type="hidden" name="totalPayment" value="'.$totalPayment.'"><h4>Total Payment: Php'.$totalPayment.'</h4>
-                                ';
-                                echo $table;
-                            }
-                            else{
-                                echo '
-                                <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
+                                                    
+                               
+                                <table id="cart" class="table table-striped table-bordered bulk_action">
                                   <thead>
                                     <tr>
                                         <th>Item Name</th>
@@ -278,18 +194,16 @@ if(isset($_POST['add']))
                                   </thead>
                                   <tbody>
                                     <tr>
-                                        <td></td><td></td><td></td><td></td><td></td>
+                                        
                                     </tr>
                                   </tbody>
                                 </table>
-                                <input type="hidden" name="totalPayment" value="0"><h4>Total Payment: 0</h4>
-                                ';
-                            }
-                            ?>
+                                <h4 align = "right"> Total Payment: <input style="text-align:right;" readonly="readonly" name="totalPayment" id ="payment" value="0"> </h4>
                         </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                      
+                        </div>
+                    </div>
+                </div>
 
                                                             <!--div class="form-group">
                                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Amount</label>
@@ -317,7 +231,7 @@ if(isset($_POST['add']))
                                                             <div class="form-group">
                                                                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                                                                     <button type="submit" class="btn btn-primary" align="center" name="add">Create Order Form</button>
-                                                                    <button type="Reset" class="btn btn-danger" onclick="updateOrdersTable();">Reset</button>
+                                                                    <button type="Reset" class="btn btn-danger" onclick="destroyTable();">Reset</button>
                                                                 </div>
                                                             </div>
 
@@ -363,8 +277,9 @@ if(isset($_POST['add']))
                                                     require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
                                                     $query="SELECT clientTypeID, clientType FROM ref_clienttype";
                                                     $result=mysqli_query($dbc,$query);
-                                                    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
-                                                    ?> <option value="<?php echo $row['clientTypeID']?>"><?php echo $row["clientType"]; ?> </option> <?php
+                                                    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                                                    {
+                                                         echo '<option value="'.$row['clientTypeID'].'"> '.$row['clientTypeID'].'  </option>'; 
                                                     }
                                                     ?>     
                                                 </select>
@@ -412,74 +327,96 @@ if(isset($_POST['add']))
 
 
         <script>
-            function addNewClient(){
-                var clientTypeID = document.getElementById("clientType").valueOf().value;
-                var clientName = document.getElementById("clientName").valueOf().value;
-                var emailAddress = document.getElementById("emailAddress").valueOf().value;
-                var mobileNo = document.getElementById("mobileNo").valueOf().value;
-                var telephoneNo = document.getElementById("telephoneNo").valueOf().value;
+          
+            // $("tr.tableRow").click(function() {
+            // var tableData = $(this).children("td").map(function() {
+            //     return $(this).text();
+            // }).get();
 
-                $.ajax({
-                    type: 'POST',
-                    url: "ajax/addNewClient.php",
-                    data:{
-                        clientTypeID: clientTypeID,
-                        clientName: clientName,
-                        emailAddress: emailAddress,
-                        mobileNo: mobileNo,
-                        telephoneNo: telephoneNo
-                    },
-                    success: function(result){
-                        document.getElementById("clients").innerHTML = result;
-                       // alert(result);
+            // var newRow = document.getElementById('cart').insertRow();
+            //  newRow.innerHTML = "<tr> <td>" + $.trim(tableData[0]) + "</td> <td>" + $.trim(tableData[1]) +" </td> <td>" + $.trim(tableData[2]) + "</td> <td> " +$.trim(tableData[4])+ " </td> <td> "+$.trim(tableData[4].textContent)+" </td>"
+            
+           
+            //     alert("Your data is: " + $.trim(tableData[0]) + " , " + $.trim(tableData[1]) + " , " + $.trim(tableData[2])+ " , " + $.trim(tableData[3])+ " , " + $.trim(tableData[4].innerHTML));
+            // });
+        // function getButton(obj)
+        // {
+           
+        // }
+        var count = 0;
+        var itemName = "item"+1;
+        var quantity = "quantity"+1;
+        var currentName = ""; 
+            $('#datatable-checkbox tbody button.btn.btn-success').on('click', function(e) {
+                var row = $(this).closest('tr');
+                var buttonValue = $(this).val();
+                
+                var payment = document.getElementById("payment");
+                var itemQuantity = document.getElementById("quantity"+buttonValue).value;
+                document.getElementById("quantity"+buttonValue).value = "";
+                
+                // console.log('TR 1 cell: ' + row.find('td:first').text());
+                // console.log('TR 2 cell: ' + row.find('td:nth-child(2)').text());
+                // console.log('TR 3 cell: ' + row.find('td:nth-child(3)').text());
+                // console.log('TR 4 cell: ' + row.find('td:nth-child(4)').text());
+               
+                var currentName =  row.find('td:first').text(); 
+                console.log("Current Name = " + currentName);
+                if(itemQuantity == 0)
+                    {
+                        alert("No Quantity Set!");
                     }
-                });
-            }
-            function addProductToOrder(){
-                var product = document.getElementById("20").valueOf().value;
-                var quantity = document.getElementById("quantity").valueOf().value;
+                    else
+                    {
+                        
+                            var newRow = document.getElementById('cart').insertRow();
+                            newRow.innerHTML = "<tr> <td id = "+itemName +">" + currentName + "</td> <td>" + row.find('td:nth-child(2)').text() +" </td> <td>" + row.find('td:nth-child(4)').text() + "</td> <td> " + itemQuantity + " </td> <td> <button type='button' class='btn btn-danger' name ='remove'value ='' > - </button></td>"
+                    
+                            var price =row.find('td:nth-child(4)').text().replace("₱ ", "");
+                            count =  count +1+ parseFloat(price.replace(/\,/g,''), 10);
+                            
+                            payment.value = "₱ "+ (count * itemQuantity);
+                            
+                            itemName++;
+                            quantity++;
 
-                $.ajax({
-                    type: 'POST',
-                    url: "ajax/addProductToOrder.php",
-                    data:{
-                        product: product,
-                        quantity: quantity
-                    },
-                    success: function(result){
-                        document.getElementById("productTable").innerHTML = result;
-                        //alert(result);
+                            console.log(itemQuantity);
+                        
+                       
                     }
+               
+                    
+                //     $('#cart tr').each(function(){
+                //     $(this).find('td:first').each(function(){
+                //         var text = $(this).text();
+                //         console.log("Cell Value = " + text);
+                //     })
+                // })
+                var row = 1;
+                $('#cart tr').each(function()
+                {
+                    var cell = $('#cart tr:nth-child(' + row + ') td:nth-child(1)'); // WIP  [Compare Click button Item Name to Array of ItemName in Table[cart] ]
+                   console.log(cell.text());
+                    row = row + 1;
                 });
-          }
-          function removeProductFromOrder(productIndex){
+             
+                
+            })
 
-              $.ajax({
-                  type: 'POST',
-                  url: "ajax/removeProductFromOrder.php",
-                  data:{
-                      productIndex: productIndex
-                  },
-                  success: function(result){
-                      document.getElementById("productTable").innerHTML = result;
-                      console.log(result);
-              }
-              })
-          }
-          function updateOrdersTable(){
+            </script>
 
-              $.ajax({
-                  type: 'POST',
-                  url: "ajax/updateOrdersTable.php",
-                  data:{
-                  },
-                  success: function(result){
-                      document.getElementById("productTable").innerHTML = result;
-              }
-              })
-          }
-        </script>
-
+                                                                                   
+          
+            <script>
+                function destroyTable()
+                {
+                    var table = document.getElementById("cart");      //Deletes All Rows of Table except Header before Inserting new Rows   
+                    for(var i = table.rows.length - 1; i > 0; i--)
+                    {     
+                        table.deleteRow(i);
+                    } //END FOR
+                }
+            </script>
         <!-- jQuery -->
         <script src="../vendors/jquery/dist/jquery.min.js"></script>
         <!-- Bootstrap -->
@@ -545,29 +482,7 @@ if(isset($_POST['add']))
                 $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
             });
             
-            function checkEnoughQuantity(){
-                var quantity = document.getElementById("quantity").value;
-                var productID = document.getElementById("productID").value;
-                
-                $.ajax({
-                    type: 'POST',
-                    url: "ajax/checkEnoughQuantity.php",
-                    data:{
-                        productID: productID,
-                        quantity: quantity
-                    },
-                    success: function(result){
-                        document.getElementById("quantityAlert").innerHTML = result;
-                        if(result == ""){
-                            document.getElementById("addProductButton").disabled = false;
-                        }
-                        else{
-                            document.getElementById("addProductButton").disabled = true;
-                        }
-                    }
-                });
-                
-            }
+    
 
         </script>
     </body>

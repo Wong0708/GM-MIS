@@ -42,7 +42,8 @@
    
     <div class="main_container">
             <?php
-              require_once("nav.php");    
+              require_once("nav.php");   
+                 
             ?>
       </div>
 
@@ -55,6 +56,7 @@
                       <select id="selectWarehouse" name = "selectWarehouse" style=" width:250px";>
                             <option value="">Choose... </option>
                                 <?php
+                                require_once("print.php"); 
                                     require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
                                     $query = "SELECT * FROM items_trading
                                     join warehouses ON items_trading.warehouse_id = warehouses.warehouse_id
@@ -110,7 +112,7 @@
                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
                           $query = "SELECT * FROM items_trading
                           join warehouses ON items_trading.warehouse_id = warehouses.warehouse_id
-                          ORDER BY item_id";                      
+                          ORDER BY warehouse";                      
                           $resultofQuery =  mysqli_query($dbc, $query);
                           while($row=mysqli_fetch_array($resultofQuery,MYSQLI_ASSOC))
                           {
