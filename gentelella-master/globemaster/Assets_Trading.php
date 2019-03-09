@@ -250,25 +250,25 @@
                               }                                  
 
                               echo '<tr class="even pointer">';
-                              echo '<td class="a-center">';
-                              echo    '<input type="checkbox">';
-                              echo  '</td>';
-                              echo '<td>';
-                              echo $row['item_id'];
-                              echo '</td>';  
-                              echo '<td>';
-                              echo $row['item_name'];
-                              echo '</td>'; 
-                              echo '<td>';
-                              echo $row['price'];
-                              echo '</td>';  
-                              echo '<td>';
-                              echo $itemQty;
-                              echo '</td>';  
-                              echo '<td>';
-                              echo $row['price'] * $itemQty;
-                              echo '</td>';  
-                              echo '<td class="last" ><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg">View Details</a></td>';                          
+                                echo '<td class="a-center">';
+                                echo    '<input type="checkbox">';
+                                echo  '</td>';
+                                echo '<td>';
+                                echo $row['item_id'];
+                                echo '</td>';  
+                                echo '<td>';
+                                echo $row['item_name'];
+                                echo '</td>'; 
+                                echo '<td>';
+                                echo $row['price'];
+                                echo '</td>';  
+                                echo '<td>';
+                                echo $itemQty;
+                                echo '</td>';  
+                                echo '<td>';
+                                echo $row['price'] * $itemQty;
+                                echo '</td>';  
+                                echo '<td class="last" ><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg">View Details</a></td>';                          
                               echo '</tr>';
                             }
                           ;    

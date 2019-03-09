@@ -141,7 +141,7 @@ if(isset($_POST['add']))
                                                                             $result1=mysqli_query($dbc,$query);
 
                                                                            
-                                                                            while($row=mysqli_fetch_array($result1,MYSQLI_ASSOC))
+                                                                            while($row=mysqli_fetch_array($result1,MYSQLI_ASSOC) )
                                                                             {
                                                                                     $queryItemType = "SELECT itemtype FROM ref_itemtype WHERE itemtype_id =" . $row['itemtype_id'] . ";";
                                                                                     $resultItemType = mysqli_query($dbc,$queryItemType);
@@ -160,7 +160,7 @@ if(isset($_POST['add']))
 
 
                                                                                     echo '<tr>';
-                                                                                        echo '<td>';
+                                                                                        echo '<td id = ',$row['item_id'],' >';
                                                                                         echo $row['item_name'];
                                                                                         echo '</td>';
                                                                                         echo '<td>';
@@ -174,14 +174,11 @@ if(isset($_POST['add']))
                                                                                         echo '</td>';
                                                                                         
                                                                                         echo '<td>';
-                                                                                        echo '<button type="button" onclick="addProductToOrder name ="add" value ="';
-                                                                                        echo $row['item_id'],'"';
-                                                                                        echo 'class="btn btn-success"> + </button>';
+                                                                                        echo '<button class="btn btn-success" type="button" onclick="addProductToOrder name ="add" value ="',$row['item_id'],'" > + </button>';
                                                                                         echo '</td>';
+                                                                                        
                                                                                         echo '<td>';
-                                                                                        echo '<input type="number" id="quantity" name="quantity',$row['item_id'],'"';
-
-                                                                                        echo 'required="required" class="form-control col-md-5 col-xs-12" onkeyup="checkEnoughQuantity();" value="0"></input>';
+                                                                                        echo '<input type="number" id="quantity" name="quantity',$row['item_id'],'"  required= "required" class="form-control col-md-5 col-xs-12" onkeyup="checkEnoughQuantity();" value="0"></input>';
                                                                                         echo '</td>';
                                                                                     echo '</tr>';                                                                                  
                                                                             }
@@ -439,7 +436,7 @@ if(isset($_POST['add']))
                 });
             }
             function addProductToOrder(){
-                var product = document.getElementById("item_id").valueOf().value;
+                var product = document.getElementById("20").valueOf().value;
                 var quantity = document.getElementById("quantity").valueOf().value;
 
                 $.ajax({
