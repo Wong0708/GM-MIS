@@ -181,10 +181,10 @@ if(isset($_POST['add']))
                           <input name="price" class="form-control col-md-7 col-xs-12" required="required" type="text">
                         </div>
                       </div><div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <!-- <div class="col-md-6 col-sm-6 col-xs-12"> -->
                           <button name="add" class="btn btn-success" type="submit" class="btn btn-success">Add</button>
 						              <button class="btn btn-primary" type="reset">Reset</button>
-                        </div>
+                        <!-- </div>z -->
                       </div>
                       
 
