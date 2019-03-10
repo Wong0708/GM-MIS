@@ -139,7 +139,7 @@
                                                                                         echo '</td>';
                                                                                                                                                
                                                                                         echo '<td >';
-                                                                                        echo '<input type="number" id="quantity',$row['item_id'],'" name="quantity',$row['item_id'],'"  required= "required" min="1"  value="" placeholder ="0"></input>';
+                                                                                        echo '<input type="number" id="quantity',$row['item_id'],'" name="quantity',$row['item_id'],'"  min="1"  value="" placeholder ="0"></input>';
                                                                                         echo '</td>';
 
                                                                                         echo '<td>';
@@ -259,7 +259,7 @@
                     <div class="form-group">
                       <div class="col-md-6 col-md-offset-3">
                         <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                        <button id="send" type="submit" class="btn btn-success" onclick="confirmalert()" style="visibility:visible">Submit</button>
+                        <button id="send" type="submit" class="btn btn-success" style="visibility:visible">Submit</button>
                         <button class="btn btn-primary" id="fabricationpage" style="visibility:hidden">Next</button>
                       </div>
                     </div>
