@@ -1,5 +1,5 @@
 <?php
-$dbc=mysqli_connect('127.0.0.1','root','Rane0708!','mydb');
+$dbc=mysqli_connect('127.0.0.1','root','1234','mydb');
 
 
 

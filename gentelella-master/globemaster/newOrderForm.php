@@ -213,7 +213,7 @@
                                                     <button type="Reset" class="btn btn-danger" onclick="destroyTable();">Reset</button>
                                                 </div>
                                             </div>
-                                            
+
                                                         </form>
                                                     </div>
 
@@ -317,13 +317,13 @@
                             
                        
                     }
-                var row = 1;
-                $('#cart tr').each(function()
-                {
-                    var cell = $('#cart tr:nth-child(' + row + ') td:nth-child(1)'); // WIP  [Compare Click button Item Name to Array of ItemName in Table[cart] ]
-                    console.log(cell.text());
-                    row = row + 1;
-                });
+                // var row = 1;
+                // $('#cart tr').each(function()
+                // {
+                //     var cell = $('#cart tr:nth-child(' + row + ') td:nth-child(1)'); // WIP  [Compare Click button Item Name to Array of ItemName in Table[cart] ]
+                //     console.log(cell.text());
+                //     row = row + 1;
+                // });
              
                 
             })

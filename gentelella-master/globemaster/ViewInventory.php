@@ -58,15 +58,14 @@
                       <thead>
                         <tr>
                           <th>SKU</th>
-                          <th>Item Name</th>
-                          <th>Item Type</th>
+                          <th>Item Name</th>                       
                           <th>Item Count</th>
                           <th>Supplier</th>
                           <th>Price</th>
-                          <th>Warehouse Location</th>
-                          <th>Last Restock</th>
+                          <th>Warehouse Location</th>                         
                           <th>Last Update</th>
-                          <th>Threshold Count</th>
+                          <th> Action </th>
+                          
                         </tr>
                       </thead>
                       <tbody>
@@ -99,10 +98,7 @@
                                     echo '</td>';
                                     echo '<td>';
                                     echo $row['item_name'];
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $itemType;
-                                    echo '</td>';
+                                    echo '</td>';                                  
                                     echo '<td>';
                                     echo $row['item_count'];
                                     echo '</td>';
@@ -118,12 +114,11 @@
                                     echo '<td>';
                                     echo $row['last_restock'];
                                     echo '</td>';
-                                    echo '<td>';
-                                    echo $row['last_update'];
+                                    echo '<td align = "center">';
+                                    echo '<a href ="EditInventory.php?id='.$row['sku_id'].'"><i onclick = "teit()"class="fa fa-wrench" > </a>'; 
+                                    // 
                                     echo '</td>';
-                                    echo '<td>';
-                                    echo $row['threshold_amt'];
-                                    echo '</td>';
+                                    
                                     echo '</tr>';
                                     
                             }
@@ -153,6 +148,7 @@
         <!-- /footer content -->
       </div>
     </div>
+   
 
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
