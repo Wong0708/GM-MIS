@@ -379,7 +379,7 @@
         pointHoverBackgroundColor: "#fff",
         pointHoverBorderColor: "rgba(220,220,220,1)",
         pointBorderWidth: 1,
-        data: [31, 74, 6, 39, 20, 85, 7]
+        data: [31, 74, 6, 39, 20, 85, 7,69,100,88,89]
         }, {
         label: "Item 2",
         backgroundColor: "rgba(3, 88, 106, 0.3)",

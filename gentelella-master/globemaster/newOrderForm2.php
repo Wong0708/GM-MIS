@@ -31,17 +31,13 @@
   </head>
 
   <body class="nav-md">
-    <div class="container body">
-      <div class="main_container">
-        <div class="col-md-3 left_col">
-          <div class="left_col scroll-view">
-            <div class="navbar nav_title" style="border: 0;">
-              <a href="MainDashboard.html" class="site_title"><img src="images/GM%20LOGO.png" width = "50" height = "50"><span>Globe Master</span></a>
-            </div>
+        <div class="container body">
+            <div class="main_container">
+                
+                <?php
+                require_once("nav.php");    
+                ?>
 
-            <div class="clearfix"></div>
-
-           
 
         <!-- page content -->
         <div class="right_col" role="main">
@@ -63,9 +59,7 @@
           <div class="clearfix"></div>
         </footer>
         <!-- /footer content -->
-      </div>
-    </div>
-
+    
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
