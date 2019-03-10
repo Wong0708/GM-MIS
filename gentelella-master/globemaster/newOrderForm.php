@@ -125,7 +125,7 @@
 
                                                                                        
                                                                                     echo '<tr class ="tableRow">';
-                                                                                        echo '<td id = ',$row['item_id'],' >';
+                                                                                        echo '<td  id = ',$row['item_id'],' >';
                                                                                         echo $row['item_name'];
                                                                                         echo '</td>';
                                                                                         echo '<td>';
@@ -138,8 +138,8 @@
                                                                                         echo  '₱'." ".number_format($row['price'], 2);
                                                                                         echo '</td>';
                                                                                                                                                
-                                                                                        echo '<td>';
-                                                                                        echo '<input type="number"  id="quantity',$row['item_id'],'" name="quantity',$row['item_id'],'"  required= "required" min="1"  value="" placeholder ="0"></input>';
+                                                                                        echo '<td >';
+                                                                                        echo '<input type="number" id="quantity',$row['item_id'],'" name="quantity',$row['item_id'],'"  required= "required" min="1"  value="" placeholder ="0"></input>';
                                                                                         echo '</td>';
 
                                                                                         echo '<td>';
@@ -159,28 +159,14 @@
                                                                 </div>
                                                             </div>
 
-                                                            <!--div class="form-group">
-                                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Product</label>
-                                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                    <select class="form-control col-md-7 col-xs-12">
-                                                                <option>Choose option</option>
-                                                                <option>Option one</option>
-                                                                <option>Option two</option>
-                                                                <option>Option three</option>
-                                                                <option>Option four</option>
-                                                                </select>
-                                                                </div>
-                                                            </div-->
-
-                                                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                                                <div class="x_panel">
-                                                                    <div class="x_title">
-                                                                        <h2>Order Cart</h2>
-                                                                        <div class="clearfix"></div>
-                                                                    </div>
-                                                                    <div class="x_content">
-                        <div id="productTable">
-                                                    
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Order Cart</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div id="productTable">                                                   
                                
                                 <table id="cart" class="table table-striped table-bordered bulk_action">
                                   <thead>
@@ -204,39 +190,30 @@
                         </div>
                     </div>
                 </div>
-
-                                                            <!--div class="form-group">
-                                                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Amount</label>
-                                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                    <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
-                                                                </div>
-                                                            </div-->
                                                             
-                                                            <div class="form-group">
-                                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Payment Type</label>
-                                                                <div class='input-group col-md-14'>
-                                                                    <select class="form-control col-md-7 col-xs-12" name="paymentID">
-                                                                    <?php
-                                                                        require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-                                                                        $query="SELECT * FROM ref_payment";
-                                                                        $result=mysqli_query($dbc,$query);
-                                                                        while($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
-                                                                        ?> <option value="<?php echo $row['payment_id']?>"><?php echo $row["paymenttype"]; ?> </option> <?php
-                                                                        }
-                                                                     ?>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            
-                                                            <div class="form-group">
-                                                                <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                                                                    <button type="submit" class="btn btn-primary" align="center" name="add">Create Order Form</button>
-                                                                    <button type="Reset" class="btn btn-danger" onclick="destroyTable();">Reset</button>
-                                                                </div>
-                                                            </div>
-
-
-
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Payment Type</label>
+                                                <div class='input-group col-md-14'>
+                                                    <select class="form-control col-md-7 col-xs-12" name="paymentID">
+                                                    <?php
+                                                        require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                                        $query="SELECT * FROM ref_payment";
+                                                        $result=mysqli_query($dbc,$query);
+                                                        while($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
+                                                        ?> <option value="<?php echo $row['payment_id']?>"><?php echo $row["paymenttype"]; ?> </option> <?php
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                                    <button type="submit" class="btn btn-primary" align="center" name="next">Next</button>
+                                                    <button type="Reset" class="btn btn-danger" onclick="destroyTable();">Reset</button>
+                                                </div>
+                                            </div>
+                                            
                                                         </form>
                                                     </div>
 
@@ -249,75 +226,7 @@
                             </div>
                         </div>
 
-           <div class="modal fade bs-example-modal-lg4" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
-                  </button>
-                  <h4 class="modal-title" id="myModalLabel">New Client</h4>
-                </div>
-                <div class="modal-body">
-                    <form data-parsley-validate class="form-horizontal form-label-left">
-
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Name <span class="required">*</span>
-                        </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="clientName" required="required" class="form-control col-md-7 col-xs-12" name="name">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Client Type</label>
-                                            <div class="col-md-4 col-sm-3 col-xs-12">
-                                                <select class="form-control" name="clientType" id="clientType">
-                                                <?php
-
-                                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-                                                    $query="SELECT clientTypeID, clientType FROM ref_clienttype";
-                                                    $result=mysqli_query($dbc,$query);
-                                                    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                                                    {
-                                                         echo '<option value="'.$row['clientTypeID'].'"> '.$row['clientTypeID'].'  </option>'; 
-                                                    }
-                                                    ?>     
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Email Address<span class="required">*</span>
-                        </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="emailAddress" name="email" required="required" class="form-control col-md-7 col-xs-12">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Mobile Number <span class="required">*</span>
-                        </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="mobileNo" name="mobileNo" required="required" class="form-control col-md-7 col-xs-12">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Telephone Number <span class="required">*</span>
-                        </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input type="text" id="telephoneNo" name="telephoneNo" required="required" class="form-control col-md-7 col-xs-12">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                                <button class="btn btn-primary" type="reset">Reset</button>
-                                                <button type="button" class="btn btn-primary" name="add" onclick="addNewClient();" data-dismiss="modal">Add Client</button>
-                                            </div>
-                                        </div>
-
-                                    </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+         
 
               </div>
             </div>
@@ -369,10 +278,33 @@
                     else
                     {
                         
-                            var newRow = document.getElementById('cart').insertRow();
-                            newRow.innerHTML = "<tr> <td id = "+itemName +">" + currentName + "</td> <td>" + row.find('td:nth-child(2)').text() +" </td> <td>" + row.find('td:nth-child(4)').text() + "</td> <td> " + itemQuantity + " </td> <td> <button type='button' class='btn btn-danger' name ='remove'value ='' > - </button></td>"
-                    
+                      var qty_old = 0
+                        var item_does_not_exist = true;
+                        $(".qtys").each(function(i){ // this gets all the classes in the order table.
+                            if (buttonValue ==$(this).attr('val_id'))
+                            { //checks i there is existing item
+                                    qty = $(this).text().replace("₱ ", "");
+                                    qty_old = parseFloat(qty.replace(/\,/g,''), 10);
+                                    item_does_not_exist = false;
+                                    new_qty = parseFloat(itemQuantity) + qty_old;
+                                    $(this).text(new_qty);
+                                    var newPice = $(this).attr('price ') * new_qty;
+                                    payment.value = "₱ "+ (count * new_qty);
+                                    console.log(qty);
+                            }
+                        });
+                        if(item_does_not_exist){
+
                             var price =row.find('td:nth-child(4)').text().replace("₱ ", "");
+                            var valid= row.find('td:nth-child(4)');
+                            var ParsePrice = parseFloat(price.replace(/\,/g,''), 10);
+
+                            var newRow = document.getElementById('cart').insertRow();
+                            newRow.innerHTML = "<tr> <td id = "+itemName +">" + currentName + "</td> <td>" + row.find('td:nth-child(2)').text() +" </td> <td>" + row.find('td:nth-child(4)').text() + "</td> <td class='qtys' price ='"+ParsePrice+"' val_id='"+buttonValue+"'> " + itemQuantity + " </td> <td> <button type='button' class='btn btn-danger' name ='remove'value ='' > - </button></td>"
+                    
+                            
+                        
+                            // console.log("LERRY"+buttonValue);
                             count =  count +1+ parseFloat(price.replace(/\,/g,''), 10);
                             
                             payment.value = "₱ "+ (count * itemQuantity);
@@ -381,22 +313,15 @@
                             quantity++;
 
                             console.log(itemQuantity);
-                        
+                        }
+                            
                        
                     }
-               
-                    
-                //     $('#cart tr').each(function(){
-                //     $(this).find('td:first').each(function(){
-                //         var text = $(this).text();
-                //         console.log("Cell Value = " + text);
-                //     })
-                // })
                 var row = 1;
                 $('#cart tr').each(function()
                 {
                     var cell = $('#cart tr:nth-child(' + row + ') td:nth-child(1)'); // WIP  [Compare Click button Item Name to Array of ItemName in Table[cart] ]
-                   console.log(cell.text());
+                    console.log(cell.text());
                     row = row + 1;
                 });
              
