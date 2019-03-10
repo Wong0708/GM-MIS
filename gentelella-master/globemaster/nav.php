@@ -37,11 +37,8 @@ if(!(isset($_SESSION['usertype']))){
 
                 $user=$row['usertype'];
                     echo "<h2>Welcome, ";
-                    echo $row1['first_name']." ".$row1['last_name'];
-                    echo "!</h2>";  
-                    echo "<b>";
                     echo $row['usertype'];
-                    echo "</b>";
+                    echo "</h2>";
                   
         
                 ?>

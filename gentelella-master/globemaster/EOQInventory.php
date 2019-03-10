@@ -391,7 +391,6 @@ var demand = rangeSlider.value;
     sliderDiv = document.getElementById("sliderAmount");
 slider.onchange = function()
 {
-  
   demand = this.value;
 }
 

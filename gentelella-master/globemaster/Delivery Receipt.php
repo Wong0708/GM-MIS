@@ -347,13 +347,15 @@ while($rowofResult2=mysqli_fetch_array($resultofQuery2,MYSQLI_ASSOC))
     echo "var drDesFromPHP = ".json_encode($SchedDelivDestination).";";
     echo "var drCusFromPHP = ".json_encode($SchedDelivCusName).";";
     echo "var drStatFromPHP = ".json_encode($SchedDelivStatus).";";
-    echo "var DRFromPHP = ".json_encode($SchedDelivDR).";"; //Values from Sched Delivery Table
+    echo "var DRFromPHP = ".json_encode($SchedDelivDR).";"; 
+    echo "var OrderNumberFromSchedDeliver = ".json_encode($SchedDelivOrderNumber).";";//Values from Sched Delivery Table
 
 
     echo "var ItemNameFromPHP = ".json_encode($itemName).";"; 
     echo "var ItemQuantityFromPHP = ".json_encode($quantity).";"; 
     echo "var ItemPriceFromPHP = ".json_encode($pricePerItem).";"; 
-    echo "var ItemTotalFromPHP = ".json_encode($totalPrice).";"; //Values from order_details table
+    echo "var ItemTotalFromPHP = ".json_encode($totalPrice).";"; 
+    echo "var OrderNumberFromOrderDetails = ".json_encode($orderNumberArray).";"; //Values from order_details table
    
 
     echo 'var GetDR = localStorage.getItem("DRfromDeliveriesPage");'; //Gets the text to compare fron Deliveries.php
@@ -362,22 +364,35 @@ while($rowofResult2=mysqli_fetch_array($resultofQuery2,MYSQLI_ASSOC))
             
            
             echo 'if(GetDR.trim() == DRFromPHP[i].trim()) {';
+                // echo 'if(){';
                 echo 'console.log("Value From Receipts.php = " + DRFromPHP[i]);';
                 echo 'console.log("Value from Delvieries.php = " + GetDR);';
             
-            echo 'deliverNumberfromHTML.value = DRFromPHP[i];';
-            echo 'deliverDatefromHTML.value = drDateFromPHP[i];';
-            echo 'deliverDestinationfromHTML.value = drDesFromPHP[i];';
-            echo 'deliverCusNamefromHTML.value = drCusFromPHP[i];';
-            echo 'deliverStatusfromHTML.value = drStatFromPHP[i];';
-            echo 'deliverTotalfromHTML.value = ItemTotalFromPHP[i];';
+                echo 'deliverNumberfromHTML.value = DRFromPHP[i];';
+                echo 'deliverDatefromHTML.value = drDateFromPHP[i];';
+                echo 'deliverDestinationfromHTML.value = drDesFromPHP[i];';
+                echo 'deliverCusNamefromHTML.value = drCusFromPHP[i];';
+                echo 'deliverStatusfromHTML.value = drStatFromPHP[i];';
+                echo 'deliverTotalfromHTML.value = ItemTotalFromPHP[i];';
+                
+                    echo 'var count = OrderNumberFromOrderDetails.length -1;';
 
-            echo  "var newRow = document.getElementById('datatable').insertRow();";
-            echo  'newRow.innerHTML = "<tr><td>" +ItemNameFromPHP[i]+ "</td> <td>" +ItemQuantityFromPHP[i]+ "</td><td>" +ItemPriceFromPHP[i]+ "</td></tr>";';
-            echo 'localStorage.removeItem("DRfromDeliveriesPage")';
-            
-              
-            echo '  }'; // End IF  
+                echo 'while(count >= 0){';
+                    
+                    echo 'console.log("OR From Sched = " + OrderNumberFromSchedDeliver[i]);';
+
+                    echo 'if(OrderNumberFromSchedDeliver[i] == OrderNumberFromOrderDetails[count]) {';
+
+                        echo  "var newRow = document.getElementById('datatable').insertRow();";
+                        echo  'newRow.innerHTML = "<tr><td>" +ItemNameFromPHP[count]+ "</td> <td>" +ItemQuantityFromPHP[count]+ "</td><td>" +ItemPriceFromPHP[count]+ "</td></tr>";';
+                        echo 'localStorage.removeItem("DRfromDeliveriesPage");';
+                        echo 'count--;';
+                        echo 'continue;';
+
+                    echo '  }'; // End 2nd IF     
+                    echo 'count--;';        
+                echo '}'; //End While
+            echo '  }'; // End 1st IF  
         echo ' }';// END FOR
 echo '</script>';
 ?> <!-- PHP END -->

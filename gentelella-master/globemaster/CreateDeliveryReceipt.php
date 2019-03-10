@@ -78,7 +78,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" >Order Number: 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                        <select id="orderNumberDropdown" class="form-control col-md-     col-md-7 col-xs-12" required="" name = "selectItemtype" style=" width:250px";>
+                        <select id="orderNumberDropdown" class="form-control col-md-12 col-md-7 col-xs-12" required="" name = "selectItemtype" style=" width:250px";>
                             <option value="">Choose..</option>
                                 <?php
                                     require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
@@ -229,7 +229,10 @@
 
 
                                         $orderNumArray = array();
-                                        $queryOrderDetails = "SELECT ordernumber from order_details WHERE item_status = 'Deliver'";
+                                        $queryOrderDetails = "SELECT * FROM mydb.orders
+                                        join order_details ON orders.ordernumber = order_details.ordernumber 
+                                        WHERE item_status = 'Deliver'
+                                        group By orders.ordernumber";
                                         $resultOrderDetails = mysqli_query($dbc,$queryOrderDetails);
                                         while($rowResult = mysqli_fetch_array($resultOrderDetails))
                                         {

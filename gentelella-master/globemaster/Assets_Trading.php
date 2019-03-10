@@ -99,10 +99,10 @@
             $totalPrice += $row['price'] * $itemQty; 
                                  
           }
-          echo'<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">'; //HTML to display TOTAL PROFIT and Cost
+          echo'<div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">'; //HTML to display TOTAL PROFIT and Cost
           echo'<span class="count_top">Total Profit: </span>';
-            echo'<div class="count green">';
-            echo $totalPrice;
+            echo'<div class="count green"> ₱';
+            echo number_format($totalPrice, 2, '.', ',');
             echo'</div>';
           echo'</div>';
           echo'<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">';
@@ -218,7 +218,7 @@
                             <th class="column-title">SKU </th>
                             <th class="column-title">Item Name </th>
                             <th class="column-title">Price </th>
-                            <th class="column-title">Quantity Sold </th>
+                            <th class="column-title" width ="50px">Quantity Sold </th>
                             <th class="column-title">Total Price Sold </th>
                             
                             <th class="column-title no-link last"><span class="nobr">Action</span>
@@ -250,25 +250,25 @@
                               }                                  
 
                               echo '<tr class="even pointer">';
-                              echo '<td class="a-center">';
-                              echo    '<input type="checkbox">';
-                              echo  '</td>';
-                              echo '<td>';
-                              echo $row['item_id'];
-                              echo '</td>';  
-                              echo '<td>';
-                              echo $row['item_name'];
-                              echo '</td>'; 
-                              echo '<td>';
-                              echo $row['price'];
-                              echo '</td>';  
-                              echo '<td>';
-                              echo $itemQty;
-                              echo '</td>';  
-                              echo '<td>';
-                              echo $row['price'] * $itemQty;
-                              echo '</td>';  
-                              echo '<td class="last" ><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg">View Details</a></td>';                          
+                                echo '<td class="a-center">';
+                                echo    '<input type="checkbox">';
+                                echo  '</td>';
+                                echo '<td align ="right">';
+                                echo $row['sku_id'];
+                                echo '</td>';  
+                                echo '<td align ="right">';
+                                echo $row['item_name'];
+                                echo '</td>'; 
+                                echo '<td align ="right"> ₱ ';
+                                echo $row['price'];
+                                echo '</td>';  
+                                echo '<td align ="right">';
+                                echo $itemQty;
+                                echo '</td>';  
+                                echo '<td align ="right"> ₱ ';
+                                echo number_format((float)($row['price'] * $itemQty), 2, '.', ',');
+                                echo '</td>';  
+                                echo '<td align = "center" class="last" ><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg">View Details</a></td>';                          
                               echo '</tr>';
                             }
                           ;    
