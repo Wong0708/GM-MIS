@@ -198,8 +198,8 @@
 
                                         <div class="ln_solid"></div>
                                         <div class="form-group">
-                                            <div class="col-md-9 col-sm-9 col-xs-12">
-                                                <button type="button" class="btn btn-primary">Edit</button>
+                                            <div class="col-md-12 col-sm-12 col-xs-12" align = "right">
+                                                <button type="button" class="btn btn-success">Confirm</button>
                                                 <button type="reset" class="btn btn-warning" onclick="clearLocalStorage()">Archive</button>
                                             </div>
                                         </div>
