@@ -212,6 +212,7 @@
 </script>
 
 <?php
+    require_once('DataFetchers/mysql_connect.php');
     $skuID = $_GET['id'];
     echo $_GET['id'];
 
