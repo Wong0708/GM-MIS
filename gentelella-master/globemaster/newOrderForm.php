@@ -231,8 +231,8 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" >For Delivery?<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <button type="button" class="btn btn-round btn-default" onclick = "toggleDeliveryDate()" value = "YesDel" id = "Yesbutton" style = "display:block" >Yes</button>
-                            <button type="button" class="btn btn-round btn-danger" onclick = "toggleDeliveryDate1()" value = "NoDel" id = "Nobutton" style = "display:none">No</button>
+                            <button type="button" class="btn btn-round btn-default" onclick = "toggleDeliveryDate()" value = "YesDel" id = "Yesbutton" style = "display:block" >No</button>
+                            <button type="button" class="btn btn-round btn-success" onclick = "toggleDeliveryDate1()" value = "NoDel" id = "Nobutton" style = "display:none">Yes</button>
                         </div>
                     </div>
 
@@ -250,8 +250,8 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" >For Fabrication?<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <button type="button" class="btn btn-round btn-default" onclick = "toggleFabrication()" value = "YesFab" id = "YesbuttonFab" style = "display:block" >Yes</button>
-                            <button type="button" class="btn btn-round btn-danger" onclick = "toggleFabrication1()" value = "NoFab" id = "NobuttonFab" style = "display:none">No</button>
+                            <button type="button" class="btn btn-round btn-default" onclick = "toggleFabrication()" value = "YesFab" id = "YesbuttonFab" style = "display:block" >No</button>
+                            <button type="button" class="btn btn-round btn-success" onclick = "toggleFabrication1()" value = "NoFab" id = "NobuttonFab" style = "display:none">Yes</button>
                         </div>
                     </div>
 
