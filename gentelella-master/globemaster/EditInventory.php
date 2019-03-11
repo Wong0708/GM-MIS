@@ -129,6 +129,7 @@
                                     </form>
                                     <form class="form-horizontal form-label-center">
                                         <div class="x_panel" id ="damageDiv" style="display:none">
+                                        
                                             <div class="x_title">
                                                 <h4>Add Damaged Item - <?php echo $_GET['id'];?></h4>
                                                 
@@ -224,15 +225,15 @@
     $lastRestockArray = array();
     $lastUpdateArray = array();
 
-    $query = "SELECT * FROM items_trading
-    SELECT * FROM mydb.items_trading
+    $query = "SELECT * FROM mydb.items_trading
     JOIN warehouses ON warehouses.warehouse_id = items_trading.warehouse_id
     JOIN suppliers ON suppliers.supplier_id = items_trading.supplier_id
+    WHERE sku_id =  '$skuID'
     order by item_id
-    WHERE sku_id =  '$skuID';";
+    ;";
 
     $result = mysqli_query($dbc, $query);
-    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+    while($row = mysqli_fetch_array($result,MYSQLI_ASSOC))
     {
         $skuArray[] = $row['sku_id'];
         $itemNameArray[] = $row['item_name']; 
