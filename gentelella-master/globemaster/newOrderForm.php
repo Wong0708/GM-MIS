@@ -82,7 +82,7 @@
                                                                  ?>
                                                                 </select>
                                                                 </div>
-                                                                <button type="button" class="btn btn-primary" align="center" data-toggle="modal" data-target=".bs-example-modal-lg4">Add New Client</button>
+                                                              
                                                             </div>
                                                             <hr>
                                                             <div class="form-group">
@@ -139,7 +139,7 @@
                                                                                         echo '</td>';
                                                                                                                                                
                                                                                         echo '<td >';
-                                                                                        echo '<input type="number" id="quantity',$row['item_id'],'" name="quantity',$row['item_id'],'"  min="1"  value="" placeholder ="0"></input>';
+                                                                                        echo '<input type="number" id="quantity',$row['item_id'],'" name="quantity',$row['item_id'],'"  min="1" max ="',$row['item_count'],'" value="" placeholder ="0"></input>';
                                                                                         echo '</td>';
 
                                                                                         echo '<td>';
@@ -346,11 +346,13 @@
                             { //checks i there is existing item
                                     qty = $(this).text().replace("₱ ", "");
                                     qty_old = parseFloat(qty.replace(/\,/g,''), 10);
-                                    item_does_not_exist = false;
-                                    new_qty = parseFloat(itemQuantity) + qty_old;
+
+                                        item_does_not_exist = false;
+                                        new_qty = parseFloat(itemQuantity) + qty_old;
+
                                     $(this).text(new_qty);
-                                    var newPice = $(this).attr('price ') * new_qty;
-                                    payment.value = "₱ "+ (count * new_qty);
+                                        var newPice = $(this).attr('price ') * new_qty;
+                                        payment.value = "₱ "+ (count * new_qty);
                                     console.log(qty);
                             }
                         });

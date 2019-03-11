@@ -83,7 +83,7 @@
                           <button type="submit" class="btn btn-success" name = "SubmitBtn" onclick="return getConfirmation()">Submit</button>
 
                            <?php
-                          require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                             require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
                             if(isset($_POST['SubmitBtn']))
                             {
                                 $inventoryHoldingPercentageFromHTML = $_POST['InventoryHoldingCostName'];
@@ -116,13 +116,11 @@
                             {
                               var retVal = confirm("Do you want to continue ?");
                                 if( retVal == true ) 
-                                {
-                                    
+                                {                                   
                                     return true;
                                 } 
                                 else 
                                 {
-                                    
                                     return false;
                                 }
                             }

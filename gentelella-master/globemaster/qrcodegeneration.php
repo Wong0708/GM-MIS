@@ -119,10 +119,10 @@
                         <?php 
                           require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
 
-                          $querytogetDBTable = "SELECT item_id, item_name, itemtype, supplier_name, warehouse, price FROM gmtradingdb.items_trading g 
-                          JOIN gmtradingdb.ref_itemtype f ON g.itemtype_id
-                          JOIN gmtradingdb.suppliers s ON g.supplier_id
-                          JOIN gmtradingdb.warehouses w ON g.warehouse_id
+                          $querytogetDBTable = "SELECT item_id, item_name, itemtype, supplier_name, warehouse, price FROM items_trading g 
+                          JOIN ref_itemtype f ON g.itemtype_id
+                          JOIN suppliers s ON g.supplier_id
+                          JOIN warehouses w ON g.warehouse_id
                           WHERE g.itemtype_id = f.itemtype_id
                           AND g.supplier_id = s.supplier_id
                           AND g.warehouse_id = w.warehouse_id

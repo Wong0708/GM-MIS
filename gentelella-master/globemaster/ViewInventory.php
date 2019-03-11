@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>DataTables | Gentelella</title>
+    <title>View Inventory</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -115,7 +115,7 @@
                                     echo $row['last_restock'];
                                     echo '</td>';
                                     echo '<td align = "center">';
-                                    echo '<a href ="EditInventory.php?id='.$row['sku_id'].'"><i onclick = "teit()"class="fa fa-wrench" > </a>'; 
+                                    echo '<a href ="EditInventory.php?sku_id='.$row['sku_id'].' & item_id='.$row['item_id'].'"><i onclick = "teit()"class="fa fa-wrench" > </a>'; 
                                     // 
                                     echo '</td>';
                                     
