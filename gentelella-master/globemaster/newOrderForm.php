@@ -1,6 +1,4 @@
-
-    <html lang="en">
-
+<html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!-- Meta, title, CSS, favicons, etc. -->
@@ -34,6 +32,8 @@
         <!-- JQUERY Required Scripts -->
         <script type="text/javascript" src="js/script.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> 
+
+       
     </head>
 
     <body class="nav-md">
@@ -139,7 +139,7 @@
                                                                                         echo '</td>';
                                                                                                                                                
                                                                                         echo '<td >';
-                                                                                        echo '<input type="number" id="quantity',$row['item_id'],'" name="quantity',$row['item_id'],'"  required= "required" min="1"  value="" placeholder ="0"></input>';
+                                                                                        echo '<input type="number" id="quantity',$row['item_id'],'" name="quantity',$row['item_id'],'"  min="1"  value="" placeholder ="0"></input>';
                                                                                         echo '</td>';
 
                                                                                         echo '<td>';
@@ -209,8 +209,116 @@
                                             
                                             <div class="form-group">
                                                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                                                    <button type="submit" class="btn btn-primary" align="center" name="next">Next</button>
+                                                    <button type="submit" class="btn btn-primary" align="center" name="next" data-toggle="modal" data-target=".bs-example-modal-lg">Next</button>
                                                     <button type="Reset" class="btn btn-danger" onclick="destroyTable();">Reset</button>
+            <!-- Add Order2 Modal -->
+            
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Finalize Order</h4>
+                  </div>
+
+                  <div class = "modal-body">
+                  <form class="form-horizontal form-label-left" method="post" action= "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+
+
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" >For Delivery?<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <button type="button" class="btn btn-round btn-default" onclick = "toggleDeliveryDate()" value = "YesDel" id = "Yesbutton" style = "display:block" >Yes</button>
+                            <button type="button" class="btn btn-round btn-danger" onclick = "toggleDeliveryDate1()" value = "NoDel" id = "Nobutton" style = "display:none">No</button>
+                        </div>
+                    </div>
+
+                    <div id = "ifYes" style = "display:none">
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" >Expected Date<span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input id="customer" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name1" placeholder="Please enter the customer's name" required="required" type="date">
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" >For Fabrication?<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <button type="button" class="btn btn-round btn-default" onclick = "toggleFabrication()" value = "YesFab" id = "YesbuttonFab" style = "display:block" >Yes</button>
+                            <button type="button" class="btn btn-round btn-danger" onclick = "toggleFabrication1()" value = "NoFab" id = "NobuttonFab" style = "display:none">No</button>
+                        </div>
+                    </div>
+
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                      <div class="col-md-6 col-md-offset-3">
+                        <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        <button id="send" type="submit" class="btn btn-success" style="visibility:visible">Submit</button>
+                        <button class="btn btn-primary" id="fabricationpage" style="visibility:hidden">Next</button>
+                      </div>
+                    </div>
+                    <!-- Order 2 -->
+                    <!-- Finished general insert, but create a status column for customer -->
+                    <?php
+                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+
+                            $name = $idinsert = $contact = $email = $address = $status = "";
+
+                              if($_SERVER["REQUEST_METHOD"] == "POST")
+                              {
+                                $query = "SELECT max(client_id) FROM clients";
+                                $result1=mysqli_query($dbc,$query);
+                                
+                                $id = mysqli_fetch_array($result1,MYSQLI_ASSOC);
+                                
+                                $idinsert = $id["max(client_id)"] + 1;
+                                // echo $idinsert; for testing
+
+                                $name = test_input($_POST['name']);
+                                $contact = test_input($_POST['contact']);
+                                $email = test_input($_POST['email']);
+                                $address = test_input($_POST['address']);
+                                // $status = test_input($_POST['status']);
+
+                                  echo '<script language="javascript">';
+                                  echo 'alert(Are you sure you want to enter the following data?)';  //not showing an alert box.
+                                  echo '</script>';
+                              
+
+                                $sql = "INSERT INTO clients (client_id, client_name, client_address, client_contactno, client_email)
+                                  Values(
+                                  '$idinsert',
+                                  '$name', 
+                                  '$address',
+                                  '$contact',
+                                  '$email')";
+
+                                $resultinsert = mysqli_query($dbc,$sql);
+
+                              }
+
+                              function test_input($data) 
+                              {
+                                $data = trim($data);
+                                $data = stripslashes($data);
+                                $data = htmlspecialchars($data);
+                                return $data;
+                             }
+                      ?>
+                  </form>
+                </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <br>
+            <!-- End Order2 Modal -->
                                                 </div>
                                             </div>
 
@@ -406,10 +514,45 @@
             $("#datetimepicker7").on("dp.change", function(e) {
                 $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
             });
-            
-    
+        </script>
+        <script>
+            var divdel = document.getElementById("ifYes");
+            var yesbutton = document.getElementById("Yesbutton");
+            var nobutton = document.getElementById("Nobutton");
 
+            var yesbuttonfab = document.getElementById("YesbuttonFab");
+            var nobuttonfab = document.getElementById("NobuttonFab");
+
+            var submitbtn = document.getElementById("send");
+            var nextbtn = document.getElementById("fabricationpage");
+
+            function toggleDeliveryDate()
+            {
+                divdel.style.display = "block";
+                yesbutton.style.display = "none";
+                nobutton.style.display = "block";
+            }
+
+            function toggleDeliveryDate1()
+            {
+                divdel.style.display = "none";
+                yesbutton.style.display = "block";
+                nobutton.style.display = "none";
+            }
+            function toggleFabrication()
+            {
+                submitbtn.style.visibility = "hidden";
+                nextbtn.style.visibility = "visible"
+                yesbuttonfab.style.display = "none";
+                nobuttonfab.style.display = "block";
+            }
+            function toggleFabrication1()
+            {
+                submitbtn.style.visibility = "visible";
+                nextbtn.style.visibility = "hidden"
+                yesbuttonfab.style.display = "block";
+                nobuttonfab.style.display = "none";
+            }
         </script>
     </body>
-
-    </html>
+</html>

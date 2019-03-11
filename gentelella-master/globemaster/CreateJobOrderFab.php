@@ -89,7 +89,7 @@ if(isset($_POST['add']))
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                          <?php
-                                require_once('mysql_connect.php');
+                                require_once('DataFetchers\mysql_connect.php');
                                 $query = "SELECT * FROM orders";
                                 $result=mysqli_query($dbc,$query);
                                 $option = "";
