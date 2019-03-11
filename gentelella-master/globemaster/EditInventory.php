@@ -49,7 +49,7 @@
                     
 
                     <!--TABLE OF DETAILS FOR DELIVERY RECEIPT-->
-                    <div class="col-md-12 col-sm-9 col-xs-12" >
+                    <div class="col-md-12 col-sm-12 col-xs-12" >
                         <div class="x_panel" >
                             <div class="x_title">
                                 <h1>Edit Inventory - <?php echo $_GET['id'];?></h1>
@@ -59,71 +59,105 @@
                            
                             <div class="x_content">
                                 <br>
+
                                 <form class="form-horizontal form-label-center">
+                                    <div class="col-md-6 col-sm-6 col-xs-12" >
+                                        <div class="x_panel" >
+                                            <center><font color = "#2a5eb2"><h3>Item Details</h3></font></center>
+                                            <div class="ln_solid"></div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">SKU </label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="text" id = "sku_id" class="form-control" readonly="readonly" >
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Name</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="text" id = "item_name" class="form-control" readonly="readonly" >
+                                                </div>
+                                            </div>
 
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">SKU </label>
-                                        <div class="col-md-3 col-sm-9 col-xs-12">
-                                            <input type="text" id = "sku_id" class="form-control" readonly="readonly" >
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Name</label>
-                                        <div class="col-md-3 col-sm-9 col-xs-12">
-                                            <input type="text" id = "item_name" class="form-control" readonly="readonly" >
-                                        </div>
-                                    </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Type</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="text" id = "item_tyoe" class="form-control" readonly="readonly" >
+                                                </div>
+                                            </div>
 
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Type</label>
-                                        <div class="col-md-3 col-sm-9 col-xs-12">
-                                            <input type="text" id = "item_tyoe" class="form-control" readonly="readonly" >
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Count</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="text" id = "item_count" class="form-control" readonly="readonly" >
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Supplier</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="text" id = "supplier_name" class="form-control" readonly="readonly">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Price</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="text" id = "item_price" class="form-control" readonly="readonly">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Warehouse Location</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="text" id = "warehouse_name" class="form-control" readonly="readonly">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Last Restock</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="text" id = "last_restock" class="form-control" readonly="readonly">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Last Update</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="text" id = "last_update" class="form-control" readonly="readonly">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12" >
+                                        <div class="x_panel" >
+                                            <center><font color = "#09961e"><h3>Restocking</h3></font></center>
+                                            <div class="ln_solid"></div>
 
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Count</label>
-                                        <div class="col-md-3 col-sm-6 col-xs-12">
-                                            <input type="text" id = "item_count" class="form-control" readonly="readonly" >
+                                            <div class="form-group">
+                                                <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-1">
+                                                    <button type="button" class="btn btn-round btn-primary" id = "restockbtnE" onclick = "enableRestocking();" style = "display:block"><i class="fa fa-cubes"></i> Enable Restocking</button>
+                                                    <button type="button" class="btn btn-round btn-danger" id = "restockbtnD" onclick = "disableRestocking();" style = "display:none"><i class="fa fa-cubes"></i> Disable Restocking</button>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <br>
+                                                <label class="control-label col-md-4 col-sm-4 col-xs-12">Restock Amount:</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="text" id = "restockamt" class="form-control" value = "0" min = "0">
+                                                </div>
+                                            </div>
+                                            <div class="ln_solid"></div>
+                                            <div class="form-group">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" align = "center">
+                                                    <button type="button" class="btn btn-success" onclick = "updatestockalert(this)" id = "updatestock">Update</button>
+                                                    <button type="reset" class="btn btn-danger" id = "resetstockinput">Reset</button>
+                                                </div>
+                                        </div>
                                         </div>
                                     </div>
+                                    
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Supplier</label>
-                                        <div class="col-md-3 col-sm-6 col-xs-12">
-                                            <input type="text" id = "supplier_name" class="form-control" readonly="readonly">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Price</label>
-                                        <div class="col-md-3 col-sm-6 col-xs-12">
-                                            <input type="text" id = "item_price" class="form-control" readonly="readonly">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Warehouse Location</label>
-                                        <div class="col-md-3 col-sm-6 col-xs-12">
-                                            <input type="text" id = "warehouse_name" class="form-control" readonly="readonly">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Last Restock</label>
-                                        <div class="col-md-3 col-sm-6 col-xs-12">
-                                            <input type="text" id = "last_restock" class="form-control" readonly="readonly">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Last Update</label>
-                                        <div class="col-md-3 col-sm-6 col-xs-12">
-                                            <input type="text" id = "last_update" class="form-control" readonly="readonly">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-3">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <br>
                                             <button type="button" class="btn btn-round btn-default" id = "addDamage"><i class="fa fa-plus-circle"></i> Add a Damaged Item</button>
                                         </div>
                                     </div>
-
-                                    <br>
                                     <div class="clearfix"></div>
                                     <br>
                                     </form>
@@ -164,7 +198,7 @@
 
                                         <div class="ln_solid"></div>
                                         <div class="form-group">
-                                            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                            <div class="col-md-9 col-sm-9 col-xs-12">
                                                 <button type="button" class="btn btn-primary">Edit</button>
                                                 <button type="reset" class="btn btn-warning" onclick="clearLocalStorage()">Archive</button>
                                             </div>
@@ -212,6 +246,7 @@
 </script>
 
 <?php
+    require_once("DataFetchers/mysql_connect.php");
     $skuID = $_GET['id'];
     echo $_GET['id'];
 
@@ -225,7 +260,7 @@
     $lastRestockArray = array();
     $lastUpdateArray = array();
 
-    $query = "SELECT * FROM mydb.items_trading
+    $query = "SELECT * FROM items_trading
     JOIN warehouses ON warehouses.warehouse_id = items_trading.warehouse_id
     JOIN suppliers ON suppliers.supplier_id = items_trading.supplier_id
     WHERE sku_id =  '$skuID'
@@ -338,6 +373,51 @@
 
 <!-- Custom Theme Scripts -->
 <script src="../build/js/custom.min.js"></script>
+
+<!-- Restocking Onclick -->
+<script>
+    var restockbtnE = document.getElementById("restockbtnE");
+    var restockbtnD = document.getElementById("restockbtnD");
+    var restockinput = document.getElementById("restockamt"); 
+
+    var updatestock = document.getElementById("updatestock"); 
+    var resetstock = document.getElementById("resetstockinput"); 
+
+    restockinput.disabled = true;
+    updatestock.disabled = true;
+    resetstock.disabled = true;
+
+    function enableRestocking()
+    {
+        restockbtnE.style.display = "none";
+        restockbtnD.style.display = "block";
+
+        restockinput.disabled = false;
+        updatestock.disabled = false;
+        resetstock.disabled = false;
+        
+    }
+    function disableRestocking()
+    {
+        restockbtnE.style.display = "block";
+        restockbtnD.style.display = "none";
+
+        restockinput.disabled = true;
+        updatestock.disabled = true;
+        resetstock.disabled = true;
+
+        var insideval = restockinput.value = "0";
+    }
+
+    function updatestockalert()
+    {
+        var insideval = restockinput.value;
+        alert("Do you want to restock this amount? " + insideval);
+
+    }
+</script>
+
+
 </body>
 
 </html>
