@@ -101,7 +101,7 @@
                     </table><br>
                     <div>
                         <form action="AddClient.php" method="POST">
-                          <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Add Client</button>
+                          <button type="submit" class="btn btn-round btn-success"><i class="fa fa-plus"></i> Add New Client</button>
                         </form>
                     </div>
                   </div>
