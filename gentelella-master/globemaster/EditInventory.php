@@ -318,9 +318,16 @@
                                                         <table class="table">
                                                         <thead>
                                                             <tr>
+<<<<<<< HEAD
                                                             <th>First Name</th>
                                                             <th></th>
                                                             <th>Updated At</th>
+=======
+                                                            <th>#</th>
+                                                            <th>First Name</th>
+                                                            <th>Last Name</th>
+                                                            <th>Username</th>
+>>>>>>> ad6fc30131a2c630991f5597a9bec4d476a49783
                                                             </tr>
                                                         </thead>
                                                         <tbody>

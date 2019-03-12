@@ -99,7 +99,7 @@
 
 
                           <?php 
-                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                            require_once('DataFetchers/mysql_connect.php');
 
                             $querytogetDBTable = "SELECT * FROM scheduledelivery";
                             $resultofQuery =  mysqli_query($dbc, $querytogetDBTable);

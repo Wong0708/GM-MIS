@@ -6,14 +6,14 @@ if(isset($_POST['add']))
     $amount = $_POST['amount'];
     $image = addslashes(file_get_contents($_POST['image'])); //SQL Injection defence!
     
-    require_once('mysql_connect.php');
+    require_once('DataFetchers/mysql_connect.php');
     $queryItemType = "SELECT ordernumber FROM orders WHERE orderID = '{$_POST['order']}'";
     $resultItemType = mysqli_query($dbc,$queryItemType);
     $rowItemType=mysqli_fetch_array($resultItemType,MYSQLI_ASSOC);
     $ordernumber = $rowItemType['ordernumber'];
     
     
-    require_once('mysql_connect.php');
+    require_once('DataFetchers/mysql_connect.php');
     $query="INSERT INTO joborderfabrication(ordernumber, description, totalamt, refdrawing)
     VALUES('$ordernumber', '$description', '$amount', '$image')";
     $result=mysqli_query($dbc,$query);
@@ -106,7 +106,25 @@ if(isset($_POST['add']))
                     <br />
                     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" data-parsley-validate class="form-horizontal form-label-left">
 
-                  
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Choose Order Number <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                         <?php
+                                require_once('DataFetchers/mysql_connect.php');
+                                $query = "SELECT * FROM orders";
+                                $result=mysqli_query($dbc,$query);
+                                $option = "";
+                                while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                                {
+                                    $option .= '<option value = "'.$row['orderID'].'">'.$row['ordernumber'].'</option>';
+                                }
+                            ?>
+                            <select name="order" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                            <?php echo $option ?>
+                            </select>
+                        </div>
+                      </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Enter Description <span class="required">*</span>
                         </label>

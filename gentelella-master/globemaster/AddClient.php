@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 <?php
 
 if(isset($_POST['add']))
@@ -31,61 +29,9 @@ if(isset($_POST['add']))
                 echo "<script> alert('Item added'); </script>";
         }
 }
-
-require_once('DataFetchers/mysql_connect.php');
-  if(isset($_POST['submitBtn']))
-  {
-      $itemName = $_POST['item_name']; //Stores the Values from Textbox in HTML
-      $itemAmount = $_POST['amount'];
-      $itemPrice = $_POST['price'];
-      $itemThreshold = $_POST['threshold'];
-
-      $warehouseIDfromSelect = $_POST['selectWarehouse'];
-      $itemTypeIDfromSelect = $_POST['selectItemtype'];
-
-
-      $queryWarehouseID = "SELECT warehouses.warehouse_id FROM warehouses WHERE warehouse = '$warehouseIDfromSelect'";
-      $resultWarehouseID = mysqli_query($dbc,$queryWarehouseID);                                
-      $rowWarehouseID = mysqli_fetch_assoc($resultWarehouseID); //Query for getting WarehouseID 
-
-      $queryItemtypeID = "SELECT ref_itemtype.itemtype_id FROM ref_itemtype WHERE itemtype = '$itemTypeIDfromSelect'";
-      $resultItemtype = mysqli_query($dbc,$queryItemtypeID);                                
-      $rowItemtypeID = mysqli_fetch_assoc($resultItemtype); //Query For getting itemtypeID
-
-      $queryItemID = "SELECT item_id FROM items_trading ORDER BY item_id DESC LIMIT 1 ";
-      $resultItemID = mysqli_query($dbc,$queryItemID);
-      $rowResultItemID = mysqli_fetch_assoc($resultItemID);
-
-      // var_dump($resultWarehouseID);                               
-      // print_r($queryWarehouseID);
-
-      // echo $rowWarehouseID['warehouse_id'];
-      // echo $rowItemtypeID['itemtype_id'];
-
-      $WareHouseID = $rowWarehouseID['warehouse_id'];
-      $ItemtypeID = $rowItemtypeID['itemtype_id'];
-      $ItemID = $rowResultItemID['item_id']+1;
-
-      echo  $ItemID;
-
-      $sql = "INSERT INTO items_trading (item_id, sku_id, item_name, itemtype_id, item_count, last_restock, last_update, threshold_amt, warehouse_id, supplier_id, price)
-      Values(
-      '$ItemID',
-      '$itemName', 
-      '$ItemtypeID',
-      '$itemAmount', curdate(),curdate(),
-      '$itemThreshold',
-      '$WareHouseID',
-      '1',
-      '$itemPrice')";
-
-      $result=mysqli_query($dbc,$sql);              
-  }
-
 ?>
 
 
->>>>>>> ad6fc30131a2c630991f5597a9bec4d476a49783
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -132,7 +78,7 @@ require_once('DataFetchers/mysql_connect.php');
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h1>Add Inventory</h1><br>
+                <h1>Add New Client</h1><br>
               </div>
             </div>
             <div class="clearfix"></div>
@@ -140,60 +86,46 @@ require_once('DataFetchers/mysql_connect.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <!-- <p class="text-muted font-13 m-b-30">
+                    <p class="text-muted font-13 m-b-30">
                       This is where the users will be able to add and remove inventory based on the data tables provided by the company. These can be editable and can be subjected to changes in accordance to the
-                  desires of the head different screen sizes through the dynamic insertion and removal of columns from the table.
-                    </p> -->
+                      desires of the head different screen sizes through the dynamic insertion and removal of columns from the table.
+                    </p>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
                     <br />
-                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form-horizontal form-label-left">
+                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" data-parsley-validate class="form-horizontal form-label-left">
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Category <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Client Name: <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-
-                        <select name="selectItemtype" id="selectItemType" required="required" class="form-control col-md-7 col-xs-12" onchange="getType(this)">
-                        <option value = "">Choose...</option>
-                         <?php
-                                require_once('DataFetchers/mysql_connect.php');
-                                $query = "SELECT * FROM ref_itemtype";
-                                $result=mysqli_query($dbc,$query);
-                                $option = "";
-                                while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                                {
-                                    echo'<option value = "'.$row['itemtype'].'">'.$row['itemtype'].'</option>';
-                                }
-                            ?>
- 
-                            </select>
+                          <input type="text" name="name"required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Stock Keeping Unit (SKU) <span class="required">*</span>
                         </label>
                          <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="skuid" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" name="sku" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Choose Supplier <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                        <select name="supplier" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
-                        <option value = "">Choose...</option>
                             <?php
                                 require_once('DataFetchers/mysql_connect.php');
                                 $query = "SELECT * FROM suppliers";
                                 $result=mysqli_query($dbc,$query);
-                                
+                                $option = "";
                                 while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                                 {
-                                   echo '<option value = "'.$row['supplier_name'].'">'.$row['supplier_name'].'</option>';
+                                    $option .= '<option value = "'.$row['supplier_id'].'">'.$row['supplier_name'].'</option>';
                                 }
-                            ?>             
+                            ?>
+                            <select name="supplier" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                            <?php echo $option ?>
                             </select>
                         </div>
                       </div><br><br>
@@ -201,24 +133,24 @@ require_once('DataFetchers/mysql_connect.php');
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Item Name <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="item_name" id="itemName" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" name="itemname" id="itemName" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Warehouse Location</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                        <select name="selectWarehouse" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
-                        <option value = "">Choose...</option>
                           <?php
                                 require_once('DataFetchers/mysql_connect.php');
                                 $query = "SELECT * FROM warehouses";
                                 $result=mysqli_query($dbc,$query);
-                               
+                                $option = "";
                                 while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                                 {
-                                   echo '<option value = "'.$row['warehouse'].'" > '.$row['warehouse'].' </option>';
+                                    $option .= '<option value = "'.$row['warehouse_id'].'">'.$row['warehouse'].'</option>';
                                 }
                             ?>
+                            <select name="warehouse" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                            <?php echo $option ?>
                             </select>
                         </div>
                       </div>
@@ -233,84 +165,14 @@ require_once('DataFetchers/mysql_connect.php');
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Unit Price <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input name="price" class="form-control col-md-7 col-xs-12" required="required" type="number" step="0.01" placeholder = "1000.00">
+                          <input name="price" class="form-control col-md-7 col-xs-12" required="required" type="number">
                         </div>
                       </div><div class="form-group">
                         <!-- <div class="col-md-6 col-sm-6 col-xs-12"> -->
-                          <button name="submitBtn" class="btn btn-success" type="submit" class="btn btn-success"><a href = "ViewInventory.php" >Add</a></button>
+                          <button name="add" class="btn btn-success" type="submit" class="btn btn-success"><a href = "ViewInventory.php">Add</a></button>
 						              <button class="btn btn-primary" type="reset">Reset</button>
                         <!-- </div>z -->
                       </div>
-
-                      <?php
-
-                      require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-                        if(isset($_POST['submitBtn']))
-                        {
-                            $sku_id = $_POST['skuid'];
-                            $itemName = $_POST['item_name']; //Stores the Values from Textbox in HTML
-                          
-                            $itemPrice = $_POST['price'];
-                            $itemThreshold = $_POST['threshold'];
-
-                            $warehouseIDfromSelect = $_POST['selectWarehouse'];
-                            $itemTypeIDfromSelect = $_POST['selectItemtype'];
-                            $supplierIDFromSelect = $_POST['supplier'];
-
-                           
-
-                            $queryWarehouseID = "SELECT warehouses.warehouse_id FROM warehouses WHERE warehouse = '$warehouseIDfromSelect'";
-                            $resultWarehouseID = mysqli_query($dbc,$queryWarehouseID);                                
-                            $rowWarehouseID = mysqli_fetch_assoc($resultWarehouseID); //Query for getting WarehouseID 
-
-                            $queryItemtypeID = "SELECT ref_itemtype.itemtype_id FROM ref_itemtype WHERE itemtype = '$itemTypeIDfromSelect'";
-                            $resultItemtype = mysqli_query($dbc,$queryItemtypeID);                                
-                            $rowItemtypeID = mysqli_fetch_assoc($resultItemtype); //Query For getting itemtypeID
-                            
-                            $querySupplierID = "SELECT supplier_id FROM suppliers WHERE supplier_name = '$supplierIDFromSelect'";
-                            $resultSupplierID = mysqli_query($dbc,$querySupplierID);                                
-                            $rowSupplierID = mysqli_fetch_assoc($resultSupplierID); //Query For getting itemtypeID
-
-                            $queryItemID = "SELECT item_id FROM items_trading ORDER BY item_id DESC LIMIT 1 ";
-                            $resultItemID = mysqli_query($dbc,$queryItemID);
-                            $rowResultItemID = mysqli_fetch_assoc($resultItemID);
-
-                            // var_dump($resultWarehouseID);                               
-                            // print_r($queryWarehouseID);
-
-                            // echo $rowWarehouseID['warehouse_id'];
-                            // echo $rowItemtypeID['itemtype_id'];
-
-                            $WareHouseID = $rowWarehouseID['warehouse_id'];
-                            $ItemtypeID = $rowItemtypeID['itemtype_id'];
-                            $ItemID = $rowResultItemID['item_id']+1;
-                            $SupplierID = $rowSupplierID['supplier_id'];
-
-                            echo  "warehouse = ".$WareHouseID;
-                            echo  "itemtype = ".$ItemtypeID;
-                            echo  "itemID = ".$ItemID;
-                            echo  "supplierID = ".$SupplierID;
-                            echo  "skuid =  ".$sku_id;
-                            echo  "item name =  ".$itemName;
-                            echo  "3shold = ".$itemThreshold;
-                            echo  "price = ".$itemPrice;
-
-                            $sql = "INSERT INTO items_trading (item_id, sku_id, item_name, itemtype_id, item_count, last_restock, last_update, threshold_amt, warehouse_id, supplier_id, price)
-                            Values(
-                            '$ItemID',
-                            '$sku_id',
-                            '$itemName', 
-                            '$ItemtypeID',
-                            '0', now(),now(),
-                            '$itemThreshold',
-                            '$WareHouseID',
-                            '$SupplierID',
-                            '$itemPrice')";
-
-                            $result=mysqli_query($dbc,$sql);              
-                        }
-
-?>
                       
 
                     </form>

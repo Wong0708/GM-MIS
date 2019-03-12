@@ -301,7 +301,7 @@
                         </thead>
                         <tbody>
                           <?php 
-                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                            require_once('DataFetchers/mysql_connect.php');
                             $query = "SELECT * FROM items_trading";
                             $result = mysqli_query($dbc,$query);
                             $result1 = mysqli_fetch_array($result,MYSQLI_ASSOC);

@@ -57,7 +57,7 @@
                             <option value="">Choose... </option>
                                 <?php
                                 require_once("print.php"); 
-                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                    require_once('DataFetchers/mysql_connect.php');
                                     $query = "SELECT * FROM items_trading
                                     join warehouses ON items_trading.warehouse_id = warehouses.warehouse_id
                                     GROUP BY warehouse";                      
@@ -109,7 +109,7 @@
                       <tbody id = "DaBodi">
                        
                         <?php
-                           require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                           require_once('DataFetchers/mysql_connect.php');
                           $query = "SELECT * FROM items_trading
                           join warehouses ON items_trading.warehouse_id = warehouses.warehouse_id
                           ORDER BY warehouse";                      
@@ -155,7 +155,7 @@
     </div>
     <script>
          <?php
-          require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+          require_once('DataFetchers/mysql_connect.php');
 
           echo 'var dropdown = document.getElementById("selectWarehouse");'; 
 

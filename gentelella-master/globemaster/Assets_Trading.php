@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <?php
-      require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+      require_once('DataFetchers/mysql_connect.php');
     
 ?> <!-- PHP END -->
 
@@ -58,7 +58,7 @@
         <div class="right_col" role="main">
         <!-- top tiles -->
         <?php
-          require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+          require_once('DataFetchers/mysql_connect.php');
 
           $query = "SELECT SUM(item_qty) FROM order_details"; //Query for getting the Total Sales from Order Details
           $resultOrderDetail = mysqli_query($dbc,$query);
@@ -231,7 +231,7 @@
                         <tbody>
 
                         <?php
-                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                            require_once('DataFetchers/mysql_connect.php');
                           
                             $query = "SELECT * FROM items_trading";
                             $result=mysqli_query($dbc,$query);

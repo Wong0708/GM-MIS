@@ -56,7 +56,7 @@
                             <option value="">Choose... </option>
                                 <?php
                                 require_once("print.php"); 
-                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                    require_once('DataFetchers/mysql_connect.php');
                                     $query = "SELECT * FROM items_trading 
                                     JOIN ref_itemtype ON ref_itemtype.itemtype_id = items_trading.itemtype_id
                                     group by itemtype";                    
@@ -111,7 +111,7 @@
 
                       <tbody>
                       <?php
-                          require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                          require_once('DataFetchers/mysql_connect.php');
                           $query = "SELECT * FROM mydb.orders
                           JOIN order_details ON orders.ordernumber = order_details.ordernumber
                           JOIN items_trading ON order_details.item_id = items_trading.item_id

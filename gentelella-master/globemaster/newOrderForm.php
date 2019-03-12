@@ -87,7 +87,7 @@
                                                                     <select onchange="updateOrdersTable();" class="form-control col-md-7 col-xs-12" id="clients" name="clientID">
                                                                 <?php
 
-                                                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                                                    require_once('DataFetchers/mysql_connect.php');
                                                                     $query="SELECT client_id, client_name FROM clients";
                                                                     $result=mysqli_query($dbc,$query);
                                                                     while($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
@@ -115,7 +115,7 @@
                                                                       <tbody>
                                                                         <?php
 
-                                                                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                                                            require_once('DataFetchers/mysql_connect.php');
                                                                             $query = "SELECT * FROM items_trading;";
                                                                             $result1=mysqli_query($dbc,$query);
 
@@ -205,6 +205,7 @@
                     </div>
                 </div>
                                                             
+<<<<<<< HEAD
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Payment Type</label>
                     <div class='input-group col-md-14'>
@@ -225,6 +226,28 @@
                     <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                         <button type="submit" class="btn btn-primary" align="center" name="next" data-toggle="modal" data-target=".bs-example-modal-lg">Next</button>
                         <button type="Reset" class="btn btn-danger" onclick="destroyTable();">Reset</button>
+=======
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Payment Type</label>
+                                                <div class='input-group col-md-14'>
+                                                    <select class="form-control col-md-7 col-xs-12" name="paymentID">
+                                                    <?php
+                                                        require_once('DataFetchers/mysql_connect.php');
+                                                        $query="SELECT * FROM ref_payment";
+                                                        $result=mysqli_query($dbc,$query);
+                                                        while($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
+                                                        ?> <option value="<?php echo $row['payment_id']?>"><?php echo $row["paymenttype"]; ?> </option> <?php
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                                    <button type="submit" class="btn btn-primary" align="center" name="next" data-toggle="modal" data-target=".bs-example-modal-lg">Next</button>
+                                                    <button type="Reset" class="btn btn-danger" onclick="destroyTable();">Reset</button>
+>>>>>>> ad6fc30131a2c630991f5597a9bec4d476a49783
             <!-- Add Order2 Modal -->
             
             <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">

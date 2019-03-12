@@ -35,7 +35,7 @@ if(!(isset($_SESSION['usertype']))){
               <div class="profile_info">
                 <span>
                 <?php
-                  require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                  require_once('DataFetchers/mysql_connect.php');
                   $checkuser = "SELECT usertype FROM gm_usertype WHERE usertype_id = '{$_SESSION['usertype']}'";
                   $result=mysqli_query($dbc,$checkuser);
                   $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
