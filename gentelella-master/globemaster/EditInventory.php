@@ -74,7 +74,7 @@
                             <div class="x_content">
                                 <br>
 
-                                <form class="form-horizontal form-label-center" method="GET" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                                <form class="form-horizontal form-label-center" method="GET">
 
                                 
                                     <div class="col-md-6 col-sm-6 col-xs-12" >
@@ -93,7 +93,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Name</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="text" id = "item_name" class="form-control" readonly="readonly">
+                                                    <input name = "pangalan" type="text" id = "item_name" class="form-control" readonly="readonly">
                                                 </div>
                                             </div>
 
@@ -173,15 +173,13 @@
                                                     <button type="submit" class="btn btn-success" onclick = "updatestockalert(this)" id = "updatestock" name ="restockBtn" >Update</button>
                                                     <button type="reset" class="btn btn-danger" id = "resetstockinput">Reset</button>
 
-                                                    <?php  // UPDATE item stock 
+                                                      <?php  // UPDATE item stock 
                                                         
                                                         require_once('DataFetchers/mysql_connect.php');
-                                                        if(isset($_GET['restockBtn'],  $_GET['restockAmount'])) //checks if both GET have values because the form post is = "GET"
+                                                        if(isset($_GET['restockBtn'], $_GET['restockAmount'])) //checks if both GET have values because the form post is = "GET"                                                    
                                                         {               
-                                                            
+                                                         
                                                             $restockCount = $_GET['restockAmount'];
-
-                                                            echo $restockCount;
                                                             
                                                             $itemIDfromViewInventory = $_SESSION['item_IDfromView'];
                                                             $sqlInsert = "UPDATE items_trading  
@@ -206,98 +204,126 @@
                                                             VALUES ('$itemID','$restockCount',Now())";
                                                             $result=mysqli_query($dbc,$queryToInserttoRestockTable); 
 
-                                                            
-                                                            
+                                             
                                                         }                                                     
                                                     ?>
 
+                                                   
+
                                             </div> <!-- Col MD -->
                                         </div> <!-- FormGRP -->
-                                    </form>
+                                  
                                 </div> <!--END Xpanel -->
                             </div><!--END Col MD-->
 
-                                    
-                                    
-                                    <div class="clearfix"></div>
-                                    <br>
-                                    
-                                <div class="col-md-6 col-sm-6 col-xs-12" >
-                                    <form class="form-horizontal form-label-center" method = "POST" action="<?php echo $_SERVER['PHP_SELF']; ?>"> 
-                                        <div class="x_panel" id ="damageDiv">
+                             <div class="col-md-6 col-sm-6 col-xs-12" >
+                                   
+                                   <div class="x_panel" id ="damageDiv">
 
-                                             <center><font color = "red"><h3>Add Damaged Item:  
-                                             <?php
-                                                    if(isset($_GET['id']))
-                                                    {
-                                                        
-                                                        echo $_SESSION['getIDfromView']; 
-                                                        
-                                                    }
-                                                    else
-                                                    {
-                                                        // echo $_GET['getValue'];
-                                                        echo $_SESSION['getIDfromView']; 
-                                                        
-                                                    }
-                                            ?>
-                                            </h3></font></center>
-
-                                            <div class="ln_solid"></div>   
-                                        
-                                            <div class="form-group">
-                                                <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-1">
-                                                    <button type="button" class="btn btn-round btn-warning" id = "addDamage" onclick = "enableDamaged()"><i class="fa fa-plus-circle"></i> Add a Damaged Item</button>
-                                                 
-                                                </div>
-                                            </div>
-
-                                            
-                                            <div class="form-group">
-                                            <br>
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Damaged Quantity</label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input   name ="damageQuantity" type="number" id = "dmgqty" class="form-control"  max = "" min = "0" required>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Percentage of Damage</label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input   name ="damagePercent" type="number" id = "percentdmg" class="form-control"  placeholder="Max 100%" max = "100" min = "0" required>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Price Each</label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input   name = "damagePrice" type="number" id = "priceeach" class="form-control" readonly="readonly" >
-                                                </div>
-                                            </div>  
-
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Loss</label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input   name ="totalLoss" type="number" id = "totalloss" class="form-control" readonly="readonly">
-                                                </div>
-                                            </div>
-
-                                            <div class="ln_solid"></div>
-
-                                            <div class="form-group">
-                                                <div class="col-md-12 col-sm-12 col-xs-12" align = "right">
-                                                    <button name = "UpdateDamage" type="submit" class="btn btn-success" id = "updatedmg" value = "update">Update</button>
-                                                    <button type="reset" class="btn btn-primary" id = "resetdmg">Reset</button>
-                                                    <button type="reset" class="btn btn-danger" onclick = "cancelDamaged()" id = "canceldmg">Cancel</button>
+                                        <center><font color = "red"><h3>Add Damaged Item:  
+                                        <?php
+                                               if(isset($_GET['id']))
+                                               {
                                                    
-                                                </div>
-                                            </div>
-                                        </div> <!--END XPANEL -->
-                                    </div><!--END ColMD-->
+                                                   echo $_SESSION['getIDfromView']; 
+                                                   
+                                               }
+                                               else
+                                               {
+                                                   // echo $_GET['getValue'];
+                                                   echo $_SESSION['getIDfromView']; 
+                                                   
+                                               }
+                                       ?>
+                                       </h3></font></center>
 
-                                    </form>
+                                       <div class="ln_solid"></div>   
+                                   
+                                       <div class="form-group">
+                                           <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-1">
+                                               <button type="button" class="btn btn-round btn-warning" id = "addDamage" onclick = "enableDamaged()"><i class="fa fa-plus-circle"></i> Add a Damaged Item</button>
+                                            
+                                           </div>
+                                       </div>
+
+                                       
+                                       <div class="form-group">
+                                       <br>
+                                           <label class="control-label col-md-3 col-sm-3 col-xs-12">Damaged Quantity</label>
+                                           <div class="col-md-6 col-sm-6 col-xs-12">
+                                               <input   name ="damageQuantity" type="number" id = "dmgqty" class="form-control"  max = "" min = "0" >
+                                           </div>
+                                       </div>
+
+                                       <div class="form-group">
+                                           <label class="control-label col-md-3 col-sm-3 col-xs-12">Percentage of Damage</label>
+                                           <div class="col-md-6 col-sm-6 col-xs-12">
+                                               <input   name ="damagePercent" type="number" id = "percentdmg" class="form-control"  placeholder="Max 100%" max = "100" min = "0" >
+                                           </div>
+                                       </div>
+
+                                       <div class="form-group">
+                                           <label class="control-label col-md-3 col-sm-3 col-xs-12">Price Each</label>
+                                           <div class="col-md-6 col-sm-6 col-xs-12">
+                                               <input   name = "damagePrice" type="number" id = "priceeach" class="form-control" readonly="readonly" >
+                                           </div>
+                                       </div>  
+
+                                       <div class="form-group">
+                                           <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Loss</label>
+                                           <div class="col-md-6 col-sm-6 col-xs-12">
+                                               <input   name ="totalLoss" type="number" id = "totalloss" class="form-control" readonly="readonly">
+                                           </div>
+                                       </div>
+
+                                       <div class="ln_solid"></div>
+
+                                       <div class="form-group" id="UpdateDamageForm" >
+                                           <div class="col-md-12 col-sm-12 col-xs-12" align = "right">
+                                               <button type="submit" class="btn btn-success" id = "updatedmg" name = "UpdateDamage">Update</button>
+                                               <button type="reset" class="btn btn-primary" id = "resetdmg">Reset</button>
+                                               <button type="reset" class="btn btn-danger" onclick = "cancelDamaged()" id = "canceldmg">Cancel</button>
+
+                                               <script>
+                                                    function loginForm() 
+                                                    {
+                                                        document.getElementById("UpdateDamageForm").click();
+                                                    }
+                                                </script>
+                                              
+                                               <?php
+
+                                              
+                                                if(isset($_GET['UpdateDamage'],$_GET['damageQuantity']))
+                                                {               
+                                                    echo "sho mi da waeee";
+                                                   
+                                                    $damageQuantityFromHTML = $_GET['damageQuantity'];
+                                                    $damagePercentFromHTML = $_GET['damagePercent'];                                                    
+                                                    $damageTotalFromHTML = $_GET['totalLoss'];
+
+                                                    echo $damageQuantityFromHTML;
+                                                    echo $damagePercentFromHTML;
+                                                    echo $damageTotalFromHTML;
+
+                                                    $_SESSION['getDamageQuantity'] = $damageQuantityFromHTML;
+                                                    $_SESSION['getDamagePercent'] = $damagePercentFromHTML;
+                                            
+                                                     $_SESSION['getDamageLoss'] = $damageTotalFromHTML;
+                                                   
+                                                }
+
+                                                ?>
+                                           </div>
+                                        </div>
+
+                                   </div> <!--END XPANEL -->
+                               </div><!--END ColMD-->
+
+                               <div class="clearfix"></div>
+                                    <br>
                                     <div class="col-md-6 col-sm-6 col-xs-12" >
-                                        <form method ="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                                        
                                         <div class="x_panel">
 
                                              <center><h3>Recently Added Damages for Item:
@@ -346,18 +372,16 @@
                                         </div><!--END XPanel-->
                                     
                                 </div><!--ENDCol MD-->
-                                </form>
 
-                              
-                                    <form method ="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                                        <div class="col-md-12 col-sm-12 col-xs-12" align = "right">
+                               <div class="col-md-12 col-sm-12 col-xs-12" align = "right">
                                         
                                         <div class="ln_solid"></div>
-                                            <button name = "confirmButton" type="button" class="btn btn-success">Confirm</button>
+                                            <button name = "confirmButton" type="submit" class="btn btn-success" onclick ="generalAlert()">Confirm</button>
                                             <button type="reset" class="btn btn-warning" onclick="clearLocalStorage()">Archive</button>
 
                                             <?php 
-                                                if(isset($_POST['confirmButton']))
+                                            
+                                                if(isset($_GET['confirmButton']))
                                                 {
                                                     
                                                     $currentItemID = $_SESSION['item_IDfromView'];
@@ -367,6 +391,8 @@
                                                     $currentDmgPercent = $_SESSION['getDamagePercent'];
                                             
                                                     $currentDmgLoss =  $_SESSION['getDamageLoss'];
+
+                                                
         
                                                   
                                                     $insertToDamageTable = "INSERT INTO damage_item (refitem_id, item_name, damage_percentage, item_quantity,total_loss,last_update)
@@ -376,6 +402,9 @@
                                                     if(!$resultofInsert) 
                                                     {
                                                         die('Error: ' . mysqli_error($dbc));
+                                                        echo '<script language="javascript">';
+                                                        echo 'alert("Error In Insert!");';
+                                                        echo '</script>';
                                                     } 
                                                     else 
                                                     {
@@ -388,9 +417,17 @@
                                                 
                                             ?>
                                         </div><!--END Col MD-->
-                                    </form>
+                                    
                             </div> <!--END X Panel-->
                         </div><!--END Col MD-->
+                            </form>
+                                    
+                                    
+                                    
+                                
+                              
+                                    
+                                        
                         
                     </div><!--END Role=Main -->
                 </div><!--END Container Body-->
@@ -518,10 +555,10 @@
             var newRow = document.getElementById('damageTable').insertRow();                       
             newRow.innerHTML = "<tr> <td>"+ newName+ "</td> <td>" + damagePercentage.value+ "</td> </tr>";
 
-            damagePercentage.value = "";
-            dmgQtyBox.value = "";
-            priceEachBox.value = "";
-            totalLossBox.value = "";
+            // damagePercentage.value = "";
+            // dmgQtyBox.value = "";
+            // priceEachBox.value = "";
+            // totalLossBox.value = "";
 
         }
        
@@ -653,6 +690,10 @@
         var insideval = restockinput.value;
         alert("Do you want to restock this amount: " + insideval);
 
+    }
+    function generalAlert()
+    {
+        alert("Do you want to Continue?");
     }
 
     function enableDamaged()
