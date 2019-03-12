@@ -179,7 +179,7 @@ require_once('DataFetchers/mysql_connect.php');
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <?php
-                                require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                require_once('DataFetchers/mysql_connect.php');
                                 $query = "SELECT * FROM suppliers";
                                 $result=mysqli_query($dbc,$query);
                                 $option = "";
@@ -204,7 +204,7 @@ require_once('DataFetchers/mysql_connect.php');
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Warehouse Location</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <?php
-                                require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                require_once('DataFetchers/mysql_connect.php');
                                 $query = "SELECT * FROM warehouses";
                                 $result=mysqli_query($dbc,$query);
                                 $option = "";
