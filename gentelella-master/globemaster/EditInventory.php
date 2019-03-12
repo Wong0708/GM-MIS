@@ -180,10 +180,11 @@
 
                                                                         echo $restockCount;
                                                                        
-                                                                       $itemIDfromViewInventory = $_SESSION['item_IDfromView'];
+                                                                        $itemIDfromViewInventory = $_SESSION['item_IDfromView'];
                                                                         $sqlInsert = "UPDATE items_trading  
-                                                                        SET items_trading.item_count  = (item_count + '$restockCount') 
-                                                                         WHERE item_id ='$itemIDfromViewInventory';"; //Updates the item count in DB
+                                                                        SET items_trading.item_count  = (item_count + '$restockCount'),
+                                                                        last_restock = Now() 
+                                                                        WHERE item_id ='$itemIDfromViewInventory';"; //Updates the item count in DB
                                                                         $result=mysqli_query($dbc,$sqlInsert); 
                                                                         
                                                                         if(!$result) 
@@ -196,6 +197,13 @@
                                                                             echo 'alert("Successful!");';
                                                                             echo '</script>';
                                                                         }
+
+                                                                        $itemID =  $_SESSION['item_IDfromView'];
+                                                                        $queryToInserttoRestockTable = "INSERT INTO restock_detail (item_id, quantity, restock_date)
+                                                                        VALUES ('$itemID','$restockCount',Now())";
+                                                                        $result=mysqli_query($dbc,$queryToInserttoRestockTable); 
+
+                                                                        
                                                                         
                                                                     }                                                     
                                                                 ?>

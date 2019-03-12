@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>DataTables | Gentelella</title>
+    <title>View Clients</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -17,6 +17,8 @@
     <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- iCheck -->
     <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <!-- Switchery -->
+    <link href="../vendors/switchery/dist/switchery.min.css" rel="stylesheet">
     <!-- Datatables -->
     <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
@@ -41,7 +43,7 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                  <h1>Globemaster All Orders</h1><br>
+                  <h1>Client Master List</h1><br>
               </div>
             </div>
 
@@ -50,72 +52,63 @@
                 <div class="x_panel">
                   <div class="x_content">
                     <p class="text-muted font-13 m-b-30">
-                      <form action="OrderForm.php" method="POST">
-                            <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Create Order </button>
-                      </form>
+                      This is where the users will be able to view the list of all of the clients and their current statuses.
+                      It will also allow the user to edit the statuses of their clients according to their payments and payments due.
                     </p><br>
 					
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
-                          <th>Order Number</th>
-                          <th>Client Name</th>
-                          <th>Order Date</th>
-                          <th>Delivery Date</th>
-                          <th>Total Amount</th>
-                          <th>Payment Type</th>
-                          <th>Status</th>
+                          <th>Client Name</th>                       
+                          <th>Address</th>
+                          <th>City</th>
+                          <th>Contact Number</th>
+                          <th>E-mail</th>                         
+                          <th>Status</th>              
                         </tr>
                       </thead>
                       <tbody>
                         <?php
                             
                             require_once('DataFetchers/mysql_connect.php');
-                            $query = "SELECT * FROM orders;";
+                            $query = "SELECT * FROM clients;";
                             $result=mysqli_query($dbc,$query);
                             while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                             {
-                                    $queryPaymentType = "SELECT paymenttype FROM ref_payment WHERE payment_id =" . $row['payment_id'] . ";";
-                                    $resultPaymentType = mysqli_query($dbc,$queryPaymentType);
-                                    $rowPaymentType=mysqli_fetch_array($resultPaymentType,MYSQLI_ASSOC);
-                                    $paymentType = $rowPaymentType['paymenttype'];
-
-                                    $queryClientName = "SELECT client_name FROM clients WHERE client_id =" . $row['client_id'] . ";";
-                                    $resultClientName = mysqli_query($dbc,$queryClientName);
-                                    $rowClientName=mysqli_fetch_array($resultClientName,MYSQLI_ASSOC);
-                                    $clientName = $rowClientName['client_name'];
-                                    
-                                
                                     echo '<tr>';
                                     echo '<td>';
-                                    echo $row['ordernumber'];
+                                    echo $row['client_name'];
                                     echo '</td>';
                                     echo '<td>';
-                                    echo $clientName;
+                                    echo $row['client_address'];
+                                    echo '</td>';                                  
+                                    echo '<td>';
+                                    echo $row['client_city'];
                                     echo '</td>';
                                     echo '<td>';
-                                    echo $row['order_date'];
+                                    echo $row['client_contactno'];
                                     echo '</td>';
                                     echo '<td>';
-                                    
-                                    if($row['delivery_date'] == null || $row['delivery_date'] == "")
+                                    echo $row['client_email'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo '<input type="checkbox" id="';
+                                    echo $row['client_id'];
+                                    echo '" class="';
+                                    if($row['client_status'] == "Enabled")
                                     {
-                                        echo '<button type="submit" class="btn btn-round btn-success"><i class="fa fa-plus"></i> Set Delivery Date</button>';
+                                        echo 'js-switch" onclick = "changeStatus(';
+                                        echo $row['client_id'];
+                                        echo ')" value = "Enabled" checked="checked"></input>';
                                     }
                                     else
                                     {
-                                        echo $row['delivery_date'];
-                                    }
+                                        echo 'js-switch" onclick = "changeStatus(';
+                                        echo $row['client_id'];
+                                        echo ')" value = "Disabled"></input>';
+                                    }       
                                     echo '</td>';
-                                    echo '<td>';
-                                    echo  'Php'." ".number_format($row['totalamt'], 2);
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $paymentType;
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $row['orderstatus'];
-                                    echo '</td>';
+                                    
                                     echo '</tr>';
                                     
                             }
@@ -123,7 +116,9 @@
                       </tbody>
                     </table><br>
                     <div>
-                        
+                        <form action="AddClient.php" method="POST">
+                          <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>  Save Changes</button>
+                        </form>
                     </div>
                   </div>
                 </div>
@@ -143,6 +138,25 @@
         <!-- /footer content -->
       </div>
     </div>
+   
+    
+    <!--Client Switches -->
+    <script type="text/javascript">    
+    function changeStatus(rownum) 
+    {
+        var elem = document.getElementById(rownum);
+        if (elem.checked == true)
+        {
+            elem.value("Disabled");
+        }
+        else 
+        {
+            elem.setAttribute("value","Enabled");
+        }
+        
+    }    
+        
+    </script>    
 
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
@@ -154,6 +168,8 @@
     <script src="../vendors/nprogress/nprogress.js"></script>
     <!-- iCheck -->
     <script src="../vendors/iCheck/icheck.min.js"></script>
+    <!-- Switchery -->
+    <script src="../vendors/switchery/dist/switchery.min.js"></script>
     <!-- Datatables -->
     <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
@@ -170,7 +186,10 @@
     <script src="../vendors/jszip/dist/jszip.min.js"></script>
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+    
 
+
+    
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
 

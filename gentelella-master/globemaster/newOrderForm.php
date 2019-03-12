@@ -42,6 +42,9 @@
                 
                 <?php
                 require_once("nav.php");    
+
+               
+
                 ?>
 
                 <!-- page content -->
@@ -62,7 +65,18 @@
                                             <div class="col-md-12 col-sm-12 col-xs-12">
                                                 <div class="x_panel">
                                                     <div class="x_title">
-                                                        <h2> Create Order </h2>
+                                                        <h3> 
+                                                            <?php
+                                                                $queryTogetMaxOR = " SELECT count(ordernumber) as TOTALOR FROM order_details";
+                                                                $resultOfQuery=mysqli_query($dbc,$queryTogetMaxOR);
+                                                                $row = mysqli_fetch_array($resultOfQuery,MYSQLI_ASSOC);
+
+                                                                $CurrentOR = "OR - ".$row['TOTALOR'];                                                           
+                                                               echo "<b>".$CurrentOR."</b>";
+
+                                                               $_SESSION['DeliveryStatus'] = "PickUp"; //Assume order is pickup;
+                                                            ?>
+                                                        </h3>
                                                         <div class="clearfix"></div>
                                                     </div>
                                                     <div class="x_content">
@@ -191,6 +205,28 @@
                     </div>
                 </div>
                                                             
+<<<<<<< HEAD
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Payment Type</label>
+                    <div class='input-group col-md-14'>
+                        <select class="form-control col-md-7 col-xs-12" name="paymentID">
+                        <?php
+                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                            $query="SELECT * FROM ref_payment";
+                            $result=mysqli_query($dbc,$query);
+                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
+                            ?> <option value="<?php echo $row['payment_id']?>"><?php echo $row["paymenttype"]; ?> </option> <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                        <button type="submit" class="btn btn-primary" align="center" name="next" data-toggle="modal" data-target=".bs-example-modal-lg">Next</button>
+                        <button type="Reset" class="btn btn-danger" onclick="destroyTable();">Reset</button>
+=======
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Payment Type</label>
                                                 <div class='input-group col-md-14'>
@@ -211,6 +247,7 @@
                                                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                                                     <button type="submit" class="btn btn-primary" align="center" name="next" data-toggle="modal" data-target=".bs-example-modal-lg">Next</button>
                                                     <button type="Reset" class="btn btn-danger" onclick="destroyTable();">Reset</button>
+>>>>>>> ad6fc30131a2c630991f5597a9bec4d476a49783
             <!-- Add Order2 Modal -->
             
             <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
@@ -218,21 +255,49 @@
                 <div class="modal-content">
 
                   <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
-                    </button>
+              
                     <h4 class="modal-title" id="myModalLabel">Finalize Order</h4>
                   </div>
 
                   <div class = "modal-body">
-                  <form class="form-horizontal form-label-left" method="POST" action= "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                  <form class="form-horizontal form-label-left" method="POST" action= "<?php echo $_SERVER["PHP_SELF"];?>">
 
 
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" >For Delivery?<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <button type="button" class="btn btn-round btn-default" onclick = "toggleDeliveryDate()" value = "YesDel" id = "Yesbutton" style = "display:block" >No</button>
-                            <button type="button" class="btn btn-round btn-success" onclick = "toggleDeliveryDate1()" value = "NoDel" id = "Nobutton" style = "display:none">Yes</button>
+                            <button type="submit" name ="YesDeliv" class="btn btn-round btn-default" onclick = "toggleDeliveryDate(); " value = "Yes" id = "Yesbutton" style = "display:block" >No</button>
+                            <button type="submit" name ="NoDeliv" class="btn btn-round btn-success" onclick = "toggleDeliveryDate1();" value = "No" id = "Nobutton" style = "display:none">Yes</button>
+                            <?php 
+                                
+                                if(isset($_POST['YesDeliv']))
+                                {
+                                    $_SESSION['DeliveryStatus'] = "Deliver";
+                                    alert("wadapak");
+                                }
+                                else 
+                                {
+                                    $_SESSION['DeliveryStatus'] = "PickUp";
+                                }
+                                // switch ($_POST['ToFabPage']) {
+                                //     case 'YesDel':
+                                //         // first pressed
+                                //         $_SESSION['DeliveryStatus'] = "Deliver";
+                                //     break;
+                                //     case 'NoDel':
+                                //         // second pressed
+                                //         $_SESSION['DeliveryStatus'] = "PickUp";
+                                //     break;
+                                //     default:
+                                //         // something wrong
+                                //         echo "Wadapak?";
+                                //     break;
+                                // }
+                            
+
+                            ?>
+                          
                         </div>
                     </div>
 
@@ -241,7 +306,7 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" >Expected Date<span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input id="customer" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name1" placeholder="Please enter the customer's name" required="required" type="date">
+                                <input id="customer" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name1" required="required" type="date">
                             </div>
                         </div>
                     </div>
@@ -259,13 +324,16 @@
                     <div class="form-group">
                       <div class="col-md-6 col-md-offset-3">
                         <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                        <button id="send" type="submit" class="btn btn-success" style="visibility:visible">Submit</button>
-                        <button class="btn btn-primary" id="fabricationpage" style="visibility:hidden"><a href = "CreateJobOrderFab.php">Next</a></button>
+                        <button id="send" type="submit" class="btn btn-success" style="visibility:visible"><a id ="nextpage" href = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?>">Submit</a></button>
+                        <button  type="submit" class="btn btn-primary" id="fabricationpage" style="visibility:hidden"><a href = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?>">Next</a></button>
+                        
                       </div>
                     </div>
+
+                    </form>
                     <!-- Order 2 -->                   
-                  </form>
-                </div>
+                  
+                    </div>
                 </div>
               </div>
             </div>
@@ -274,7 +342,6 @@
             <!-- End Order2 Modal -->
                                                 </div>
                                             </div>
-
                                                         </form>
                                                     </div>
 
@@ -283,12 +350,8 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-
-         
-
               </div>
             </div>
           </div>
@@ -297,26 +360,12 @@
 
 
         <script>
-          
-            // $("tr.tableRow").click(function() {
-            // var tableData = $(this).children("td").map(function() {
-            //     return $(this).text();
-            // }).get();
-
-            // var newRow = document.getElementById('cart').insertRow();
-            //  newRow.innerHTML = "<tr> <td>" + $.trim(tableData[0]) + "</td> <td>" + $.trim(tableData[1]) +" </td> <td>" + $.trim(tableData[2]) + "</td> <td> " +$.trim(tableData[4])+ " </td> <td> "+$.trim(tableData[4].textContent)+" </td>"
-            
-           
-            //     alert("Your data is: " + $.trim(tableData[0]) + " , " + $.trim(tableData[1]) + " , " + $.trim(tableData[2])+ " , " + $.trim(tableData[3])+ " , " + $.trim(tableData[4].innerHTML));
-            // });
-        // function getButton(obj)
-        // {
-           
-        // }
         var count = 0;
         var itemName = "item"+1;
         var quantity = "quantity"+1;
         var currentName = ""; 
+        var CurrentTotal = 0; //Gets the current total to pay
+
             $('#datatable-checkbox tbody button.btn.btn-success').on('click', function(e) {
                 var row = $(this).closest('tr');
                 var buttonValue = $(this).val();
@@ -340,7 +389,7 @@
                     {
                         
                       var qty_old = 0
-                        var item_does_not_exist = true;
+                    var item_does_not_exist = true;
                         $(".qtys").each(function(i){ // this gets all the classes in the order table.
                             if (buttonValue ==$(this).attr('val_id'))
                             { //checks i there is existing item
@@ -351,50 +400,74 @@
                                         new_qty = parseFloat(itemQuantity) + qty_old;
 
                                     $(this).text(new_qty);
-                                        var newPice = $(this).attr('price ') * new_qty;
-                                        payment.value = "₱ "+ (count * new_qty);
-                                    console.log(qty);
+                                        var oldPrice =  $(this).attr('price');
+                                        var newPrice = $(this).attr('price') * new_qty;
+
+                                        var subtractOldamount = qty_old *oldPrice;
+                                        CurrentTotal = (CurrentTotal - subtractOldamount);
+                                        
+                                       
+                                        CurrentTotal = CurrentTotal+ newPrice;
+                                        payment.value = "₱ "+  CurrentTotal.toFixed(2) ;
+                                      
+                                    console.log("Old Amount = "+subtractOldamount);                                   
+                                    console.log("Old Price = "+oldPrice);
+                                    console.log("Current Total = "+CurrentTotal);
                             }
                         });
                         if(item_does_not_exist){
 
-                            var price =row.find('td:nth-child(4)').text().replace("₱ ", "");
+                            var price =row.find('td:nth-child(4)').text().replace("₱ ", ""); //Removes the peso sign to make it as INT rather than string
                             var valid= row.find('td:nth-child(4)');
                             var ParsePrice = parseFloat(price.replace(/\,/g,''), 10);
 
-                            var newRow = document.getElementById('cart').insertRow();
-                            newRow.innerHTML = "<tr> <td id = "+itemName +">" + currentName + "</td> <td>" + row.find('td:nth-child(2)').text() +" </td> <td>" + row.find('td:nth-child(4)').text() + "</td> <td class='qtys' price ='"+ParsePrice+"' val_id='"+buttonValue+"'> " + itemQuantity + " </td> <td> <button type='button' class='btn btn-danger' name ='remove'value ='' > - </button></td>"
-                    
-                            
-                        
-                            // console.log("LERRY"+buttonValue);
-                            count =  count +1+ parseFloat(price.replace(/\,/g,''), 10);
-                            
-                            payment.value = "₱ "+ (count * itemQuantity);
-                            
+                            // count =  count +1+ parseFloat(price.replace(/\,/g,''), 10);
+                            // count =  count+ parseFloat(price.replace(/\,/g,''), 10);
+                            var totalPayment = (ParsePrice * itemQuantity);
+
+                            CurrentTotal = CurrentTotal + totalPayment;
+
+                            var newRow = document.getElementById('cart').insertRow();                       
+                            newRow.innerHTML = "<tr> <td id = "+itemName +">" + currentName + "</td> <td>" + row.find('td:nth-child(2)').text() +" </td> <td>" + row.find('td:nth-child(4)').text() + "</td> <td class='qtys' price ='"+ParsePrice+"' val_id='"+buttonValue+"'> " + itemQuantity + " </td> <td> <button type='button' class='btn btn-danger' name ='remove' onclick= 'DeleteRow(this)' value ='"+totalPayment.toFixed(2)+"' > - </button></td>"
+                             
+                            // payment.value = "₱ "+ totalPayment;
+                           
+                            payment.value = "₱ "+ CurrentTotal.toFixed(2);
+
                             itemName++;
                             quantity++;
 
-                            console.log(itemQuantity);
-                        }
-                            
-                       
-                    }
-                // var row = 1;
-                // $('#cart tr').each(function()
-                // {
-                //     var cell = $('#cart tr:nth-child(' + row + ') td:nth-child(1)'); // WIP  [Compare Click button Item Name to Array of ItemName in Table[cart] ]
-                //     console.log(cell.text());
-                //     row = row + 1;
-                // });
-             
+                            console.log("Current Total = ");
+                        } // END IF                                                 
+                    }   // END ELSE    
+
+            }) //END FUNCTION
+             function DeleteRow(obj) 
+               {
                 
-            })
+                        var buttonValue =obj.value;     
+                        var paymentBox = document.getElementById("payment");
 
-            </script>
+                            var td = event.target.parentNode; // event.target will be the input element.
+                            var tr = td.parentNode; // the row to be removed
+                   
+                            var cartPrice = tr.cells[2].innerHTML.replace("₱ ", ""); //Gets Value of Cell in TR and Removes Peso Sign 
+                            var cartQuantity = tr.cells[3].innerHTML;
+                            var AmountToBeSubtracted = cartQuantity *  parseFloat(cartPrice.replace(/\,/g,''), 10);
+                            console.log("Cart Price = " + cartPrice);
+                            console.log("Cart Quantity = " + cartQuantity);
+                            console.log("Total Amount = " + AmountToBeSubtracted);
+                     
+                        // var paymentValue = paymentBox.value.replace("₱ ", "");
+                        
+                        console.log("button value = "+buttonValue);
+                        console.log("Total Payment Value = "+CurrentTotal);
+                        CurrentTotal = (CurrentTotal.toFixed(2) - AmountToBeSubtracted.toFixed(2)); //Limits the Decimal points to 2
+                        paymentBox.value = "₱ " + CurrentTotal.toFixed(2);
 
-                                                                                   
-          
+                         tr.parentNode.removeChild(tr);                 
+                }                    
+            </script>         
             <script>
                 function destroyTable()
                 {
@@ -403,8 +476,16 @@
                     {     
                         table.deleteRow(i);
                     } //END FOR
-                }
+                }           
             </script>
+            <script>
+            function getValue(obj) 
+            {
+                var status = obj.value;
+                var strLink = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?> & delivery_status =" + status;
+                document.getElementById("nextpage").setAttribute("href",strLink);
+            })
+        </script>
         <!-- jQuery -->
         <script src="../vendors/jquery/dist/jquery.min.js"></script>
         <!-- Bootstrap -->
@@ -470,6 +551,7 @@
                 $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
             });
         </script>
+        
         <script>
             var divdel = document.getElementById("ifYes");
             var yesbutton = document.getElementById("Yesbutton");
@@ -483,9 +565,11 @@
 
             function toggleDeliveryDate()
             {
+                
                 divdel.style.display = "block";
                 yesbutton.style.display = "none";
                 nobutton.style.display = "block";
+              
             }
 
             function toggleDeliveryDate1()
@@ -493,6 +577,7 @@
                 divdel.style.display = "none";
                 yesbutton.style.display = "block";
                 nobutton.style.display = "none";
+               
             }
             function toggleFabrication()
             {

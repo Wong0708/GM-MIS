@@ -45,63 +45,7 @@
           <!-- top tiles -->
           <div class="row tile_count">
               <div class="col-md-s col-sm-6 col-xs-12">
-                  <div class="x_panel">
-                    <div class="x_title">
-                      <h2>Bar graph <small>Sessions</small></h2>
-                     
-                      <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-                      <canvas id="mybarChart"></canvas>
-                    </div>
-                  </div>
-                </div>
-              
-             
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                  <div class="x_panel">
-                    <div class="x_title">
-                      <h2>Boardered table <small>Bordered table subtitle</small></h2>
-                      
-                      <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content">
-  
-                      <table class="table table-bordered">
-                        <thead>
-                          <tr>
-                            <th>Date</th>
-                            <th>Total Sale</th>
-                            <th>Naive</th>
-                            <th>Difference</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                          </tr>
-                        </tbody>
-                      </table>
-  
-                    </div>
-                  </div>
-                </div>
-              </div>
+                  
               
 
           
@@ -167,70 +111,7 @@
     <script src="../build/js/custom.js"></script>
 
     <!-- Chart Data -->
-    <script>
-        // Bar chart
-
-      
-      if ($('#mybarChart').length )
-      { 
-
-			  $(document).ready(function()
-        {
-        $.ajax({
-          url: "http://localhost//GM-MIS/gentelella-master/globemaster/DataFetchers/DataTest.php",
-          method: "GET",
-          success: function(data) {
-            console.log(data);
-            var itemid = [];
-            var itemname = [];
-            var itemlabel = [];
-            var itemprice = [];
-            var itemcount = [];
-
-            for(var i in data) 
-            {
-              itemid.push("Item " + data[i].item_id);
-              itemname.push(data[i].item_name);
-              itemlabel.push(data[i].item_name + "-" + "Item " + data[i].item_id);
-              itemprice.push(data[i].price);
-              itemcount.push(data[i].item_count);
-            }
-			  
-            var ctx = document.getElementById("mybarChart");
-            var mybarChart = new Chart(ctx, 
-            {
-              type: 'bar',
-              data: 
-              {
-                labels: itemlabel,
-                datasets: [{
-                label: 'Item Price',
-                backgroundColor: "#26B99A",
-                data: itemprice},{
-                label: 'Item Count',
-                backgroundColor: "#273746",
-                data: itemcount}]
-            },
-
-              options: 
-              {
-                scales: 
-                {
-                  yAxes: 
-                  [{
-                    ticks: 
-                    {
-                      beginAtZero: true
-                    }
-                  }]
-                }
-              }
-            });
-          }
-        })
-      })
-    } 
-  </script>
+  
 	
   </body>
 </html>

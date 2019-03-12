@@ -100,8 +100,8 @@
                       </tbody>
                     </table><br>
                     <div>
-                        <form action="AddInventory.php" method="POST">
-                          <button type="submit" class="btn btn-round btn-success"><i class="fa fa-plus"></i> Add Item</button>
+                        <form action="AddClient.php" method="POST">
+                          <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Add Client</button>
                         </form>
                     </div>
                   </div>
