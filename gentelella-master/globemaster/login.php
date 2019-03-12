@@ -1,12 +1,12 @@
 <?php
 session_start();
-require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+require_once('DataFetchers/mysql_connect.php');
 // session_destroy();
 if(isset($_POST['login']))
 {
     $_SESSION['username'] = $_POST['loginuser'];
     $_SESSION['password'] = $_POST['loginpass'];
-    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+    require_once('DataFetchers/mysql_connect.php');
     $checkuser = "SELECT * FROM gm_users WHERE username = '{$_SESSION['username']}' AND password = '{$_SESSION['password']}'";
     $result=mysqli_query($dbc,$checkuser);
     $row=mysqli_fetch_array($result,MYSQLI_ASSOC);

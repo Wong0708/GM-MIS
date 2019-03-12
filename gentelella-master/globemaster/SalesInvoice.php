@@ -82,7 +82,7 @@
 
                                                      <?php
 
-                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                            require_once('DataFetchers/mysql_connect.php');
                             $query = "SELECT ordernumber, client_name, order_date, delivery_date, paymenttype, totalamt 
 										FROM orders o
 										join clients c on o.client_id = c.client_id

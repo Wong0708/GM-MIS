@@ -300,7 +300,7 @@
           <div class="row tile_count">
 
           <?php
-                                        require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                        require_once('DataFetchers/mysql_connect.php');
 
                                         $sql = "SELECT * FROM order_details 
                                         join clients ON order_details.client_id = clients.client_id
@@ -328,7 +328,7 @@
                         <select id="orderNumberDropdown" class="form-control col-md-3 col-md-7 col-xs-12" required="" name = "selectItemtype" style=" width:250px";>
                             <option value="">Choose..</option>
                                 <?php
-                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                    require_once('DataFetchers/mysql_connect.php');
 
                                     $sql = "SELECT * FROM order_details where item_status = 'Deliver' ";
                                     $result=mysqli_query($dbc,$sql);
@@ -371,7 +371,7 @@
 
                                 <script type="text/javascript">
                                      <?php
-                                        require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                        require_once('DataFetchers/mysql_connect.php');
 
                                         $sql = "SELECT * FROM order_details 
                                         join clients ON order_details.client_id = clients.client_id

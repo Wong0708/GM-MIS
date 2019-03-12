@@ -52,7 +52,21 @@
                     <div class="col-md-12 col-sm-12 col-xs-12" >
                         <div class="x_panel" >
                             <div class="x_title">
-                                <h1>Edit Inventory - <?php echo $_GET['id'];?></h1>
+                                <h1>Edit Inventory - 
+                                    <?php
+                                     if(isset($_GET['sku_id'], $_GET['item_id']))
+                                     {
+                                        $_SESSION['getIDfromView'] = $_GET['sku_id'];
+                                        $_SESSION['item_IDfromView'] = $_GET['item_id']; //Stores the Value of Get from View Inventory
+                                        echo $_SESSION['getIDfromView']; 
+                                        
+                                     }
+                                     else
+                                     {
+                                        // echo $_GET['getValue'];
+                                        echo $_SESSION['getIDfromView']; 
+                                     }
+                                    ?>
                                 
                                 <div class="clearfix"></div>
                             </div>
@@ -60,10 +74,15 @@
                             <div class="x_content">
                                 <br>
 
-                                <form class="form-horizontal form-label-center">
+                                <form class="form-horizontal form-label-center" method="GET">
+
+                                
                                     <div class="col-md-6 col-sm-6 col-xs-12" >
                                         <div class="x_panel" >
-                                            <center><font color = "#2a5eb2"><h3>Item Details</h3></font></center>
+
+                                            <center><font color = "#2a5eb2"><h3>Item Details </h1>
+                                            
+                                            </h3></font></center>
                                             <div class="ln_solid"></div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">SKU </label>
@@ -123,34 +142,70 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12" >
-                                        <div class="x_panel" >
-                                            <center><font color = "#09961e"><h3>Restocking</h3></font></center>
-                                            <div class="ln_solid"></div>
+                                          
+                                                <div class="col-md-6 col-sm-6 col-xs-12" >                                  
+                                                    <div class="x_panel" >
+                                                        <center><font color = "#09961e"><h3>Restocking</h3></font></center>
+                                                        <div class="ln_solid"></div>
 
-                                            <div class="form-group">
-                                                <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-1">
-                                                    <button type="button" class="btn btn-round btn-primary" id = "restockbtnE" onclick = "enableRestocking();" style = "display:block"><i class="fa fa-cubes"></i> Enable Restocking</button>
-                                                    <button type="button" class="btn btn-round btn-danger" id = "restockbtnD" onclick = "disableRestocking();" style = "display:none"><i class="fa fa-cubes"></i> Disable Restocking</button>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="form-group">
-                                                <br>
-                                                <label class="control-label col-md-4 col-sm-4 col-xs-12">Restock Amount:</label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="text" id = "restockamt" class="form-control" value = "0" min = "0">
-                                                </div>
-                                            </div>
-                                            <div class="ln_solid"></div>
-                                            <div class="form-group">
-                                                <div class="col-md-12 col-sm-12 col-xs-12" align = "center">
-                                                    <button type="button" class="btn btn-success" onclick = "updatestockalert(this)" id = "updatestock">Update</button>
-                                                    <button type="reset" class="btn btn-primary" id = "resetstockinput">Reset</button>
-                                                </div>
-                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-1">
+                                                                <button type="button" class="btn btn-round btn-primary" id = "restockbtnE" onclick = "enableRestocking();" style = "display:block"><i class="fa fa-cubes"></i> Enable Restocking</button>
+                                                                <button type="button" class="btn btn-round btn-danger" id = "restockbtnD" onclick = "disableRestocking();" style = "display:none"><i class="fa fa-cubes"></i> Disable Restocking</button>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="form-group">
+                                                            <br>
+                                                            <label class="control-label col-md-4 col-sm-4 col-xs-12">Restock Amount:</label>
+                                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                <input type="number" name ="restockAmount" id = "restockamt" class="form-control" value = "0" min = "1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="ln_solid"></div>
+
+                                                        <div class="form-group">
+                                                            <div class="col-md-12 col-sm-12 col-xs-12" align = "center">
+                                                            <!--  -->
+                                                                <button type="submit" class="btn btn-success" onclick = "updatestockalert(this)" id = "updatestock" name ="restockBtn" >Update</button>
+                                                                <button type="reset" class="btn btn-danger" id = "resetstockinput">Reset</button>
+
+                                                                <?php  // UPDATE item stock 
+                                                                    
+                                                                    require_once('DataFetchers/mysql_connect.php');
+                                                                    if(isset($_GET['restockBtn'],  $_GET['restockAmount'])) //checks if both GET have values
+                                                                    {               
+                                                                      
+                                                                        $restockCount = $_GET['restockAmount'];
+
+                                                                        echo $restockCount;
+                                                                       
+                                                                       $itemIDfromViewInventory = $_SESSION['item_IDfromView'];
+                                                                        $sqlInsert = "UPDATE items_trading  
+                                                                        SET items_trading.item_count  = (item_count + '$restockCount') 
+                                                                         WHERE item_id ='$itemIDfromViewInventory';"; //Updates the item count in DB
+                                                                        $result=mysqli_query($dbc,$sqlInsert); 
+                                                                        
+                                                                        if(!$result) 
+                                                                        {
+                                                                            die('Error: ' . mysqli_error($dbc));
+                                                                        } 
+                                                                        else 
+                                                                        {
+                                                                            echo '<script language="javascript">';
+                                                                            echo 'alert("Successful!");';
+                                                                            echo '</script>';
+                                                                        }
+                                                                        
+                                                                    }                                                     
+                                                                ?>
+
+                                                        </div>
+                                                    </div>
+                                                
                                         </div>
                                     </div>
+
                                     
                                     
                                     <div class="clearfix"></div>
@@ -160,7 +215,21 @@
                                         <form class="form-horizontal form-label-center">
                                         <div class="x_panel" id ="damageDiv">
 
-                                             <center><font color = "red"><h3>Add Damaged Item - <?php echo $_GET['id'];?></h3></font></center>
+                                             <center><font color = "red"><h3>Add Damaged Item - 
+                                             <?php
+                                                    if(isset($_GET['id']))
+                                                    {
+                                                        
+                                                        echo $_SESSION['getIDfromView']; 
+                                                        
+                                                    }
+                                                    else
+                                                    {
+                                                        // echo $_GET['getValue'];
+                                                        echo $_SESSION['getIDfromView']; 
+                                                    }
+                                            ?>
+                                            </h3></font></center>
 
                                              <div class="ln_solid"></div>   
                                    
@@ -206,17 +275,81 @@
                                             </div>
                                         </div>
 
-                                        <div class="ln_solid"></div>
-                                        <div class="form-group">
-                                            <div class="col-md-12 col-sm-12 col-xs-12" align = "right">
-                                                <button type="button" class="btn btn-success">Confirm</button>
-                                                <button type="reset" class="btn btn-warning" onclick="clearLocalStorage()">Archive</button>
-                                            </div>
-                                        </div>
+                                        
                                     </form>
                                     </div>
 
-                                
+                                    <div class="col-md-6 col-sm-6 col-xs-12" >
+                                        <form class="form-horizontal form-label-center">
+                                        <div class="x_panel">
+
+                                             <center><h3>Recent Damages for Item
+                                             <?php
+                                                    if(isset($_GET['id']))
+                                                    {
+                                                        
+                                                        echo $_SESSION['getIDfromView']; 
+                                                        
+                                                    }
+                                                    else
+                                                    {
+                                                        // echo $_GET['getValue'];
+                                                        echo $_SESSION['getIDfromView']; 
+                                                    }
+                                            ?>
+                                            </h3></center>
+
+                                             <div class="ln_solid"></div>   
+
+                                             <!-- recently damaged table -->
+                                             <div class="row">
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                
+                                                    <div class="x_content">
+
+                                                        <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                            <th>#</th>
+                                                            <th>First Name</th>
+                                                            <th>Last Name</th>
+                                                            <th>Username</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                            <th scope="row">1</th>
+                                                            <td>Mark</td>
+                                                            <td>Otto</td>
+                                                            <td>@mdo</td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row">2</th>
+                                                            <td>Jacob</td>
+                                                            <td>Thornton</td>
+                                                            <td>@fat</td>
+                                                            </tr>
+                                                            <tr>
+                                                            <th scope="row">3</th>
+                                                            <td>Larry</td>
+                                                            <td>the Bird</td>
+                                                            <td>@twitter</td>
+                                                            </tr>
+                                                        </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-12 col-sm-12 col-xs-12" align = "right">
+                                        
+                                        <div class="ln_solid"></div>
+                                            <button type="button" class="btn btn-success">Confirm</button>
+                                            <button type="reset" class="btn btn-warning" onclick="clearLocalStorage()">Archive</button>
+                                        </div>
 
                             </div>
                         </div>
@@ -257,9 +390,11 @@
 </script> -->
 
 <?php
-    require_once("DataFetchers/mysql_connect.php");
-    $skuID = $_GET['id'];
-    echo $_GET['id'];
+    require_once('DataFetchers/mysql_connect.php');
+   
+    $skuID = $_SESSION['getIDfromView'];
+    
+    
 
     $skuArray = array();
     $itemNameArray = array();
@@ -274,6 +409,7 @@
     $query = "SELECT * FROM items_trading
     JOIN warehouses ON warehouses.warehouse_id = items_trading.warehouse_id
     JOIN suppliers ON suppliers.supplier_id = items_trading.supplier_id
+    JOIN ref_itemtype ON ref_itemtype.itemtype_id = items_trading.itemtype_id
     WHERE sku_id =  '$skuID'
     order by item_id
     ;";
@@ -283,7 +419,7 @@
     {
         $skuArray[] = $row['sku_id'];
         $itemNameArray[] = $row['item_name']; 
-        $itemTypeArray[] = $row['itemtype_id']; 
+        $itemTypeArray[] = $row['itemtype']; 
         $itemCountArray[] = $row['item_count']; 
         $supplierArray[] = $row['supplier_name']; 
         $priceArray[] = $row['price']; 
@@ -449,7 +585,7 @@
     function updatestockalert()
     {
         var insideval = restockinput.value;
-        alert("Do you want to restock this amount? " + insideval);
+        alert("Do you want to restock this amount: " + insideval);
 
     }
 

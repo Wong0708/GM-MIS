@@ -55,7 +55,7 @@
                       <select id="selectLocation" name = "selectLocation" style=" width:250px";>
                             <option value="">Choose... </option>
                                 <?php
-                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                    require_once('DataFetchers/mysql_connect.php');
                                     $query = "SELECT * FROM scheduledelivery 
                                     GROUP BY Destination";                      
                                     $resultofQuery =  mysqli_query($dbc, $query);
@@ -106,7 +106,7 @@
 
                       <tbody>
                       <?php
-                          require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                          require_once('DataFetchers/mysql_connect.php');
                           $query = "SELECT * FROM scheduledelivery";                      
                           $resultofQuery =  mysqli_query($dbc, $query);
                           while($row=mysqli_fetch_array($resultofQuery,MYSQLI_ASSOC))
@@ -209,7 +209,7 @@
 
     <script>
     <?php
-    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+    require_once('DataFetchers/mysql_connect.php');
 
       echo 'var dropdown = document.getElementById("selectLocation");'; 
 

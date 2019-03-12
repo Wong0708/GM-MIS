@@ -10,14 +10,14 @@ if(isset($_POST['add']))
     $price = $_POST['price'];
     $sku = $_POST['sku'];
     
-    require_once('mysql_connect.php');
-    $queryItemType = "SELECT UPPER(LEFT(itemtype, 3)) itemconcat FROM ref_itemtype WHERE itemtype_id =" . $itemtype . ";";
-    $resultItemType = mysqli_query($dbc,$queryItemType);
-    $rowItemType=mysqli_fetch_array($resultItemType,MYSQLI_ASSOC);
-    $itemConcatType = $rowItemType['itemconcat'];
+    // require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+    // $queryItemType = "SELECT UPPER(LEFT(itemtype, 3)) itemconcat FROM ref_itemtype WHERE itemtype_id =" . $itemtype . ";";
+    // $resultItemType = mysqli_query($dbc,$queryItemType);
+    // $rowItemType=mysqli_fetch_array($resultItemType,MYSQLI_ASSOC);
+    // $itemConcatType = $rowItemType['itemconcat'];
     
     
-        require_once('mysql_connect.php');
+    require_once('DataFetchers/mysql_connect.php');
         $query="SELECT item_name from items_trading where item_name= '{$itemname}'";
         $result=mysqli_query($dbc,$query);
         if ($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
@@ -30,6 +30,56 @@ if(isset($_POST['add']))
         }
 }
 
+require_once('DataFetchers/mysql_connect.php');
+  if(isset($_POST['submitBtn']))
+  {
+      $itemName = $_POST['item_name']; //Stores the Values from Textbox in HTML
+      $itemAmount = $_POST['amount'];
+      $itemPrice = $_POST['price'];
+      $itemThreshold = $_POST['threshold'];
+
+      $warehouseIDfromSelect = $_POST['selectWarehouse'];
+      $itemTypeIDfromSelect = $_POST['selectItemtype'];
+
+
+      $queryWarehouseID = "SELECT warehouses.warehouse_id FROM warehouses WHERE warehouse = '$warehouseIDfromSelect'";
+      $resultWarehouseID = mysqli_query($dbc,$queryWarehouseID);                                
+      $rowWarehouseID = mysqli_fetch_assoc($resultWarehouseID); //Query for getting WarehouseID 
+
+      $queryItemtypeID = "SELECT ref_itemtype.itemtype_id FROM ref_itemtype WHERE itemtype = '$itemTypeIDfromSelect'";
+      $resultItemtype = mysqli_query($dbc,$queryItemtypeID);                                
+      $rowItemtypeID = mysqli_fetch_assoc($resultItemtype); //Query For getting itemtypeID
+
+      $queryItemID = "SELECT item_id FROM items_trading ORDER BY item_id DESC LIMIT 1 ";
+      $resultItemID = mysqli_query($dbc,$queryItemID);
+      $rowResultItemID = mysqli_fetch_assoc($resultItemID);
+
+      // var_dump($resultWarehouseID);                               
+      // print_r($queryWarehouseID);
+
+      // echo $rowWarehouseID['warehouse_id'];
+      // echo $rowItemtypeID['itemtype_id'];
+
+      $WareHouseID = $rowWarehouseID['warehouse_id'];
+      $ItemtypeID = $rowItemtypeID['itemtype_id'];
+      $ItemID = $rowResultItemID['item_id']+1;
+
+      echo  $ItemID;
+
+      $sql = "INSERT INTO items_trading (item_id, sku_id, item_name, itemtype_id, item_count, last_restock, last_update, threshold_amt, warehouse_id, supplier_id, price)
+      Values(
+      '$ItemID',
+      '$itemName', 
+      '$ItemtypeID',
+      '$itemAmount', curdate(),curdate(),
+      '$itemThreshold',
+      '$WareHouseID',
+      '1',
+      '$itemPrice')";
+
+      $result=mysqli_query($dbc,$sql);              
+  }
+
 ?>
 
 
@@ -41,7 +91,7 @@ if(isset($_POST['add']))
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	  
-    <title>Gentelella Alela! | </title>
+    <title>Add Inventory </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -104,7 +154,7 @@ if(isset($_POST['add']))
 
                         <select name="itemcategory" id="selectItemType" required="required" class="form-control col-md-7 col-xs-12" onchange="getType(this)">
                          <?php
-                                require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                require_once('DataFetchers/mysql_connect.php');
                                 $query = "SELECT * FROM ref_itemtype";
                                 $result=mysqli_query($dbc,$query);
                                 $option = "";
@@ -172,18 +222,18 @@ if(isset($_POST['add']))
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Threshold Amount <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input name="threshold" class="form-control col-md-7 col-xs-12" required="required" type="text">
+                          <input name="threshold" class="form-control col-md-7 col-xs-12" required="required" type="number" min = "0" max ="9999">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Unit Price <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input name="price" class="form-control col-md-7 col-xs-12" required="required" type="text">
+                          <input name="price" class="form-control col-md-7 col-xs-12" required="required" type="number">
                         </div>
                       </div><div class="form-group">
                         <!-- <div class="col-md-6 col-sm-6 col-xs-12"> -->
-                          <button name="add" class="btn btn-success" type="submit" class="btn btn-success">Add</button>
+                          <button name="add" class="btn btn-success" type="submit" class="btn btn-success"><a href = "ViewInventory.php" >Add</a></button>
 						              <button class="btn btn-primary" type="reset">Reset</button>
                         <!-- </div>z -->
                       </div>

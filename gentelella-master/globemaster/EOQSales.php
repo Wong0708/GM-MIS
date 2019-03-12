@@ -50,14 +50,7 @@
         ?>
               
 
-<<<<<<< HEAD
-=======
-            
-            <!-- /sidebar menu -->
 
-            <!-- /menu footer buttons -->
->>>>>>> b322add93acf150c5221608f3b43225853772993
-            
         </div>
 
        

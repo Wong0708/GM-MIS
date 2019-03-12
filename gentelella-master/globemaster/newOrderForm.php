@@ -49,7 +49,7 @@
                     <div class="">
                         <div class="page-title">
                             <div class="title_left">
-                                <h3>Create Order</h3>
+                                <h1>Create Order</h1>
                             </div>
                         </div>
 
@@ -73,7 +73,7 @@
                                                                     <select onchange="updateOrdersTable();" class="form-control col-md-7 col-xs-12" id="clients" name="clientID">
                                                                 <?php
 
-                                                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                                                    require_once('DataFetchers/mysql_connect.php');
                                                                     $query="SELECT client_id, client_name FROM clients";
                                                                     $result=mysqli_query($dbc,$query);
                                                                     while($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
@@ -82,7 +82,7 @@
                                                                  ?>
                                                                 </select>
                                                                 </div>
-                                                                <button type="button" class="btn btn-primary" align="center" data-toggle="modal" data-target=".bs-example-modal-lg4">Add New Client</button>
+                                                              
                                                             </div>
                                                             <hr>
                                                             <div class="form-group">
@@ -101,7 +101,7 @@
                                                                       <tbody>
                                                                         <?php
 
-                                                                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                                                            require_once('DataFetchers/mysql_connect.php');
                                                                             $query = "SELECT * FROM items_trading;";
                                                                             $result1=mysqli_query($dbc,$query);
 
@@ -139,7 +139,7 @@
                                                                                         echo '</td>';
                                                                                                                                                
                                                                                         echo '<td >';
-                                                                                        echo '<input type="number" id="quantity',$row['item_id'],'" name="quantity',$row['item_id'],'"  min="1"  value="" placeholder ="0"></input>';
+                                                                                        echo '<input type="number" id="quantity',$row['item_id'],'" name="quantity',$row['item_id'],'"  min="1" max ="',$row['item_count'],'" value="" placeholder ="0"></input>';
                                                                                         echo '</td>';
 
                                                                                         echo '<td>';
@@ -196,7 +196,7 @@
                                                 <div class='input-group col-md-14'>
                                                     <select class="form-control col-md-7 col-xs-12" name="paymentID">
                                                     <?php
-                                                        require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                                        require_once('DataFetchers/mysql_connect.php');
                                                         $query="SELECT * FROM ref_payment";
                                                         $result=mysqli_query($dbc,$query);
                                                         while($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
@@ -224,7 +224,7 @@
                   </div>
 
                   <div class = "modal-body">
-                  <form class="form-horizontal form-label-left" method="post" action= "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                  <form class="form-horizontal form-label-left" method="POST" action= "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 
 
                     <div class="item form-group">
@@ -260,57 +260,10 @@
                       <div class="col-md-6 col-md-offset-3">
                         <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
                         <button id="send" type="submit" class="btn btn-success" style="visibility:visible">Submit</button>
-                        <button class="btn btn-primary" id="fabricationpage" style="visibility:hidden">Next</button>
+                        <button class="btn btn-primary" id="fabricationpage" style="visibility:hidden"><a href = "CreateJobOrderFab.php">Next</a></button>
                       </div>
                     </div>
-                    <!-- Order 2 -->
-                    <!-- Finished general insert, but create a status column for customer -->
-                    <?php
-                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-
-                            $name = $idinsert = $contact = $email = $address = $status = "";
-
-                              if($_SERVER["REQUEST_METHOD"] == "POST")
-                              {
-                                $query = "SELECT max(client_id) FROM clients";
-                                $result1=mysqli_query($dbc,$query);
-                                
-                                $id = mysqli_fetch_array($result1,MYSQLI_ASSOC);
-                                
-                                $idinsert = $id["max(client_id)"] + 1;
-                                // echo $idinsert; for testing
-
-                                $name = test_input($_POST['name']);
-                                $contact = test_input($_POST['contact']);
-                                $email = test_input($_POST['email']);
-                                $address = test_input($_POST['address']);
-                                // $status = test_input($_POST['status']);
-
-                                  echo '<script language="javascript">';
-                                  echo 'alert(Are you sure you want to enter the following data?)';  //not showing an alert box.
-                                  echo '</script>';
-                              
-
-                                $sql = "INSERT INTO clients (client_id, client_name, client_address, client_contactno, client_email)
-                                  Values(
-                                  '$idinsert',
-                                  '$name', 
-                                  '$address',
-                                  '$contact',
-                                  '$email')";
-
-                                $resultinsert = mysqli_query($dbc,$sql);
-
-                              }
-
-                              function test_input($data) 
-                              {
-                                $data = trim($data);
-                                $data = stripslashes($data);
-                                $data = htmlspecialchars($data);
-                                return $data;
-                             }
-                      ?>
+                    <!-- Order 2 -->                   
                   </form>
                 </div>
                 </div>
@@ -393,11 +346,13 @@
                             { //checks i there is existing item
                                     qty = $(this).text().replace("₱ ", "");
                                     qty_old = parseFloat(qty.replace(/\,/g,''), 10);
-                                    item_does_not_exist = false;
-                                    new_qty = parseFloat(itemQuantity) + qty_old;
+
+                                        item_does_not_exist = false;
+                                        new_qty = parseFloat(itemQuantity) + qty_old;
+
                                     $(this).text(new_qty);
-                                    var newPice = $(this).attr('price ') * new_qty;
-                                    payment.value = "₱ "+ (count * new_qty);
+                                        var newPice = $(this).attr('price ') * new_qty;
+                                        payment.value = "₱ "+ (count * new_qty);
                                     console.log(qty);
                             }
                         });
