@@ -1,5 +1,5 @@
 <?php
-$dbc=mysqli_connect('localhost','root','','gm_db');
+$dbc=mysqli_connect('127.0.0.1','root','1234','mydb');
 
 
 
