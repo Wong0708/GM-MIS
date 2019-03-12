@@ -93,7 +93,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Name</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="text" id = "item_name" class="form-control" readonly="readonly" >
+                                                    <input type="text" id = "item_name" class="form-control" readonly="readonly">
                                                 </div>
                                             </div>
 
@@ -173,7 +173,7 @@
                                                                 <?php  // UPDATE item stock 
                                                                     
                                                                     require_once('DataFetchers/mysql_connect.php');
-                                                                    if(isset($_GET['restockBtn'],  $_GET['restockAmount'])) //checks if both GET have values
+                                                                    if(isset($_GET['restockBtn'],  $_GET['restockAmount'])) //checks if both GET have values because the form post is = "GET"
                                                                     {               
                                                                       
                                                                         $restockCount = $_GET['restockAmount'];
@@ -223,7 +223,7 @@
                                         <form class="form-horizontal form-label-center">
                                         <div class="x_panel" id ="damageDiv">
 
-                                             <center><font color = "red"><h3>Add Damaged Item - 
+                                             <center><font color = "red"><h3>Add Damaged Item:  
                                              <?php
                                                     if(isset($_GET['id']))
                                                     {
@@ -252,31 +252,31 @@
                                             <br>
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Damaged Quantity</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input   type="text" id = "dmgqty" class="form-control"  max = "" min = "0">
+                                                    <input   type="number" id = "dmgqty" class="form-control"  max = "" min = "0" required>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Percentage of Damage</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input   type="text" id = "percentdmg" class="form-control"  placeholder="%" max = "100" min = "0">
+                                                    <input   type="number" id = "percentdmg" class="form-control"  placeholder="Max 100%" max = "100" min = "0" required>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Price Each</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input   type="text" id = "priceeach" class="form-control" readonly="readonly" placeholder="Read-Only">
+                                                    <input   type="number" id = "priceeach" class="form-control" readonly="readonly" placeholder="Read-Only">
                                                 </div>
                                             </div>  
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Loss</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input   type="text" id = "totalloss" class="form-control" readonly="readonly" placeholder="Read-Only">
+                                                    <input   type="number" id = "totalloss" class="form-control" readonly="readonly" placeholder="Read-Only">
                                                 </div>
                                             </div>
                                             <div class="ln_solid"></div>
                                             <div class="form-group">
                                                 <div class="col-md-12 col-sm-12 col-xs-12" align = "right">
-                                                    <button type="button" class="btn btn-success" onclick = "" id = "updatedmg">Update</button>
+                                                    <button type="button" class="btn btn-success" id = "updatedmg">Update</button>
                                                     <button type="reset" class="btn btn-primary" id = "resetdmg">Reset</button>
                                                     <button type="reset" class="btn btn-danger" onclick = "cancelDamaged()" id = "canceldmg">Cancel</button>
                                                 </div>
@@ -291,7 +291,7 @@
                                         <form class="form-horizontal form-label-center">
                                         <div class="x_panel">
 
-                                             <center><h3>Recent Damages for Item
+                                             <center><h3>Recently Added Damages for Item:
                                              <?php
                                                     if(isset($_GET['id']))
                                                     {
@@ -315,40 +315,18 @@
                                                 
                                                     <div class="x_content">
 
-                                                        <table class="table">
+                                                        <table id ="damageTable" class="table">
                                                         <thead>
-                                                            <tr>
-<<<<<<< HEAD
-                                                            <th>First Name</th>
-                                                            <th></th>
-                                                            <th>Updated At</th>
-=======
-                                                            <th>#</th>
-                                                            <th>First Name</th>
-                                                            <th>Last Name</th>
-                                                            <th>Username</th>
->>>>>>> ad6fc30131a2c630991f5597a9bec4d476a49783
+                                                            <tr>    
+                                                            <th>New Item Name</th>
+                                                            <th>Quantity</th>
+                                                            
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <tr>
-                                                            <th scope="row">1</th>
-                                                            <td>Mark</td>
-                                                            <td>Otto</td>
-                                                            <td>@mdo</td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row">2</th>
-                                                            <td>Jacob</td>
-                                                            <td>Thornton</td>
-                                                            <td>@fat</td>
-                                                            </tr>
-                                                            <tr>
-                                                            <th scope="row">3</th>
-                                                            <td>Larry</td>
-                                                            <td>the Bird</td>
-                                                            <td>@twitter</td>
-                                                            </tr>
+                                                            
+                                                            </tr>                                                         
                                                         </tbody>
                                                         </table>
                                                     </div>
@@ -364,23 +342,18 @@
                                             <button type="button" class="btn btn-success">Confirm</button>
                                             <button type="reset" class="btn btn-warning" onclick="clearLocalStorage()">Archive</button>
                                         </div>
-
                             </div>
                         </div>
                     </div>
-
                 </div>
-            </div>
-            
+            </div>           
 </body>
 
 <!-- /page content -->
 
-<!-- footer content -->
+</div>
+</div>
 
-<!-- /footer content -->
-</div>
-</div>
 <!-- <script>
     var button = document.getElementById('addDamage'); 
 
@@ -407,8 +380,6 @@
     require_once('DataFetchers/mysql_connect.php');
    
     $skuID = $_SESSION['getIDfromView'];
-    
-    
 
     $skuArray = array();
     $itemNameArray = array();
@@ -476,6 +447,54 @@
 
     echo '</script>';
 ?>
+
+<script>
+    var confirmButton = document.getElementById('updatedmg'); 
+
+    var itemNameInEditInventory = document.getElementById('sku_id');
+    var itemPriceInEditInventory = document.getElementById('item_price');
+
+    var damagePercentage = document.getElementById('percentdmg');
+    var priceEachBox = document.getElementById('priceeach');
+    var dmgQtyBox = document.getElementById('dmgqty');
+    
+    
+    confirmButton.onclick = function() 
+    {
+        
+        
+        var inputValue = damagePercentage.value;
+        
+        var calculateDamagePrice = inputValue / 100;
+        var priceEach = itemPriceInEditInventory.value * calculateDamagePrice;
+
+
+        var newName = itemNameInEditInventory.value + damagePercentage.value;
+
+        console.log(itemPriceInEditInventory.value);
+        console.log(priceEach);
+        
+        priceEachBox.value = priceEach.toFixed(2); 
+
+        if(inputValue.length == 0)
+        {
+            alert("No Input Found");
+        }
+        else
+        {
+         
+
+            var newRow = document.getElementById('damageTable').insertRow();                       
+            newRow.innerHTML = "<tr> <td>"+ newName+ "</td> <td>" + damagePercentage.value+ "</td> </tr>";
+
+
+            damagePercentage.value = "";
+
+        }
+       
+    }
+
+</script>
 
 <!-- jQuery -->
 <script src="../vendors/jquery/dist/jquery.min.js"></script>
