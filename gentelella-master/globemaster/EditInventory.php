@@ -146,52 +146,62 @@
                                             <div class="form-group">
                                                 <div class="col-md-12 col-sm-12 col-xs-12" align = "center">
                                                     <button type="button" class="btn btn-success" onclick = "updatestockalert(this)" id = "updatestock">Update</button>
-                                                    <button type="reset" class="btn btn-danger" id = "resetstockinput">Reset</button>
+                                                    <button type="reset" class="btn btn-primary" id = "resetstockinput">Reset</button>
                                                 </div>
                                         </div>
                                         </div>
                                     </div>
                                     
-                                    <div class="form-group">
-                                        <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <br>
-                                            <button type="button" class="btn btn-round btn-default" id = "addDamage"><i class="fa fa-plus-circle"></i> Add a Damaged Item</button>
-                                        </div>
-                                    </div>
+                                    
                                     <div class="clearfix"></div>
                                     <br>
                                     </form>
-                                    <form class="form-horizontal form-label-center">
-                                        <div class="x_panel" id ="damageDiv" style="display:none">
-                                        
-                                            <div class="x_title">
-                                                <h4>Add Damaged Item - <?php echo $_GET['id'];?></h4>
-                                                
-                                                <div class="clearfix"></div>
-                                            </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12" >
+                                        <form class="form-horizontal form-label-center">
+                                        <div class="x_panel" id ="damageDiv">
+
+                                             <center><font color = "red"><h3>Add Damaged Item - <?php echo $_GET['id'];?></h3></font></center>
+
+                                             <div class="ln_solid"></div>   
+                                   
                                             <div class="form-group">
+                                                <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-1">
+                                                    <button type="button" class="btn btn-round btn-warning" id = "addDamage" onclick = "enableDamaged()"><i class="fa fa-plus-circle"></i> Add a Damaged Item</button>
+                                                </div>
+                                            </div>
+
+                                            
+                                            <div class="form-group">
+                                            <br>
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Damaged Quantity</label>
-                                                <div class="col-md-3 col-sm-9 col-xs-6">
-                                                    <input   type="text" id = "drTotal" class="form-control"  >
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input   type="text" id = "dmgqty" class="form-control"  max = "" min = "0">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Percentage of Damage</label>
-                                                <div class="col-md-3 col-sm-9 col-xs-6">
-                                                    <input   type="text" id = "drTotal" class="form-control"  placeholder="%">
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input   type="text" id = "percentdmg" class="form-control"  placeholder="%" max = "100" min = "0">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Price Each</label>
-                                                <div class="col-md-3 col-sm-9 col-xs-6">
-                                                    <input   type="text" id = "drTotal" class="form-control" readonly="readonly" replaceholder="Read-Only Input">
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input   type="text" id = "priceeach" class="form-control" readonly="readonly" placeholder="Read-Only">
+                                                </div>
+                                            </div>  
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Loss</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input   type="text" id = "totalloss" class="form-control" readonly="readonly" placeholder="Read-Only">
                                                 </div>
                                             </div>
-                                            <br>
+                                            <div class="ln_solid"></div>
                                             <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Losses</label>
-                                                <div class="col-md-3 col-sm-9 col-xs-6">
-                                                    <input   type="text" id = "drTotal" class="form-control" readonly="readonly" placeholder="Read-Only Input">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" align = "right">
+                                                    <button type="button" class="btn btn-success" onclick = "" id = "updatedmg">Update</button>
+                                                    <button type="reset" class="btn btn-primary" id = "resetdmg">Reset</button>
+                                                    <button type="reset" class="btn btn-danger" onclick = "cancelDamaged()" id = "canceldmg">Cancel</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -204,6 +214,7 @@
                                             </div>
                                         </div>
                                     </form>
+                                    </div>
 
                                 
 
@@ -223,7 +234,7 @@
 <!-- /footer content -->
 </div>
 </div>
-<script>
+<!-- <script>
     var button = document.getElementById('addDamage'); 
 
     var damageItemDiv = document.getElementById('damageDiv');
@@ -243,7 +254,7 @@
                 damageItemDiv.parentNode.appendChild(cloneDiv);
             }
         };
-</script>
+</script> -->
 
 <?php
     require_once("DataFetchers/mysql_connect.php");
@@ -376,6 +387,7 @@
 
 <!-- Restocking Onclick -->
 <script>
+// restock section
     var restockbtnE = document.getElementById("restockbtnE");
     var restockbtnD = document.getElementById("restockbtnD");
     var restockinput = document.getElementById("restockamt"); 
@@ -383,9 +395,34 @@
     var updatestock = document.getElementById("updatestock"); 
     var resetstock = document.getElementById("resetstockinput"); 
 
+// damaged section
+
+    var damagedbtn = document.getElementById("addDamage"); 
+
+    var damagedqty = document.getElementById("dmgqty"); 
+    var percentdmg = document.getElementById("percentdmg"); 
+    var priceeach = document.getElementById("priceeach"); 
+    var totalloss = document.getElementById("totalloss"); 
+
+    var updatedamaged = document.getElementById("updatedmg"); 
+    var resetdamaged = document.getElementById("resetdmg"); 
+    var canceldamaged = document.getElementById("canceldmg"); 
+
+    damagedbtn.disabled = false;
+
     restockinput.disabled = true;
     updatestock.disabled = true;
     resetstock.disabled = true;
+
+
+    damagedqty.disabled = true;
+    percentdmg.disabled = true;
+    priceeach.disabled = true;
+    totalloss.disabled = true;
+
+    updatedamaged.disabled = true;
+    resetdamaged.disabled = true;
+    canceldamaged.disabled = true;
 
     function enableRestocking()
     {
@@ -414,6 +451,34 @@
         var insideval = restockinput.value;
         alert("Do you want to restock this amount? " + insideval);
 
+    }
+
+    function enableDamaged()
+    {
+        damagedbtn.disabled = true;
+
+        damagedqty.disabled = false;
+        percentdmg.disabled = false;
+        priceeach.disabled = false;
+        totalloss.disabled = false;
+
+        updatedamaged.disabled = false;
+        resetdamaged.disabled = false;
+        canceldamaged.disabled = false;
+    }
+
+    function cancelDamaged()
+    {
+        damagedbtn.disabled = false;
+
+        damagedqty.disabled = true;
+        percentdmg.disabled = true;
+        priceeach.disabled = true;
+        totalloss.disabled = true;
+
+        updatedamaged.disabled = true;
+        resetdamaged.disabled = true;
+        canceldamaged.disabled = true;
     }
 </script>
 
