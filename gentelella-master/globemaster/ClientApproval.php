@@ -17,6 +17,8 @@
     <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- iCheck -->
     <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <!-- Switchery -->
+    <link href="../vendors/switchery/dist/switchery.min.css" rel="stylesheet">
     <!-- Datatables -->
     <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
@@ -90,7 +92,21 @@
                                     echo $row['client_email'];
                                     echo '</td>';
                                     echo '<td>';
-                                    echo $row['client_status'];
+                                    echo '<input type="checkbox" id="';
+                                    echo $row['client_id'];
+                                    echo '" class="';
+                                    if($row['client_status'] == "Enabled")
+                                    {
+                                        echo 'js-switch" onclick = "changeStatus(';
+                                        echo $row['client_id'];
+                                        echo ')" value = "Enabled" checked="checked"></input>';
+                                    }
+                                    else
+                                    {
+                                        echo 'js-switch" onclick = "changeStatus(';
+                                        echo $row['client_id'];
+                                        echo ')" value = "Disabled"></input>';
+                                    }       
                                     echo '</td>';
                                     
                                     echo '</tr>';
@@ -101,7 +117,7 @@
                     </table><br>
                     <div>
                         <form action="AddClient.php" method="POST">
-                          <button type="submit" class="btn btn-round btn-success"><i class="fa fa-plus"></i> Add New Client</button>
+                          <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>  Save Changes</button>
                         </form>
                     </div>
                   </div>
@@ -123,6 +139,24 @@
       </div>
     </div>
    
+    
+    <!--Client Switches -->
+    <script type="text/javascript">    
+    function changeStatus(rownum) 
+    {
+        var elem = document.getElementById(rownum);
+        if (elem.checked == true)
+        {
+            elem.value("Disabled");
+        }
+        else 
+        {
+            elem.setAttribute("value","Enabled");
+        }
+        
+    }    
+        
+    </script>    
 
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
@@ -134,6 +168,8 @@
     <script src="../vendors/nprogress/nprogress.js"></script>
     <!-- iCheck -->
     <script src="../vendors/iCheck/icheck.min.js"></script>
+    <!-- Switchery -->
+    <script src="../vendors/switchery/dist/switchery.min.js"></script>
     <!-- Datatables -->
     <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
@@ -150,7 +186,10 @@
     <script src="../vendors/jszip/dist/jszip.min.js"></script>
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+    
 
+
+    
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
 
