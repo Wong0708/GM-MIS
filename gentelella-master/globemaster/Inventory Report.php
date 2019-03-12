@@ -116,13 +116,17 @@
                           $resultofQuery =  mysqli_query($dbc, $query);
                           while($row=mysqli_fetch_array($resultofQuery,MYSQLI_ASSOC))
                           {
+                            $id = $row['item_id'];
+                            $totalProcuredquery = "SELECT sum(quantity) as TotalProcured, item_id FROM restock_detail WHERE item_id = '$id' ;";
+                            $resultforTotal =  mysqli_query($dbc, $totalProcuredquery);
+                            $row2 = mysqli_fetch_array($resultforTotal,MYSQLI_ASSOC);
                             echo '<tr>';
                               echo ' <td> '.$row['sku_id']. '</td>';
                               echo ' <td>'.$row['item_name'].' </td>';
                               echo ' <td>'.$row['last_restock'].' </td>';
                               echo ' <td align="center">'.$row['item_count'].' </td>';
                               echo ' <td align="left">'.$row['warehouse'].' </td>';
-                              echo ' <td align="right">'.$row['item_count'].' </td>';
+                              echo ' <td align="right">'.$row2['TotalProcured'].' </td>';
                             echo '</tr>';
                           }
                         ?>                
@@ -169,11 +173,17 @@
 
           while($row=mysqli_fetch_array($resultofQuery,MYSQLI_ASSOC))
           {
+            $id = $row['item_id'];
+            $totalProcuredquery = "SELECT sum(quantity) as TotalProcured, item_id FROM restock_detail WHERE item_id = '$id' ;";
+            $resultforTotal =  mysqli_query($dbc, $totalProcuredquery);
+            $row2 = mysqli_fetch_array($resultforTotal,MYSQLI_ASSOC);
+
             $warehouseNameArray[] = $row['warehouse'];
             $SKUArray[] = $row['sku_id'];
             $itemNameArray[] = $row['item_name'];
             $itemCountArray[] = $row['item_count'];
             $lastRestockArray[] = $row['last_restock'];
+            $TotalProcuredArray[] = $row2['TotalProcured'];
           }
           
 
@@ -181,7 +191,8 @@
           echo "var SKUFromPHP = ".json_encode($SKUArray).";"; 
           echo "var itemNameFromPHP = ".json_encode($itemNameArray).";"; 
           echo "var itemCountFromPHP = ".json_encode($itemCountArray).";"; 
-          echo "var lastRestockFromPHP = ".json_encode($lastRestockArray).";"; //Store PHP array to JS Array
+          echo "var lastRestockFromPHP = ".json_encode($lastRestockArray).";";
+          echo "var TotalProcuredFromPHP = ".json_encode($TotalProcuredArray).";"; //Store PHP array to JS Array
 
           echo  " dropdown.onchange = function(){";
 
@@ -195,7 +206,7 @@
           echo 'for(var i = 0; i < warehouseNameFromPHP.length; i++){';
             echo 'if(warehouseNameFromPHP[i] == compare){';             
               echo  "var newRow = document.getElementById('datatable-buttons').insertRow();";
-              echo  'newRow.innerHTML = "<tr> <td>" +SKUFromPHP[i]+ "</td> <td>" +itemNameFromPHP[i]+ "</td>  <td>" +lastRestockFromPHP[i]+"</td><td>" +itemCountFromPHP[i]+ "</td><td>" +warehouseNameFromPHP[i]+ "</td><td>" +itemCountFromPHP[i]+ "</td></tr>";';
+              echo  'newRow.innerHTML = "<tr> <td>" +SKUFromPHP[i]+ "</td> <td>" +itemNameFromPHP[i]+ "</td>  <td>" +lastRestockFromPHP[i]+"</td><td>" +itemCountFromPHP[i]+ "</td><td>" +warehouseNameFromPHP[i]+ "</td><td>" +TotalProcuredFromPHP[i]+ "</td></tr>";';
             echo '}'; //END IF 1
 
             echo 'if(compare == "All"){';

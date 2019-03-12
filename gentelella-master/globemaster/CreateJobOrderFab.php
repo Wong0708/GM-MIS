@@ -77,32 +77,36 @@ if(isset($_POST['add']))
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                      <h2><b>Order Number here</b></h2>
+                      <h3>
+                        <b>
+                          <?php
+                           
+                           $currentStatus = $_SESSION['DeliveryStatus'];
+                           echo $currentStatus;
+                            if(isset($_GET['order_id']))
+                            {
+                             
+                               $_SESSION['getORNumber'] = $_GET['order_id']; //Stores the Value of Get from Order Form
+                               echo $_SESSION['getORNumber']; 
+                               
+                            }
+                            else
+                            {
+  
+                               echo $_SESSION['getORNumber']; 
+                                
+                            }
+                           
+                          ?>
+                        </b>
+                      </h3>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
                     <br />
                     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" data-parsley-validate class="form-horizontal form-label-left">
 
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Choose Order Number <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                         <?php
-                                require_once('DataFetchers\mysql_connect.php');
-                                $query = "SELECT * FROM orders";
-                                $result=mysqli_query($dbc,$query);
-                                $option = "";
-                                while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                                {
-                                    $option .= '<option value = "'.$row['orderID'].'">'.$row['ordernumber'].'</option>';
-                                }
-                            ?>
-                            <select name="order" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
-                            <?php echo $option ?>
-                            </select>
-                        </div>
-                      </div>
+                  
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Enter Description <span class="required">*</span>
                         </label>
@@ -113,13 +117,33 @@ if(isset($_POST['add']))
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Enter Total Amount<span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Enter Fabrication Cost<span class="required">*</span>
                         </label>
                          <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="amount" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="number" name="fab_cost" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <br><br>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Amount<span class="required">*</span>
+                        </label>
+                         <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" name="total_amount" id="last-name" name="last-name" required="required" readonly="readonly" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <br><br> 
+                      
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">For Installation?<span class="required">*</span>
+                        </label>
+                         <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="radio" name="installation" id="last-name" name="last-name" required="required">
+                        </div>
+                      </div>
+                      <br><br>
+
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Upload Reference Drawing <span class="required">*</span>
                         </label>

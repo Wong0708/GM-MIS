@@ -50,8 +50,9 @@
                 <div class="x_panel">
                   <div class="x_content">
                     <p class="text-muted font-13 m-b-30">
-                      This is where the users will be able to add and remove inventory based on the data tables provided by the company. These can be editable and can be subjected to changes in accordance to the
-                  desires of the head different screen sizes through the dynamic insertion and removal of columns from the table.
+                      <form action="OrderForm.php" method="POST">
+                            <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Create Order </button>
+                      </form>
                     </p><br>
 					
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
@@ -122,9 +123,7 @@
                       </tbody>
                     </table><br>
                     <div>
-                        <form action="OrderForm.php" method="POST">
-                          <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Create Order </button>
-                        </form>
+                        
                     </div>
                   </div>
                 </div>
