@@ -17,7 +17,7 @@ if(isset($_POST['add']))
     // $itemConcatType = $rowItemType['itemconcat'];
     
     
-    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+    require_once('DataFetchers/mysql_connect.php');
         $query="SELECT item_name from items_trading where item_name= '{$itemname}'";
         $result=mysqli_query($dbc,$query);
         if ($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
@@ -30,7 +30,7 @@ if(isset($_POST['add']))
         }
 }
 
-require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+require_once('DataFetchers/mysql_connect.php');
   if(isset($_POST['submitBtn']))
   {
       $itemName = $_POST['item_name']; //Stores the Values from Textbox in HTML
@@ -154,7 +154,7 @@ require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\
 
                         <select name="itemcategory" id="selectItemType" required="required" class="form-control col-md-7 col-xs-12" onchange="getType(this)">
                          <?php
-                                require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                require_once('DataFetchers/mysql_connect.php');
                                 $query = "SELECT * FROM ref_itemtype";
                                 $result=mysqli_query($dbc,$query);
                                 $option = "";

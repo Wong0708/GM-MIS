@@ -6,14 +6,14 @@ if(isset($_POST['add']))
     $amount = $_POST['amount'];
     $image = addslashes(file_get_contents($_POST['image'])); //SQL Injection defence!
     
-    require_once('mysql_connect.php');
+    require_once('DataFetchers/mysql_connect.php');
     $queryItemType = "SELECT ordernumber FROM orders WHERE orderID = '{$_POST['order']}'";
     $resultItemType = mysqli_query($dbc,$queryItemType);
     $rowItemType=mysqli_fetch_array($resultItemType,MYSQLI_ASSOC);
     $ordernumber = $rowItemType['ordernumber'];
     
     
-    require_once('mysql_connect.php');
+    require_once('DataFetchers/mysql_connect.php');
     $query="INSERT INTO joborderfabrication(ordernumber, description, totalamt, refdrawing)
     VALUES('$ordernumber', '$description', '$amount', '$image')";
     $result=mysqli_query($dbc,$query);
@@ -89,7 +89,7 @@ if(isset($_POST['add']))
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                          <?php
-                                require_once('DataFetchers\mysql_connect.php');
+                                require_once('DataFetchers/mysql_connect.php');
                                 $query = "SELECT * FROM orders";
                                 $result=mysqli_query($dbc,$query);
                                 $option = "";

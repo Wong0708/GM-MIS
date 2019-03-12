@@ -73,7 +73,7 @@
                                                                     <select onchange="updateOrdersTable();" class="form-control col-md-7 col-xs-12" id="clients" name="clientID">
                                                                 <?php
 
-                                                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                                                    require_once('DataFetchers/mysql_connect.php');
                                                                     $query="SELECT client_id, client_name FROM clients";
                                                                     $result=mysqli_query($dbc,$query);
                                                                     while($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
@@ -101,7 +101,7 @@
                                                                       <tbody>
                                                                         <?php
 
-                                                                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                                                            require_once('DataFetchers/mysql_connect.php');
                                                                             $query = "SELECT * FROM items_trading;";
                                                                             $result1=mysqli_query($dbc,$query);
 
@@ -196,7 +196,7 @@
                                                 <div class='input-group col-md-14'>
                                                     <select class="form-control col-md-7 col-xs-12" name="paymentID">
                                                     <?php
-                                                        require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                                        require_once('DataFetchers/mysql_connect.php');
                                                         $query="SELECT * FROM ref_payment";
                                                         $result=mysqli_query($dbc,$query);
                                                         while($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){

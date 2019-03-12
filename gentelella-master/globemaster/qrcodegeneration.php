@@ -117,7 +117,7 @@
                       </thead>
                       <tbody>
                         <?php 
-                          require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                          require_once('DataFetchers/mysql_connect.php');
 
                           $querytogetDBTable = "SELECT item_id, item_name, itemtype, supplier_name, warehouse, price FROM items_trading g 
                           JOIN ref_itemtype f ON g.itemtype_id

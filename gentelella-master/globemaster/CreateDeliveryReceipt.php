@@ -53,7 +53,7 @@
                  
                     <h1><b>Create Delivery Receipt: </b> [ DR - 
                     <?php 
-                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                    require_once('DataFetchers/mysql_connect.php');
 
                         $query = "SELECT count(delivery_Receipt) as Count FROM mydb.scheduledelivery;";
                         $resultofQuery = mysqli_query($dbc, $query);
@@ -81,7 +81,7 @@
                         <select id="orderNumberDropdown" class="form-control col-md-12 col-md-7 col-xs-12" required="" name = "selectItemtype" style=" width:250px";>
                             <option value="">Choose..</option>
                                 <?php
-                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                    require_once('DataFetchers/mysql_connect.php');
 
                                     $sql1 = "SELECT * FROM order_details 
                                     where item_status = 'Deliver' 
@@ -204,7 +204,7 @@
                            <?php
                             if(isset($_POST['submitDeliveryReceipt']))
                                 {
-                                        require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                        require_once('DataFetchers/mysql_connect.php');
 
                                         $deliveryReceipt;
                                         $dateFromHTML = $_POST['deliveryDate'];
@@ -380,7 +380,7 @@
                                     
                                     <?php
                                     
-                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                    require_once('DataFetchers/mysql_connect.php');
                                     
                                     echo  'var textBox = document.getElementById("customerName");';
                                     echo  'var dropdown = document.getElementById("orderNumberDropdown");';

@@ -69,7 +69,7 @@
                       <tbody>
                         <?php
                             
-                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                            require_once('DataFetchers/mysql_connect.php');
                             $query = "SELECT * FROM orders;";
                             $result=mysqli_query($dbc,$query);
                             while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))

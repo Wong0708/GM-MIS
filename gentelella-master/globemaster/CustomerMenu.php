@@ -117,7 +117,7 @@
                     <!-- Add Inventory -->
                     <!-- Finished general insert, but create a status column for customer -->
                     <?php
-                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                            require_once('DataFetchers/mysql_connect.php');
 
                             $name = $idinsert = $contact = $email = $address = $status = "";
 
@@ -194,7 +194,7 @@
                         </tr>
                       </thead>
                       <?php
-                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                            require_once('DataFetchers/mysql_connect.php');
                           
                             $query = "SELECT * FROM clients";
                             $result=mysqli_query($dbc,$query);

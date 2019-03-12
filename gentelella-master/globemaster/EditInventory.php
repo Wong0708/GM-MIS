@@ -172,7 +172,7 @@
 
                                                                 <?php  // UPDATE item stock 
                                                                     
-                                                                    require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                                                                    require_once('DataFetchers/mysql_connect.php');
                                                                     if(isset($_GET['restockBtn'],  $_GET['restockAmount'])) //checks if both GET have values
                                                                     {               
                                                                       
