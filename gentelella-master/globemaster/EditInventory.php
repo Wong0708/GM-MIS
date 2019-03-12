@@ -310,10 +310,9 @@
                                                         <table class="table">
                                                         <thead>
                                                             <tr>
-                                                            <th>#</th>
                                                             <th>First Name</th>
-                                                            <th>Last Name</th>
-                                                            <th>Username</th>
+                                                            <th></th>
+                                                            <th>Updated At</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
