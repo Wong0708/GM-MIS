@@ -21,6 +21,7 @@ if(!(isset($_SESSION['usertype']))){
               <div class="profile_pic">
                 <img src="images/img.jpg" alt="..." class="img-circle profile_img">
               </div>
+              <div class="profile_info">
                 <span>
                 <?php
                   require_once('DataFetchers/mysql_connect.php');
@@ -35,15 +36,15 @@ if(!(isset($_SESSION['usertype']))){
 
 
                 $user=$row['usertype'];
-                    echo "<br>";
                     echo "<h2>Welcome, ";
                     echo $row['usertype'];
-                    echo "!</h2>";
+                    echo "</h2>";
                   
         
                 ?>
                 </span>
-            </div><br>
+              </div>
+            </div>
             <!-- /menu profile quick info -->
 
             
@@ -326,16 +327,3 @@ if(!(isset($_SESSION['usertype']))){
           </div>
         </div>
         <!-- /top navigation -->
-
-<style>
-
-    h1{
-        color: white;
-        text-align: left;
-    }
-    h2{
-        color: white;
-        text-align: left;
-    }
-    
-</style>    
