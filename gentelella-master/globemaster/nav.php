@@ -150,16 +150,11 @@ if(!(isset($_SESSION['usertype']))){
                       
               
                       if($user == 'CFO'){
-                      
-<<<<<<< HEAD
-                      echo "<li><a href='tables_dynamic.html'>Client order Approval</a></li>";
-=======
-                      echo "<li><a href='ClientApproval.php'>Client Order Approval</a></li>";
->>>>>>> 95726c7ba65545bd4ff99b1914eba4020851a568
+                        echo "<li><a href='ClientApproval.php'>Client Order Approval</a></li>";
                       
                         }
                         echo "</ul>";
-                      echo "</li>";
+                        echo "</li>";
                       }
                       ?>
                     <!--/ul>
