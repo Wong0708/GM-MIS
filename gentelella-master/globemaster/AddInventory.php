@@ -156,7 +156,7 @@
 
                       <?php
 
-                      require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                      require_once('DataFetchers/mysql_connect.php');
                         if(isset($_POST['submitBtn']))
                         {
                             $sku_id = $_POST['skuid'];
