@@ -10,8 +10,8 @@ if(!(isset($_SESSION['usertype']))){
 
     <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
-            <div class="navbar nav_title" style="border: 0;">
-                <a href="MainDashboard.php" class="site_title"><img src="images/GM%20LOGO.png" width = "50" height = "50"><b>Globe Master</b></a>
+            <div class="navbar nav_title">
+                <a href="MainDashboard.php" class="site_title"><img src="images/GM%20LOGO.png" width = "60px" height = "60px"><b>Globe Master</b></a>
             </div>
 
             <div class="clearfix"></div>
@@ -235,18 +235,25 @@ if(!(isset($_SESSION['usertype']))){
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="">John Doe
+                    <img src="images/img.jpg" alt="">
+                    <?php
+                  require_once('DataFetchers/mysql_connect.php');
+                  $checkuser = "SELECT usertype, usertype_id FROM gm_usertype WHERE usertype_id = '{$_SESSION['usertype']}'";
+                  $result=mysqli_query($dbc,$checkuser);
+                  $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
+                  //$_SESSION['usertype']=$row['usertype'];
+
+                  $checkuser1 = "SELECT * FROM gm_users WHERE usertype_id = '{$_SESSION['usertype']}'";
+                  $result1=mysqli_query($dbc,$checkuser1);
+                  $row1=mysqli_fetch_array($result1,MYSQLI_ASSOC);
+                    echo $row['usertype'];
+                    echo "  ";
+                  
+        
+                ?>
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;"> Profile</a></li>
-                    <li>
-                      <a href="javascript:;">
-                        <span class="badge bg-red pull-right">50%</span>
-                        <span>Settings</span>
-                      </a>
-                    </li>
-                    <li><a href="javascript:;">Help</a></li>
                     <li><a href="logout.php"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>

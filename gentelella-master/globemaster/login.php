@@ -97,7 +97,7 @@ if(isset($_POST['login']))
     font-family: "Couture Bold";
     src: url("css/fonts/couture-bld.tff");
     }
-    	/* Coded with love by Mutiullah Samim */
+
 		body,
 		html {
 			margin: 0;
