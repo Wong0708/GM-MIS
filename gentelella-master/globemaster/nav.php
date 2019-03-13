@@ -43,7 +43,7 @@ if(!(isset($_SESSION['usertype']))){
         
                 ?>
                 </span>
-            </div>
+            </div><br>
             <!-- /menu profile quick info -->
 
             
