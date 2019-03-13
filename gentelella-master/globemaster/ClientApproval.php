@@ -97,13 +97,13 @@
                                     echo '" class="';
                                     if($row['client_status'] == "Enabled")
                                     {
-                                        echo 'js-switch" onclick = "changeStatus(';
+                                        echo 'js-switch" onClick="changeStatus(';
                                         echo $row['client_id'];
                                         echo ')" value = "Enabled" checked="checked"></input>';
                                     }
                                     else
                                     {
-                                        echo 'js-switch" onclick = "changeStatus(';
+                                        echo 'js-switch" onClick="changeStatus(';
                                         echo $row['client_id'];
                                         echo ')" value = "Disabled"></input>';
                                     }       
@@ -147,14 +147,14 @@
         var elem = document.getElementById(rownum);
         if (elem.checked == true)
         {
-            elem.value("Disabled");
+            var elem.value("Disabled");
         }
         else 
         {
-            elem.setAttribute("value","Enabled");
+            var elem.value("Enabled");
         }
         
-    }    
+    }
         
     </script>    
 

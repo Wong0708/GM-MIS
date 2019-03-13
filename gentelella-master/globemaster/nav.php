@@ -134,7 +134,7 @@ if(!(isset($_SESSION['usertype']))){
                       <?php
                       if($user == 'CFO'){
                       
-                      echo "<li><a href='tables_dynamic.html'>Client Order Approval</a></li>";
+                      echo "<li><a href='ClientApproval.php'>Client Order Approval</a></li>";
                       
                         }
                       ?>

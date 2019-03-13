@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>View Clients</title>
+    <title>GM MIS | View Customers</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -31,79 +31,188 @@
   <body class="nav-md">
     <div class="container body">
       <div class="main_container">
-        
+            <!-- sidebar menu -->
             <?php
-                require_once("nav.php");    
+              require_once("nav.php");    
             ?>
-        
+
+            </div>
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                  <h1>Client Master List</h1><br>
+                <h3>Customers <small>List of Customers for Globe Master Trading</small></h3>
+              </div>
+
+              
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
 
-              <div class="clearfix"></div>
+
+            <!-- Add Customer Modal -->
+            <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target=".bs-example-modal-lg"><i class = "fa fa-plus"></i> Add Customer</button>
+            
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Add a Customer Profile</h4>
+                  </div>
+
+                  <div class = "modal-body">
+                  <form class="form-horizontal form-label-left" method="post" action= "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+
+                    <span class="section">Customer Info</span>
+
+                    <div class="item form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span class="required">*</span>
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="customer" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="Please enter the customer's name" required="required" type="text">
+                      </div>
+                    </div>
+                    <div class="item form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Contact Number <span class="required">*</span>
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="contact" placeholder="Please enter the customer contact number" required="required" type="text">
+                      </div>
+                    </div>
+                    <div class="item form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Email <span class="required">*</span>
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="email" placeholder="Please enter the customer's e-mail address" required="required" type="email">
+                      </div>
+                    </div>
+                    <div class="item form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Address
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <textarea id="textarea" name="address" class="form-control col-md-7 col-xs-12" placeholder="Please enter the customer's delivery address"></textarea>
+                      </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                      <div class="col-md-6 col-md-offset-3">
+                        <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary" data-dismiss="modal">Reset</button>
+                        <button id="send" type="submit" class="btn btn-success" onclick="confirmalert()">Submit</button>
+                      </div>
+                    </div>
+                    <!-- Add Inventory -->
+                    <!-- Finished general insert, but create a status column for customer -->
+                    <?php
+                            require_once('DataFetchers/mysql_connect.php');
+
+                            $name = $idinsert = $contact = $email = $address = $status = "";
+
+                              if($_SERVER["REQUEST_METHOD"] == "POST")
+                              {
+                                $query = "SELECT max(client_id) FROM clients";
+                                $result1=mysqli_query($dbc,$query);
+                                
+                                $id = mysqli_fetch_array($result1,MYSQLI_ASSOC);
+                                
+                                $idinsert = $id["max(client_id)"] + 1;
+                                // echo $idinsert; for testing
+
+                                $name = test_input($_POST['name']);
+                                $contact = test_input($_POST['contact']);
+                                $email = test_input($_POST['email']);
+                                $address = test_input($_POST['address']);
+                                // $status = test_input($_POST['status']);
+
+                                  echo '<script language="javascript">';
+                                  echo 'alert(Are you sure you want to enter the following data?)';  //not showing an alert box.
+                                  echo '</script>';
+                              
+
+                                $sql = "INSERT INTO clients (client_id, client_name, client_address, client_contactno, client_email)
+                                  Values(
+                                  '$idinsert',
+                                  '$name', 
+                                  '$address',
+                                  '$contact',
+                                  '$email')";
+
+                                $resultinsert = mysqli_query($dbc,$sql);
+
+                              }
+
+                              function test_input($data) 
+                              {
+                                $data = trim($data);
+                                $data = stripslashes($data);
+                                $data = htmlspecialchars($data);
+                                return $data;
+                             }
+                      ?>
+                  </form>
+                </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <br>
+            <!-- End Delivery Modal -->
+            
+            <div class="clearfix"></div>
+
+            <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Customers<small>List of Customers for GlobeMaster</small></h2>
+    
+                    <div class="clearfix"></div>
+                  </div>
                   <div class="x_content">
-                    <p class="text-muted font-13 m-b-30">
-                      This is where the users will be able to view the list of all of the clients and their current statuses.
-                      It will also allow the user to edit the statuses of their clients according to their payments and payments due.
-                    </p><br>
 					
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
-                          <th>Client Name</th>                       
-                          <th>Address</th>
-                          <th>City</th>
+                          <th>Customer ID</th>
+                          <th>Customer Name</th>
                           <th>Contact Number</th>
-                          <th>E-mail</th>                         
-                          <th>Status</th>              
+                          <th>E-mail Address</th>
+                          <th>Status</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <?php
-                            
+                      <?php
                             require_once('DataFetchers/mysql_connect.php');
-                            $query = "SELECT * FROM clients;";
+                          
+                            $query = "SELECT * FROM clients";
                             $result=mysqli_query($dbc,$query);
-                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                            {
-                                    echo '<tr>';
-                                    echo '<td>';
-                                    echo $row['client_name'];
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $row['client_address'];
-                                    echo '</td>';                                  
-                                    echo '<td>';
-                                    echo $row['client_city'];
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $row['client_contactno'];
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $row['client_email'];
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $row['client_status'];
-                                    echo '</td>';
-                                    
-                                    echo '</tr>';
-                                    
+
+                            echo "<tbody>";
+
+                            while ($clients = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
+                                //output a row here
+                                echo "<tr><td>".($clients['client_id'])."</td>";
+                                echo "<td>".($clients['client_name'])."</td>";
+                                echo "<td>".($clients['client_contactno'])."</td>";
+                                echo "<td>".($clients['client_email'])."</td>";
+                                echo "<td>".($clients['client_id'])."</td></tr>";
                             }
-                        ?>  
-                      </tbody>
-                    </table><br>
-                    <div>
-                        <form action="AddClient.php" method="POST">
-                          <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Add Client</button>
-                        </form>
-                    </div>
+
+                            echo "</tbody>";
+                      ?>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -113,16 +222,10 @@
         <!-- /page content -->
 
         <!-- footer content -->
-        <footer>
-          <div class="pull-right">
-            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
-          </div>
-          <div class="clearfix"></div>
-        </footer>
+        
         <!-- /footer content -->
       </div>
     </div>
-   
 
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
@@ -153,6 +256,21 @@
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+
+    <!-- Prevent POST Resubmission -->
+    <script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+    </script>
+
+    <!-- Alert Box -->
+    <script>
+    function confirmalert()
+    {
+      window.alert("Are you sure you want to enter the following data?");
+    }
+    </script>
 
   </body>
 </html>
