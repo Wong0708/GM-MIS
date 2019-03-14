@@ -74,7 +74,7 @@
                                                                 $CurrentOR = "OR - ".$row['TOTALOR'];                                                           
                                                                echo "<b>".$CurrentOR."</b>";
 
-                                                               $_SESSION['DeliveryStatus'] = "PickUp"; //Assume order is pickup;
+                                                               $_SESSION['DeliveryStatus'] = ""; //Assume order is pickup;
                                                             ?>
                                                         </h3>
                                                         <div class="clearfix"></div>
@@ -205,28 +205,6 @@
                     </div>
                 </div>
                                                             
-<<<<<<< HEAD
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Payment Type</label>
-                    <div class='input-group col-md-14'>
-                        <select class="form-control col-md-7 col-xs-12" name="paymentID">
-                        <?php
-                            require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-                            $query="SELECT * FROM ref_payment";
-                            $result=mysqli_query($dbc,$query);
-                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
-                            ?> <option value="<?php echo $row['payment_id']?>"><?php echo $row["paymenttype"]; ?> </option> <?php
-                            }
-                            ?>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                        <button type="submit" class="btn btn-primary" align="center" name="next" data-toggle="modal" data-target=".bs-example-modal-lg">Next</button>
-                        <button type="Reset" class="btn btn-danger" onclick="destroyTable();">Reset</button>
-=======
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Payment Type</label>
                                                 <div class='input-group col-md-14'>
@@ -247,7 +225,6 @@
                                                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                                                     <button type="submit" class="btn btn-primary" align="center" name="next" data-toggle="modal" data-target=".bs-example-modal-lg">Next</button>
                                                     <button type="Reset" class="btn btn-danger" onclick="destroyTable();">Reset</button>
->>>>>>> ad6fc30131a2c630991f5597a9bec4d476a49783
             <!-- Add Order2 Modal -->
             
             <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
@@ -267,41 +244,25 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" >For Delivery?<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <button type="submit" name ="YesDeliv" class="btn btn-round btn-default" onclick = "toggleDeliveryDate(); " value = "Yes" id = "Yesbutton" style = "display:block" >No</button>
-                            <button type="submit" name ="NoDeliv" class="btn btn-round btn-success" onclick = "toggleDeliveryDate1();" value = "No" id = "Nobutton" style = "display:none">Yes</button>
-                            <?php 
-                                
-                                if(isset($_POST['YesDeliv']))
-                                {
-                                    $_SESSION['DeliveryStatus'] = "Deliver";
-                                    alert("wadapak");
-                                }
-                                else 
-                                {
-                                    $_SESSION['DeliveryStatus'] = "PickUp";
-                                }
-                                // switch ($_POST['ToFabPage']) {
-                                //     case 'YesDel':
-                                //         // first pressed
-                                //         $_SESSION['DeliveryStatus'] = "Deliver";
-                                //     break;
-                                //     case 'NoDel':
-                                //         // second pressed
-                                //         $_SESSION['DeliveryStatus'] = "PickUp";
-                                //     break;
-                                //     default:
-                                //         // something wrong
-                                //         echo "Wadapak?";
-                                //     break;
-                                // }
+                            <button type="submit" name ="YesDeliv" class="btn btn-round btn-success" onclick = "toggleDeliveryDate(); " value = "Deliver" id = "Yesbutton" style = "display:block" >Yes</button>
+                            <button type="submit" name ="NoDeliv" class="btn btn-round btn-default" onclick = "toggleDeliveryDate1();" value = "Pickup" id = "Nobutton" style = "display:none">No</button>
                             
+                            <?php 
+                            // Session is defaulted to Deliver
+                                $_SESSION['DeliveryStatus'] = "Deliver";
+                                $_SESSION['FabricationStatus'] = "No Fabrication";
+                                // echo $_SESSION['DeliveryStatus'] = 0;
 
+                                
+                                
+                                // echo "<script type='text/javascript'>alert('$message');</script>";
                             ?>
                           
                         </div>
+                        <div class="result" style = "display:none"></div>  
                     </div>
 
-                    <div id = "ifYes" style = "display:none">
+                    <div id = "ifYes" style = "display:block">
                         <div class="item form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" >Expected Date<span class="required">*</span>
                             </label>
@@ -315,8 +276,8 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" >For Fabrication?<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <button type="button" class="btn btn-round btn-default" onclick = "toggleFabrication()" value = "YesFab" id = "YesbuttonFab" style = "display:block" >No</button>
-                            <button type="button" class="btn btn-round btn-success" onclick = "toggleFabrication1()" value = "NoFab" id = "NobuttonFab" style = "display:none">Yes</button>
+                            <button type="button" class="btn btn-round btn-success" onclick = "toggleFabrication()" value = "YesFab" id = "YesbuttonFab" style = "display:none" >Yes</button>
+                            <button type="button" class="btn btn-round btn-default" onclick = "toggleFabrication1()" value = "NoFab" id = "NobuttonFab" style = "display:block">No</button>
                         </div>
                     </div>
 
@@ -325,7 +286,7 @@
                       <div class="col-md-6 col-md-offset-3">
                         <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
                         <button id="send" type="submit" class="btn btn-success" style="visibility:visible"><a id ="nextpage" href = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?>">Submit</a></button>
-                        <button  type="submit" class="btn btn-primary" id="fabricationpage" style="visibility:hidden"><a href = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?>">Next</a></button>
+                        <button  type="button" class="btn btn-primary" id="fabricationpage" style="visibility:hidden"><a href = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?>">Next</a></button>
                         
                       </div>
                     </div>
@@ -563,35 +524,121 @@
             var submitbtn = document.getElementById("send");
             var nextbtn = document.getElementById("fabricationpage");
 
+            var pickup = "Pickup";
+            var delivery = "Deliver";
+
+            var deltype = "Deliver";
+            var fabtype = "No Fabrication";
+
             function toggleDeliveryDate()
             {
-                
-                divdel.style.display = "block";
+
+                deltype = "Pickup";
+
+                console.log(deltype);
+                divdel.style.display = "none";
                 yesbutton.style.display = "none";
                 nobutton.style.display = "block";
-              
+
+                request = $.ajax({
+                    url: "ajax/setpickup.php",
+                    type: "POST",
+                    data: {deltype: deltype},
+                    success: function(data, textStatus) {
+                    $(".result").html(data);    
+                    }
+                });
+
+                // // callback handler that will be called on success
+                // request.done(function (response, textStatus, jqXHR){
+                //     // log a message to the console
+                //     console.log("Hooray, it worked!");
+                // });
+
+                // // callback handler that will be called on failure
+                // request.fail(function (jqXHR, textStatus, errorThrown){
+                //     // log the error to the console
+                //     console.error(
+                //         "The following error occured: "+
+                //         textStatus, errorThrown
+                //     );
+                // });
             }
 
             function toggleDeliveryDate1()
             {
-                divdel.style.display = "none";
+                divdel.style.display = "block";
                 yesbutton.style.display = "block";
                 nobutton.style.display = "none";
-               
+
+                deltype = "Deliver";
+
+                console.log(deltype);
+
+                request = $.ajax({
+                    url: "ajax/setpickup.php",
+                    type: "POST",
+                    data: {deltype: deltype},
+                    success: function(data, textStatus) {
+                    $(".result").html(data);    
+                    }
+                });
+
+                // callback handler that will be called on success
+                // request.done(function (response, textStatus, jqXHR){
+                //     // log a message to the console
+                //     console.log("Hooray, it worked!");
+                // });
+
+                // // callback handler that will be called on failure
+                // request.fail(function (jqXHR, textStatus, errorThrown){
+                //     // log the error to the console
+                //     console.error(
+                //         "The following error occured: "+
+                //         textStatus, errorThrown
+                //     );
+                // });
             }
+
             function toggleFabrication()
             {
-                submitbtn.style.visibility = "hidden";
-                nextbtn.style.visibility = "visible"
+                submitbtn.style.visibility = "visible";
+                nextbtn.style.visibility = "hidden";
                 yesbuttonfab.style.display = "none";
                 nobuttonfab.style.display = "block";
+
+                fabtype = "No Fabrication";
+
+                console.log(fabtype);
+
+                request = $.ajax({
+                    url: "ajax/setfabrication.php",
+                    type: "POST",
+                    data: {fabtype: fabtype},
+                    success: function(data, textStatus) {
+                    $(".result").html(data);    
+                    }
+                });
             }
             function toggleFabrication1()
             {
-                submitbtn.style.visibility = "visible";
-                nextbtn.style.visibility = "hidden"
+                submitbtn.style.visibility = "hidden";
+                nextbtn.style.visibility = "visible"
                 yesbuttonfab.style.display = "block";
                 nobuttonfab.style.display = "none";
+
+                fabtype = "For Fabrication";
+
+                console.log(fabtype);
+
+                request = $.ajax({
+                    url: "ajax/setfabrication.php",
+                    type: "POST",
+                    data: {fabtype: fabtype},
+                    success: function(data, textStatus) {
+                    $(".result").html(data);    
+                    }
+                });
             }
         </script>
     </body>

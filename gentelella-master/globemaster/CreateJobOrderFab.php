@@ -82,7 +82,9 @@ if(isset($_POST['add']))
                           <?php
                            
                            $currentStatus = $_SESSION['DeliveryStatus'];
+                           $fabricationStatus = $_SESSION['FabricationStatus'];
                            echo $currentStatus;
+                           echo $fabricationStatus;
                             if(isset($_GET['order_id']))
                             {
                              
