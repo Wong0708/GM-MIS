@@ -51,7 +51,7 @@
                   <div class="x_content">
                     <p class="text-muted font-13 m-b-30">
                       
-                    <input type="button" class="btn btn-success"><i class="fa fa-plus"></i> Create Order </button>
+                        <button type="button" class="btn btn-success" onclick="window.location.href='newOrderForm.php'"><i class="fa fa-plus" onclick =""></i> Create Order </button>
                       
                     </p><br>
 					
@@ -98,14 +98,14 @@
                                     echo '</td>';
                                     echo '<td>';
                                     
-                                    if($row['delivery_date'] == null || $row['delivery_date'] == "")
-                                    {
-                                        echo '<button type="submit" class="btn btn-round btn-success"><i class="fa fa-plus"></i> Set Delivery Date</button>';
-                                    }
-                                    else
-                                    {
+                                    // if($row['delivery_date'] == null || $row['delivery_date'] == "")
+                                    // {
+                                    //     echo '<button type="submit" class="btn btn-round btn-success"><i class="fa fa-plus"></i> Set Delivery Date</button>';
+                                    // }
+                                    // else
+                                    // {
                                         echo $row['delivery_date'];
-                                    }
+                                    // }
                                     echo '</td>';
                                     echo '<td>';
                                     echo  'Php'." ".number_format($row['totalamt'], 2);

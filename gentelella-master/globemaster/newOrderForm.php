@@ -67,7 +67,7 @@
                                     <div class="x_title">
                                         <h3> 
                                             <?php
-                                                $queryTogetMaxOR = " SELECT count(ordernumber) as TOTALOR FROM orders";
+                                                $queryTogetMaxOR = " SELECT count(ordernumber)+1 as TOTALOR FROM orders";
                                                 $resultOfQuery=mysqli_query($dbc,$queryTogetMaxOR);
                                                 $row = mysqli_fetch_array($resultOfQuery,MYSQLI_ASSOC);
 
@@ -218,30 +218,82 @@
                         <?php
                         
                         
-                        if($_SESSION['DeliveryStatus'] == "Deliver")
-                        {
-                            
-                        }
+                       
                         if(isset($_POST['viewOrderButton']))
                         {
-                            if($_SESSION['DeliveryStatus'] == "PickUp")
+                            if($_SESSION['DeliveryStatus'] == "PickUp") //IF order is pickup
                             {
-                                
                                 $clientID = $_POST['clientID'];
                                 $paymentID = $_POST['paymentID'];
                                 $totalAmountFromCart = $_POST['totalPayment'];
                                 echo "Session = ", $_SESSION['DeliveryStatus'],"<br>";
+                                $orderstatus = $_SESSION['DeliveryStatus'];
+
+                                $SanitizedAmount = filter_var($totalAmountFromCart,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+
+                              
+                                echo "Client ID = ", $clientID,"<br>";
+                                echo "Payment ID = ", $paymentID,"<br>";
+                                echo "Total = ", $SanitizedAmount,"<br>";
+                                echo "Current OR = ", $CurrentOR,"<br>";
+
+                               
+
+                                    $sqlInsertToOrdersTable = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, totalamt, order_status)
+                                    VALUES(
+                                        '$CurrentOR',  
+                                        '$clientID', 
+                                        Now(), 
+                                        '$paymentID',
+                                        $SanitizedAmount',
+                                        '$orderstatus');";
+    
+                                    $resultofInsert = mysqli_query($dbc,$sqlInsertToOrdersTable);
+                                    if(!$resultofInsert) 
+                                    {
+                                        die('Error: ' . mysqli_error($dbc));
+                                    } 
+                                    else 
+                                    {
+                                        
+                                        echo '<script language="javascript">';
+                                        echo 'alert("Order Successful!");';
+                                        echo '</script>';
+                                        header('Location: ViewOrders.php');
+                                    }           
+                                
+                                    
+
+                              
+                            }
+
+                            else if($_SESSION['DeliveryStatus'] == "Deliver") //IF ORder is Deliver
+                            {
+                                $clientID = $_POST['clientID'];
+                                $paymentID = $_POST['paymentID'];
+                                $totalAmountFromCart = $_POST['totalPayment'];
+                                $expected_date = $_POST['getExpectedDelivery'];
+                                echo "Session = ", $_SESSION['DeliveryStatus'],"<br>";
+                                $orderstatus = $_SESSION['DeliveryStatus'];
 
                                 $SanitizedAmount = filter_var($totalAmountFromCart,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
 
                             
-                                    echo "Client ID = ", $clientID,"<br>";
-                                    echo "Payment ID = ", $paymentID,"<br>";
-                                    echo "Total = ", $SanitizedAmount,"<br>";
-                                    echo "Current OR = ", $CurrentOR,"<br>";
+                                echo "Client ID = ", $clientID,"<br>";
+                                echo "Payment ID = ", $paymentID,"<br>";
+                                echo "Total = ", $SanitizedAmount,"<br>";
+                                echo "Current OR = ", $CurrentOR,"<br>";
+                                echo "Expected Deliv Date = ", $expected_date,"<br>";
 
-                                $sqlInsertToOrdersTable = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, totalamt)
-                                VALUES('$CurrentOR',  '$clientID', Now(), '$paymentID','$SanitizedAmount');";
+                                $sqlInsertToOrdersTable = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, expected_date, totalamt, order_status)
+                                VALUES(
+                                    '$CurrentOR',
+                                    '$clientID', 
+                                    Now(), 
+                                    '$paymentID',                                   
+                                    '$expected_date',
+                                    '$SanitizedAmount',
+                                    '$orderstatus');";
 
                                 $resultofInsert = mysqli_query($dbc,$sqlInsertToOrdersTable);
                                 if(!$resultofInsert) 
@@ -255,7 +307,7 @@
                                     echo 'alert("Order Successful!");';
                                     echo '</script>';
                                     header('Location: ViewOrders.php');
-                                }           
+                                }    
                             }
                         }
                        
@@ -289,8 +341,9 @@
                 
                 <div class="form-group">
                     <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                        <button type="button" class="btn btn-primary" align="center" name="next" data-toggle="modal" data-target=".bs-example-modal-lg">Next</button>
+                        <button type="button" class="btn btn-primary" align="center" name="next" data-toggle="modal" data-target=".bs-example-modal-lg" onclick ="checkCart()">Next</button>
                         <button type="Reset" class="btn btn-danger" onclick="destroyTable();">Reset</button>
+
             <!-- Add Order2 Modal -->
             
             <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
@@ -333,7 +386,7 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" >Expected Date<span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input id="expectedDate" class="deliveryDate" data-validate-length-range="6" data-validate-words="2" name="name1" type="date" min="<?php echo date("Y-m-d", strtotime("+1days")); ?>">
+                                <input id="expectedDate" name="getExpectedDelivery"class="deliveryDate" data-validate-length-range="6" data-validate-words="2" name="name1" type="date" min="<?php echo date("Y-m-d", strtotime("+1days")); ?>">
                                 <style>
                                     .deliveryDate {
                                         -moz-appearance:textfield;
@@ -395,8 +448,46 @@
                             }
                         function nextpageNOFabrication()
                         {                                                                                               
-                            confirm("Submit Order?");
-                            window.location.href = "ViewOrders.php";    
+                            if(confirm("Submit Order?"))
+                            {
+                              
+                               alert("Order Successful!")                              
+                                window.location.href = "ViewOrders.php";    
+                                
+                            }
+                            else
+                            {
+                                header('Location: newOrderForm.php');
+                            } 
+                        }
+                        function checkCart()
+                        {
+                            $(document).ready(function() 
+                            {
+                                if($('#cart tr').length == 1) 
+                                {
+                                    alert("WARNING: No Item(s) in Cart!"); 
+                                    console.log("Table Length = " +$('#cart').length );
+                                }
+                                else
+                                {
+                                    alert("OK!"); 
+                                    console.log("TR Length = " +$('#cart tr').length );
+                                }
+                            });
+                           
+                            // $('#cart tr td:nth-child(4)').each(function (e) 
+                            //     {
+                            //         alert("WARNING: No Item(s) in Cart!"); 
+                            //         if($(this)) //WIP : Alert not Showing WTF?
+                            //         {
+                            //             alert("WARNING: No Item(s) in Cart!");           
+                            //         }
+                            //         else
+                            //         {                                            
+                            //             alert("WARNING: No Item(s) in Cart!");                         
+                            //         }                                       
+                            //     });  
                         }
                             </script>
                         
