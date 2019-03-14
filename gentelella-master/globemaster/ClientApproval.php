@@ -97,13 +97,13 @@
                                     echo '" class="';
                                     if($row['client_status'] == "Enabled")
                                     {
-                                        echo 'js-switch" onclick = "changeStatus(';
+                                        echo 'js-switch" onClick="changeStatus(';
                                         echo $row['client_id'];
                                         echo ')" value = "Enabled" checked="checked"></input>';
                                     }
                                     else
                                     {
-                                        echo 'js-switch" onclick = "changeStatus(';
+                                        echo 'js-switch" onClick="changeStatus(';
                                         echo $row['client_id'];
                                         echo ')" value = "Disabled"></input>';
                                     }       
@@ -139,22 +139,6 @@
       </div>
     </div>
    
-    
-    <!--Client Switches -->
-    <script type="text/javascript">    
-    function changeStatus(rownum) 
-    {
-        var elem = document.getElementById(rownum);
-        if (elem.checked == true)
-        {
-            elem.value("Disabled");
-        }
-        else 
-        {
-            elem.setAttribute("value","Enabled");
-        }
-        
-    }    
         
     </script>    
 
@@ -189,6 +173,23 @@
     
 
 
+    <!--Client Switches -->
+    <script>    
+    function changeStatus(rownum) 
+    {
+        var elem = document.getElementById(rownum);
+        if (elem.checked == true)
+        {
+            var elem.value("Disabled");
+        }
+        else 
+        {
+            var elem.value("Enabled");
+        }
+        
+    }
+    
+    </script>
     
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>

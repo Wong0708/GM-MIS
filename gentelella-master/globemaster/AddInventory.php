@@ -1,91 +1,3 @@
-<<<<<<< HEAD
-=======
-<?php
-
-if(isset($_POST['add']))
-{
-    $supplier = $_POST['supplier'];
-    $itemtype = $_POST['itemcategory'];
-    $itemname = $_POST['itemname'];
-    $warehouse = $_POST['warehouse'];
-    $threshold = $_POST['threshold'];
-    $price = $_POST['price'];
-    $sku = $_POST['sku'];
-    
-    // require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-    // $queryItemType = "SELECT UPPER(LEFT(itemtype, 3)) itemconcat FROM ref_itemtype WHERE itemtype_id =" . $itemtype . ";";
-    // $resultItemType = mysqli_query($dbc,$queryItemType);
-    // $rowItemType=mysqli_fetch_array($resultItemType,MYSQLI_ASSOC);
-    // $itemConcatType = $rowItemType['itemconcat'];
-    
-    
-    require_once('DataFetchers/mysql_connect.php');
-        $query="SELECT item_name from items_trading where item_name= '{$itemname}'";
-        $result=mysqli_query($dbc,$query);
-        if ($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
-            echo "<script> alert('Inventory already exists'); </script>";
-        }else{
-              $query="INSERT INTO items_trading(item_name, itemtype_id, item_count, last_restock, last_update, threshold_amt, warehouse_id, supplier_id, price, sku_id)
-                VALUES('$itemname', '$itemtype', '0', '', '', '$threshold', '$warehouse', '$supplier', '$price', '$sku')";
-                $result=mysqli_query($dbc,$query);
-                echo "<script> alert('Item added'); </script>";
-        }
-}
-
-require_once('DataFetchers/mysql_connect.php');
-  if(isset($_POST['submitBtn']))
-  {
-      $itemName = $_POST['item_name']; //Stores the Values from Textbox in HTML
-      $itemAmount = $_POST['amount'];
-      $itemPrice = $_POST['price'];
-      $itemThreshold = $_POST['threshold'];
-
-      $warehouseIDfromSelect = $_POST['selectWarehouse'];
-      $itemTypeIDfromSelect = $_POST['selectItemtype'];
-
-
-      $queryWarehouseID = "SELECT warehouses.warehouse_id FROM warehouses WHERE warehouse = '$warehouseIDfromSelect'";
-      $resultWarehouseID = mysqli_query($dbc,$queryWarehouseID);                                
-      $rowWarehouseID = mysqli_fetch_assoc($resultWarehouseID); //Query for getting WarehouseID 
-
-      $queryItemtypeID = "SELECT ref_itemtype.itemtype_id FROM ref_itemtype WHERE itemtype = '$itemTypeIDfromSelect'";
-      $resultItemtype = mysqli_query($dbc,$queryItemtypeID);                                
-      $rowItemtypeID = mysqli_fetch_assoc($resultItemtype); //Query For getting itemtypeID
-
-      $queryItemID = "SELECT item_id FROM items_trading ORDER BY item_id DESC LIMIT 1 ";
-      $resultItemID = mysqli_query($dbc,$queryItemID);
-      $rowResultItemID = mysqli_fetch_assoc($resultItemID);
-
-      // var_dump($resultWarehouseID);                               
-      // print_r($queryWarehouseID);
-
-      // echo $rowWarehouseID['warehouse_id'];
-      // echo $rowItemtypeID['itemtype_id'];
-
-      $WareHouseID = $rowWarehouseID['warehouse_id'];
-      $ItemtypeID = $rowItemtypeID['itemtype_id'];
-      $ItemID = $rowResultItemID['item_id']+1;
-
-      echo  $ItemID;
-
-      $sql = "INSERT INTO items_trading (item_id, sku_id, item_name, itemtype_id, item_count, last_restock, last_update, threshold_amt, warehouse_id, supplier_id, price)
-      Values(
-      '$ItemID',
-      '$itemName', 
-      '$ItemtypeID',
-      '$itemAmount', curdate(),curdate(),
-      '$itemThreshold',
-      '$WareHouseID',
-      '1',
-      '$itemPrice')";
-
-      $result=mysqli_query($dbc,$sql);              
-  }
-
-?>
-
-
->>>>>>> ad6fc30131a2c630991f5597a9bec4d476a49783
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -244,7 +156,7 @@ require_once('DataFetchers/mysql_connect.php');
 
                       <?php
 
-                      require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
+                      require_once('DataFetchers/mysql_connect.php');
                         if(isset($_POST['submitBtn']))
                         {
                             $sku_id = $_POST['skuid'];

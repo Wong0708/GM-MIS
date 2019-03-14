@@ -10,8 +10,8 @@ if(!(isset($_SESSION['usertype']))){
 
     <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
-            <div class="navbar nav_title" style="border: 0;">
-                <a href="MainDashboard.php" class="site_title"><img src="images/GM%20LOGO.png" width = "50" height = "50"><b>Globe Master</b></a>
+            <div class="navbar nav_title">
+                <a href="MainDashboard.php" class="site_title"><img src="images/GM%20LOGO.png" width = "60px" height = "60px"><b>Globe Master</b></a>
             </div>
 
             <div class="clearfix"></div>
@@ -58,33 +58,47 @@ if(!(isset($_SESSION['usertype']))){
                     <ul class="nav child_menu">
                       <?php
                      
-                      if($user == "CEO" or $user == "CFO" or $user == "MKT" or $user == "SALES" ){ 
+                      if($user == "MKT" or $user == "SALES" or $user == 'INV'){ 
                       echo "<li><a href='AddInventory.php'>Add Inventory Items</a></li>";
+                        }
+                     
+                      if($user == "CFO" or $user == "MKT" or $user == "SALES" or $user == 'INV' or $user == 'CEO'){
                       echo "<li><a href='ViewInventory.php'>View Inventory</a></li>";
-                      
                         }
                       ?>
-                      <?php
-                      if($user == 'CEO' OR $user == 'CFO' OR $user == 'MKT'){
                       
-                      echo "<li><a href='index2.html'>Economic Order Quantity (EOQ)</a></li>";
+                      <?php
+                      if($user == 'CEO' or $user == 'CFO' or $user == 'MKT'){
+                      echo "<li><a>Economic order Quantity (EOQ)<span class='fa fa-chevron-down'></span></a>";
                       echo "<ul class='nav child_menu'>";
+                      if($user == 'CFO'){
                       echo    "<li><a href='index.html'>Input EOQ Details</a></li>";
-                      echo    "<li><a href='index2.html'>View Inventory EOQ</a></li>";
-                      echo "</ul>";
-                      echo "<li><a href='index2.html'>Item Sales Visualization</a></li>";
                       
-                        }
+                      }
+                      if($user == 'CEO' or $user == 'CFO' or $user == 'MKT'){
+                      echo    "<li><a href='index2.html'>View Inventory EOQ</a></li>";
+                      }
+                      echo "</ul>"; 
+                     echo "</li>";
+                  }
                       ?>
+                     
                       <?php
-                     if($user == 'MKT' OR $user == 'SALES'){
+                      if($user == 'CEO' or $user == 'CFO' or $user == 'MKT'){
+                      echo "<li><a href='index2.html'>Item Sales Visualization</a></li>";
+                      }
+                      ?>
+                        
+                    
+                      <?php
+                     if($user == 'MKT' or $user == 'SALES' or $user == 'INV'){
                   
                       echo "<li><a href='qrcodegeneration.php'>Generate QR Code</a></li>";
                       
                         }
                       ?>
                       <?php
-                       if($user == 'CFO' OR $user == 'CFO' OR $user == 'MKT'){
+                       if($user == 'CEO' or $user == 'CFO' or $user == 'MKT'){
                       
                       echo "<li><a href='index2.html'>Discounts</a></li>";
                       
@@ -94,56 +108,62 @@ if(!(isset($_SESSION['usertype']))){
                   </li>
 
                   <?php
-                     if($user == 'CEO' OR $user == 'SALES' OR $user == 'INV'){
+                     if($user == 'CEO' or $user == 'SALES' or $user == 'INV'){
                   
 
                   echo "<li><a><i class='fa fa-car'></i> Deliveries <span class='fa fa-chevron-down'></span></a>";
                   echo   "<ul class='nav child_menu'>";
+                  if($user == 'CEO' or $user == 'SALES' or $user == 'INV'){
                   echo    "<li><a href='form_advanced.html'>View Deliveries</a></li>";
+                }
+                if($user == 'SALES'){
+                  echo    "<li><a href='form_advanced.html'>Create Delivery Receipt</a></li>";
+                }
                   echo   "</ul>";
                   echo "</li>";
-
-                  
                         }
                   ?>
 
                   <?php
-                     if($user == 'MKT' OR $user == 'SALES' OR $user == 'INV'){
+                     if($user == 'MKT' or $user == 'SALES' or $user == 'INV'){
                   
 
                   echo "<li><a><i class='fa fa-external-link-square'></i> Orders <span class='fa fa-chevron-down'></span></a>";
                   echo "<ul class='nav child_menu'>";
-                  echo    "<li><a href='ViewOrders.php'>View Orders</a></li>";
-                  echo    "<li><a href='ViewFabJobOrders.php'>View Fabrication Job Orders</a></li>";
-                  echo  "</ul>";
+                  if($user == 'MKT' or $user == 'SALES'){
+                  echo    "<li><a href='Vieworders.php'>View orders</a></li>";
+                }
+                  if ($user == 'INV' or $user == 'MKT' or $user == 'SALES'){
+                  echo    "<li><a href='ViewFabJoborders.php'>View Fabrication Job orders</a></li>";
+                 
+                }
+                   echo  "</ul>";
                   echo "</li>";
-
-                  
                         }
                   ?>
-
-                  <li><a><i class="fa fa-user"></i> Clients <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <?php
-                       if($user == 'CFO' OR $user == 'MKT'){
-                      
+                  <?php
+                       if($user == 'CFO' or $user == 'MKT'){
+                      echo "<li><a><i class='fa fa-user'></i> Clients <span class='fa fa-chevron-down'></span></a>";
+                      echo  "<ul class='nav child_menu'>";
+                
                       echo "<li><a href='ViewClients.php'>View Clients</a></li>";
                       
-                        }
-                      ?>
-                      <?php
+              
                       if($user == 'CFO'){
-                      
-                      echo "<li><a href='tables_dynamic.html'>Client Order Approval</a></li>";
+                        echo "<li><a href='ClientApproval.php'>Client Order Approval</a></li>";
                       
                         }
+                        echo "</ul>";
+                        echo "</li>";
+                      }
                       ?>
-                    </ul>
-                  </li>
+                    <!--/ul>
+                  </li-->
 
                   <?php
-                     if($user == 'CEO' OR $user == 'CFO' OR $user == 'MKT'){
-                  
+                     if($user == 'CEO' or $user == 'CFO' or $user == 'MKT'){
+                  //echo "</ul>";
+                  //echo "</li>";
 
                   echo "<li><a><i class='fa fa-bar-chart-o'></i> Data Analytics <span class='fa fa-chevron-down'></span></a>";
                   echo   "<ul class='nav child_menu'>";
@@ -166,7 +186,7 @@ if(!(isset($_SESSION['usertype']))){
                   ?>
 
                   <?php
-                      if($user == 'CEO' OR $user == 'MKT'){
+                      if($user == 'CEO' or $user == 'CFO' or $user == 'MKT'){
                   
 
                   echo "<li><a><i class='fa fa-folder-open'></i> Reports <span class='fa fa-chevron-down'></span></a>";
@@ -215,18 +235,25 @@ if(!(isset($_SESSION['usertype']))){
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="">John Doe
+                    <img src="images/img.jpg" alt="">
+                    <?php
+                  require_once('DataFetchers/mysql_connect.php');
+                  $checkuser = "SELECT usertype, usertype_id FROM gm_usertype WHERE usertype_id = '{$_SESSION['usertype']}'";
+                  $result=mysqli_query($dbc,$checkuser);
+                  $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
+                  //$_SESSION['usertype']=$row['usertype'];
+
+                  $checkuser1 = "SELECT * FROM gm_users WHERE usertype_id = '{$_SESSION['usertype']}'";
+                  $result1=mysqli_query($dbc,$checkuser1);
+                  $row1=mysqli_fetch_array($result1,MYSQLI_ASSOC);
+                    echo $row['usertype'];
+                    echo "  ";
+                  
+        
+                ?>
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;"> Profile</a></li>
-                    <li>
-                      <a href="javascript:;">
-                        <span class="badge bg-red pull-right">50%</span>
-                        <span>Settings</span>
-                      </a>
-                    </li>
-                    <li><a href="javascript:;">Help</a></li>
                     <li><a href="logout.php"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>

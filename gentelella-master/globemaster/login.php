@@ -28,77 +28,160 @@ if(isset($_POST['login']))
   }
 ?>
 
+
+
+
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<html>
+    
+<head>
+	<title>GM MIS | LOGIN</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+</head>
+<!--Coded with love by Mutiullah Samim-->
+<body>
+	<div class="container h-100">
+		<div class="d-flex justify-content-center h-100">
+			<div class="user_card">
+				<div class="d-flex justify-content-center">
+					<div class="brand_logo_container">
+						<img src="images/GM%20LOGO.png" class="brand_logo" alt="Logo">
+					</div>
+				</div>
+				<div class="d-flex justify-content-center form_container">
+					<form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
+                        <div>
+                            <h1 align="center">Hello!</h1><br>
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-user"></i></span>
+							</div>
+							<input type="text" id="loginuser" name="loginuser" class="form-control input_user" value="" placeholder="Username" required>
+						</div>
+						<div class="input-group mb-2">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-key"></i></span>
+							</div>
+							<input type="password" id="loginpass" name="loginpass" class="form-control input_pass" value="" placeholder="Password" required>
+                        </div><br>
+                        <?php 
+                          if(isset($error))
+                          {
+                            echo "<h4><b><font color ='red'> $error</font></h4>";
+                          } 
+                        ?>
+                        <div class="d-flex justify-content-center mt-3 login_container">
+                            <button type="submit" name="login" class="btn login_btn">LOGIN</button>
+                        </div>
+					</form>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</body>
+    
+<style>
+    
+    
+    @font-face {
+    font-family: "Couture Bold";
+    src: url("css/fonts/couture-bld.tff");
+    }
 
-    <title>GM MIS | Login</title>
+		body,
+		html {
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			background: #1D2B51 !important;
+		}
+		.user_card {
+			height: 450px;
+			width: 350px;
+			margin-top: auto;
+			margin-bottom: auto;
+			background: #f39c12;
+			position: relative;
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+			padding: 10px;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			border-radius: 5px;
 
-    <!-- Bootstrap -->
-    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <!-- NProgress -->
-    <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
-    <!-- Animate.css -->
-    <link href="../vendors/animate.css/animate.min.css" rel="stylesheet">
-
-    <!-- Custom Theme Style -->
-    <link href="../build/css/custom.min.css" rel="stylesheet">
-  </head>
-
-  <body class="login">
-    <div>
-
-      <div class="login_wrapper">
-        <div class="animate form login_form">
-          <section class="login_content">
-            <div><img src = "images/GM LOGO.png" style = "width:100%;height:40%" class = "center" alt = "Globe Master Logo Here!">
-            </div>
-              <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
-              <h1><font color = "#082656">Welcome! </font>  </h1>
-              <div>
-                <input type="text" class="form-control" id="loginuser" name="loginuser" placeholder="Username" required />
-              </div>
-              <div>
-                <input type="password" class="form-control" id="loginpass" name="loginpass" placeholder="Password" required />
-              </div>
-              <div>
-                <button class="btn btn-success submit" name="login">Log in</button>
-                <br>
-                <br>
-                <?php 
-                  if(isset($error))
-                  {
-                    echo "<h4><b><font color ='red'> $error</font></h4>";
-                  } 
-                ?>
-              </div>
-
-              <div class="clearfix"></div>
-
-              <div class="separator">               
-                <div class="clearfix"></div>
-                <br>
-
-                <div>
-                  <font color = "black">
-                  <p>Created by:</p>
-                  <h1><i class="fa fa-hand-o-right"></i> G S M - Wong</h1> <!-- Replace Icon with Group Logo -->
-                  <p>All rights reserved.</p>
-                  </font>
-                </div>
-              </div>
-            </form>
-          </section>
-        </div>
-
-      </div>
-    </div>
-  </body>
+		}
+		.brand_logo_container {
+			position: absolute;
+			height: 170px;
+			width: 170px;
+			top: -75px;
+			border-radius: 50%;
+			background: #FFFACD;
+			padding: 10px;
+			text-align: center;
+		}
+		.brand_logo {
+			height: 150px;
+			width: 150px;
+			border-radius: 50%;
+			border: 4px solid black;
+		}
+		.form_container {
+			margin-top: 100px;
+		}
+		.login_btn {
+			width: 100%;
+			background: #1D2B51 !important;
+			color: white !important;
+		}
+		.login_btn:focus {
+			box-shadow: none !important;
+			outline: 0px !important;
+		}
+		.login_container {
+			padding: 0 2rem;
+		}
+		.input-group-text {
+			background: #1D2B51 !important;
+			color: white !important;
+			border: 0 !important;
+			border-radius: 0.25rem 0 0 0.25rem !important;
+		}
+		.input_user,
+		.input_pass:focus {
+			box-shadow: none !important;
+			outline: 0px !important;
+		}
+		.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+			background-color: #1D2B51 !important;
+		}
+    
+    
+        h1 {
+            font-family: 'COUTURE Bold', Arial, sans-serif;
+            font-weight:normal;
+            font-style:normal;
+            color: #1D2B51;
+            }
+        button {
+        font-family: 'COUTURE Bold', Arial, sans-serif;
+            font-weight:normal;
+            font-style:normal;
+            color: #1D2B51;
+            }
+    }
+        
+</style>
 </html>
