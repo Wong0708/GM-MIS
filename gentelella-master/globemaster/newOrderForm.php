@@ -1,4 +1,7 @@
 <html lang="en">
+<?php 
+ 
+?>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!-- Meta, title, CSS, favicons, etc. -->
@@ -41,10 +44,7 @@
             <div class="main_container">
                 
                 <?php
-                require_once("nav.php");    
-
-               
-
+                require_once("nav.php");                   
                 ?>
 
                 <!-- page content -->
@@ -67,20 +67,23 @@
                                     <div class="x_title">
                                         <h3> 
                                             <?php
-                                                $queryTogetMaxOR = " SELECT count(ordernumber) as TOTALOR FROM order_details";
+                                                $queryTogetMaxOR = " SELECT count(ordernumber) as TOTALOR FROM orders";
                                                 $resultOfQuery=mysqli_query($dbc,$queryTogetMaxOR);
                                                 $row = mysqli_fetch_array($resultOfQuery,MYSQLI_ASSOC);
 
                                                 $CurrentOR = "OR - ".$row['TOTALOR'];                                                           
                                                 echo "<b>".$CurrentOR."</b>";
 
-                                                $_SESSION['DeliveryStatus'] = ""; //Assume order is pickup;
+                                               //
                                             ?>
                                         </h3>
                                         <div class="clearfix"></div>
                                     </div>
                                     <div class="x_content">
-                                        <form class="form-horizontal form-label-left" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                                    
+
+                                        <form class="form-horizontal form-label-left" method="POST">
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Client</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -123,45 +126,45 @@
                                                             $itemCountArray = array();
                                                             while($row=mysqli_fetch_array($result1,MYSQLI_ASSOC) )
                                                             {
-                                                                    $queryItemType = "SELECT itemtype FROM ref_itemtype WHERE itemtype_id =" . $row['itemtype_id'] . ";";
-                                                                    $resultItemType = mysqli_query($dbc,$queryItemType);
-                                                                    $rowItemType=mysqli_fetch_array($resultItemType,MYSQLI_ASSOC);
-                                                                    $itemType = $rowItemType['itemtype'];
+                                                                $queryItemType = "SELECT itemtype FROM ref_itemtype WHERE itemtype_id =" . $row['itemtype_id'] . ";";
+                                                                $resultItemType = mysqli_query($dbc,$queryItemType);
+                                                                $rowItemType=mysqli_fetch_array($resultItemType,MYSQLI_ASSOC);
+                                                                $itemType = $rowItemType['itemtype'];
 
-                                                                    $queryWarehouse = "SELECT warehouse FROM warehouses WHERE warehouse_id =" . $row['warehouse_id'] . ";";
-                                                                    $resultWarehouse = mysqli_query($dbc,$queryWarehouse);
-                                                                    $rowWarehouse=mysqli_fetch_array($resultWarehouse,MYSQLI_ASSOC);
-                                                                    $warehouse = $rowWarehouse['warehouse'];
+                                                                $queryWarehouse = "SELECT warehouse FROM warehouses WHERE warehouse_id =" . $row['warehouse_id'] . ";";
+                                                                $resultWarehouse = mysqli_query($dbc,$queryWarehouse);
+                                                                $rowWarehouse=mysqli_fetch_array($resultWarehouse,MYSQLI_ASSOC);
+                                                                $warehouse = $rowWarehouse['warehouse'];
 
-                                                                    $querySupplierName = "SELECT supplier_name FROM suppliers WHERE supplier_id =" . $row['supplier_id'] . ";";
-                                                                    $resultSupplierName = mysqli_query($dbc,$querySupplierName);
-                                                                    $rowSupplierName=mysqli_fetch_array($resultSupplierName,MYSQLI_ASSOC);
-                                                                    $supplierName = $rowSupplierName['supplier_name'];
+                                                                $querySupplierName = "SELECT supplier_name FROM suppliers WHERE supplier_id =" . $row['supplier_id'] . ";";
+                                                                $resultSupplierName = mysqli_query($dbc,$querySupplierName);
+                                                                $rowSupplierName=mysqli_fetch_array($resultSupplierName,MYSQLI_ASSOC);
+                                                                $supplierName = $rowSupplierName['supplier_name'];
 
-                                                                        
-                                                                    echo '<tr class ="tableRow">';
-                                                                        echo '<td  id = ',$row['item_id'],' >';
-                                                                        echo $row['item_name'];
-                                                                        echo '</td>';
-                                                                        echo '<td>';
-                                                                        echo $itemType;
-                                                                        echo '</td>';
-                                                                        echo '<td>';
-                                                                        echo $supplierName;
-                                                                        echo '</td>';
-                                                                        echo '<td>';
-                                                                        echo  '₱'." ".number_format($row['price'], 2);
-                                                                        echo '</td>';
-                                                                                                                                
-                                                                        echo '<td >';
-                                                                        echo '<input type="number" oninput="validate(this)" id="quantity',$row['item_id'],'" name="quantity',$row['item_id'],'"  min="1" max ="',$row['item_count'],'" value="" placeholder ="0"></input>';
-                                                                        echo '</td>';
+                                                                    
+                                                                echo '<tr class ="tableRow">';
+                                                                    echo '<td  id = ',$row['item_id'],' >';
+                                                                    echo $row['item_name'];
+                                                                    echo '</td>';
+                                                                    echo '<td>';
+                                                                    echo $itemType;
+                                                                    echo '</td>';
+                                                                    echo '<td>';
+                                                                    echo $supplierName;
+                                                                    echo '</td>';
+                                                                    echo '<td>';
+                                                                    echo  '₱'." ".number_format($row['price'], 2);
+                                                                    echo '</td>';
+                                                                                                                            
+                                                                    echo '<td >';
+                                                                    echo '<input type="number" oninput="validate(this)" id="quantity',$row['item_id'],'" name="quantity',$row['item_id'],'"  min="1" max ="',$row['item_count'],'" value="" placeholder ="0"></input>';
+                                                                    echo '</td>';
 
-                                                                        echo '<td>';
-                                                                        echo '<button type="button" class="btn btn-success" name ="add" value ="',$row['item_id'],'" > + </button>';
-                                                                        echo '</td>';
+                                                                    echo '<td>';
+                                                                    echo '<button type="button" class="btn btn-success" name ="add" value ="',$row['item_id'],'" > + </button>';
+                                                                    echo '</td>';
 
-                                                                    echo '</tr>';                                                                                  
+                                                                echo '</tr>';                                                                                  
                                                             }
                                                         ?>  
                                                         </tbody>
@@ -211,6 +214,55 @@
                                 </table>
                                 <h4 align = "right"> Total Payment: <input style="text-align:right;" readonly="readonly" name="totalPayment" id ="payment" value="0"> </h4>
                         </div>
+
+                        <?php
+                        
+                        
+                        if($_SESSION['DeliveryStatus'] == "Deliver")
+                        {
+                            
+                        }
+                        if(isset($_POST['viewOrderButton']))
+                        {
+                            if($_SESSION['DeliveryStatus'] == "PickUp")
+                            {
+                                
+                                $clientID = $_POST['clientID'];
+                                $paymentID = $_POST['paymentID'];
+                                $totalAmountFromCart = $_POST['totalPayment'];
+                                echo "Session = ", $_SESSION['DeliveryStatus'],"<br>";
+
+                                $SanitizedAmount = filter_var($totalAmountFromCart,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+
+                            
+                                    echo "Client ID = ", $clientID,"<br>";
+                                    echo "Payment ID = ", $paymentID,"<br>";
+                                    echo "Total = ", $SanitizedAmount,"<br>";
+                                    echo "Current OR = ", $CurrentOR,"<br>";
+
+                                $sqlInsertToOrdersTable = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, totalamt)
+                                VALUES('$CurrentOR',  '$clientID', Now(), '$paymentID','$SanitizedAmount');";
+
+                                $resultofInsert = mysqli_query($dbc,$sqlInsertToOrdersTable);
+                                if(!$resultofInsert) 
+                                {
+                                    die('Error: ' . mysqli_error($dbc));
+                                } 
+                                else 
+                                {
+                                    
+                                    echo '<script language="javascript">';
+                                    echo 'alert("Order Successful!");';
+                                    echo '</script>';
+                                    header('Location: ViewOrders.php');
+                                }           
+                            }
+                        }
+                       
+                           
+                            
+                        ?>
+
                       
                         </div>
                     </div>
@@ -237,7 +289,7 @@
                 
                 <div class="form-group">
                     <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                        <button type="submit" class="btn btn-primary" align="center" name="next" data-toggle="modal" data-target=".bs-example-modal-lg">Next</button>
+                        <button type="button" class="btn btn-primary" align="center" name="next" data-toggle="modal" data-target=".bs-example-modal-lg">Next</button>
                         <button type="Reset" class="btn btn-danger" onclick="destroyTable();">Reset</button>
             <!-- Add Order2 Modal -->
             
@@ -259,7 +311,7 @@
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <button type="button" name ="YesDeliv" class="btn btn-round btn-success" onclick = "toggleDeliveryDate(); " value = "Deliver" id = "Yesbutton" style = "display:block" >Yes</button>
-                            <button type="button" name ="NoDeliv" class="btn btn-round btn-default" onclick = "toggleDeliveryDate1();" value = "Pickup" id = "Nobutton" style = "display:none">No</button>
+                            <button type="button" name ="NoDeliv" class="btn btn-round btn-default" onclick = "toggleDeliveryDate1();" value = "PickUp" id = "Nobutton" style = "display:none">No</button>
                             
                             <?php 
                             // Session is defaulted to Deliver
@@ -281,7 +333,7 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" >Expected Date<span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input id="expectedDate" class="deliveryDate" data-validate-length-range="6" data-validate-words="2" name="name1" required="required" type="date" min="<?php echo date("Y-m-d", strtotime("+1days")); ?>">
+                                <input id="expectedDate" class="deliveryDate" data-validate-length-range="6" data-validate-words="2" name="name1" type="date" min="<?php echo date("Y-m-d", strtotime("+1days")); ?>">
                                 <style>
                                     .deliveryDate {
                                         -moz-appearance:textfield;
@@ -311,25 +363,41 @@
                       <div class="col-md-6 col-md-offset-3">
                         <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
                         <!--   -->
-                        <input id="send" type="submit" class="btn btn-success" style="visibility:visible" value ="Submit"></input>
-                        <input type="button" class="btn btn-primary" id="fabricationpage" style="visibility:hidden"  onclick="nextpageWithFabrication()"></button>
-                         <script> 
-                         var getCartQuantity = [];
-                          function nextpageWithFabrication()
+                        <input id="send" name ="viewOrderButton" type="submit" class="btn btn-success" style="visibility:visible" onclick="nextpageNOFabrication()" value ="Submit"></input>
+                        <input type="button" class="btn btn-primary" id="fabricationpage" style="visibility:hidden"  onclick="nextpageWithFabrication()" value ="Next Step"></input>
+
+                       
+                        
+                        <script text/javascript> 
+                        var getCartQuantity = [];
+                          function nextpageWithFabrication() //Gets all necessary values from current page to give to next Page
                             {
-                                    $('#cart tr td:nth-child(4)').each(function (e) 
-                                    {
-                                        var getValue =parseInt($(this).text());
-                                        getCartQuantity.push(getValue);
-                                        alert(getCartQuantity);
-                                    });
                                 var expected_date =  document.getElementById("expectedDate").value;
                                 var payment_id =  document.getElementById("paymentID").value;
                                 var client_id = document.getElementById("clientID").value;
-                                window.location.href = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?>&deliver_date="+ expected_date +"&pay_id="+ payment_id +"&client_id="+ client_id +"&cart_item_id="+ item_id_in_cart +"&cart_qty_per_item="+ getCartQuantity +" ";
-                                //  
+                                $('#cart tr td:nth-child(4)').each(function (e) 
+                                {
+                                    if($(this).length==null) //WIP : Alert not Showing WTF?
+                                    {
+                                        alert("No Orders in Cart!");
+                                    }
+                                    else
+                                    {                                            
+                                        if(confirm("Submit Order?")) //ALert IS Showing
+                                        {
+                                            var getValue =parseInt($(this).text());
+                                            getCartQuantity.push(getValue);
+                                            alert(getCartQuantity);
+                                            window.location.href = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?>&deliver_date="+ expected_date +"&pay_id="+ payment_id +"&client_id="+ client_id +"&cart_item_id="+ item_id_in_cart +"&cart_qty_per_item="+ getCartQuantity +" ";                                       
+                                        }                           
+                                    }                                       
+                                });        
                             }
-                       
+                        function nextpageNOFabrication()
+                        {                                                                                               
+                            confirm("Submit Order?");
+                            window.location.href = "ViewOrders.php";    
+                        }
                             </script>
                         
                       </div>
@@ -573,7 +641,7 @@
             var submitbtn = document.getElementById("send");
             var nextbtn = document.getElementById("fabricationpage");
 
-            var pickup = "Pickup";
+            var pickup = "PickUp";
             var delivery = "Deliver";
 
             var deltype = "Deliver";
@@ -582,7 +650,7 @@
             function toggleDeliveryDate()
             {
 
-                deltype = "Pickup";
+                deltype = "PickUp";
 
                 console.log(deltype);
                 divdel.style.display = "none";

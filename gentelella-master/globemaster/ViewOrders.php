@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>DataTables | Gentelella</title>
+    <title>GM - View Orders</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -50,9 +50,9 @@
                 <div class="x_panel">
                   <div class="x_content">
                     <p class="text-muted font-13 m-b-30">
-                      <form action="OrderForm.php" method="POST">
-                            <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Create Order </button>
-                      </form>
+                      
+                    <input type="button" class="btn btn-success"><i class="fa fa-plus"></i> Create Order </button>
+                      
                     </p><br>
 					
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
