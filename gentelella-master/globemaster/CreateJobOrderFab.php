@@ -31,7 +31,7 @@ if(isset($_POST['add']))
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	  
-    <title>Gentelella Alela! | </title>
+    <title>GM - Job Order Fabrication  </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -83,13 +83,21 @@ if(isset($_POST['add']))
                            
                            $currentStatus = $_SESSION['DeliveryStatus'];
                            $fabricationStatus = $_SESSION['FabricationStatus'];
-                           echo $currentStatus;
-                           echo $fabricationStatus;
+                          
+                           echo $currentStatus,"<br>";
+                           echo $fabricationStatus,"<br>";
+                           
                             if(isset($_GET['order_id']))
                             {
                              
                                $_SESSION['getORNumber'] = $_GET['order_id']; //Stores the Value of Get from Order Form
-                               echo $_SESSION['getORNumber']; 
+                               echo $_SESSION['getORNumber'],"<br>"; 
+
+                               $_SESSION['getDeliveryDate'] = $_GET['deliver_date']; //Get the Deliv Date
+                               echo $_SESSION['getDeliveryDate'],"<br>"; 
+
+                               $_SESSION['payment_id'] = $_GET['pay_id'];
+                               echo $_SESSION['payment_id'],"<br>"; // Get Pay Id, remove all Echo once Finalized
                                
                             }
                             else
@@ -108,25 +116,7 @@ if(isset($_POST['add']))
                     <br />
                     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" data-parsley-validate class="form-horizontal form-label-left">
 
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Choose Order Number <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                         <?php
-                                require_once('DataFetchers/mysql_connect.php');
-                                $query = "SELECT * FROM orders";
-                                $result=mysqli_query($dbc,$query);
-                                $option = "";
-                                while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                                {
-                                    $option .= '<option value = "'.$row['orderID'].'">'.$row['ordernumber'].'</option>';
-                                }
-                            ?>
-                            <select name="order" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
-                            <?php echo $option ?>
-                            </select>
-                        </div>
-                      </div>
+                    
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Enter Description <span class="required">*</span>
                         </label>

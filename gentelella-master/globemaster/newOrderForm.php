@@ -62,116 +62,126 @@
                         <div class="col-md-12 col-sm-6 col-xs-12">
 
                             <div class="x_content">
-                                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                                <div class="x_panel">
-                                                    <div class="x_title">
-                                                        <h3> 
-                                                            <?php
-                                                                $queryTogetMaxOR = " SELECT count(ordernumber) as TOTALOR FROM order_details";
-                                                                $resultOfQuery=mysqli_query($dbc,$queryTogetMaxOR);
-                                                                $row = mysqli_fetch_array($resultOfQuery,MYSQLI_ASSOC);
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="x_title">
+                                        <h3> 
+                                            <?php
+                                                $queryTogetMaxOR = " SELECT count(ordernumber) as TOTALOR FROM order_details";
+                                                $resultOfQuery=mysqli_query($dbc,$queryTogetMaxOR);
+                                                $row = mysqli_fetch_array($resultOfQuery,MYSQLI_ASSOC);
 
-                                                                $CurrentOR = "OR - ".$row['TOTALOR'];                                                           
-                                                               echo "<b>".$CurrentOR."</b>";
+                                                $CurrentOR = "OR - ".$row['TOTALOR'];                                                           
+                                                echo "<b>".$CurrentOR."</b>";
 
-                                                               $_SESSION['DeliveryStatus'] = ""; //Assume order is pickup;
-                                                            ?>
-                                                        </h3>
-                                                        <div class="clearfix"></div>
-                                                    </div>
-                                                    <div class="x_content">
-                                                        <form class="form-horizontal form-label-left" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-                                                            <div class="form-group">
-                                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Client</label>
-                                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                    <select onchange="updateOrdersTable();" class="form-control col-md-7 col-xs-12" id="clients" name="clientID">
-                                                                <?php
+                                                $_SESSION['DeliveryStatus'] = ""; //Assume order is pickup;
+                                            ?>
+                                        </h3>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="x_content">
+                                        <form class="form-horizontal form-label-left" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Client</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <select onchange="updateOrdersTable();" class="form-control col-md-7 col-xs-12" id="clients" name="clientID">
+                                                <?php
 
-                                                                    require_once('DataFetchers/mysql_connect.php');
-                                                                    $query="SELECT client_id, client_name FROM clients";
-                                                                    $result=mysqli_query($dbc,$query);
-                                                                    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
-                                                                    ?> <option value="<?php echo $row['client_id']?>"><?php echo $row["client_name"]; ?> </option> <?php
-                                                                    }
-                                                                 ?>
-                                                                </select>
-                                                                </div>
-                                                              
-                                                            </div>
-                                                            <hr>
-                                                            <div class="form-group">
-                                                                <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
-                                                                      <thead>
-                                                                        <tr>
-                                                                          <th>Item Name</th>
-                                                                          <th>Item Type</th>
-                                                                          <th>Supplier</th>
-                                                                          <th>Price</th>
-                                                                         
-                                                                          <th class="col-md-1 col-sm-1 col-xs-1">Quantity</th>
-                                                                          <th>Add to Cart</th>
-                                                                        </tr>
-                                                                      </thead>
-                                                                      <tbody>
-                                                                        <?php
-
-                                                                            require_once('DataFetchers/mysql_connect.php');
-                                                                            $query = "SELECT * FROM items_trading;";
-                                                                            $result1=mysqli_query($dbc,$query);
-
-                                                                           $itemCountArray = array();
-                                                                            while($row=mysqli_fetch_array($result1,MYSQLI_ASSOC) )
-                                                                            {
-                                                                                    $queryItemType = "SELECT itemtype FROM ref_itemtype WHERE itemtype_id =" . $row['itemtype_id'] . ";";
-                                                                                    $resultItemType = mysqli_query($dbc,$queryItemType);
-                                                                                    $rowItemType=mysqli_fetch_array($resultItemType,MYSQLI_ASSOC);
-                                                                                    $itemType = $rowItemType['itemtype'];
-
-                                                                                    $queryWarehouse = "SELECT warehouse FROM warehouses WHERE warehouse_id =" . $row['warehouse_id'] . ";";
-                                                                                    $resultWarehouse = mysqli_query($dbc,$queryWarehouse);
-                                                                                    $rowWarehouse=mysqli_fetch_array($resultWarehouse,MYSQLI_ASSOC);
-                                                                                    $warehouse = $rowWarehouse['warehouse'];
-
-                                                                                    $querySupplierName = "SELECT supplier_name FROM suppliers WHERE supplier_id =" . $row['supplier_id'] . ";";
-                                                                                    $resultSupplierName = mysqli_query($dbc,$querySupplierName);
-                                                                                    $rowSupplierName=mysqli_fetch_array($resultSupplierName,MYSQLI_ASSOC);
-                                                                                    $supplierName = $rowSupplierName['supplier_name'];
-
-                                                                                       
-                                                                                    echo '<tr class ="tableRow">';
-                                                                                        echo '<td  id = ',$row['item_id'],' >';
-                                                                                        echo $row['item_name'];
-                                                                                        echo '</td>';
-                                                                                        echo '<td>';
-                                                                                        echo $itemType;
-                                                                                        echo '</td>';
-                                                                                        echo '<td>';
-                                                                                        echo $supplierName;
-                                                                                        echo '</td>';
-                                                                                        echo '<td>';
-                                                                                        echo  '₱'." ".number_format($row['price'], 2);
-                                                                                        echo '</td>';
-                                                                                                                                               
-                                                                                        echo '<td >';
-                                                                                        echo '<input type="number" id="quantity',$row['item_id'],'" name="quantity',$row['item_id'],'"  min="1" max ="',$row['item_count'],'" value="" placeholder ="0"></input>';
-                                                                                        echo '</td>';
-
-                                                                                        echo '<td>';
-                                                                                        echo '<button type="button" class="btn btn-success" name ="add" value ="',$row['item_id'],'" > + </button>';
-                                                                                        echo '</td>';
-
-                                                                                    echo '</tr>';                                                                                  
-                                                                            }
-                                                                        ?>  
-                                                                      </tbody>
-                                                                    </table>
-                                                            </div>
+                                                    require_once('DataFetchers/mysql_connect.php');
+                                                    $query="SELECT client_id, client_name FROM clients";
+                                                    $result=mysqli_query($dbc,$query);
+                                                    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
+                                                    ?> <option value="<?php echo $row['client_id']?>"><?php echo $row["client_name"]; ?> </option> <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                                </div>
+                                                
+                                            </div>
+                                            <hr>
+                                            <div class="form-group">
+                                                <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Item Name</th>
+                                                            <th>Item Type</th>
+                                                            <th>Supplier</th>
+                                                            <th>Price</th>
                                                             
-                                                            <div class="form-group">
-                                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                                    <label class="red" id="quantityAlert"></label>
-                                                                </div>
-                                                            </div>
+                                                            <th class="col-md-1 col-sm-1 col-xs-1">Quantity</th>
+                                                            <th>Add to Cart</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <?php
+
+                                                            require_once('DataFetchers/mysql_connect.php');
+                                                            $query = "SELECT * FROM items_trading;";
+                                                            $result1=mysqli_query($dbc,$query);
+
+                                                            $itemCountArray = array();
+                                                            while($row=mysqli_fetch_array($result1,MYSQLI_ASSOC) )
+                                                            {
+                                                                    $queryItemType = "SELECT itemtype FROM ref_itemtype WHERE itemtype_id =" . $row['itemtype_id'] . ";";
+                                                                    $resultItemType = mysqli_query($dbc,$queryItemType);
+                                                                    $rowItemType=mysqli_fetch_array($resultItemType,MYSQLI_ASSOC);
+                                                                    $itemType = $rowItemType['itemtype'];
+
+                                                                    $queryWarehouse = "SELECT warehouse FROM warehouses WHERE warehouse_id =" . $row['warehouse_id'] . ";";
+                                                                    $resultWarehouse = mysqli_query($dbc,$queryWarehouse);
+                                                                    $rowWarehouse=mysqli_fetch_array($resultWarehouse,MYSQLI_ASSOC);
+                                                                    $warehouse = $rowWarehouse['warehouse'];
+
+                                                                    $querySupplierName = "SELECT supplier_name FROM suppliers WHERE supplier_id =" . $row['supplier_id'] . ";";
+                                                                    $resultSupplierName = mysqli_query($dbc,$querySupplierName);
+                                                                    $rowSupplierName=mysqli_fetch_array($resultSupplierName,MYSQLI_ASSOC);
+                                                                    $supplierName = $rowSupplierName['supplier_name'];
+
+                                                                        
+                                                                    echo '<tr class ="tableRow">';
+                                                                        echo '<td  id = ',$row['item_id'],' >';
+                                                                        echo $row['item_name'];
+                                                                        echo '</td>';
+                                                                        echo '<td>';
+                                                                        echo $itemType;
+                                                                        echo '</td>';
+                                                                        echo '<td>';
+                                                                        echo $supplierName;
+                                                                        echo '</td>';
+                                                                        echo '<td>';
+                                                                        echo  '₱'." ".number_format($row['price'], 2);
+                                                                        echo '</td>';
+                                                                                                                                
+                                                                        echo '<td >';
+                                                                        echo '<input type="number" oninput="validate(this)" id="quantity',$row['item_id'],'" name="quantity',$row['item_id'],'"  min="1" max ="',$row['item_count'],'" value="" placeholder ="0"></input>';
+                                                                        echo '</td>';
+
+                                                                        echo '<td>';
+                                                                        echo '<button type="button" class="btn btn-success" name ="add" value ="',$row['item_id'],'" > + </button>';
+                                                                        echo '</td>';
+
+                                                                    echo '</tr>';                                                                                  
+                                                            }
+                                                        ?>  
+                                                        </tbody>
+                                                        <script type="text/javascript">
+                                                            function validate(obj) {
+                                                                obj.value = valBetween(obj.value, obj.min, obj.max); //Gets the value of input alongside with min and max
+                                                                console.log(obj.value);
+                                                            }
+
+                                                            function valBetween(v, min, max) {
+                                                                return (Math.min(max, Math.max(min, v))); //compares the value between the min and max , returns the max when input value > max
+                                                            }
+                                                        </script> <!-- To avoid the users input more than the current Max per item -->
+                                                    </table>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <label class="red" id="quantityAlert"></label>
+                                                </div>
+                                            </div>
 
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -205,26 +215,29 @@
                     </div>
                 </div>
                                                             
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Payment Type</label>
-                                                <div class='input-group col-md-14'>
-                                                    <select class="form-control col-md-7 col-xs-12" name="paymentID">
-                                                    <?php
-                                                        require_once('DataFetchers/mysql_connect.php');
-                                                        $query="SELECT * FROM ref_payment";
-                                                        $result=mysqli_query($dbc,$query);
-                                                        while($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
-                                                        ?> <option value="<?php echo $row['payment_id']?>"><?php echo $row["paymenttype"]; ?> </option> <?php
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="form-group">
-                                                <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                                                    <button type="submit" class="btn btn-primary" align="center" name="next" data-toggle="modal" data-target=".bs-example-modal-lg">Next</button>
-                                                    <button type="Reset" class="btn btn-danger" onclick="destroyTable();">Reset</button>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Payment Type</label>
+                    <div class='input-group col-md-14'>
+                        <select class="form-control col-md-7 col-xs-12" name="paymentID" id = "paymentID">
+                        <?php
+                            require_once('DataFetchers/mysql_connect.php');
+                            $query="SELECT * FROM ref_payment";
+                            $result=mysqli_query($dbc,$query);
+                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                            {
+                                echo "<option value=".$row['payment_id']."> ".$row['paymenttype']."</option>";  
+                            }
+
+                            
+                            ?> 
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                        <button type="submit" class="btn btn-primary" align="center" name="next" data-toggle="modal" data-target=".bs-example-modal-lg">Next</button>
+                        <button type="Reset" class="btn btn-danger" onclick="destroyTable();">Reset</button>
             <!-- Add Order2 Modal -->
             
             <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
@@ -244,15 +257,15 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" >For Delivery?<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <button type="submit" name ="YesDeliv" class="btn btn-round btn-success" onclick = "toggleDeliveryDate(); " value = "Deliver" id = "Yesbutton" style = "display:block" >Yes</button>
-                            <button type="submit" name ="NoDeliv" class="btn btn-round btn-default" onclick = "toggleDeliveryDate1();" value = "Pickup" id = "Nobutton" style = "display:none">No</button>
+                            <button type="button" name ="YesDeliv" class="btn btn-round btn-success" onclick = "toggleDeliveryDate(); " value = "Deliver" id = "Yesbutton" style = "display:block" >Yes</button>
+                            <button type="button" name ="NoDeliv" class="btn btn-round btn-default" onclick = "toggleDeliveryDate1();" value = "Pickup" id = "Nobutton" style = "display:none">No</button>
                             
                             <?php 
                             // Session is defaulted to Deliver
                                 $_SESSION['DeliveryStatus'] = "Deliver";
                                 $_SESSION['FabricationStatus'] = "No Fabrication";
                                 // echo $_SESSION['DeliveryStatus'] = 0;
-
+                                                        
                                 
                                 
                                 // echo "<script type='text/javascript'>alert('$message');</script>";
@@ -267,7 +280,18 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" >Expected Date<span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input id="customer" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name1" required="required" type="date">
+                                <input id="expectedDate" class="deliveryDate" data-validate-length-range="6" data-validate-words="2" name="name1" required="required" type="date" min="<?php echo date("Y-m-d", strtotime("+1days")); ?>">
+                                <style>
+                                    .deliveryDate {
+                                        -moz-appearance:textfield;
+                                    }
+                                    
+                                    .deliveryDate::-webkit-outer-spin-button,
+                                    .deliveryDate::-webkit-inner-spin-button {
+                                        -webkit-appearance: none;
+                                        margin: 0;
+                                    }
+                            </style> <!-- To Remove the Up/Down Arrows from Date Selection -->
                             </div>
                         </div>
                     </div>
@@ -285,8 +309,17 @@
                     <div class="form-group">
                       <div class="col-md-6 col-md-offset-3">
                         <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                        <button id="send" type="submit" class="btn btn-success" style="visibility:visible"><a id ="nextpage" href = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?>">Submit</a></button>
+                        <input id="send" type="button" class="btn btn-success" style="visibility:visible" onclick="nextpage()" value ="Submit"></input>
                         <button  type="button" class="btn btn-primary" id="fabricationpage" style="visibility:hidden"><a href = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?>">Next</a></button>
+                         <script> 
+                          function nextpage()
+                            {
+                                var expected_date =  document.getElementById("expectedDate").value;
+                                var payment_id =  document.getElementById("paymentID").value;payment_id
+                                window.location.href = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?>&deliver_date="+ expected_date +"&pay_id="+ payment_id +" ";
+                                //  
+                            }
+                            </script>
                         
                       </div>
                     </div>
@@ -640,6 +673,9 @@
                     }
                 });
             }
+
+            
         </script>
+
     </body>
 </html>
