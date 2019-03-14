@@ -216,6 +216,7 @@
                                 </div> <!--END Xpanel -->
                             </div><!--END Col MD-->
 
+                            <div class="clearfix"></div>
                              <div class="col-md-6 col-sm-6 col-xs-12" >
                                    
                                    <div class="x_panel" id ="damageDiv">
@@ -320,8 +321,6 @@
                                    </div> <!--END XPANEL -->
                                </div><!--END ColMD-->
 
-                               <div class="clearfix"></div>
-                                    <br>
                                     <div class="col-md-6 col-sm-6 col-xs-12" >
                                         
                                         <div class="x_panel">
@@ -420,6 +419,7 @@
                                     
                             </div> <!--END X Panel-->
                         </div><!--END Col MD-->
+                        </div>
                             </form>
                                     
                                     
