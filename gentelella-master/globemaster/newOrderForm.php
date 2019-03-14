@@ -84,16 +84,17 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Client</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <select onchange="updateOrdersTable();" class="form-control col-md-7 col-xs-12" id="clients" name="clientID">
+                                                    <select class="form-control col-md-7 col-xs-12" id="clientID" name="clientID">
                                                 <?php
 
                                                     require_once('DataFetchers/mysql_connect.php');
                                                     $query="SELECT client_id, client_name FROM clients";
                                                     $result=mysqli_query($dbc,$query);
-                                                    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC)){
-                                                    ?> <option value="<?php echo $row['client_id']?>"><?php echo $row["client_name"]; ?> </option> <?php
+                                                    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                                                    {
+                                                        echo "<option value=".$row['client_id']."> ".$row['client_name']."</option>";  
                                                     }
-                                                    ?>
+                                                    ?> 
                                                 </select>
                                                 </div>
                                                 
@@ -309,16 +310,26 @@
                     <div class="form-group">
                       <div class="col-md-6 col-md-offset-3">
                         <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                        <input id="send" type="button" class="btn btn-success" style="visibility:visible" onclick="nextpage()" value ="Submit"></input>
-                        <button  type="button" class="btn btn-primary" id="fabricationpage" style="visibility:hidden"><a href = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?>">Next</a></button>
+                        <!--   -->
+                        <input id="send" type="submit" class="btn btn-success" style="visibility:visible" value ="Submit"></input>
+                        <input type="button" class="btn btn-primary" id="fabricationpage" style="visibility:hidden"  onclick="nextpageWithFabrication()"></button>
                          <script> 
-                          function nextpage()
+                         var getCartQuantity = [];
+                          function nextpageWithFabrication()
                             {
+                                    $('#cart tr td:nth-child(4)').each(function (e) 
+                                    {
+                                        var getValue =parseInt($(this).text());
+                                        getCartQuantity.push(getValue);
+                                        alert(getCartQuantity);
+                                    });
                                 var expected_date =  document.getElementById("expectedDate").value;
-                                var payment_id =  document.getElementById("paymentID").value;payment_id
-                                window.location.href = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?>&deliver_date="+ expected_date +"&pay_id="+ payment_id +" ";
+                                var payment_id =  document.getElementById("paymentID").value;
+                                var client_id = document.getElementById("clientID").value;
+                                window.location.href = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?>&deliver_date="+ expected_date +"&pay_id="+ payment_id +"&client_id="+ client_id +"&cart_item_id="+ item_id_in_cart +"&cart_qty_per_item="+ getCartQuantity +" ";
                                 //  
                             }
+                       
                             </script>
                         
                       </div>
@@ -359,10 +370,13 @@
         var quantity = "quantity"+1;
         var currentName = ""; 
         var CurrentTotal = 0; //Gets the current total to pay
+        var item_id_in_cart = [];
 
             $('#datatable-checkbox tbody button.btn.btn-success').on('click', function(e) {
                 var row = $(this).closest('tr');
                 var buttonValue = $(this).val();
+
+                item_id_in_cart.push(buttonValue);
                 
                 var payment = document.getElementById("payment");
                 var itemQuantity = document.getElementById("quantity"+buttonValue).value;
@@ -382,16 +396,16 @@
                     else
                     {
                         
-                      var qty_old = 0
+                    var qty_old = 0
                     var item_does_not_exist = true;
                         $(".qtys").each(function(i){ // this gets all the classes in the order table.
                             if (buttonValue ==$(this).attr('val_id'))
                             { //checks i there is existing item
-                                    qty = $(this).text().replace("₱ ", "");
-                                    qty_old = parseFloat(qty.replace(/\,/g,''), 10);
+                                    qty = $(this).text().replace("₱ ", "");  
+                                    qty_old = parseFloat(qty.replace(/\,/g,''), 10); //old qty in cart table
 
-                                        item_does_not_exist = false;
-                                        new_qty = parseFloat(itemQuantity) + qty_old;
+                                        item_does_not_exist = false; //item does exist
+                                        new_qty = parseFloat(itemQuantity) + qty_old; //adds old qty with current qty in cart
 
                                     $(this).text(new_qty);
                                         var oldPrice =  $(this).attr('price');
@@ -422,7 +436,7 @@
                             CurrentTotal = CurrentTotal + totalPayment;
 
                             var newRow = document.getElementById('cart').insertRow();                       
-                            newRow.innerHTML = "<tr> <td id = "+itemName +">" + currentName + "</td> <td>" + row.find('td:nth-child(2)').text() +" </td> <td>" + row.find('td:nth-child(4)').text() + "</td> <td class='qtys' price ='"+ParsePrice+"' val_id='"+buttonValue+"'> " + itemQuantity + " </td> <td> <button type='button' class='btn btn-danger' name ='remove' onclick= 'DeleteRow(this)' value ='"+totalPayment.toFixed(2)+"' > - </button></td>"
+                            newRow.innerHTML = "<tr> <td id = "+buttonValue +">" + currentName + "</td> <td>" + row.find('td:nth-child(2)').text() +" </td> <td>" + row.find('td:nth-child(4)').text() + "</td> <td class='qtys' price ='"+ParsePrice+"' val_id='"+buttonValue+"'> " + itemQuantity + " </td> <td> <button type='button' class='btn btn-danger' name ='remove' onclick= 'DeleteRow(this)' value ='"+totalPayment.toFixed(2)+"' > - </button></td>"
                              
                             // payment.value = "₱ "+ totalPayment;
                            
@@ -478,7 +492,9 @@
                 var status = obj.value;
                 var strLink = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?> & delivery_status =" + status;
                 document.getElementById("nextpage").setAttribute("href",strLink);
-            })
+
+              
+            }
         </script>
         <!-- jQuery -->
         <script src="../vendors/jquery/dist/jquery.min.js"></script>

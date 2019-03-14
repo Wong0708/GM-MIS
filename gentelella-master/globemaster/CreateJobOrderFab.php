@@ -94,10 +94,20 @@ if(isset($_POST['add']))
                                echo $_SESSION['getORNumber'],"<br>"; 
 
                                $_SESSION['getDeliveryDate'] = $_GET['deliver_date']; //Get the Deliv Date
-                               echo $_SESSION['getDeliveryDate'],"<br>"; 
+                               echo"Deliver Date = ", $_SESSION['getDeliveryDate'],"<br>"; 
+
+                               $_SESSION['client_id'] = $_GET['client_id']; //Get Client ID
+                               echo "Client ID = ",$_SESSION['client_id'],"<br>"; 
+
+                               $_SESSION['item_id'] = $_GET['cart_item_id']; //Get Client ID
+                               echo"Item ID = ", $_SESSION['item_id'],"<br>"; 
+
+                               $_SESSION['item_qty'] = $_GET['cart_qty_per_item']; //Get Client ID
+                               echo"Item Quantity = ", $_SESSION['item_qty'],"<br>"; 
+
 
                                $_SESSION['payment_id'] = $_GET['pay_id'];
-                               echo $_SESSION['payment_id'],"<br>"; // Get Pay Id, remove all Echo once Finalized
+                               echo"Payment ID = ", $_SESSION['payment_id'],"<br>"; // Get Pay Id, remove all Echo once Finalized
                                
                             }
                             else
