@@ -71,7 +71,7 @@
                         <?php
                             
                             require_once('DataFetchers/mysql_connect.php');
-                            $query = "SELECT * FROM orders;";
+                            $query = "SELECT * FROM orders ORDER BY orderID ASC;";
                             $result=mysqli_query($dbc,$query);
                             while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                             {
