@@ -214,12 +214,12 @@
                                   </tbody>
                                 </table>
                                 <h4 align = "right"> Total Payment: <input style="text-align:right;" readonly="readonly" name="totalPayment" id ="payment" value="0"> </h4>
-                        </div>
-
-                        <?php
+                            </div>
+                            <?php
                         
                         // WORK IN PROGESS //
-                       
+                                               
+
                         if(isset($_POST['viewOrderButton']))
                         {
                             if($_SESSION['DeliveryStatus'] == "PickUp") //IF order is pickup
@@ -237,111 +237,141 @@
 
                                 $sqlInsertToOrdersTable = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, totalamt, order_status, installation_status, fab_status, payment_status)
                                 VALUES(
-                                    '$CLIENT_ID',  
+                                    '$CURRENT_OR',
+                                    '$CLIENT_ID', 
+                                    Now(),  
                                     '$PAYMENT_ID', 
-                                    Now(), 
-                                    '$PAYMENT_ID',
                                     '$SANITIZED_CART_TOTAL',
                                     '$ORDER_STATUS',
                                     '$INSTALL_STATUS',
                                     '$FAB_STATUS',
                                     '$PAYMENT_STATUS');";
 
-                                $resultofInsertToOrders = mysqli_query($dbc,$sqlInsertToOrdersTable);
-                                if(!$resultofInsertToOrders) 
-                                {
-                                    die('Error: ' . mysqli_error($dbc));
-                                } 
-                                else 
-                                {
-                                    
-                                    echo '<script language="javascript">';
-                                    echo 'alert("1st Insert Success");';
-                                    echo '</script>';
-                                    
-                                }  
-                                $CLIENT_ID = $_POST['clientID'];
-                                $PAYMENT_ID = $_POST['paymentID'];
-                                $CART_TOTAL = $_POST['totalPayment'];                               
-                                $ORDER_STATUS = $_SESSION['DeliveryStatus'];
-                                $CURRENT_OR = $CurrentOR;
-                                $INSTALL_STATUS = "No Installation";
-                                $FAB_STATUS = $_SESSION['FabricationStatus'];
-                                $PAYMENT_STATUS = $_POST['payment_status'];
+                                $resultofInsertToOrders = mysqli_query($dbc,$sqlInsertToOrdersTable);  // Insert To Orders
                                 
+                               $CART_ITEM_ID = $_SESSION['order_form_item_id'];
+                               $CART_ITEM_QTY = $_SESSION['order_form_item_qty'];
+                               $ITEM_NAME = array();
+                               $ITEM_PRICE = array();
+                               $DELIVERY_STATUS = $_SESSION['DeliveryStatus'];
+                               
+                               
+                               for($i = 0; $i < sizeof($CART_ITEM_ID); $i++)
+                               {
+                                    $sqlGetFromItemTrading = "SELECT * FROM items_trading WHERE item_id = $CART_ITEM_ID[$i];";
+                                    $resultofInsertToOrderDetails = mysqli_query($dbc,$sqlGetFromItemTrading);
+                                    while($rowOfSelect=mysqli_fetch_array($resultofInsertToOrderDetails,MYSQLI_ASSOC))
+                                    {
+                                        $ITEM_NAME[] = $rowOfSelect['item_name'];
+                                        $ITEM_PRICE[] = $rowOfSelect['price'];
+                                        
+                                    }
+
+                                    $sqlInsertToOrderDetails = "INSERT INTO order_details(ordernumber, client_id, item_id, item_name, item_price, item_qty, item_status)
+                                    VALUES(
+                                        '$CURRENT_OR',
+                                        '$CLIENT_ID',
+                                        '$CART_ITEM_ID[$i]',
+                                        '$ITEM_NAME[$i]',
+                                        '$ITEM_PRICE[$i]',
+                                        '$CART_ITEM_QTY[$i]',
+                                        '$DELIVERY_STATUS');";
+                                    $resultofInsertToOrderDetails = mysqli_query($dbc,$sqlInsertToOrderDetails); //Insert To Order DEtails
+                                   
+                                    
+                                    $sqlToSubtractFromItemsTrading = "UPDATE items_trading
+                                    SET items_trading.item_count  = (item_count - '$CART_ITEM_QTY[$i]'),
+                                    last_update = Now() 
+                                    WHERE item_id ='$CART_ITEM_ID[$i]';";
+                                    $resultOfSubtract=mysqli_query($dbc,$sqlToSubtractFromItemsTrading); //Subtracts From Inventory
+                                   
+                                  }//End For
+                             }//End 2nd IF                                                                                                                    
+                         
+
+                        else if($_SESSION['DeliveryStatus'] == "Deliver") //IF ORder is Deliver
+                        {
+                            $CLIENT_ID = $_POST['clientID'];
+                            $PAYMENT_ID = $_POST['paymentID'];
+                            $CART_TOTAL = $_POST['totalPayment'];                               
+                            $ORDER_STATUS = $_SESSION['DeliveryStatus'];
+                            $CURRENT_OR = $CurrentOR;
+                            $INSTALL_STATUS = "No Installation";
+                            $FAB_STATUS = $_SESSION['FabricationStatus'];
+                            $PAYMENT_STATUS = $_POST['payment_status'];
+                            $EXPECTED_DATE = date('Y-m-d', strtotime($_POST['getExpectedDelivery']));
+
+                            $SANITIZED_CART_TOTAL = filter_var($CART_TOTAL,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+
+                            $sqlInsertToOrdersTable = "INSERT INTO orders(ordernumber, client_id, order_date, expected_date, payment_id, totalamt, order_status, installation_status, fab_status, payment_status)
+                            VALUES(
+                                '$CURRENT_OR',
+                                '$CLIENT_ID', 
+                                Now(),
+                                '$EXPECTED_DATE',  
+                                '$PAYMENT_ID', 
+                                '$SANITIZED_CART_TOTAL',
+                                '$ORDER_STATUS',
+                                '$INSTALL_STATUS',
+                                '$FAB_STATUS',
+                                '$PAYMENT_STATUS');";
+
+                            $resultofInsertToOrders = mysqli_query($dbc,$sqlInsertToOrdersTable);  // Insert To Orders
+                            
+                            $CART_ITEM_ID = $_SESSION['order_form_item_id'];
+                            $CART_ITEM_QTY = $_SESSION['order_form_item_qty'];
+                            $ITEM_NAME = array();
+                            $ITEM_PRICE = array();
+                            $DELIVERY_STATUS = $_SESSION['DeliveryStatus'];
+                            
+                            
+                            for($i = 0; $i < sizeof($CART_ITEM_ID); $i++)
+                            {
+                                $sqlGetFromItemTrading = "SELECT * FROM items_trading WHERE item_id = $CART_ITEM_ID[$i];";
+                                $resultofInsertToOrderDetails = mysqli_query($dbc,$sqlGetFromItemTrading);
+                                while($rowOfSelect=mysqli_fetch_array($resultofInsertToOrderDetails,MYSQLI_ASSOC))
+                                {
+                                    $ITEM_NAME[] = $rowOfSelect['item_name'];
+                                    $ITEM_PRICE[] = $rowOfSelect['price'];
+                                    
+                                }
+
                                 $sqlInsertToOrderDetails = "INSERT INTO order_details(ordernumber, client_id, item_id, item_name, item_price, item_qty, item_status)
                                 VALUES(
                                     '$CURRENT_OR',
                                     '$CLIENT_ID',
-                                    '',
-                                    '',
-                                    '',
-                                    '',
-                                    '');";
-                                 $resultofInsertToOrderDetails = mysqli_query($dbc,$sqlInsertToOrderDetails);
-                                 if(!$resultofInsertToOrderDetails) 
-                                 {
-                                     die('Error: ' . mysqli_error($dbc));
-                                 } 
-                                 else 
-                                 {
-                                     
-                                     echo '<script language="javascript">';
-                                     echo 'alert("2nd Insert Success");';
-                                     echo '</script>';
-                                    //  header('Location: ViewOrders.php');
-                                 }                                               
-                            }
-
-                            else if($_SESSION['DeliveryStatus'] == "Deliver") //IF ORder is Deliver
-                            {
-                                $clientID = $_POST['clientID'];
-                                $paymentID = $_POST['paymentID'];
-                                $totalAmountFromCart = $_POST['totalPayment'];
-                                $expected_date = $_POST['getExpectedDelivery'];
-                                echo "Session = ", $_SESSION['DeliveryStatus'],"<br>";
-                                $orderstatus = $_SESSION['DeliveryStatus'];
-
-                                $SanitizedAmount = filter_var($totalAmountFromCart,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
-
-                            
-                                echo "Client ID = ", $clientID,"<br>";
-                                echo "Payment ID = ", $paymentID,"<br>";
-                                echo "Total = ", $SanitizedAmount,"<br>";
-                                echo "Current OR = ", $CurrentOR,"<br>";
-                                echo "Expected Deliv Date = ", $expected_date,"<br>";
-
-                                $sqlInsertToOrdersTable = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, expected_date, totalamt, order_status)
-                                VALUES(
-                                    '$CurrentOR',
-                                    '$clientID', 
-                                    Now(), 
-                                    '$paymentID',                                   
-                                    '$expected_date',
-                                    '$SanitizedAmount',
-                                    '$orderstatus');";
-
-                                $resultofInsert = mysqli_query($dbc,$sqlInsertToOrdersTable);
-                                if(!$resultofInsert) 
+                                    '$CART_ITEM_ID[$i]',
+                                    '$ITEM_NAME[$i]',
+                                    '$ITEM_PRICE[$i]',
+                                    '$CART_ITEM_QTY[$i]',
+                                    '$DELIVERY_STATUS');";
+                                $resultofInsertToOrderDetails = mysqli_query($dbc,$sqlInsertToOrderDetails); //Insert To Order DEtails
+                                                                
+                                
+                                $sqlToSubtractFromItemsTrading = "UPDATE items_trading
+                                SET items_trading.item_count  = (item_count - '$CART_ITEM_QTY[$i]'),
+                                last_update = Now() 
+                                WHERE item_id ='$CART_ITEM_ID[$i]';";
+                                $resultOfSubtract=mysqli_query($dbc,$sqlToSubtractFromItemsTrading); //Subtracts From Inventory
+                                if(!$resultOfSubtract) 
                                 {
                                     die('Error: ' . mysqli_error($dbc));
                                 } 
                                 else 
                                 {
-                                    
                                     echo '<script language="javascript">';
-                                    echo 'alert("Order Successful!");';
+                                    echo 'alert("Subtract Successfull");';
                                     echo '</script>';
-                                    header('Location: ViewOrders.php');
-                                }    
-                            }
-                        }
+                                }
+                                
+                            }//End For
+                                
+                        }// END else IF
+                    }//END 1st IF
                        
                            
                             
-                        ?>
-
-                      
+                        ?>                   
                         </div>
                     </div>
                 </div>
@@ -441,7 +471,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" >Is This Order Paid?<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select class="btn btn-default dropdown-toggle" name = "payment_status" id = "payment_status" onchange = "changebuttoncolor()">
+                            <select class="btn btn-default dropdown-toggle" name = "payment_status" id = "payment_status" onchange = "changebuttoncolor()" required="required">
                                 <option value="">Choose..</option>
                                 <option value="Paid"  id = "paidoption">Paid</option>
                                 <option value="Unpaid"  id = "unpaidoption">Unpaid</option>
@@ -455,7 +485,8 @@
                         <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
                         <!--   -->
                         <input id="send" name ="viewOrderButton" type="submit" class="btn btn-success" style="visibility:visible" onclick="doAction()" value ="Submit" required="required"></input>
-                        <input type="button" class="btn btn-primary" id="fabricationpage" style="visibility:hidden"  onclick="nextpageWithFabrication()" value ="Next Step"></input>               
+                        <input type="button" class="btn btn-primary" id="fabricationpage" style="visibility:hidden"  onclick="nextpageWithFabrication()" value ="Next Step"></input> 
+                                  
                       </div>
                     </div>
 
@@ -795,6 +826,7 @@
 
             
         </script>
+
 <script text/javascript> 
 function doAction()
 {
@@ -848,69 +880,99 @@ function nextpageWithFabrication() //Gets all necessary values from current page
                 var days = localStorage.setItem("settotal", total_amount); //Stores total value to get in next page                                    
             }                           
         }                                       
-    });        
+    });
+
+
+     
 }
 function nextpageNOFabrication()
 {                                                                                               
     if(confirm("Submit Order?"))
     {
     
-    alert("Order Successful!")
+        alert("Order Successful!")
     
-                                    
-        window.location.href = "ViewOrders.php";    
+        getAjax();
+        // window.location.href = "ViewOrders.php";    
         
     }
     else
     {
         header('Location: newOrderForm.php');
     } 
+   
 }
                         
                           
-function insertToOrderDetail() //inserts to DB based on the current data in page
-    {      
+// function insertToOrderDetail() //inserts to DB based on the current data in page
+//     {      
+//         $('#cart tr td:nth-child(4)').each(function (e) 
+//         {
+//             var getValue =parseInt($(this).text());
+//             getCartQuantity.push(getValue);                                          
+//         });       
+//         var expected_date =  document.getElementById("expectedDate").value;
+//         var payment_id =  document.getElementById("paymentID").value;
+//         var client_id = document.getElementById("clientID").value;
+//         var current_OR = "<?php// echo $orderNumber; ?>";
+//         var delivery_status = "<?php //echo $_SESSION['DeliveryStatus']; ?>";
+//         var fabrication_status = "<?php // echo $_SESSION['FabricationStatus']?>";
+
+//         console.log(expected_date);
+//         console.log(payment_id);
+//         console.log(client_id);
+        
+//         console.log(delivery_status);
+//         console.log(fabrication_status);
+
+//         request = $.ajax({
+//             url: "ajax/insertToDB.php",
+//             type: "POST",
+//             data: {
+                // post_item_id: item_id_in_cart,
+                // post_item_qty: getCartQuantity,
+//                 post_expected_date: expected_date,
+//                 post_payment_id: payment_id,
+//                 post_client_id: client_id,
+//                 post_order_number: current_OR,
+//                 post_delivery_status: delivery_status,
+//                 post_fab_status: fabrication_status
+//                 },
+//                 success: function(response){
+//                 alert("AJAX SUCCESS");
+//                 }
+            
+//         });
+        
+//     }
+
+</script>
+<script>
+ function getAjax()
+     {
+        var GET_CART_QTY=[];
         $('#cart tr td:nth-child(4)').each(function (e) 
         {
             var getValue =parseInt($(this).text());
-            getCartQuantity.push(getValue);                                          
-        });       
-        var expected_date =  document.getElementById("expectedDate").value;
-        var payment_id =  document.getElementById("paymentID").value;
-        var client_id = document.getElementById("clientID").value;
-        var current_OR = "<?php echo $orderNumber; ?>";
-        var delivery_status = "<?php echo $_SESSION['DeliveryStatus']; ?>";
-        var fabrication_status = "<?php echo $_SESSION['FabricationStatus']?>";
-
-        console.log(expected_date);
-        console.log(payment_id);
-        console.log(client_id);
+            console.log(getValue);
+            GET_CART_QTY.push(getValue);
+        }) //ENd jquery
         
-        console.log(delivery_status);
-        console.log(fabrication_status);
-
         request = $.ajax({
-            url: "ajax/insertToDB.php",
-            type: "POST",
-            data: {
-                post_item_id: item_id_in_cart,
-                post_item_qty: getCartQuantity,
-                post_expected_date: expected_date,
-                post_payment_id: payment_id,
-                post_client_id: client_id,
-                post_order_number: current_OR,
-                post_delivery_status: delivery_status,
-                post_fab_status: fabrication_status
-                },
-                success: function(response){
-                alert("AJAX SUCCESS");
-                }
-            
-        });
+        url: "ajax/JSV_Getter.php",
+        type: "POST",
+        data: {post_item_id: item_id_in_cart,
+            post_item_qty: GET_CART_QTY
+        },
+        success: function(data, textStatus)
+         {
+            $(".result").html(data); 
+            alert("Ajax Gud");   
+            }//End Scucess
         
-    }
-
-
+            }); // End ajax    
+     } //End fun ction
+       
 </script>
 
 <script>

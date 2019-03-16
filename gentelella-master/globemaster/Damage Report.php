@@ -63,7 +63,7 @@
                       <thead>
                         <tr>
                           <th>Reference Item Name</th>
-                          <th>Damage Percetage</th>
+                          <th>Damage Percentage</th>
                           <th>Item Quantity</th>
                           <th>Total Loss</th>
                           <th>Date Occured </th>
