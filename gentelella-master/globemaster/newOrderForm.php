@@ -441,10 +441,10 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" >Is This Order Paid?<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select class="btn btn-success dropdown-toggle">
+                            <select class="btn btn-default dropdown-toggle" name = "payment_status" id = "payment_status" onchange = "changebuttoncolor()">
                                 <option value="">Choose..</option>
-                                <option value="Paid">Paid</option>
-                                <option value="Unpaid">Unpaid</option>
+                                <option value="Paid"  id = "paidoption">Paid</option>
+                                <option value="Unpaid"  id = "unpaidoption">Unpaid</option>
                             </select>
                         </div>
                     </div>
@@ -912,6 +912,45 @@ function insertToOrderDetail() //inserts to DB based on the current data in page
 
 
 </script>
+
+                            <script>
+
+                                var paidoption = document.getElementById("paidoption");
+                                var unpaidoption = document.getElementById("unpaidoption");
+                                var paymentinput = document.getElementById("payment_status");
+
+
+                                function changebuttoncolor()
+                                {
+                                    if((paymentinput.classList.contains('btn','btn-default','dropdown-toggle') || (paymentinput.classList.contains('btn','btn-warning','dropdown-toggle'))) && paymentinput.value == "Paid")
+                                    {
+                                        paymentinput.classList.remove('btn','btn-default','dropdown-toggle');
+                                        paymentinput.classList.remove('btn','btn-warning','dropdown-toggle');
+                                        paymentinput.classList.add('btn','btn-success','dropdown-toggle');
+                                        
+                                        
+                                        // paymentinput.classList.remove("btn.btn-default.dropdown-toggle");
+                                        // paymentinput.classList.remove("btn.btn-warning.dropdown-toggle");
+                                        // paymentinput.classList.add("btn.btn-success.dropdown-toggle");
+                                    }
+                                    else if(paymentinput.classList.contains('btn','btn-default','dropdown-toggle') || (paymentinput.classList.contains('btn','btn-success','dropdown-toggle')))
+                                    {
+                                        paymentinput.classList.remove('btn','btn-default','dropdown-toggle');
+                                        paymentinput.classList.remove('btn','btn-success','dropdown-toggle');
+                                        paymentinput.classList.add('btn','btn-warning','dropdown-toggle');
+                                        
+                                        // paymentinput.classList.remove('btn btn-default dropdown-toggle');
+                                        // paymentinput.classList.remove('btn btn-success dropdown-toggle');
+                                        // paymentinput.classList.add('btn btn-warning dropdown-toggle');
+                                    }
+                                    // else 
+                                    // {
+                                    //     paymentinput.classList.remove('btn btn-warning dropdown-toggle');
+                                    //     paymentinput.classList.remove('btn btn-success dropdown-toggle');
+                                    //     paymentinput.classList.add('btn btn-default dropdown-toggle');
+                                    // }
+                                }
+                            </script>
 
     </body>
 </html>
