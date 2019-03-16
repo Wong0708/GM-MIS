@@ -218,21 +218,21 @@
                             <div class="col-md-6 col-sm-6 col-xs-12" >                                  
                                         <div class="x_panel" >
 
-                                            <center><font color = "#ffb73a"><h3>Discounts</h3></font></center>
+                                            <center><font color = "#eda01c"><h3>Discounts</h3></font></center>
                                             <div class="ln_solid"></div>
 
                                             <div class="form-group">
                                                 <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-1">
-                                                    <button type="button" class="btn btn-round btn-primary" id = "restockbtnE" onclick = "enableRestocking();" style = "display:block"><i class="fa fa-cubes"></i> Enable Discounts</button>
-                                                    <button type="button" class="btn btn-round btn-danger" id = "restockbtnD" onclick = "disableRestocking();" style = "display:none"><i class="fa fa-cubes"></i> Disable Discounts</button>
+                                                    <button type="button" class="btn btn-round btn-primary" id = "discountbtnE" onclick = "enableDiscount();" style = "display:block"><i class="fa fa-tags"></i> Enable Discounts</button>
+                                                    <button type="button" class="btn btn-round btn-danger" id = "discountbtnD" onclick = "disableDiscount();" style = "display:none"><i class="fa fa-tag"></i> Disable Discounts</button>
                                                 </div>
                                             </div>
                                             
                                             <div class="form-group">
                                                 <br>
-                                                <label class="control-label col-md-4 col-sm-4 col-xs-12">Discount Percentage:</label>
+                                                <label class="control-label col-md-4 col-sm-4 col-xs-12">Discount Amount:</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" name ="restockAmount" id = "restockamt" class="form-control" value = "" min = "1" max = "100" placeholder = "%" oninput="validate(this)">
+                                                    <input type="number" name ="discountamt" id = "discountamt" class="form-control" value = "0" min = "1" placeholder= "%">
                                                 </div>
                                             </div>
 
@@ -241,7 +241,7 @@
                                             <div class="form-group">
                                                 <div class="col-md-12 col-sm-12 col-xs-12" align = "center">
                                                 <!--  -->
-                                                    <button type="submit" class="btn btn-success" onclick = "updatestockalert(this)" id = "updatestock" name ="restockBtn" >Update</button>
+                                                    <button type="submit" class="btn btn-success" onclick = "updatediscountalert(this)" id = "updatediscount" name ="discountBtn" >Update</button>
 
                                                       <?php  // UPDATE item stock 
                                                         
@@ -286,10 +286,13 @@
                                 </div> <!--END Xpanel -->
                             </div><!--END Col MD-->
 
-                            
-
                             <div class="clearfix"></div>
-                            <div style = "display:block"> <!--Show/hide div-->
+                            <br>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <button type="button" class="btn btn-round btn-danger" id = "unhideDamageDivbtn" onclick = "unhideDamageDiv();" style = "display:block"><i class="fa fa-eye"></i> Unhide Damaged Item Input</button>
+                                <button type="button" class="btn btn-round btn-dark" id = "hideDamageDivbtn" onclick = "hideDamageDiv();" style = "display:none"><i class="fa fa-eye-slash"></i> Hide Damaged Item Input</button>
+                            </div>
+                            <div style = "display:none" id="damageDiv"><!--  show/hide div-->
                              <div class="col-md-6 col-sm-6 col-xs-12" >
                                    
                                    <div class="x_panel" id ="damageDiv">
@@ -316,7 +319,6 @@
                                        <div class="form-group">
                                            <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-1">
                                                <button type="button" class="btn btn-round btn-warning" id = "addDamage" onclick = "enableDamaged()"><i class="fa fa-plus-circle"></i> Add a Damaged Item</button>
-                                            
                                            </div>
                                        </div>
 
@@ -332,7 +334,7 @@
                                        <div class="form-group">
                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Percentage of Damage</label>
                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                               <input   name ="damagePercent" type="number" id = "percentdmg" class="form-control"  placeholder="Max 100%" max = "100" min = "0" oninput="validate(this)">
+                                               <input   name ="damagePercent" type="number" id = "percentdmg" class="form-control"  placeholder="Max 100%" max = "100" min = "0" >
                                            </div>
                                        </div>
 
@@ -353,9 +355,9 @@
                                        <div class="ln_solid"></div>
 
                                        <div class="form-group" id="UpdateDamageForm" >
-                                           <div class="col-md-12 col-sm-12 col-xs-12" align = "center">
+                                           <div class="col-md-12 col-sm-12 col-xs-12" align = "right">
                                                <button type="submit" class="btn btn-success" id = "updatedmg" name = "UpdateDamage">Update</button>
-                                               <button type="reset" class="btn btn-danger" onclick = "cancelDamaged()" id = "canceldmg">Cancel</button>
+                                               <button type="button" class="btn btn-danger" onclick = "cancelDamaged()" id = "canceldmg">Cancel</button>
 
                                                <script>
                                                     function loginForm() 
@@ -443,7 +445,7 @@
                                         </div><!--END XPanel-->
                                     
                                 </div><!--ENDCol MD-->
-                            </div> <!-- End Show/Hide div-->
+                                </div><!-- End show/hide div-->
 
                                <div class="col-md-12 col-sm-12 col-xs-12" align = "right">
                                         
@@ -705,36 +707,9 @@
     var restockinput = document.getElementById("restockamt"); 
 
     var updatestock = document.getElementById("updatestock"); 
-    var resetstock = document.getElementById("resetstockinput"); 
-
-// damaged section
-
-    var damagedbtn = document.getElementById("addDamage"); 
-
-    var damagedqty = document.getElementById("dmgqty"); 
-    var percentdmg = document.getElementById("percentdmg"); 
-    var priceeach = document.getElementById("priceeach"); 
-    var totalloss = document.getElementById("totalloss"); 
-
-    var updatedamaged = document.getElementById("updatedmg"); 
-    var resetdamaged = document.getElementById("resetdmg"); 
-    var canceldamaged = document.getElementById("canceldmg"); 
-
-    damagedbtn.disabled = false;
 
     restockinput.disabled = true;
     updatestock.disabled = true;
-    resetstock.disabled = true;
-
-
-    damagedqty.disabled = true;
-    percentdmg.disabled = true;
-    priceeach.disabled = true;
-    totalloss.disabled = true;
-
-    updatedamaged.disabled = true;
-    resetdamaged.disabled = true;
-    canceldamaged.disabled = true;
 
     function enableRestocking()
     {
@@ -743,7 +718,6 @@
 
         restockinput.disabled = false;
         updatestock.disabled = false;
-        resetstock.disabled = false;
         
     }
     function disableRestocking()
@@ -753,7 +727,6 @@
 
         restockinput.disabled = true;
         updatestock.disabled = true;
-        resetstock.disabled = true;
 
         var insideval = restockinput.value = "0";
     }
@@ -768,6 +741,30 @@
     {
         alert("Do you want to Continue?");
     }
+</script>
+
+<script>
+    // damaged section
+
+    var damagedbtn = document.getElementById("addDamage"); 
+
+    var damagedqty = document.getElementById("dmgqty"); 
+    var percentdmg = document.getElementById("percentdmg"); 
+    var priceeach = document.getElementById("priceeach"); 
+    var totalloss = document.getElementById("totalloss"); 
+
+    var updatedamaged = document.getElementById("updatedmg");  
+    var canceldamaged = document.getElementById("canceldmg"); 
+
+    damagedbtn.disabled = false;
+
+    damagedqty.disabled = true;
+    percentdmg.disabled = true;
+    priceeach.disabled = true;
+    totalloss.disabled = true;
+
+    updatedamaged.disabled = true;
+    canceldamaged.disabled = true;
 
     function enableDamaged()
     {
@@ -779,7 +776,6 @@
         totalloss.disabled = false;
 
         updatedamaged.disabled = false;
-        resetdamaged.disabled = false;
         canceldamaged.disabled = false;
     }
 
@@ -793,22 +789,81 @@
         totalloss.disabled = true;
 
         updatedamaged.disabled = true;
-        resetdamaged.disabled = true;
         canceldamaged.disabled = true;
     }
 </script>
 
-    <script type="text/javascript">
-      function validate(obj) {
-          obj.value = valBetween(obj.value, obj.min, obj.max); //Gets the value of input alongside with min and max
-          console.log(obj.value);
-      }
 
-      function valBetween(v, min, max) {
-          return (Math.min(max, Math.max(min, v))); //compares the value between the min and max , returns the max when input value > max
-      }
-  </script> <!-- To avoid the users input more than the current Max per item -->
+<script>
+    // discount section
+    var discountbtnE = document.getElementById("discountbtnE");
+    var discountbtnD = document.getElementById("discountbtnD");
+    var discountinput = document.getElementById("discountamt"); 
 
+    var updatediscount = document.getElementById("updatediscount"); 
+
+    discountinput.disabled = true;
+    updatediscount.disabled = true;
+
+    function enableDiscount()
+    {
+        discountbtnE.style.display = "none";
+        discountbtnD.style.display = "block";
+
+        discountinput.disabled = false;
+        updatediscount.disabled = false;
+        
+    }
+    function disableDiscount()
+    {
+        discountbtnE.style.display = "block";
+        discountbtnD.style.display = "none";
+
+        discountinput.disabled = true;
+        updatediscount.disabled = true;
+
+        var insideval1 = discountinput.value = "0";
+    }
+
+    function updatediscountalert()
+    {
+        var insideval1 = discountinput.value;
+        alert("Do you want to add a " + insideval1 + " % discount to this item?");
+
+    }
+</script>
+
+<!-- hide/show damage div script -->
+<script>
+    var damageDiv = document.getElementById("damageDiv");
+    var unhidebtn = document.getElementById("unhideDamageDivbtn");
+    var hidebtn = document.getElementById("hideDamageDivbtn");
+
+    var damagedqty = document.getElementById("dmgqty"); 
+    var percentdmg = document.getElementById("percentdmg"); 
+    var priceeach = document.getElementById("priceeach"); 
+    var totalloss = document.getElementById("totalloss"); 
+
+    function unhideDamageDiv()
+    {
+        damageDiv.style.display = "block";
+        hidebtn.style.display = "block";
+        unhidebtn.style.display = "none";
+        
+    }
+    function hideDamageDiv()
+    {
+        damageDiv.style.display = "none";
+        hidebtn.style.display = "none";
+        unhidebtn.style.display = "block";
+
+        damagedqty.value = "";
+        percentdmg.value = "";
+        priceeach.value = "";
+        totalloss.value = "";
+        
+    }
+</script>
 
 </body>
 
