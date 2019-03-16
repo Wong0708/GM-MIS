@@ -171,7 +171,6 @@
                                                 <div class="col-md-12 col-sm-12 col-xs-12" align = "center">
                                                 <!--  -->
                                                     <button type="submit" class="btn btn-success" onclick = "updatestockalert(this)" id = "updatestock" name ="restockBtn" >Update</button>
-                                                    <button type="reset" class="btn btn-danger" id = "resetstockinput">Reset</button>
 
                                                       <?php  // UPDATE item stock 
                                                         
@@ -216,7 +215,81 @@
                                 </div> <!--END Xpanel -->
                             </div><!--END Col MD-->
 
+                            <div class="col-md-6 col-sm-6 col-xs-12" >                                  
+                                        <div class="x_panel" >
+
+                                            <center><font color = "#ffb73a"><h3>Discounts</h3></font></center>
+                                            <div class="ln_solid"></div>
+
+                                            <div class="form-group">
+                                                <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-1">
+                                                    <button type="button" class="btn btn-round btn-primary" id = "restockbtnE" onclick = "enableRestocking();" style = "display:block"><i class="fa fa-cubes"></i> Enable Discounts</button>
+                                                    <button type="button" class="btn btn-round btn-danger" id = "restockbtnD" onclick = "disableRestocking();" style = "display:none"><i class="fa fa-cubes"></i> Disable Discounts</button>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <br>
+                                                <label class="control-label col-md-4 col-sm-4 col-xs-12">Discount Percentage:</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="number" name ="restockAmount" id = "restockamt" class="form-control" value = "" min = "1" max = "100" placeholder = "%" oninput="validate(this)">
+                                                </div>
+                                            </div>
+
+                                            <div class="ln_solid"></div>
+
+                                            <div class="form-group">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" align = "center">
+                                                <!--  -->
+                                                    <button type="submit" class="btn btn-success" onclick = "updatestockalert(this)" id = "updatestock" name ="restockBtn" >Update</button>
+
+                                                      <?php  // UPDATE item stock 
+                                                        
+                                                        require_once('DataFetchers/mysql_connect.php');
+                                                        if(isset($_GET['restockBtn'], $_GET['restockAmount'])) //checks if both GET have values because the form post is = "GET"                                                    
+                                                        {               
+                                                         
+                                                            $restockCount = $_GET['restockAmount'];
+                                                            
+                                                            $itemIDfromViewInventory = $_SESSION['item_IDfromView'];
+                                                            $sqlInsert = "UPDATE items_trading  
+                                                            SET items_trading.item_count  = (item_count + '$restockCount'),
+                                                            last_restock = Now() 
+                                                            WHERE item_id ='$itemIDfromViewInventory';"; //Updates the item count in DB
+                                                            $result=mysqli_query($dbc,$sqlInsert); 
+                                                            
+                                                            if(!$result) 
+                                                            {
+                                                                die('Error: ' . mysqli_error($dbc));
+                                                            } 
+                                                            else 
+                                                            {
+                                                                echo '<script language="javascript">';
+                                                                echo 'alert("Successful!");';
+                                                                echo '</script>';
+                                                            }
+
+                                                            $itemID =  $_SESSION['item_IDfromView'];
+                                                            $queryToInserttoRestockTable = "INSERT INTO restock_detail (item_id, quantity, restock_date)
+                                                            VALUES ('$itemID','$restockCount',Now())";
+                                                            $result=mysqli_query($dbc,$queryToInserttoRestockTable); 
+
+                                             
+                                                        }                                                     
+                                                    ?>
+
+                                                   
+
+                                            </div> <!-- Col MD -->
+                                        </div> <!-- FormGRP -->
+                                  
+                                </div> <!--END Xpanel -->
+                            </div><!--END Col MD-->
+
+                            
+
                             <div class="clearfix"></div>
+                            <div style = "display:block"> <!--Show/hide div-->
                              <div class="col-md-6 col-sm-6 col-xs-12" >
                                    
                                    <div class="x_panel" id ="damageDiv">
@@ -259,7 +332,7 @@
                                        <div class="form-group">
                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Percentage of Damage</label>
                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                               <input   name ="damagePercent" type="number" id = "percentdmg" class="form-control"  placeholder="Max 100%" max = "100" min = "0" >
+                                               <input   name ="damagePercent" type="number" id = "percentdmg" class="form-control"  placeholder="Max 100%" max = "100" min = "0" oninput="validate(this)">
                                            </div>
                                        </div>
 
@@ -280,9 +353,8 @@
                                        <div class="ln_solid"></div>
 
                                        <div class="form-group" id="UpdateDamageForm" >
-                                           <div class="col-md-12 col-sm-12 col-xs-12" align = "right">
+                                           <div class="col-md-12 col-sm-12 col-xs-12" align = "center">
                                                <button type="submit" class="btn btn-success" id = "updatedmg" name = "UpdateDamage">Update</button>
-                                               <button type="reset" class="btn btn-primary" id = "resetdmg">Reset</button>
                                                <button type="reset" class="btn btn-danger" onclick = "cancelDamaged()" id = "canceldmg">Cancel</button>
 
                                                <script>
@@ -371,6 +443,7 @@
                                         </div><!--END XPanel-->
                                     
                                 </div><!--ENDCol MD-->
+                            </div> <!-- End Show/Hide div-->
 
                                <div class="col-md-12 col-sm-12 col-xs-12" align = "right">
                                         
@@ -724,6 +797,17 @@
         canceldamaged.disabled = true;
     }
 </script>
+
+    <script type="text/javascript">
+      function validate(obj) {
+          obj.value = valBetween(obj.value, obj.min, obj.max); //Gets the value of input alongside with min and max
+          console.log(obj.value);
+      }
+
+      function valBetween(v, min, max) {
+          return (Math.min(max, Math.max(min, v))); //compares the value between the min and max , returns the max when input value > max
+      }
+  </script> <!-- To avoid the users input more than the current Max per item -->
 
 
 </body>
