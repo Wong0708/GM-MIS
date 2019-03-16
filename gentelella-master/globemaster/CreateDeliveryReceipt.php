@@ -168,9 +168,8 @@
                                             <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 263px;">Product</th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Pieces</th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Price per piece</th>
-                                            <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Fabrication Status</th>
-                                            <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Payment Status</th>
-                                        </tr>
+                                            
+                                            </tr>
                                     </thead>
 
 
@@ -495,7 +494,7 @@
                                             echo  "  }"; // end 2nd forloop
                                            
                                             echo  "var newRow = document.getElementById('datatable').insertRow();";
-                                            echo  'newRow.innerHTML = "<tr><td>" +itemNameFromPHP[i]+ "</td> <td>" +quantityNumFromPHP[i]+ "</td> <td>"+PriceNumFromPHP[i]+"</td><td>" +fabricationStatusFromPHP[i]+ "</td><td>" +paymentStatusFromPHP[i]+ "</td></tr>";';
+                                            echo  'newRow.innerHTML = "<tr><td>" +itemNameFromPHP[i]+ "</td> <td>" +quantityNumFromPHP[i]+ "</td> <td>"+PriceNumFromPHP[i]+"</td></tr>";';
                                                                          
                                             echo  "  }"; //End IF
                                           

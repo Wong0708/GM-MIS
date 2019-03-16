@@ -114,7 +114,7 @@
                                     echo $paymentType;
                                     echo '</td>';
                                     echo '<td>';
-                                    echo $row['orderstatus'];
+                                    echo $row['order_status'];
                                     echo '</td>';
                                     echo '</tr>';
                                     

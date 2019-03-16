@@ -218,96 +218,96 @@
 
                         <?php
                         
-                        
+                        // WORK IN PROGESS //
                        
-                        if(isset($_POST['viewOrderButton']))
-                        {
-                            if($_SESSION['DeliveryStatus'] == "PickUp") //IF order is pickup
-                            {
-                                $clientID = $_POST['clientID'];
-                                $paymentID = $_POST['paymentID'];
-                                $totalAmountFromCart = $_POST['totalPayment'];
-                                echo "Session = ", $_SESSION['DeliveryStatus'],"<br>";
-                                $orderstatus = $_SESSION['DeliveryStatus'];
+                        // if(isset($_POST['viewOrderButton']))
+                        // {
+                        //     if($_SESSION['DeliveryStatus'] == "PickUp") //IF order is pickup
+                        //     {
+                        //         $clientID = $_POST['clientID'];
+                        //         $paymentID = $_POST['paymentID'];
+                        //         $totalAmountFromCart = $_POST['totalPayment'];
+                        //         echo "Session = ", $_SESSION['DeliveryStatus'],"<br>";
+                        //         $orderstatus = $_SESSION['DeliveryStatus'];
 
-                                $SanitizedAmount = filter_var($totalAmountFromCart,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+                        //         $SanitizedAmount = filter_var($totalAmountFromCart,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
 
                               
-                                echo "Client ID = ", $clientID,"<br>";
-                                echo "Payment ID = ", $paymentID,"<br>";
-                                echo "Total = ", $SanitizedAmount,"<br>";
-                                echo "Current OR = ", $CurrentOR,"<br>";
-                                    $sqlInsertToOrdersTable = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, totalamt, order_status)
-                                    VALUES(
-                                        '$CurrentOR',  
-                                        '$clientID', 
-                                        Now(), 
-                                        '$paymentID',
-                                        '$SanitizedAmount',
-                                        '$orderstatus');";
+                        //         echo "Client ID = ", $clientID,"<br>";
+                        //         echo "Payment ID = ", $paymentID,"<br>";
+                        //         echo "Total = ", $SanitizedAmount,"<br>";
+                        //         echo "Current OR = ", $CurrentOR,"<br>";
+                        //             $sqlInsertToOrdersTable = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, totalamt, order_status)
+                        //             VALUES(
+                        //                 '$CurrentOR',  
+                        //                 '$clientID', 
+                        //                 Now(), 
+                        //                 '$paymentID',
+                        //                 '$SanitizedAmount',
+                        //                 '$orderstatus');";
     
-                                    $resultofInsert = mysqli_query($dbc,$sqlInsertToOrdersTable);
-                                    if(!$resultofInsert) 
-                                    {
-                                        die('Error: ' . mysqli_error($dbc));
-                                    } 
-                                    else 
-                                    {
+                        //             $resultofInsert = mysqli_query($dbc,$sqlInsertToOrdersTable);
+                        //             if(!$resultofInsert) 
+                        //             {
+                        //                 die('Error: ' . mysqli_error($dbc));
+                        //             } 
+                        //             else 
+                        //             {
                                         
-                                        echo '<script language="javascript">';
-                                        echo 'alert("Order Successful!");';
-                                        echo '</script>';
-                                        header('Location: ViewOrders.php');
-                                    }           
+                        //                 echo '<script language="javascript">';
+                        //                 echo 'alert("Order Successful!");';
+                        //                 echo '</script>';
+                        //                 header('Location: ViewOrders.php');
+                        //             }           
                                 
                                     
 
                               
-                            }
+                        //     }
 
-                            else if($_SESSION['DeliveryStatus'] == "Deliver") //IF ORder is Deliver
-                            {
-                                $clientID = $_POST['clientID'];
-                                $paymentID = $_POST['paymentID'];
-                                $totalAmountFromCart = $_POST['totalPayment'];
-                                $expected_date = $_POST['getExpectedDelivery'];
-                                echo "Session = ", $_SESSION['DeliveryStatus'],"<br>";
-                                $orderstatus = $_SESSION['DeliveryStatus'];
+                        //     else if($_SESSION['DeliveryStatus'] == "Deliver") //IF ORder is Deliver
+                        //     {
+                        //         $clientID = $_POST['clientID'];
+                        //         $paymentID = $_POST['paymentID'];
+                        //         $totalAmountFromCart = $_POST['totalPayment'];
+                        //         $expected_date = $_POST['getExpectedDelivery'];
+                        //         echo "Session = ", $_SESSION['DeliveryStatus'],"<br>";
+                        //         $orderstatus = $_SESSION['DeliveryStatus'];
 
-                                $SanitizedAmount = filter_var($totalAmountFromCart,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+                        //         $SanitizedAmount = filter_var($totalAmountFromCart,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
 
                             
-                                echo "Client ID = ", $clientID,"<br>";
-                                echo "Payment ID = ", $paymentID,"<br>";
-                                echo "Total = ", $SanitizedAmount,"<br>";
-                                echo "Current OR = ", $CurrentOR,"<br>";
-                                echo "Expected Deliv Date = ", $expected_date,"<br>";
+                        //         echo "Client ID = ", $clientID,"<br>";
+                        //         echo "Payment ID = ", $paymentID,"<br>";
+                        //         echo "Total = ", $SanitizedAmount,"<br>";
+                        //         echo "Current OR = ", $CurrentOR,"<br>";
+                        //         echo "Expected Deliv Date = ", $expected_date,"<br>";
 
-                                $sqlInsertToOrdersTable = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, expected_date, totalamt, order_status)
-                                VALUES(
-                                    '$CurrentOR',
-                                    '$clientID', 
-                                    Now(), 
-                                    '$paymentID',                                   
-                                    '$expected_date',
-                                    '$SanitizedAmount',
-                                    '$orderstatus');";
+                        //         $sqlInsertToOrdersTable = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, expected_date, totalamt, order_status)
+                        //         VALUES(
+                        //             '$CurrentOR',
+                        //             '$clientID', 
+                        //             Now(), 
+                        //             '$paymentID',                                   
+                        //             '$expected_date',
+                        //             '$SanitizedAmount',
+                        //             '$orderstatus');";
 
-                                $resultofInsert = mysqli_query($dbc,$sqlInsertToOrdersTable);
-                                if(!$resultofInsert) 
-                                {
-                                    die('Error: ' . mysqli_error($dbc));
-                                } 
-                                else 
-                                {
+                        //         $resultofInsert = mysqli_query($dbc,$sqlInsertToOrdersTable);
+                        //         if(!$resultofInsert) 
+                        //         {
+                        //             die('Error: ' . mysqli_error($dbc));
+                        //         } 
+                        //         else 
+                        //         {
                                     
-                                    echo '<script language="javascript">';
-                                    echo 'alert("Order Successful!");';
-                                    echo '</script>';
-                                    header('Location: ViewOrders.php');
-                                }    
-                            }
-                        }
+                        //             echo '<script language="javascript">';
+                        //             echo 'alert("Order Successful!");';
+                        //             echo '</script>';
+                        //             header('Location: ViewOrders.php');
+                        //         }    
+                        //     }
+                        // }
                        
                            
                             
@@ -414,13 +414,8 @@
                       <div class="col-md-6 col-md-offset-3">
                         <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
                         <!--   -->
-                        <input id="send" name ="viewOrderButton" type="submit" class="btn btn-success" style="visibility:visible" onclick="doAction()" value ="Submit"></input>
-                        <input type="button" class="btn btn-primary" id="fabricationpage" style="visibility:hidden"  onclick="nextpageWithFabrication()" value ="Next Step"></input>
-
-                       
-                        
-                       
-                        
+                        <input id="send" name ="viewOrderButton" type="submit" class="btn btn-success" style="visibility:visible" onclick="doAction()" value ="Submit" required="required"></input>
+                        <input type="button" class="btn btn-primary" id="fabricationpage" style="visibility:hidden"  onclick="nextpageWithFabrication()" value ="Next Step"></input>               
                       </div>
                     </div>
 
@@ -434,18 +429,18 @@
             <br>
             <br>
             <!-- End Order2 Modal -->
-                                                </div>
+                                        </div>
+                                    </div>
+                                                </form>
                                             </div>
-                                                        </form>
-                                                    </div>
 
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
               </div>
             </div>
           </div>
