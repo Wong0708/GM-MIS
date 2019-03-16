@@ -933,7 +933,7 @@ function insertToOrderDetail() //inserts to DB based on the current data in page
                                         // paymentinput.classList.remove("btn.btn-warning.dropdown-toggle");
                                         // paymentinput.classList.add("btn.btn-success.dropdown-toggle");
                                     }
-                                    else if(paymentinput.classList.contains('btn','btn-default','dropdown-toggle') || (paymentinput.classList.contains('btn','btn-success','dropdown-toggle')))
+                                    else if((paymentinput.classList.contains('btn','btn-default','dropdown-toggle') || (paymentinput.classList.contains('btn','btn-success','dropdown-toggle'))) && paymentinput.value == "Unpaid")
                                     {
                                         paymentinput.classList.remove('btn','btn-default','dropdown-toggle');
                                         paymentinput.classList.remove('btn','btn-success','dropdown-toggle');
@@ -943,12 +943,12 @@ function insertToOrderDetail() //inserts to DB based on the current data in page
                                         // paymentinput.classList.remove('btn btn-success dropdown-toggle');
                                         // paymentinput.classList.add('btn btn-warning dropdown-toggle');
                                     }
-                                    // else 
-                                    // {
-                                    //     paymentinput.classList.remove('btn btn-warning dropdown-toggle');
-                                    //     paymentinput.classList.remove('btn btn-success dropdown-toggle');
-                                    //     paymentinput.classList.add('btn btn-default dropdown-toggle');
-                                    // }
+                                    else 
+                                    {
+                                        paymentinput.classList.remove('btn','btn-warning','dropdown-toggle');
+                                        paymentinput.classList.remove('btn','btn-success','dropdown-toggle');
+                                        paymentinput.classList.add('btn','btn-default','dropdown-toggle');
+                                    }
                                 }
                             </script>
 
