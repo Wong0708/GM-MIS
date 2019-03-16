@@ -721,6 +721,7 @@
                     { //To test data
                         
                     }
+                    async: false
                 });
 
             }
@@ -743,6 +744,7 @@
                     $(".result").html(data); 
                     console.log("success");   
                     }
+                    async: false
                 });
 
             }
@@ -766,6 +768,7 @@
                     $(".result").html(data); 
 
                     }
+                    async: false
                 });
             }
             function toggleFabrication1()
@@ -786,128 +789,129 @@
                     success: function(data, textStatus) {
                     $(".result").html(data);    
                     }
+                    async: false
                 });
             }
 
             
         </script>
-         <script text/javascript> 
-                        function doAction()
-                        {
-                            nextpageNOFabrication();
-                            insertToOrderDetail();
-                            
-                        }
-                        function checkCart()
-                        {
-                            $(document).ready(function() 
-                            {
-                                if($('#cart tr').length == 2) 
-                                {
-                                    alert("WARNING: No Item(s) in Cart!"); 
-                                    console.log("Table Length = " +$('#cart').length );
-                                    $('#finalizeOrder').modal('toggle'); //Toggles the Modal to prevent No item in Cart [FOR NOW]
-                                   
-                                }
-                                else
-                                {
-                                    // alert("OK!"); 
-                                    console.log("TR Length = " +$('#cart tr').length );
-                                }
-                            });
-                        }
+<script text/javascript> 
+function doAction()
+{
+    nextpageNOFabrication();
+    insertToOrderDetail();
+    
+}
+function checkCart()
+{
+    $(document).ready(function() 
+    {
+        if($('#cart tr').length == 2) 
+        {
+            alert("WARNING: No Item(s) in Cart!"); 
+            console.log("Table Length = " +$('#cart').length );
+            $('#finalizeOrder').modal('toggle'); //Toggles the Modal to prevent No item in Cart [FOR NOW]
+            
+        }
+        else
+        {
+            // alert("OK!"); 
+            console.log("TR Length = " +$('#cart tr').length );
+        }
+    });
+}
 
-                        var getCartQuantity = [];
-                        
-                          function nextpageWithFabrication() //Gets all necessary values from current page to give to next Page
-                            {
-                                var expected_date =  document.getElementById("expectedDate").value;
-                                var payment_id =  document.getElementById("paymentID").value;
-                                var client_id = document.getElementById("clientID").value;
-                                var total_amount = document.getElementById("payment").value;
-                                var CurrentOrderDate = new Date().toJSON().slice(0,10);
+var getCartQuantity = [];
 
-                                $('#cart tr td:nth-child(4)').each(function (e) 
-                                {
-                                    if($(this).length==null) //WIP : Alert not Showing WTF?
-                                    {
-                                        alert("No Orders in Cart!");
-                                    }
-                                    else
-                                    {                                            
-                                        if(confirm("Submit Order?")) //ALert IS Showing
-                                        {
-                                            var getValue =parseInt($(this).text());
-                                            getCartQuantity.push(getValue);
-                                            alert(getCartQuantity);
-                                            window.location.href = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?>&deliver_date="+ expected_date +"&pay_id="+ payment_id +"&client_id="+ client_id +"&cart_item_id="+ item_id_in_cart +"&cart_qty_per_item="+ getCartQuantity +"&total_amount="+ total_amount +"&order_date="+ CurrentOrderDate +"  ";  
-                                            var days = localStorage.setItem("settotal", total_amount); //Stores total value to get in next page                                    
-                                        }                           
-                                    }                                       
-                                });        
-                            }
-                            function nextpageNOFabrication()
-                            {                                                                                               
-                                if(confirm("Submit Order?"))
-                                {
-                                
-                                alert("Order Successful!")
-                                
-                                                                
-                                    window.location.href = "ViewOrders.php";    
+function nextpageWithFabrication() //Gets all necessary values from current page to give to next Page
+{
+    var expected_date =  document.getElementById("expectedDate").value;
+    var payment_id =  document.getElementById("paymentID").value;
+    var client_id = document.getElementById("clientID").value;
+    var total_amount = document.getElementById("payment").value;
+    var CurrentOrderDate = new Date().toJSON().slice(0,10);
+
+    $('#cart tr td:nth-child(4)').each(function (e) 
+    {
+        if($(this).length==null) //WIP : Alert not Showing WTF?
+        {
+            alert("No Orders in Cart!");
+        }
+        else
+        {                                            
+            if(confirm("Submit Order?")) //ALert IS Showing
+            {
+                var getValue =parseInt($(this).text());
+                getCartQuantity.push(getValue);
+                alert(getCartQuantity);
+                window.location.href = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?>&deliver_date="+ expected_date +"&pay_id="+ payment_id +"&client_id="+ client_id +"&cart_item_id="+ item_id_in_cart +"&cart_qty_per_item="+ getCartQuantity +"&total_amount="+ total_amount +"&order_date="+ CurrentOrderDate +"  ";  
+                var days = localStorage.setItem("settotal", total_amount); //Stores total value to get in next page                                    
+            }                           
+        }                                       
+    });        
+}
+function nextpageNOFabrication()
+{                                                                                               
+    if(confirm("Submit Order?"))
+    {
+    
+    alert("Order Successful!")
+    
                                     
-                                }
-                                else
-                                {
-                                    header('Location: newOrderForm.php');
-                                } 
-                            }
+        window.location.href = "ViewOrders.php";    
+        
+    }
+    else
+    {
+        header('Location: newOrderForm.php');
+    } 
+}
                         
                           
-                            function insertToOrderDetail() //inserts to DB based on the current data in page
-                                {      
-                                    $('#cart tr td:nth-child(4)').each(function (e) 
-                                    {
-                                        var getValue =parseInt($(this).text());
-                                        getCartQuantity.push(getValue);                                          
-                                    });       
-                                    var expected_date =  document.getElementById("expectedDate").value;
-                                    var payment_id =  document.getElementById("paymentID").value;
-                                    var client_id = document.getElementById("clientID").value;
-                                    var current_OR = "<?php echo $orderNumber; ?>";
-                                    var delivery_status = "<?php echo $_SESSION['DeliveryStatus']; ?>";
-                                    var fabrication_status = "<?php echo $_SESSION['FabricationStatus']?>";
+function insertToOrderDetail() //inserts to DB based on the current data in page
+    {      
+        $('#cart tr td:nth-child(4)').each(function (e) 
+        {
+            var getValue =parseInt($(this).text());
+            getCartQuantity.push(getValue);                                          
+        });       
+        var expected_date =  document.getElementById("expectedDate").value;
+        var payment_id =  document.getElementById("paymentID").value;
+        var client_id = document.getElementById("clientID").value;
+        var current_OR = "<?php echo $orderNumber; ?>";
+        var delivery_status = "<?php echo $_SESSION['DeliveryStatus']; ?>";
+        var fabrication_status = "<?php echo $_SESSION['FabricationStatus']?>";
 
-                                    console.log(expected_date);
-                                    console.log(payment_id);
-                                    console.log(client_id);
-                                   
-                                    console.log(delivery_status);
-                                    console.log(fabrication_status);
+        console.log(expected_date);
+        console.log(payment_id);
+        console.log(client_id);
+        
+        console.log(delivery_status);
+        console.log(fabrication_status);
 
-                                    request = $.ajax({
-                                        url: "ajax/insertToDB.php",
-                                        type: "POST",
-                                        data: {
-                                            post_item_id: item_id_in_cart,
-                                            post_item_qty: getCartQuantity,
-                                            post_expected_date: expected_date,
-                                            post_payment_id: payment_id,
-                                            post_client_id: client_id,
-                                            post_order_number: current_OR,
-                                            post_delivery_status: delivery_status,
-                                            post_fab_status: fabrication_status
-                                            },
-                                            success: function(response){
-                                            console.log("success");
-                                            }
-                                        
-                                    });
-                                    
-                                }
+        request = $.ajax({
+            url: "ajax/insertToDB.php",
+            type: "POST",
+            data: {
+                post_item_id: item_id_in_cart,
+                post_item_qty: getCartQuantity,
+                post_expected_date: expected_date,
+                post_payment_id: payment_id,
+                post_client_id: client_id,
+                post_order_number: current_OR,
+                post_delivery_status: delivery_status,
+                post_fab_status: fabrication_status
+                },
+                success: function(response){
+                alert("AJAX SUCCESS");
+                }
+            
+        });
+        
+    }
 
-                         
-                            </script>
+
+</script>
 
     </body>
 </html>
