@@ -84,13 +84,13 @@
                             echo $row['item_name'];
                             echo '</td>';
                             echo '<td>';
-                            echo $row['damage_percentage'];
+                            echo $row['damage_percentage'],"%";
                             echo '</td>';
                             echo '<td>';
                             echo $row['item_quantity'];
                             echo '</td>';
                             echo '<td>';
-                            echo $row['total_loss'];
+                            echo "₱ ", $row['total_loss'];
                             echo '</td>';
                             echo '<td>';
                             echo $row['last_update'];
