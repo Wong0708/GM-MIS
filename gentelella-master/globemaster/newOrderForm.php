@@ -220,94 +220,94 @@
                         
                         
                        
-                        // if(isset($_POST['viewOrderButton']))
-                        // {
-                        //     if($_SESSION['DeliveryStatus'] == "PickUp") //IF order is pickup
-                        //     {
-                        //         $clientID = $_POST['clientID'];
-                        //         $paymentID = $_POST['paymentID'];
-                        //         $totalAmountFromCart = $_POST['totalPayment'];
-                        //         echo "Session = ", $_SESSION['DeliveryStatus'],"<br>";
-                        //         $orderstatus = $_SESSION['DeliveryStatus'];
+                        if(isset($_POST['viewOrderButton']))
+                        {
+                            if($_SESSION['DeliveryStatus'] == "PickUp") //IF order is pickup
+                            {
+                                $clientID = $_POST['clientID'];
+                                $paymentID = $_POST['paymentID'];
+                                $totalAmountFromCart = $_POST['totalPayment'];
+                                echo "Session = ", $_SESSION['DeliveryStatus'],"<br>";
+                                $orderstatus = $_SESSION['DeliveryStatus'];
 
-                        //         $SanitizedAmount = filter_var($totalAmountFromCart,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+                                $SanitizedAmount = filter_var($totalAmountFromCart,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
 
                               
-                        //         echo "Client ID = ", $clientID,"<br>";
-                        //         echo "Payment ID = ", $paymentID,"<br>";
-                        //         echo "Total = ", $SanitizedAmount,"<br>";
-                        //         echo "Current OR = ", $CurrentOR,"<br>";
-                        //             $sqlInsertToOrdersTable = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, totalamt, order_status)
-                        //             VALUES(
-                        //                 '$CurrentOR',  
-                        //                 '$clientID', 
-                        //                 Now(), 
-                        //                 '$paymentID',
-                        //                 '$SanitizedAmount',
-                        //                 '$orderstatus');";
+                                echo "Client ID = ", $clientID,"<br>";
+                                echo "Payment ID = ", $paymentID,"<br>";
+                                echo "Total = ", $SanitizedAmount,"<br>";
+                                echo "Current OR = ", $CurrentOR,"<br>";
+                                    $sqlInsertToOrdersTable = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, totalamt, order_status)
+                                    VALUES(
+                                        '$CurrentOR',  
+                                        '$clientID', 
+                                        Now(), 
+                                        '$paymentID',
+                                        '$SanitizedAmount',
+                                        '$orderstatus');";
     
-                        //             $resultofInsert = mysqli_query($dbc,$sqlInsertToOrdersTable);
-                        //             if(!$resultofInsert) 
-                        //             {
-                        //                 die('Error: ' . mysqli_error($dbc));
-                        //             } 
-                        //             else 
-                        //             {
+                                    $resultofInsert = mysqli_query($dbc,$sqlInsertToOrdersTable);
+                                    if(!$resultofInsert) 
+                                    {
+                                        die('Error: ' . mysqli_error($dbc));
+                                    } 
+                                    else 
+                                    {
                                         
-                        //                 echo '<script language="javascript">';
-                        //                 echo 'alert("Order Successful!");';
-                        //                 echo '</script>';
-                        //                 // header('Location: ViewOrders.php');
-                        //             }           
+                                        echo '<script language="javascript">';
+                                        echo 'alert("Order Successful!");';
+                                        echo '</script>';
+                                        header('Location: ViewOrders.php');
+                                    }           
                                 
                                     
 
                               
-                        //     }
+                            }
 
-                        //     else if($_SESSION['DeliveryStatus'] == "Deliver") //IF ORder is Deliver
-                        //     {
-                        //         $clientID = $_POST['clientID'];
-                        //         $paymentID = $_POST['paymentID'];
-                        //         $totalAmountFromCart = $_POST['totalPayment'];
-                        //         $expected_date = $_POST['getExpectedDelivery'];
-                        //         echo "Session = ", $_SESSION['DeliveryStatus'],"<br>";
-                        //         $orderstatus = $_SESSION['DeliveryStatus'];
+                            else if($_SESSION['DeliveryStatus'] == "Deliver") //IF ORder is Deliver
+                            {
+                                $clientID = $_POST['clientID'];
+                                $paymentID = $_POST['paymentID'];
+                                $totalAmountFromCart = $_POST['totalPayment'];
+                                $expected_date = $_POST['getExpectedDelivery'];
+                                echo "Session = ", $_SESSION['DeliveryStatus'],"<br>";
+                                $orderstatus = $_SESSION['DeliveryStatus'];
 
-                        //         $SanitizedAmount = filter_var($totalAmountFromCart,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+                                $SanitizedAmount = filter_var($totalAmountFromCart,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
 
                             
-                        //         echo "Client ID = ", $clientID,"<br>";
-                        //         echo "Payment ID = ", $paymentID,"<br>";
-                        //         echo "Total = ", $SanitizedAmount,"<br>";
-                        //         echo "Current OR = ", $CurrentOR,"<br>";
-                        //         echo "Expected Deliv Date = ", $expected_date,"<br>";
+                                echo "Client ID = ", $clientID,"<br>";
+                                echo "Payment ID = ", $paymentID,"<br>";
+                                echo "Total = ", $SanitizedAmount,"<br>";
+                                echo "Current OR = ", $CurrentOR,"<br>";
+                                echo "Expected Deliv Date = ", $expected_date,"<br>";
 
-                        //         $sqlInsertToOrdersTable = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, expected_date, totalamt, order_status)
-                        //         VALUES(
-                        //             '$CurrentOR',
-                        //             '$clientID', 
-                        //             Now(), 
-                        //             '$paymentID',                                   
-                        //             '$expected_date',
-                        //             '$SanitizedAmount',
-                        //             '$orderstatus');";
+                                $sqlInsertToOrdersTable = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, expected_date, totalamt, order_status)
+                                VALUES(
+                                    '$CurrentOR',
+                                    '$clientID', 
+                                    Now(), 
+                                    '$paymentID',                                   
+                                    '$expected_date',
+                                    '$SanitizedAmount',
+                                    '$orderstatus');";
 
-                        //         $resultofInsert = mysqli_query($dbc,$sqlInsertToOrdersTable);
-                        //         if(!$resultofInsert) 
-                        //         {
-                        //             die('Error: ' . mysqli_error($dbc));
-                        //         } 
-                        //         else 
-                        //         {
+                                $resultofInsert = mysqli_query($dbc,$sqlInsertToOrdersTable);
+                                if(!$resultofInsert) 
+                                {
+                                    die('Error: ' . mysqli_error($dbc));
+                                } 
+                                else 
+                                {
                                     
-                        //             echo '<script language="javascript">';
-                        //             echo 'alert("Order Successful!");';
-                        //             echo '</script>';
-                        //             // header('Location: ViewOrders.php');
-                        //         }    
-                        //     }
-                        // }
+                                    echo '<script language="javascript">';
+                                    echo 'alert("Order Successful!");';
+                                    echo '</script>';
+                                    header('Location: ViewOrders.php');
+                                }    
+                            }
+                        }
                        
                            
                             
@@ -414,118 +414,12 @@
                       <div class="col-md-6 col-md-offset-3">
                         <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
                         <!--   -->
-                        <input id="send" name ="viewOrderButton" type="button" class="btn btn-success" style="visibility:visible" onclick="insertToOrderDetail()" value ="Submit"></input>
+                        <input id="send" name ="viewOrderButton" type="submit" class="btn btn-success" style="visibility:visible" onclick="doAction()" value ="Submit"></input>
                         <input type="button" class="btn btn-primary" id="fabricationpage" style="visibility:hidden"  onclick="nextpageWithFabrication()" value ="Next Step"></input>
 
                        
                         
-                        <script text/javascript> 
-                        function checkCart()
-                        {
-                            $(document).ready(function() 
-                            {
-                                if($('#cart tr').length == 2) 
-                                {
-                                    alert("WARNING: No Item(s) in Cart!"); 
-                                    console.log("Table Length = " +$('#cart').length );
-                                    $('#finalizeOrder').modal('toggle'); //Toggles the Modal to prevent No item in Cart [FOR NOW]
-                                   
-                                }
-                                else
-                                {
-                                    // alert("OK!"); 
-                                    console.log("TR Length = " +$('#cart tr').length );
-                                }
-                            });
-                        }
-
-                        var getCartQuantity = [];
-                        
-                          function nextpageWithFabrication() //Gets all necessary values from current page to give to next Page
-                            {
-                                var expected_date =  document.getElementById("expectedDate").value;
-                                var payment_id =  document.getElementById("paymentID").value;
-                                var client_id = document.getElementById("clientID").value;
-                                $('#cart tr td:nth-child(4)').each(function (e) 
-                                {
-                                    if($(this).length==null) //WIP : Alert not Showing WTF?
-                                    {
-                                        alert("No Orders in Cart!");
-                                    }
-                                    else
-                                    {                                            
-                                        if(confirm("Submit Order?")) //ALert IS Showing
-                                        {
-                                            var getValue =parseInt($(this).text());
-                                            getCartQuantity.push(getValue);
-                                            alert(getCartQuantity);
-                                            window.location.href = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?>&deliver_date="+ expected_date +"&pay_id="+ payment_id +"&client_id="+ client_id +"&cart_item_id="+ item_id_in_cart +"&cart_qty_per_item="+ getCartQuantity +" ";                                       
-                                        }                           
-                                    }                                       
-                                });        
-                            }
-                            function nextpageNOFabrication()
-                            {                                                                                               
-                                if(confirm("Submit Order?"))
-                                {
-                                
-                                alert("Order Successful!")
-                                
-                                                                
-                                    // window.location.href = "ViewOrders.php";    
-                                    
-                                }
-                                else
-                                {
-                                    // header('Location: newOrderForm.php');
-                                } 
-                            }
-                        
-                          
-                            function insertToOrderDetail() //inserts to DB based on the current data in page
-                                {      
-                                    $('#cart tr td:nth-child(4)').each(function (e) 
-                                    {
-                                        var getValue =parseInt($(this).text());
-                                        getCartQuantity.push(getValue);                                          
-                                    });       
-                                    var expected_date =  document.getElementById("expectedDate").value;
-                                    var payment_id =  document.getElementById("paymentID").value;
-                                    var client_id = document.getElementById("clientID").value;
-                                    var current_OR = "<?php echo $orderNumber; ?>";
-                                    var delivery_status = "<?php echo $_SESSION['DeliveryStatus']; ?>";
-                                    var fabrication_status = "<?php echo $_SESSION['FabricationStatus']?>";
-
-                                    console.log(expected_date);
-                                    console.log(payment_id);
-                                    console.log(client_id);
-                                   
-                                    console.log(delivery_status);
-                                    console.log(fabrication_status);
-
-                                    request = $.ajax({
-                                        url: "ajax/insertToDB.php",
-                                        type: "POST",
-                                        data: {
-                                            post_item_id: item_id_in_cart,
-                                            post_item_qty: getCartQuantity,
-                                            post_expected_date: expected_date,
-                                            post_payment_id: payment_id,
-                                            post_client_id: client_id,
-                                            post_order_number: current_OR,
-                                            post_delivery_status: delivery_status,
-                                            post_fab_status: fabrication_status
-                                            },
-                                            success: function(response){
-                                            console.log("success");
-                                            }
-                                        
-                                    });
-                                    
-                                }
-
-                         
-                            </script>
+                       
                         
                       </div>
                     </div>
@@ -788,26 +682,12 @@
                     url: "ajax/setpickup.php",
                     type: "POST",
                     data: {deltype: deltype}, //{Variable name, variable value}
-                    success: function(data, textStatus) { //To test data
-                    $(".result").html(data);
-                    console.log("success"); 
+                    success: function(data, textStatus) 
+                    { //To test data
+                        
                     }
                 });
 
-                // // callback handler that will be called on success
-                // request.done(function (response, textStatus, jqXHR){
-                //     // log a message to the console
-                //     console.log("Hooray, it worked!");
-                // });
-
-                // // callback handler that will be called on failure
-                // request.fail(function (jqXHR, textStatus, errorThrown){
-                //     // log the error to the console
-                //     console.error(
-                //         "The following error occured: "+
-                //         textStatus, errorThrown
-                //     );
-                // });
             }
 
             function toggleDeliveryDate1()
@@ -830,20 +710,6 @@
                     }
                 });
 
-                // callback handler that will be called on success
-                // request.done(function (response, textStatus, jqXHR){
-                //     // log a message to the console
-                //     console.log("Hooray, it worked!");
-                // });
-
-                // // callback handler that will be called on failure
-                // request.fail(function (jqXHR, textStatus, errorThrown){
-                //     // log the error to the console
-                //     console.error(
-                //         "The following error occured: "+
-                //         textStatus, errorThrown
-                //     );
-                // });
             }
 
             function toggleFabrication()
@@ -862,7 +728,8 @@
                     type: "POST",
                     data: {fabtype: fabtype},
                     success: function(data, textStatus) {
-                    $(".result").html(data);    
+                    $(".result").html(data); 
+
                     }
                 });
             }
@@ -889,6 +756,123 @@
 
             
         </script>
+         <script text/javascript> 
+                        function doAction()
+                        {
+                            nextpageNOFabrication();
+                            insertToOrderDetail();
+                            
+                        }
+                        function checkCart()
+                        {
+                            $(document).ready(function() 
+                            {
+                                if($('#cart tr').length == 2) 
+                                {
+                                    alert("WARNING: No Item(s) in Cart!"); 
+                                    console.log("Table Length = " +$('#cart').length );
+                                    $('#finalizeOrder').modal('toggle'); //Toggles the Modal to prevent No item in Cart [FOR NOW]
+                                   
+                                }
+                                else
+                                {
+                                    // alert("OK!"); 
+                                    console.log("TR Length = " +$('#cart tr').length );
+                                }
+                            });
+                        }
+
+                        var getCartQuantity = [];
+                        
+                          function nextpageWithFabrication() //Gets all necessary values from current page to give to next Page
+                            {
+                                var expected_date =  document.getElementById("expectedDate").value;
+                                var payment_id =  document.getElementById("paymentID").value;
+                                var client_id = document.getElementById("clientID").value;
+                                var total_amount = document.getElementById("payment").value;
+                                var CurrentOrderDate = new Date().toJSON().slice(0,10);
+
+                                $('#cart tr td:nth-child(4)').each(function (e) 
+                                {
+                                    if($(this).length==null) //WIP : Alert not Showing WTF?
+                                    {
+                                        alert("No Orders in Cart!");
+                                    }
+                                    else
+                                    {                                            
+                                        if(confirm("Submit Order?")) //ALert IS Showing
+                                        {
+                                            var getValue =parseInt($(this).text());
+                                            getCartQuantity.push(getValue);
+                                            alert(getCartQuantity);
+                                            window.location.href = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?>&deliver_date="+ expected_date +"&pay_id="+ payment_id +"&client_id="+ client_id +"&cart_item_id="+ item_id_in_cart +"&cart_qty_per_item="+ getCartQuantity +"&total_amount="+ total_amount +"&order_date="+ CurrentOrderDate +"  ";  
+                                            var days = localStorage.setItem("settotal", total_amount); //Stores total value to get in next page                                    
+                                        }                           
+                                    }                                       
+                                });        
+                            }
+                            function nextpageNOFabrication()
+                            {                                                                                               
+                                if(confirm("Submit Order?"))
+                                {
+                                
+                                alert("Order Successful!")
+                                
+                                                                
+                                    window.location.href = "ViewOrders.php";    
+                                    
+                                }
+                                else
+                                {
+                                    header('Location: newOrderForm.php');
+                                } 
+                            }
+                        
+                          
+                            function insertToOrderDetail() //inserts to DB based on the current data in page
+                                {      
+                                    $('#cart tr td:nth-child(4)').each(function (e) 
+                                    {
+                                        var getValue =parseInt($(this).text());
+                                        getCartQuantity.push(getValue);                                          
+                                    });       
+                                    var expected_date =  document.getElementById("expectedDate").value;
+                                    var payment_id =  document.getElementById("paymentID").value;
+                                    var client_id = document.getElementById("clientID").value;
+                                    var current_OR = "<?php echo $orderNumber; ?>";
+                                    var delivery_status = "<?php echo $_SESSION['DeliveryStatus']; ?>";
+                                    var fabrication_status = "<?php echo $_SESSION['FabricationStatus']?>";
+
+                                    console.log(expected_date);
+                                    console.log(payment_id);
+                                    console.log(client_id);
+                                   
+                                    console.log(delivery_status);
+                                    console.log(fabrication_status);
+
+                                    request = $.ajax({
+                                        url: "ajax/insertToDB.php",
+                                        type: "POST",
+                                        data: {
+                                            post_item_id: item_id_in_cart,
+                                            post_item_qty: getCartQuantity,
+                                            post_expected_date: expected_date,
+                                            post_payment_id: payment_id,
+                                            post_client_id: client_id,
+                                            post_order_number: current_OR,
+                                            post_delivery_status: delivery_status,
+                                            post_fab_status: fabrication_status
+                                            },
+                                            success: function(response){
+                                            console.log("success");
+                                            }
+                                        
+                                    });
+                                    
+                                }
+
+                         
+                            </script>
 
     </body>
 </html>

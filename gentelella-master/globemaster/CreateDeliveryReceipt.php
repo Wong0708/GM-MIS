@@ -429,7 +429,8 @@
                                         $itemName[] = $row['item_name'];
                                         $quantity[] = $row['item_qty'];
                                         $pricePerItem[] = $row['item_price'];
-                                        $totalPrice[] = $row['item_qty'] * $row['item_price'];
+                                        // $totalPrice[] = $row['item_qty'] * $row['item_price'];
+                                        $totalPrice[] = $row['totalamt'];
 
                                         $fabricationStatus[] = $row['fabrication_status'];
                                         $paymentStatus[] = $row['payment_status'];

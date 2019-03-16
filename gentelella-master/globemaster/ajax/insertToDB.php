@@ -24,6 +24,8 @@
             echo "Item Quantity = ",$itemQtyArray[$i],"<br>";
         }
          echo "Item ID = ",$itemIDArray[$i],"<br>";
+        
+
         $sqlInsertToOrderDetail = "INSERT INTO order_details (ordernumber, client_id, item_id, item_name, item_price, item_qty, item_status, fabrication_status, payment_status)
         VALUES(
             '$CurrentOR', 
@@ -45,6 +47,9 @@
     echo $_POST['post_order_number'],"<br>";
     echo $_POST['post_delivery_status'],"<br>";
     echo $_POST['post_fab_status'],"<br>";
-    
+
+    echo $_POST['delivery_status'],"<br>";
+
+   
     
 ?>
