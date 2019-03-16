@@ -721,7 +721,7 @@
                     { //To test data
                         
                     }
-                    async: false
+                   
                 });
 
             }
@@ -744,7 +744,7 @@
                     $(".result").html(data); 
                     console.log("success");   
                     }
-                    async: false
+                   
                 });
 
             }
@@ -768,7 +768,7 @@
                     $(".result").html(data); 
 
                     }
-                    async: false
+                   
                 });
             }
             function toggleFabrication1()
@@ -789,7 +789,7 @@
                     success: function(data, textStatus) {
                     $(".result").html(data);    
                     }
-                    async: false
+                  
                 });
             }
 
