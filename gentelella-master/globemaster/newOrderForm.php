@@ -494,7 +494,7 @@
         var quantity = "quantity"+1;
         var currentName = ""; 
         var CurrentTotal = 0; //Gets the current total to pay
-        var item_id_in_cart = [];
+        var item_id_in_cart = []; // Get This
 
             $('#datatable-checkbox tbody button.btn.btn-success').on('click', function(e) {
                 var row = $(this).closest('tr');
@@ -821,7 +821,7 @@ function checkCart()
     });
 }
 
-var getCartQuantity = [];
+var getCartQuantity = []; //Get this
 
 function nextpageWithFabrication() //Gets all necessary values from current page to give to next Page
 {
@@ -913,44 +913,44 @@ function insertToOrderDetail() //inserts to DB based on the current data in page
 
 </script>
 
-                            <script>
+<script>
 
-                                var paidoption = document.getElementById("paidoption");
-                                var unpaidoption = document.getElementById("unpaidoption");
-                                var paymentinput = document.getElementById("payment_status");
+    var paidoption = document.getElementById("paidoption");
+    var unpaidoption = document.getElementById("unpaidoption");
+    var paymentinput = document.getElementById("payment_status");
 
 
-                                function changebuttoncolor()
-                                {
-                                    if((paymentinput.classList.contains('btn','btn-default','dropdown-toggle') || (paymentinput.classList.contains('btn','btn-warning','dropdown-toggle'))) && paymentinput.value == "Paid")
-                                    {
-                                        paymentinput.classList.remove('btn','btn-default','dropdown-toggle');
-                                        paymentinput.classList.remove('btn','btn-warning','dropdown-toggle');
-                                        paymentinput.classList.add('btn','btn-success','dropdown-toggle');
-                                        
-                                        
-                                        // paymentinput.classList.remove("btn.btn-default.dropdown-toggle");
-                                        // paymentinput.classList.remove("btn.btn-warning.dropdown-toggle");
-                                        // paymentinput.classList.add("btn.btn-success.dropdown-toggle");
-                                    }
-                                    else if((paymentinput.classList.contains('btn','btn-default','dropdown-toggle') || (paymentinput.classList.contains('btn','btn-success','dropdown-toggle'))) && paymentinput.value == "Unpaid")
-                                    {
-                                        paymentinput.classList.remove('btn','btn-default','dropdown-toggle');
-                                        paymentinput.classList.remove('btn','btn-success','dropdown-toggle');
-                                        paymentinput.classList.add('btn','btn-warning','dropdown-toggle');
-                                        
-                                        // paymentinput.classList.remove('btn btn-default dropdown-toggle');
-                                        // paymentinput.classList.remove('btn btn-success dropdown-toggle');
-                                        // paymentinput.classList.add('btn btn-warning dropdown-toggle');
-                                    }
-                                    else 
-                                    {
-                                        paymentinput.classList.remove('btn','btn-warning','dropdown-toggle');
-                                        paymentinput.classList.remove('btn','btn-success','dropdown-toggle');
-                                        paymentinput.classList.add('btn','btn-default','dropdown-toggle');
-                                    }
-                                }
-                            </script>
+    function changebuttoncolor()
+    {
+        if((paymentinput.classList.contains('btn','btn-default','dropdown-toggle') || (paymentinput.classList.contains('btn','btn-warning','dropdown-toggle'))) && paymentinput.value == "Paid")
+        {
+            paymentinput.classList.remove('btn','btn-default','dropdown-toggle');
+            paymentinput.classList.remove('btn','btn-warning','dropdown-toggle');
+            paymentinput.classList.add('btn','btn-success','dropdown-toggle');
+            
+            
+            // paymentinput.classList.remove("btn.btn-default.dropdown-toggle");
+            // paymentinput.classList.remove("btn.btn-warning.dropdown-toggle");
+            // paymentinput.classList.add("btn.btn-success.dropdown-toggle");
+        }
+        else if((paymentinput.classList.contains('btn','btn-default','dropdown-toggle') || (paymentinput.classList.contains('btn','btn-success','dropdown-toggle'))) && paymentinput.value == "Unpaid")
+        {
+            paymentinput.classList.remove('btn','btn-default','dropdown-toggle');
+            paymentinput.classList.remove('btn','btn-success','dropdown-toggle');
+            paymentinput.classList.add('btn','btn-warning','dropdown-toggle');
+            
+            // paymentinput.classList.remove('btn btn-default dropdown-toggle');
+            // paymentinput.classList.remove('btn btn-success dropdown-toggle');
+            // paymentinput.classList.add('btn btn-warning dropdown-toggle');
+        }
+        else 
+        {
+            paymentinput.classList.remove('btn','btn-warning','dropdown-toggle');
+            paymentinput.classList.remove('btn','btn-success','dropdown-toggle');
+            paymentinput.classList.add('btn','btn-default','dropdown-toggle');
+        }
+    }
+</script>
 
     </body>
 </html>
