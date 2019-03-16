@@ -263,8 +263,7 @@
                                     while($rowOfSelect=mysqli_fetch_array($resultofInsertToOrderDetails,MYSQLI_ASSOC))
                                     {
                                         $ITEM_NAME[] = $rowOfSelect['item_name'];
-                                        $ITEM_PRICE[] = $rowOfSelect['price'];
-                                        
+                                        $ITEM_PRICE[] = $rowOfSelect['price'];                                        
                                     }
 
                                     $sqlInsertToOrderDetails = "INSERT INTO order_details(ordernumber, client_id, item_id, item_name, item_price, item_qty, item_status)
@@ -283,7 +282,19 @@
                                     SET items_trading.item_count  = (item_count - '$CART_ITEM_QTY[$i]'),
                                     last_update = Now() 
                                     WHERE item_id ='$CART_ITEM_ID[$i]';";
-                                    $resultOfSubtract=mysqli_query($dbc,$sqlToSubtractFromItemsTrading); //Subtracts From Inventory
+                                     $resultOfSubtract=mysqli_query($dbc,$sqlToSubtractFromItemsTrading); //Subtracts From Inventory
+                                     if(!$resultOfSubtract) 
+                                     {
+                                         die('Error: ' . mysqli_error($dbc));
+                                     } 
+                                     else 
+                                     {
+                                         echo '<script language="javascript">';
+                                         echo 'alert("Subtract Successfull");';
+                                         echo '</script>';
+                                         header("Location: ViewOrders.php");
+                                     }
+                                    
                                    
                                   }//End For
                              }//End 2nd IF                                                                                                                    
@@ -362,6 +373,7 @@
                                     echo '<script language="javascript">';
                                     echo 'alert("Subtract Successfull");';
                                     echo '</script>';
+                                    header("Location: ViewOrders.php");
                                 }
                                 
                             }//End For
@@ -831,7 +843,7 @@
 function doAction()
 {
     nextpageNOFabrication();
-    insertToOrderDetail();
+    
     
 }
 function checkCart()
@@ -893,7 +905,8 @@ function nextpageNOFabrication()
         alert("Order Successful!")
     
         getAjax();
-        // window.location.href = "ViewOrders.php";    
+        // window.location.href = "ViewOrders.php";   
+         
         
     }
     else
@@ -902,49 +915,6 @@ function nextpageNOFabrication()
     } 
    
 }
-                        
-                          
-// function insertToOrderDetail() //inserts to DB based on the current data in page
-//     {      
-//         $('#cart tr td:nth-child(4)').each(function (e) 
-//         {
-//             var getValue =parseInt($(this).text());
-//             getCartQuantity.push(getValue);                                          
-//         });       
-//         var expected_date =  document.getElementById("expectedDate").value;
-//         var payment_id =  document.getElementById("paymentID").value;
-//         var client_id = document.getElementById("clientID").value;
-//         var current_OR = "<?php// echo $orderNumber; ?>";
-//         var delivery_status = "<?php //echo $_SESSION['DeliveryStatus']; ?>";
-//         var fabrication_status = "<?php // echo $_SESSION['FabricationStatus']?>";
-
-//         console.log(expected_date);
-//         console.log(payment_id);
-//         console.log(client_id);
-        
-//         console.log(delivery_status);
-//         console.log(fabrication_status);
-
-//         request = $.ajax({
-//             url: "ajax/insertToDB.php",
-//             type: "POST",
-//             data: {
-                // post_item_id: item_id_in_cart,
-                // post_item_qty: getCartQuantity,
-//                 post_expected_date: expected_date,
-//                 post_payment_id: payment_id,
-//                 post_client_id: client_id,
-//                 post_order_number: current_OR,
-//                 post_delivery_status: delivery_status,
-//                 post_fab_status: fabrication_status
-//                 },
-//                 success: function(response){
-//                 alert("AJAX SUCCESS");
-//                 }
-            
-//         });
-        
-//     }
 
 </script>
 <script>
@@ -971,7 +941,7 @@ function nextpageNOFabrication()
             }//End Scucess
         
             }); // End ajax    
-     } //End fun ction
+     } //End function
        
 </script>
 
