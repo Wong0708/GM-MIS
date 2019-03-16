@@ -71,7 +71,7 @@
                         <?php
                             
                             require_once('DataFetchers/mysql_connect.php');
-                            $query = "SELECT * FROM orders ORDER BY ordernumber + '0';";
+                            $query = "SELECT * FROM orders ORDER BY orderID ASC;";
                             $result=mysqli_query($dbc,$query);
                             while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                             {
@@ -114,7 +114,7 @@
                                     echo $paymentType;
                                     echo '</td>';
                                     echo '<td>';
-                                    echo $row['order_status'];
+                                    echo $row['orderstatus'];
                                     echo '</td>';
                                     echo '</tr>';
                                     
