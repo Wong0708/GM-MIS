@@ -220,94 +220,122 @@
                         
                         // WORK IN PROGESS //
                        
-                        // if(isset($_POST['viewOrderButton']))
-                        // {
-                        //     if($_SESSION['DeliveryStatus'] == "PickUp") //IF order is pickup
-                        //     {
-                        //         $clientID = $_POST['clientID'];
-                        //         $paymentID = $_POST['paymentID'];
-                        //         $totalAmountFromCart = $_POST['totalPayment'];
-                        //         echo "Session = ", $_SESSION['DeliveryStatus'],"<br>";
-                        //         $orderstatus = $_SESSION['DeliveryStatus'];
+                        if(isset($_POST['viewOrderButton']))
+                        {
+                            if($_SESSION['DeliveryStatus'] == "PickUp") //IF order is pickup
+                            {
+                                $CLIENT_ID = $_POST['clientID'];
+                                $PAYMENT_ID = $_POST['paymentID'];
+                                $CART_TOTAL = $_POST['totalPayment'];                               
+                                $ORDER_STATUS = $_SESSION['DeliveryStatus'];
+                                $CURRENT_OR = $CurrentOR;
+                                $INSTALL_STATUS = "No Installation";
+                                $FAB_STATUS = $_SESSION['FabricationStatus'];
+                                $PAYMENT_STATUS = $_POST['payment_status'];
 
-                        //         $SanitizedAmount = filter_var($totalAmountFromCart,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+                                $SANITIZED_CART_TOTAL = filter_var($CART_TOTAL,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
 
-                              
-                        //         echo "Client ID = ", $clientID,"<br>";
-                        //         echo "Payment ID = ", $paymentID,"<br>";
-                        //         echo "Total = ", $SanitizedAmount,"<br>";
-                        //         echo "Current OR = ", $CurrentOR,"<br>";
-                        //             $sqlInsertToOrdersTable = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, totalamt, order_status)
-                        //             VALUES(
-                        //                 '$CurrentOR',  
-                        //                 '$clientID', 
-                        //                 Now(), 
-                        //                 '$paymentID',
-                        //                 '$SanitizedAmount',
-                        //                 '$orderstatus');";
-    
-                        //             $resultofInsert = mysqli_query($dbc,$sqlInsertToOrdersTable);
-                        //             if(!$resultofInsert) 
-                        //             {
-                        //                 die('Error: ' . mysqli_error($dbc));
-                        //             } 
-                        //             else 
-                        //             {
-                                        
-                        //                 echo '<script language="javascript">';
-                        //                 echo 'alert("Order Successful!");';
-                        //                 echo '</script>';
-                        //                 header('Location: ViewOrders.php');
-                        //             }           
-                                
+                                $sqlInsertToOrdersTable = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, totalamt, order_status, installation_status, fab_status, payment_status)
+                                VALUES(
+                                    '$CLIENT_ID',  
+                                    '$PAYMENT_ID', 
+                                    Now(), 
+                                    '$PAYMENT_ID',
+                                    '$SANITIZED_CART_TOTAL',
+                                    '$ORDER_STATUS',
+                                    '$INSTALL_STATUS',
+                                    '$FAB_STATUS',
+                                    '$PAYMENT_STATUS');";
+
+                                $resultofInsertToOrders = mysqli_query($dbc,$sqlInsertToOrdersTable);
+                                if(!$resultofInsertToOrders) 
+                                {
+                                    die('Error: ' . mysqli_error($dbc));
+                                } 
+                                else 
+                                {
                                     
+                                    echo '<script language="javascript">';
+                                    echo 'alert("1st Insert Success");';
+                                    echo '</script>';
+                                    
+                                }  
+                                $CLIENT_ID = $_POST['clientID'];
+                                $PAYMENT_ID = $_POST['paymentID'];
+                                $CART_TOTAL = $_POST['totalPayment'];                               
+                                $ORDER_STATUS = $_SESSION['DeliveryStatus'];
+                                $CURRENT_OR = $CurrentOR;
+                                $INSTALL_STATUS = "No Installation";
+                                $FAB_STATUS = $_SESSION['FabricationStatus'];
+                                $PAYMENT_STATUS = $_POST['payment_status'];
+                                
+                                $sqlInsertToOrderDetails = "INSERT INTO order_details(ordernumber, client_id, item_id, item_name, item_price, item_qty, item_status)
+                                VALUES(
+                                    '$CURRENT_OR',
+                                    '$CLIENT_ID',
+                                    '',
+                                    '',
+                                    '',
+                                    '',
+                                    '');";
+                                 $resultofInsertToOrderDetails = mysqli_query($dbc,$sqlInsertToOrderDetails);
+                                 if(!$resultofInsertToOrderDetails) 
+                                 {
+                                     die('Error: ' . mysqli_error($dbc));
+                                 } 
+                                 else 
+                                 {
+                                     
+                                     echo '<script language="javascript">';
+                                     echo 'alert("2nd Insert Success");';
+                                     echo '</script>';
+                                    //  header('Location: ViewOrders.php');
+                                 }                                               
+                            }
 
-                              
-                        //     }
+                            else if($_SESSION['DeliveryStatus'] == "Deliver") //IF ORder is Deliver
+                            {
+                                $clientID = $_POST['clientID'];
+                                $paymentID = $_POST['paymentID'];
+                                $totalAmountFromCart = $_POST['totalPayment'];
+                                $expected_date = $_POST['getExpectedDelivery'];
+                                echo "Session = ", $_SESSION['DeliveryStatus'],"<br>";
+                                $orderstatus = $_SESSION['DeliveryStatus'];
 
-                        //     else if($_SESSION['DeliveryStatus'] == "Deliver") //IF ORder is Deliver
-                        //     {
-                        //         $clientID = $_POST['clientID'];
-                        //         $paymentID = $_POST['paymentID'];
-                        //         $totalAmountFromCart = $_POST['totalPayment'];
-                        //         $expected_date = $_POST['getExpectedDelivery'];
-                        //         echo "Session = ", $_SESSION['DeliveryStatus'],"<br>";
-                        //         $orderstatus = $_SESSION['DeliveryStatus'];
-
-                        //         $SanitizedAmount = filter_var($totalAmountFromCart,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
+                                $SanitizedAmount = filter_var($totalAmountFromCart,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
 
                             
-                        //         echo "Client ID = ", $clientID,"<br>";
-                        //         echo "Payment ID = ", $paymentID,"<br>";
-                        //         echo "Total = ", $SanitizedAmount,"<br>";
-                        //         echo "Current OR = ", $CurrentOR,"<br>";
-                        //         echo "Expected Deliv Date = ", $expected_date,"<br>";
+                                echo "Client ID = ", $clientID,"<br>";
+                                echo "Payment ID = ", $paymentID,"<br>";
+                                echo "Total = ", $SanitizedAmount,"<br>";
+                                echo "Current OR = ", $CurrentOR,"<br>";
+                                echo "Expected Deliv Date = ", $expected_date,"<br>";
 
-                        //         $sqlInsertToOrdersTable = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, expected_date, totalamt, order_status)
-                        //         VALUES(
-                        //             '$CurrentOR',
-                        //             '$clientID', 
-                        //             Now(), 
-                        //             '$paymentID',                                   
-                        //             '$expected_date',
-                        //             '$SanitizedAmount',
-                        //             '$orderstatus');";
+                                $sqlInsertToOrdersTable = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, expected_date, totalamt, order_status)
+                                VALUES(
+                                    '$CurrentOR',
+                                    '$clientID', 
+                                    Now(), 
+                                    '$paymentID',                                   
+                                    '$expected_date',
+                                    '$SanitizedAmount',
+                                    '$orderstatus');";
 
-                        //         $resultofInsert = mysqli_query($dbc,$sqlInsertToOrdersTable);
-                        //         if(!$resultofInsert) 
-                        //         {
-                        //             die('Error: ' . mysqli_error($dbc));
-                        //         } 
-                        //         else 
-                        //         {
+                                $resultofInsert = mysqli_query($dbc,$sqlInsertToOrdersTable);
+                                if(!$resultofInsert) 
+                                {
+                                    die('Error: ' . mysqli_error($dbc));
+                                } 
+                                else 
+                                {
                                     
-                        //             echo '<script language="javascript">';
-                        //             echo 'alert("Order Successful!");';
-                        //             echo '</script>';
-                        //             header('Location: ViewOrders.php');
-                        //         }    
-                        //     }
-                        // }
+                                    echo '<script language="javascript">';
+                                    echo 'alert("Order Successful!");';
+                                    echo '</script>';
+                                    header('Location: ViewOrders.php');
+                                }    
+                            }
+                        }
                        
                            
                             

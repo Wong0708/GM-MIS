@@ -325,8 +325,7 @@
                           VALUES(
                             '$OR_NUM',
                             '$CLIENT_ID',
-                            '$ORDER_DATE',
-                            '$EXPECTED_DATE',
+                            '$ORDER_DATE',                          
                             '$PAYMENT_ID',
                             '$SANITIZED_TOTAL',
                             '$ORDER_STATUS',
@@ -425,19 +424,8 @@
                               echo '</script>';                            
                           }
                         }
-                        
-
-                        $sqlToInsertToORDERS = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id,totalamt,order_status,installation_status)
-                        VALUES();";
-                        // $resultToInsertORDERS = mysqli_query($dbc,$sqlToInsertToORDERS);
-
-                        $sqlToInsertToORDERDETAILS = "INSERT INTO orders()
-                        VALUES();"; 
-                      }
-                     
-
+                      }                     
                       ?>
-
                     </form>
                   </div>
                 </div>
