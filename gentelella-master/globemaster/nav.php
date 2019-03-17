@@ -20,8 +20,8 @@ if(!(isset($_SESSION['usertype']))){
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="images/img.jpg" alt="..." class="img-circle profile_img">
-              </div>
+                <img src="images/GM%20LOGO.png" alt="..." class="img-circle profile_img">
+              </div><br>
               <div class="profile_info">
                 <span>
                 <?php
@@ -37,7 +37,7 @@ if(!(isset($_SESSION['usertype']))){
 
 
                 $user=$row['usertype'];
-                    echo "<h2><font face='Couture Bold Italic'>Welcome, ";
+                    echo "<h2><font face='Couture Bold'>Welcome, ";
                     echo $row['usertype'];
                     echo "</font></h2>";
                   
@@ -344,6 +344,11 @@ if(!(isset($_SESSION['usertype']))){
         @font-face {
         font-family: "Couture Bold Italic";
         src: url("css/fonts/couture-bldit.otf");
+        }
+        
+        @font-face {
+        font-family: "Couture Bold";
+        src: url("css/fonts/couture-bld.otf");
         }
         
         .navbar nav_title {
