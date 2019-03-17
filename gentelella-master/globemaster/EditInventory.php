@@ -75,29 +75,43 @@
                             <div class="x_content">
 
                                <?php
-                                    $queryDiscountNotif = "SELECT * FROM discounts d 
-                                                        JOIN items_trading i ON d.item_id
-                                                        WHERE item_id = .'$_SESSION['getIDfromView']'. 
-                                                        AND d.onDiscount = 'On Discount'; "
+                                    $GET_ID = $_SESSION['item_IDfromView'];
+                                    $discountpercent = array();
+                                    $discountdateend = array();
+                                    $discountstatus = array();
+                                    $ON_DISCOUNT = "On Discount";
+
+                                    $queryDiscountNotif = "SELECT * FROM discounts  
+                                    JOIN items_trading ON items_trading.item_id = discounts.item_id
+                                    WHERE items_trading.item_id = '$GET_ID' 
+                                    AND items_trading.onDiscount = '$ON_DISCOUNT';";
                                     $resultDiscountNotif = mysqli_query($dbc,$queryDiscountNotif);
-                                    $rowDiscountNotif = mysqli_fetch_array($resultDiscountNotif,MYSQLI_ASSOC);
-
-                                    $discountpercent = $rowDiscountNotif['percentage'];
-                                    $discountdateend = $rowDiscountNotif['dateEnd'];
-                                    $discountstatus = $rowDiscountNotif['onDiscount'];
-
-                                    if($discountstatus = "On Discount")
+                                  
+                                    while($rowDiscountNotif = mysqli_fetch_array($resultDiscountNotif,MYSQLI_ASSOC))
                                     {
-                                ?>
-                                    <div class="col-md-12 col-sm-12 col-xs-12" >
-                                        <p><font color = "red">This item is on a <?php echo $discountpercent;?>% discount. The discount will end at <?php echo $discountdateend; ?>.</font></p>
-                                    </div>
-                                <?php
+                                        $discountpercent[] = $rowDiscountNotif['percentage'];
+                                        $discountdateend[] = $rowDiscountNotif['dateEnd'];
+                                        $discountstatus[] = $rowDiscountNotif['onDiscount'];
+    
                                     }
-                                    else
+                                    echo sizeof($discountstatus);
+                                  
+                                    for($i = 0; $i < sizeof($discountpercent); $i++)
                                     {
-                                        echo "<p><font color = 'blue'>This item is currently on its regular price.</font></p>"
+                                        if($discountstatus[$i] = "On Discount")
+                                        {
+                                    
+                                        echo '<div class="col-md-12 col-sm-12 col-xs-12" >';
+                                         echo '<p><font color = "red">This item is on a '.$discountpercent[$i].'% discount. The discount will end at '.$discountdateend[$i].'</font></p>';
+                                        echo '</div>';
+                                  
+                                        }
+                                        else
+                                        {
+                                            echo "<p><font color = 'blue'>This item is currently on its regular price.</font></p>";
+                                        }
                                     }
+                                    
                                 ?>
 
                                 <form class="form-horizontal form-label-center" method="GET">
