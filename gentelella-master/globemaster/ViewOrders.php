@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>DataTables | Gentelella</title>
+    <title>GM - View Orders</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -50,9 +50,9 @@
                 <div class="x_panel">
                   <div class="x_content">
                     <p class="text-muted font-13 m-b-30">
-                      <form action="OrderForm.php" method="POST">
-                            <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Create Order </button>
-                      </form>
+                      
+                        <button type="button" class="btn btn-success" onclick="window.location.href='newOrderForm.php'"><i class="fa fa-plus" onclick =""></i> Create Order </button>
+                      
                     </p><br>
 					
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
@@ -71,7 +71,7 @@
                         <?php
                             
                             require_once('DataFetchers/mysql_connect.php');
-                            $query = "SELECT * FROM orders;";
+                            $query = "SELECT * FROM orders ORDER BY orderID ASC;";
                             $result=mysqli_query($dbc,$query);
                             while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                             {
@@ -98,14 +98,14 @@
                                     echo '</td>';
                                     echo '<td>';
                                     
-                                    if($row['delivery_date'] == null || $row['delivery_date'] == "")
-                                    {
-                                        echo '<button type="submit" class="btn btn-round btn-success"><i class="fa fa-plus"></i> Set Delivery Date</button>';
-                                    }
-                                    else
-                                    {
+                                    // if($row['delivery_date'] == null || $row['delivery_date'] == "")
+                                    // {
+                                    //     echo '<button type="submit" class="btn btn-round btn-success"><i class="fa fa-plus"></i> Set Delivery Date</button>';
+                                    // }
+                                    // else
+                                    // {
                                         echo $row['delivery_date'];
-                                    }
+                                    // }
                                     echo '</td>';
                                     echo '<td>';
                                     echo  'Php'." ".number_format($row['totalamt'], 2);
@@ -114,7 +114,7 @@
                                     echo $paymentType;
                                     echo '</td>';
                                     echo '<td>';
-                                    echo $row['orderstatus'];
+                                    echo $row['order_status'];
                                     echo '</td>';
                                     echo '</tr>';
                                     

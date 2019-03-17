@@ -1,28 +1,3 @@
-<?php
-
-if(isset($_POST['add']))
-{
-    $description = $_POST['desc'];
-    $amount = $_POST['amount'];
-    $image = addslashes(file_get_contents($_POST['image'])); //SQL Injection defence!
-    
-    require_once('DataFetchers/mysql_connect.php');
-    $queryItemType = "SELECT ordernumber FROM orders WHERE orderID = '{$_POST['order']}'";
-    $resultItemType = mysqli_query($dbc,$queryItemType);
-    $rowItemType=mysqli_fetch_array($resultItemType,MYSQLI_ASSOC);
-    $ordernumber = $rowItemType['ordernumber'];
-    
-    
-    require_once('DataFetchers/mysql_connect.php');
-    $query="INSERT INTO joborderfabrication(ordernumber, description, totalamt, refdrawing)
-    VALUES('$ordernumber', '$description', '$amount', '$image')";
-    $result=mysqli_query($dbc,$query);
-    echo "<script> alert('Item added'); </script>";
-}
-
-?>
-
-
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -31,7 +6,7 @@ if(isset($_POST['add']))
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	  
-    <title>Gentelella Alela! | </title>
+    <title>GM - Job Order Fabrication  </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -56,7 +31,7 @@ if(isset($_POST['add']))
     <link href="../build/css/custom.min.css" rel="stylesheet">
   </head>
 
-  <body class="nav-md">
+  <body class="nav-md" onload="LoadCurrentTotal()";>
     <div class="container body">
       <div class="main_container">
             <!-- sidebar menu -->
@@ -82,12 +57,45 @@ if(isset($_POST['add']))
                           <?php
                            
                            $currentStatus = $_SESSION['DeliveryStatus'];
-                           echo $currentStatus;
+                           $fabricationStatus = $_SESSION['FabricationStatus'];
+                          
+                           echo $currentStatus,"<br>";
+                           echo $fabricationStatus,"<br>";
+                          
+                           
                             if(isset($_GET['order_id']))
                             {
                              
                                $_SESSION['getORNumber'] = $_GET['order_id']; //Stores the Value of Get from Order Form
-                               echo $_SESSION['getORNumber']; 
+                               echo $_SESSION['getORNumber'],"<br>"; 
+
+                               $_SESSION['getDeliveryDate'] = $_GET['deliver_date']; //Get the Deliv Date
+                               echo"Deliver Date = ", $_SESSION['getDeliveryDate'],"<br>"; 
+
+                               $_SESSION['client_id'] = $_GET['client_id']; //Get Client ID
+                               echo "Client ID = ",$_SESSION['client_id'],"<br>"; 
+
+                               $_SESSION['item_id'] = $_GET['cart_item_id']; //Get Item ID
+                               echo"Item ID = ", $_SESSION['item_id'],"<br>"; 
+                               
+                               $ITEM = $_SESSION['item_id'];
+                              $EXPLODED_ITEM = explode(",", $ITEM);
+                               echo"Item ID = ",$EXPLODED_ITEM[0],"<br>"; //Explodes String from $_GET to be converted to usable array
+
+
+                               $_SESSION['total'] = $_GET['total_amount']; //Get Total Amount
+                               echo"Total From Order = ", $_SESSION['total'],"<br>"; 
+
+                               $_SESSION['item_qty'] = $_GET['cart_qty_per_item']; //Get qty per item
+                               echo"Item Quantity = ", $_SESSION['item_qty'],"<br>"; 
+
+                               $_SESSION['order_date'] = $_GET['order_date']; //Get qty per item
+                               echo"Item Quantity = ", $_SESSION['order_date'],"<br>"; 
+
+                               $_SESSION['payment_id'] = $_GET['pay_id'];
+                               echo"Payment ID = ", $_SESSION['payment_id'],"<br>"; // Get Pay Id, remove all Echo once Finalized
+
+                               
                                
                             }
                             else
@@ -104,60 +112,43 @@ if(isset($_POST['add']))
                   </div>
                   <div class="x_content">
                     <br />
-                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" data-parsley-validate class="form-horizontal form-label-left">
+                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form-horizontal form-label-left">
 
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Choose Order Number <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                         <?php
-                                require_once('DataFetchers/mysql_connect.php');
-                                $query = "SELECT * FROM orders";
-                                $result=mysqli_query($dbc,$query);
-                                $option = "";
-                                while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                                {
-                                    $option .= '<option value = "'.$row['orderID'].'">'.$row['ordernumber'].'</option>';
-                                }
-                            ?>
-                            <select name="order" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
-                            <?php echo $option ?>
-                            </select>
-                        </div>
-                      </div>
+                    
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Enter Description <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                         <textarea id="message" required="required" class="form-control" name="desc" data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100" data-parsley-minlength-message="Come on! You need to enter at least a 20 caracters long comment.."
+                         <textarea id="message" required="required" class="form-control" name="item_description" data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100" data-parsley-minlength-message="Come on! You need to enter at least a 20 caracters long comment.."
                             data-parsley-validation-threshold="10"></textarea>
                           <br/>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Enter Fabrication Cost<span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Enter Fabrication Cost: ₱<span class="required">*</span>
                         </label>
                          <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="number" name="fab_cost" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="number" id = "fab_cost" name="fab_cost"  required="required" class="form-control col-md-7 col-xs-12" step=".01" min="0" max ="99999.99" oninput="validate(this)">
                         </div>
                       </div>
                       <br><br>
 
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Amount<span class="required">*</span>
+                      <div class="form-group" >
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Amount: ₱<span class="required">*</span>
                         </label>
                          <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="number" name="total_amount" id="last-name" name="last-name" required="required" readonly="readonly" class="form-control col-md-7 col-xs-12">
+                          <input type="number" name="total_amount"  id = "total_amount" required="required" readonly="readonly" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <br><br> 
                       
 
-                      <div class="form-group">
+                      <div class="form-group" style = "display:none" id ="installDiv">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">For Installation?<span class="required">*</span>
                         </label>
                          <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="radio" name="installation" id="last-name" name="last-name" required="required">
+                          <input type="checkbox" name="installation" required="required" id = "installbutton" value = "With Installation">
+                         
                         </div>
                       </div>
                       <br><br>
@@ -166,17 +157,275 @@ if(isset($_POST['add']))
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Upload Reference Drawing <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="file" name="drawing" id="fileToUpload">
-                        </div>
-                      </div>
-                      <div class="ln_solid"></div>
-                      <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <button name="add" class="btn btn-round btn-success" type="submit" class="btn btn-success">Create</button>
-						  <button class="btn btn-round btn-primary" type="reset">Reset</button>
+                            <input type="file" name="file_reference" id="fileToUpload" required="required">
                         </div>
                       </div>
 
+                      <div class="ln_solid"></div>
+
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <button name="createBtn" class="btn btn-round btn-success" type="submit" class="btn btn-success" onclick ="removerequired()">Create</button>
+						              <button class="btn btn-round btn-primary" type="reset">Reset</button>
+                          <!-- <button class="btn btn-round btn-primary" type="button" onclick ="testScript()">Test Function</button> -->
+                        </div>
+                      </div>
+
+                      <?php 
+                      if(isset($_POST['createBtn']))
+                      {
+                        if($currentStatus == "Deliver") //Insert to DB IF Deliver
+                        {
+                          $OR_NUM = $_SESSION['getORNumber'];
+                          $CLIENT_ID = $_SESSION['client_id'];
+                          $ORDER_DATE = $_SESSION['order_date'];
+                          $EXPECTED_DATE = $_SESSION['getDeliveryDate'];
+                          $PAYMENT_ID = $_SESSION['payment_id'];
+
+                          $TOTAL_AMOUNT = $_SESSION['total'];
+                          $SANITIZED_TOTAL = filter_var($TOTAL_AMOUNT,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION); //Removes Peso Sign
+
+                          $ORDER_STATUS = $currentStatus;
+                          $FAB_STATUS = $fabricationStatus;
+                          $PAYMENT_STATUS = "UNPAID";
+                          if($_POST['installation'] == "With Installation")
+                          {
+                            $INSTALLATION_STATUS = $_POST['installation'];
+                          }
+                          else
+                          {
+                            $INSTALLATION_STATUS = "No Installation";
+                          }
+                          $sqlToInsertToORDERS = "INSERT INTO orders(ordernumber, client_id, order_date, expected_date, payment_id, totalamt, order_status,installation_status, fab_status, payment_status)
+                          VALUES(
+                            '$OR_NUM',
+                            '$CLIENT_ID',
+                            '$ORDER_DATE',
+                            '$EXPECTED_DATE',
+                            '$PAYMENT_ID',
+                            '$SANITIZED_TOTAL',
+                            '$ORDER_STATUS',
+                            '$INSTALLATION_STATUS',
+                            '$FAB_STATUS',
+                            '$PAYMENT_STATUS');";
+                           $resultToInsertORDERS = mysqli_query($dbc,$sqlToInsertToORDERS);
+
+                          if(!$resultToInsertORDERS) //Chceker
+                            {
+                                die('Error: ' . mysqli_error($dbc));
+                            } 
+                            else 
+                            {                            
+                                echo '<script language="javascript">';
+                                echo 'alert("1st Insert Successful!");';
+                                echo '</script>';                            
+                            }
+
+                         $ITEM_ID = $_SESSION['item_id'];
+                         $EXPLODED_ITEM_ID = explode(",", $ITEM_ID);
+
+                         $ITEM_QTY = $_SESSION['item_qty'];
+                         $EXPLODED_ITEM_QTY = explode(",", $ITEM_QTY);
+
+                         $ITEM_NAME = array();
+                         $ITEM_PRICE = array(); 
+
+                            for($i = 0; $i < sizeof($EXPLODED_ITEM_ID) ; $i++)
+                            {
+                              $sqlSelect ="SELECT * FROM items_trading WHERE item_id = $EXPLODED_ITEM_ID[$i];";
+                              $resultOfSelect = mysqli_query($dbc,$sqlSelect);
+                              while($rowOfSelect=mysqli_fetch_array($resultOfSelect,MYSQLI_ASSOC))
+                              {
+                                $ITEM_NAME[] = $rowOfSelect['item_name'];
+                                $ITEM_PRICE[] = $rowOfSelect['price']; 
+                              }
+                            //Insert to Order Details
+                              $sqlToInsertToOrderDetail = "INSERT INTO order_details(ordernumber, client_id, item_id, item_name, item_price, item_qty, item_status) 
+                              VALUES(
+                                '$OR_NUM',
+                                '$CLIENT_ID',
+                                '$EXPLODED_ITEM_ID[$i]',
+                                '$ITEM_NAME[$i]',
+                                '$ITEM_PRICE[$i]',
+                                '$EXPLODED_ITEM_QTY[$i]',
+                                '$ORDER_STATUS'
+                                );";
+                              $resultToInsertOrderDetail = mysqli_query($dbc,$sqlToInsertToOrderDetail);
+                              if(!$resultToInsertOrderDetail) 
+                              {
+                                  die('Error: ' . mysqli_error($dbc));
+                              } 
+                              else 
+                              {                            
+                                  echo '<script language="javascript">';
+                                  echo 'alert("2nd Insert Successful!");';
+                                  echo '</script>';                            
+                              } 
+                              //Subtracts QTY in the inventory
+                              $sqlToSubtractFromItemsTrading = "UPDATE items_trading
+                              SET items_trading.item_count  = (item_count - '$EXPLODED_ITEM_QTY[$i]'),
+                              last_update = Now() 
+                              WHERE item_id ='$EXPLODED_ITEM_ID[$i]';";
+                              $resultOfSubtract=mysqli_query($dbc,$sqlToSubtractFromItemsTrading); 
+                              if(!$resultOfSubtract) 
+                              {
+                                  die('Error: ' . mysqli_error($dbc));
+                              } 
+                              else 
+                              {
+                                  echo '<script language="javascript">';
+                                  echo 'alert("Subtract Successfull");';
+                                  echo '</script>';
+                              }
+                            } //END FOR
+
+                          $fab_text = htmlspecialchars($_POST['item_description']);  //Insert Job Order
+                          $fab_price = $_POST['fab_cost'];
+                          $fab_totalprice = $_POST['total_amount'];
+                          $blob = file_get_contents($_FILES['file_reference']['tmp_name']);
+
+                          $currentStatus = $_SESSION['DeliveryStatus'];
+
+                          $sqlToInsertJOBFAB = "INSERT INTO joborderfabrication(fab_description,order_number, fab_price, fab_totalprice, reference_drawing)
+                          VALUES('$fab_text','$OR_NUM','$fab_price', '$fab_totalprice', '$blob' );";
+                          $resultToInsertJOBFAB = mysqli_query($dbc,$sqlToInsertJOBFAB);
+                          if(!$resultToInsertJOBFAB) 
+                          {
+                              die('Error: ' . mysqli_error($dbc));
+                          } 
+                          else 
+                          {                            
+                              echo '<script language="javascript">';
+                              echo 'alert("3rd Insert Successful!");';
+                              echo '</script>';                            
+                          }                                                                                                   
+                        } // END IF
+                        else //Insert to DB if PickUp
+                        {
+                          $OR_NUM = $_SESSION['getORNumber'];
+                          $CLIENT_ID = $_SESSION['client_id'];
+                          $ORDER_DATE = $_SESSION['order_date'];                          
+                          $PAYMENT_ID = $_SESSION['payment_id'];
+
+                          $TOTAL_AMOUNT = $_SESSION['total'];
+                          $SANITIZED_TOTAL = filter_var($TOTAL_AMOUNT,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION); //Removes Peso Sign
+
+                          $ORDER_STATUS = $currentStatus;
+                          $FAB_STATUS = $fabricationStatus;
+                          $PAYMENT_STATUS = "UNPAID";
+                          if($_POST['installation'] == "With Installation")
+                          {
+                            $INSTALLATION_STATUS = $_POST['installation'];
+                          }
+                          else
+                          {
+                            $INSTALLATION_STATUS = "No Installation";
+                          }
+                          $sqlToInsertToORDERS = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, totalamt, order_status,installation_status, fab_status, payment_status)
+                          VALUES(
+                            '$OR_NUM',
+                            '$CLIENT_ID',
+                            '$ORDER_DATE',                          
+                            '$PAYMENT_ID',
+                            '$SANITIZED_TOTAL',
+                            '$ORDER_STATUS',
+                            '$INSTALLATION_STATUS',
+                            '$FAB_STATUS',
+                            '$PAYMENT_STATUS');";
+                           $resultToInsertORDERS = mysqli_query($dbc,$sqlToInsertToORDERS);
+
+                          if(!$resultToInsertORDERS) //Chceker
+                            {
+                                die('Error: ' . mysqli_error($dbc));
+                            } 
+                            else 
+                            {                            
+                                echo '<script language="javascript">';
+                                echo 'alert("1st Insert Successful!");';
+                                echo '</script>';                            
+                            }
+
+                         $ITEM_ID = $_SESSION['item_id'];
+                         $EXPLODED_ITEM_ID = explode(",", $ITEM_ID);
+
+                         $ITEM_QTY = $_SESSION['item_qty'];
+                         $EXPLODED_ITEM_QTY = explode(",", $ITEM_QTY);
+
+                         $ITEM_NAME = array();
+                         $ITEM_PRICE = array(); 
+
+                            for($i = 0; $i < sizeof($EXPLODED_ITEM_ID) ; $i++)
+                            {
+                              $sqlSelect ="SELECT * FROM items_trading WHERE item_id = $EXPLODED_ITEM_ID[$i];";
+                              $resultOfSelect = mysqli_query($dbc,$sqlSelect);
+                              while($rowOfSelect=mysqli_fetch_array($resultOfSelect,MYSQLI_ASSOC))
+                              {
+                                $ITEM_NAME[] = $rowOfSelect['item_name'];
+                                $ITEM_PRICE[] = $rowOfSelect['price']; 
+                              }
+                            //Insert to Order Details
+                              $sqlToInsertToOrderDetail = "INSERT INTO order_details(ordernumber, client_id, item_id, item_name, item_price, item_qty, item_status) 
+                              VALUES(
+                                '$OR_NUM',
+                                '$CLIENT_ID',
+                                '$EXPLODED_ITEM_ID[$i]',
+                                '$ITEM_NAME[$i]',
+                                '$ITEM_PRICE[$i]',
+                                '$EXPLODED_ITEM_QTY[$i]',
+                                '$ORDER_STATUS'
+                                );";
+                              $resultToInsertOrderDetail = mysqli_query($dbc,$sqlToInsertToOrderDetail);
+                              if(!$resultToInsertOrderDetail) 
+                              {
+                                  die('Error: ' . mysqli_error($dbc));
+                              } 
+                              else 
+                              {                            
+                                  echo '<script language="javascript">';
+                                  echo 'alert("2nd Insert Successful!");';
+                                  echo '</script>';                            
+                              } 
+                              //Subtracts QTY in the inventory
+                              $sqlToSubtractFromItemsTrading = "UPDATE items_trading
+                              SET items_trading.item_count  = (item_count - '$EXPLODED_ITEM_QTY[$i]'),
+                              last_update = Now() 
+                              WHERE item_id ='$EXPLODED_ITEM_ID[$i]';";
+                              $resultOfSubtract=mysqli_query($dbc,$sqlToSubtractFromItemsTrading); 
+                              if(!$resultOfSubtract) 
+                              {
+                                  die('Error: ' . mysqli_error($dbc));
+                              } 
+                              else 
+                              {
+                                  echo '<script language="javascript">';
+                                  echo 'alert("Subtract Successfull");';
+                                  echo '</script>';
+                              }
+                            } //END FOR
+
+                          $fab_text = htmlspecialchars($_POST['item_description']);
+                          $fab_price = $_POST['fab_cost'];
+                          $fab_totalprice = $_POST['total_amount'];
+                          $blob = file_get_contents($_FILES['file_reference']['tmp_name']);
+
+                          $currentStatus = $_SESSION['DeliveryStatus'];
+                                              
+                          $sqlToInsertJOBFAB = "INSERT INTO joborderfabrication(fab_description,order_number, fab_price, fab_totalprice, reference_drawing)
+                          VALUES('$fab_text','$OR_NUM','$fab_price', '$fab_totalprice', '$blob' );";
+                          $resultToInsertJOBFAB = mysqli_query($dbc,$sqlToInsertJOBFAB);
+                          if(!$resultToInsertJOBFAB) 
+                          {
+                              die('Error: ' . mysqli_error($dbc));
+                          } 
+                          else 
+                          {                            
+                              echo '<script language="javascript">';
+                              echo 'alert("Order Successful!");';
+                              echo '</script>';                            
+                          }
+                        }
+                      }                     
+                      ?>
                     </form>
                   </div>
                 </div>
@@ -196,6 +445,26 @@ if(isset($_POST['add']))
         <!-- /footer content -->
       </div>
     </div>
+    <script type="text/javascript">
+      function validate(obj) {
+          obj.value = valBetween(obj.value, obj.min, obj.max); //Gets the value of input alongside with min and max
+          console.log(obj.value);
+      }
+
+      function valBetween(v, min, max) {
+          return (Math.min(max, Math.max(min, v))); //compares the value between the min and max , returns the max when input value > max
+      }
+  </script> <!-- To avoid the users input more than the current Max per item -->
+
+  <script>
+  var installbtn = document.getElementById("installbutton");
+    installbtn.required = true;
+    function removerequired()
+    {
+      installbtn.required = false;
+    }
+  </script>
+    
 
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
@@ -232,6 +501,67 @@ if(isset($_POST['add']))
     <script src="../vendors/starrr/dist/starrr.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
-	
+    <?php
+      echo '<script>';
+      echo 'var radioButton = document.getElementById("installDiv");';
+      if($currentStatus == "Deliver")
+      {
+        echo 'radioButton.style.display = "block"';
+      } 
+      echo ' </script>'; //Unhides Installation Button when Order is Deliver
+    ?>
+    <script>
+    function LoadCurrentTotal()
+    {
+      var fab_total = document.getElementById("total_amount");
+      var getTotal = localStorage.getItem("settotal").replace("₱ ", "");
+
+      console.log(parseFloat(getTotal));
+
+      fab_total.innerHTML = parseFloat(getTotal);
+      fab_total.value =parseFloat(getTotal);
+      
+    }     
+    </script>
+
+    <script>
+   
+    $("#fab_cost").change(function()
+    {
+    
+      var $this = $(this);
+      $this.val(parseFloat($this.val()).toFixed(2));
+        
+    });
+
+    var fab_cost = document.getElementById("fab_cost");
+    var fab_total = document.getElementById("total_amount");
+
+   
+    
+    fab_cost.onkeyup = function()
+    {
+        var getTotal = localStorage.getItem("settotal").replace("₱ ", "");
+        parseFloat(getTotal);
+        var inputValue = fab_cost.value;
+
+        console.log(getTotal);
+        console.log(inputValue);        
+        var currentTotal = parseFloat(getTotal) + parseFloat(inputValue) ;        
+        console.log(currentTotal);
+
+        fab_total.innerHTML = currentTotal.toFixed(2);
+        fab_total.value = currentTotal.toFixed(2);
+    }
+
+   </script>
+
+   <script>
+    function testScript()
+    {
+      var CurrentOrderDate = new Date().toJSON().slice(0,10);
+      console.log(CurrentOrderDate);
+    }
+   </script>
   </body>
 </html>
