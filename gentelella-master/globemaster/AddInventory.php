@@ -149,7 +149,7 @@
                         </div>
                       </div><div class="form-group">
                         <!-- <div class="col-md-6 col-sm-6 col-xs-12"> -->
-                          <button name="submitBtn" class="btn btn-success" type="submit" class="btn btn-success"><a href = "ViewInventory.php" >Add</a></button>
+                          <button name="submitBtn" class="btn btn-success" type="submit" class="btn btn-success">Add</button>
 						              <button class="btn btn-primary" type="reset">Reset</button>
                         <!-- </div>z -->
                       </div>
@@ -219,7 +219,18 @@
                             '$SupplierID',
                             '$itemPrice')";
 
-                            $result=mysqli_query($dbc,$sql);              
+                            $result=mysqli_query($dbc,$sql);
+                            if(!$result) 
+                            {
+                                die('Error: ' . mysqli_error($dbc));
+                            } 
+                            else 
+                            {
+                                echo '<script language="javascript">';
+                                echo 'alert("Items Added Successfully");';
+                                echo '</script>';
+                                header("Location: ViewInventory.php");
+                            }              
                         }
 
 ?>
