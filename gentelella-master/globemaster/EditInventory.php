@@ -57,6 +57,7 @@
                                      if(isset($_GET['sku_id'], $_GET['item_id']))
                                      {
                                         $_SESSION['getIDfromView'] = $_GET['sku_id'];
+
                                         $_SESSION['item_IDfromView'] = $_GET['item_id']; //Stores the Value of Get from View Inventory
                                         echo $_SESSION['getIDfromView']; 
                                         
@@ -72,36 +73,49 @@
                             </div> <!--END Xtitle-->
                            
                             <div class="x_content">
-                                <?php
-                                    $getID = $_SESSION['getIDfromView'];
-                                    $queryDiscountNotif = "SELECT * FROM discounts d 
-                                                        JOIN items_trading i ON d.item_id
-                                                        WHERE item_id = .'$getID  '. 
-                                                        AND d.onDiscount = 'On Discount'; "
+
+                               <?php
+                                    $GET_ID = $_SESSION['item_IDfromView'];
+                                    $discountpercent = array();
+                                    $discountdateend = array();
+                                    $discountstatus = array();
+                                    $ON_DISCOUNT = "On Discount";
+
+                                    $queryDiscountNotif = "SELECT * FROM discounts  
+                                    JOIN items_trading ON items_trading.item_id = discounts.item_id
+                                    WHERE items_trading.item_id = '$GET_ID' 
+                                    AND items_trading.onDiscount = '$ON_DISCOUNT';";
                                     $resultDiscountNotif = mysqli_query($dbc,$queryDiscountNotif);
-                                    $rowDiscountNotif = mysqli_fetch_array($resultDiscountNotif,MYSQLI_ASSOC);
-
-                                    $discountpercent = $rowDiscountNotif['percentage'];
-                                    $discountdateend = $rowDiscountNotif['dateEnd'];
-                                    $discountstatus = $rowDiscountNotif['onDiscount'];
-
-                                    if($discountstatus = "On Discount")
+                                  
+                                    while($rowDiscountNotif = mysqli_fetch_array($resultDiscountNotif,MYSQLI_ASSOC))
                                     {
-                                ?>
-                                    <div class="col-md-12 col-sm-12 col-xs-12" >
-                                        <p><font color = "red">This item is on a <?php echo $discountpercent;?>% discount. The discount will end at <?php echo $discountdateend; ?>.</font></p>
-                                    </div>
-                                <?php
+                                        $discountpercent[] = $rowDiscountNotif['percentage'];
+                                        $discountdateend[] = $rowDiscountNotif['dateEnd'];
+                                        $discountstatus[] = $rowDiscountNotif['onDiscount'];
+    
                                     }
-                                    else
+                                    echo sizeof($discountstatus);
+                                  
+                                    for($i = 0; $i < sizeof($discountpercent); $i++)
                                     {
-                                        echo "<p><font color = 'blue'>This item is currently on its regular price.</font></p>"
+                                        if($discountstatus[$i] = "On Discount")
+                                        {
+                                    
+                                        echo '<div class="col-md-12 col-sm-12 col-xs-12" >';
+                                         echo '<p><font color = "red">This item is on a '.$discountpercent[$i].'% discount. The discount will end at '.$discountdateend[$i].'</font></p>';
+                                        echo '</div>';
+                                  
+                                        }
+                                        else
+                                        {
+                                            echo "<p><font color = 'blue'>This item is currently on its regular price.</font></p>";
+                                        }
                                     }
+                                    
                                 ?>
-                                
 
-                                    <form class="form-horizontal form-label-center" method="GET">
-                                
+                                <form class="form-horizontal form-label-center" method="GET">
+
                                 
                                     <div class="col-md-6 col-sm-6 col-xs-12" >
                                         <div class="x_panel" >
@@ -269,6 +283,31 @@
                                                 <!--  -->
                                                     <button type="submit" class="btn btn-success" onclick = "updatediscountalert(this)" id = "updatediscount" name ="discountBtn" >Update</button>
 
+                                                    <script>
+                                                   
+                                                    var discount_button = document.getElementById('discountBtn');
+                                                    var discount_amount = document.getElementById('discountamt');
+
+                                                     
+                                                        discount_button.onclick = function()
+                                                        {
+                                                            request = $.ajax({
+                                                            url: "ajax/JSV_Getter.php",
+                                                            type: "POST",
+                                                                data:{
+                                                                    post_discount_amount: discount_amount.value, //Never forget to get the Value from the <INPUTS>
+                                                                    post_item_id: $_SESSION['item_IDfromView']
+                                                                    
+                                                                },
+                                                                success: function(data)
+                                                                {
+                                                                    console.log(data);
+                                                                    alert(data);   
+                                                                }//End Scucess        
+                                                            }); // End ajax                                                   
+                                                        }                                                                                                     
+                                                    </script>
+
                                                       <?php  // UPDATE item stock 
                                                         
                                                         require_once('DataFetchers/mysql_connect.php');
@@ -382,7 +421,7 @@
 
                                        <div class="form-group" id="UpdateDamageForm" >
                                            <div class="col-md-12 col-sm-12 col-xs-12" align = "right">
-                                               <button type="button" class="btn btn-success" id = "updatedmg" name = "UpdateDamage" onclick = "BackInsert()">Update</button>
+                                               <button type="button" class="btn btn-success" id = "updatedmg" name = "UpdateDamage" >Update</button>
                                                <button type="button" class="btn btn-danger" onclick = "cancelDamaged()" id = "canceldmg">Cancel</button>
                                            </div>
                                         </div>
@@ -452,32 +491,7 @@
                                             
                                                 if(isset($_GET['confirmButton']))
                                                 {
-                                                    
-                                                    // $currentItemID = $_SESSION['item_IDfromView'];
-                                                    // $currentItemName = $_SESSION['current_name'];
 
-                                                    // $currentDmgQuantity = $_SESSION['getDamageQuantity'];
-                                                    // $currentDmgPercent = $_SESSION['getDamagePercent'];
-                                            
-                                                    // $currentDmgLoss =  $_SESSION['getDamageLoss'];
-
-                                                    // $insertToDamageTable = "INSERT INTO damage_item (refitem_id, item_name, damage_percentage, item_quantity,total_loss,last_update)
-                                                    // VALUES ('$currentItemID', '$currentItemName','$currentDmgPercent','$currentDmgQuantity','$currentDmgLoss',Now())";
-                                                    // $resultofInsert  = mysqli_query($dbc, $insertToDamageTable); 
-
-                                                    // if(!$resultofInsert) 
-                                                    // {
-                                                    //     die('Error: ' . mysqli_error($dbc));
-                                                    //     echo '<script language="javascript">';
-                                                    //     echo 'alert("Error In Insert!");';
-                                                    //     echo '</script>';
-                                                    // } 
-                                                    // else 
-                                                    // {
-                                                    //     echo '<script language="javascript">';
-                                                    //     echo 'alert("Successful!");';
-                                                    //     echo '</script>';
-                                                    // }
                                                 }
                                             
                                                 
@@ -536,7 +550,6 @@
         $warehouseArray[] = $row['warehouse']; 
         $lastRestockArray[] = $row['last_restock']; 
         $lastUpdateArray[] = $row['last_update']; 
-
         
     }
     
@@ -624,8 +637,12 @@
     var input_damage_price = document.getElementById('priceeach');
     var input_damage_total = document.getElementById('totalloss');
 
+    
+
     update_button.onclick = function()
     {
+        DoAjax();
+        
         var newName = itemNameInEditInventory.value + damagePercentage.value;
         if(input_damage_qty.length == 0)
         {
@@ -634,43 +651,40 @@
         else
         {       
             var newRow = document.getElementById('damageTable').insertRow();                       
-            newRow.innerHTML = "<tr> <td>"+ newName+ "</td> <td>" + damagePercentage.value+ "</td> </tr>";
-
-            // damagePercentage.value = "";
-            // dmgQtyBox.value = "";
-            // priceEachBox.value = "";
-            // totalLossBox.value = "";
+            newRow.innerHTML = "<tr> <td>"+ newName+ "</td> <td>" + damagePercentage.value+ "</td> </tr>";   
+            
+            input_damage_qty.value = "";
+            input_damage_percent.value = "";
+            input_damage_price.value = "";
+            input_damage_total.value = "";       
         }
-        request = $.ajax({
-        url: "ajax/JSV_Getter.php",
-        type: "POST",
-        data: {post_damage_qty: input_damage_qty,
-            post_damage_percent: input_damage_percent,
-            post_damage_price: input_damage_price,
-            post_damage_total: input_damage_total,
-            post_damage_item: itemNameInEditInventory
-        },
-        success: function(data, textStatus)
-         {
-            $(".result").html(data); 
-            alert("Ajax Gud");   
-            }//End Scucess
         
-        }); // End ajax
-        input_damage_qty.value = "";
-        input_damage_percent.value = "";
-        input_damage_price.value = "";
-        input_damage_total.value = "";
+       
 
      } //End function
 
-       
-        
-    
-        
-    
+     function DoAjax()
+     {
+        request = $.ajax({
+        url: "ajax/insertToDB.php",
+        type: "POST",
+            data:{post_damage_qty: input_damage_qty.value, //Never forget to get the Value from the <INPUTS>
+                post_damage_percent: input_damage_percent.value,
+                post_damage_price: input_damage_price.value,
+                post_damage_total: input_damage_total.value,
+                post_damage_item: itemNameInEditInventory.value
+            },
+            success: function(data)
+            {
+                console.log(data);
+                alert(data);   
+            }//End Scucess        
+        }); // End ajax
 
+      
+     }
 </script>
+
 <script type="text/javascript">
     function validate(obj) {
     obj.value = valBetween(obj.value, obj.min, obj.max); //Gets the value of input alongside with min and max
