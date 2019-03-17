@@ -232,7 +232,7 @@
                                                 <br>
                                                 <label class="control-label col-md-4 col-sm-4 col-xs-12">Discount Amount:</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" name ="discountamt" id = "discountamt" class="form-control" value = "0" min = "1" placeholder= "%">
+                                                    <input type="number" name ="discountamt" id = "discountamt" class="form-control" value = "0" min = "1" max="20" placeholder= "%" oninput="validate(this)">
                                                 </div>
                                             </div>
 
@@ -334,7 +334,7 @@
                                        <div class="form-group">
                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Percentage of Damage</label>
                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                               <input   name ="damagePercent" type="number" id = "percentdmg" class="form-control"  placeholder="Max 100%" max = "100" min = "0" >
+                                               <input   name ="damagePercent" type="number" id = "percentdmg" class="form-control"  placeholder="Max 100%" max = "100" min = "0" oninput="validate(this)">
                                            </div>
                                        </div>
 
@@ -356,39 +356,8 @@
 
                                        <div class="form-group" id="UpdateDamageForm" >
                                            <div class="col-md-12 col-sm-12 col-xs-12" align = "right">
-                                               <button type="submit" class="btn btn-success" id = "updatedmg" name = "UpdateDamage">Update</button>
+                                               <button type="button" class="btn btn-success" id = "updatedmg" name = "UpdateDamage" onclick = "BackInsert()">Update</button>
                                                <button type="button" class="btn btn-danger" onclick = "cancelDamaged()" id = "canceldmg">Cancel</button>
-
-                                               <script>
-                                                    function loginForm() 
-                                                    {
-                                                        document.getElementById("UpdateDamageForm").click();
-                                                    }
-                                                </script>
-                                              
-                                               <?php
-
-                                              
-                                                if(isset($_GET['UpdateDamage'],$_GET['damageQuantity']))
-                                                {               
-                                                    echo "sho mi da waeee";
-                                                   
-                                                    $damageQuantityFromHTML = $_GET['damageQuantity'];
-                                                    $damagePercentFromHTML = $_GET['damagePercent'];                                                    
-                                                    $damageTotalFromHTML = $_GET['totalLoss'];
-
-                                                    echo $damageQuantityFromHTML;
-                                                    echo $damagePercentFromHTML;
-                                                    echo $damageTotalFromHTML;
-
-                                                    $_SESSION['getDamageQuantity'] = $damageQuantityFromHTML;
-                                                    $_SESSION['getDamagePercent'] = $damagePercentFromHTML;
-                                            
-                                                     $_SESSION['getDamageLoss'] = $damageTotalFromHTML;
-                                                   
-                                                }
-
-                                                ?>
                                            </div>
                                         </div>
 
@@ -458,34 +427,31 @@
                                                 if(isset($_GET['confirmButton']))
                                                 {
                                                     
-                                                    $currentItemID = $_SESSION['item_IDfromView'];
-                                                    $currentItemName = $_SESSION['current_name'];
+                                                    // $currentItemID = $_SESSION['item_IDfromView'];
+                                                    // $currentItemName = $_SESSION['current_name'];
 
-                                                    $currentDmgQuantity = $_SESSION['getDamageQuantity'];
-                                                    $currentDmgPercent = $_SESSION['getDamagePercent'];
+                                                    // $currentDmgQuantity = $_SESSION['getDamageQuantity'];
+                                                    // $currentDmgPercent = $_SESSION['getDamagePercent'];
                                             
-                                                    $currentDmgLoss =  $_SESSION['getDamageLoss'];
+                                                    // $currentDmgLoss =  $_SESSION['getDamageLoss'];
 
-                                                
-        
-                                                  
-                                                    $insertToDamageTable = "INSERT INTO damage_item (refitem_id, item_name, damage_percentage, item_quantity,total_loss,last_update)
-                                                    VALUES ('$currentItemID', '$currentItemName','$currentDmgPercent','$currentDmgQuantity','$currentDmgLoss',Now())";
-                                                    $resultofInsert  = mysqli_query($dbc, $insertToDamageTable); 
+                                                    // $insertToDamageTable = "INSERT INTO damage_item (refitem_id, item_name, damage_percentage, item_quantity,total_loss,last_update)
+                                                    // VALUES ('$currentItemID', '$currentItemName','$currentDmgPercent','$currentDmgQuantity','$currentDmgLoss',Now())";
+                                                    // $resultofInsert  = mysqli_query($dbc, $insertToDamageTable); 
 
-                                                    if(!$resultofInsert) 
-                                                    {
-                                                        die('Error: ' . mysqli_error($dbc));
-                                                        echo '<script language="javascript">';
-                                                        echo 'alert("Error In Insert!");';
-                                                        echo '</script>';
-                                                    } 
-                                                    else 
-                                                    {
-                                                        echo '<script language="javascript">';
-                                                        echo 'alert("Successful!");';
-                                                        echo '</script>';
-                                                    }
+                                                    // if(!$resultofInsert) 
+                                                    // {
+                                                    //     die('Error: ' . mysqli_error($dbc));
+                                                    //     echo '<script language="javascript">';
+                                                    //     echo 'alert("Error In Insert!");';
+                                                    //     echo '</script>';
+                                                    // } 
+                                                    // else 
+                                                    // {
+                                                    //     echo '<script language="javascript">';
+                                                    //     echo 'alert("Successful!");';
+                                                    //     echo '</script>';
+                                                    // }
                                                 }
                                             
                                                 
@@ -619,14 +585,28 @@
     confirmButton.onclick = function() 
     {  
         var inputValue = damagePercentage.value;    
+   
+    }
+
+</script>
+<script>
+    
+    var update_button = document.getElementById('updatedmg');
+
+    var input_damage_qty = document.getElementById('dmgqty');
+    var input_damage_percent = document.getElementById('percentdmg');
+    var input_damage_price = document.getElementById('priceeach');
+    var input_damage_total = document.getElementById('totalloss');
+
+    update_button.onclick = function()
+    {
         var newName = itemNameInEditInventory.value + damagePercentage.value;
-        if(inputValue.length == 0)
+        if(input_damage_qty.length == 0)
         {
             alert("No Input Found");
         }
         else
-        {
-        
+        {       
             var newRow = document.getElementById('damageTable').insertRow();                       
             newRow.innerHTML = "<tr> <td>"+ newName+ "</td> <td>" + damagePercentage.value+ "</td> </tr>";
 
@@ -634,12 +614,47 @@
             // dmgQtyBox.value = "";
             // priceEachBox.value = "";
             // totalLossBox.value = "";
-
         }
+        request = $.ajax({
+        url: "ajax/JSV_Getter.php",
+        type: "POST",
+        data: {post_damage_qty: input_damage_qty,
+            post_damage_percent: input_damage_percent,
+            post_damage_price: input_damage_price,
+            post_damage_total: input_damage_total,
+            post_damage_item: itemNameInEditInventory
+        },
+        success: function(data, textStatus)
+         {
+            $(".result").html(data); 
+            alert("Ajax Gud");   
+            }//End Scucess
+        
+        }); // End ajax
+        input_damage_qty.value = "";
+        input_damage_percent.value = "";
+        input_damage_price.value = "";
+        input_damage_total.value = "";
+
+     } //End function
+
        
-    }
+        
+    
+        
+    
 
 </script>
+<script type="text/javascript">
+    function validate(obj) {
+    obj.value = valBetween(obj.value, obj.min, obj.max); //Gets the value of input alongside with min and max
+    console.log(obj.value);
+    }
+
+    function valBetween(v, min, max) {
+    return (Math.min(max, Math.max(min, v))); //compares the value between the min and max , returns the max when input value > max
+    }
+</script> <!-- To avoid the users input more than the current Max per item -->
 
 <!-- jQuery -->
 <script src="../vendors/jquery/dist/jquery.min.js"></script>
