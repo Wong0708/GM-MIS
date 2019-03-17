@@ -59,7 +59,7 @@ if(isset($_POST['login']))
 				<div class="d-flex justify-content-center form_container">
 					<form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
                         <div>
-                            <h1 align="center">Hello!</h1><br>
+                            <h1 align="center"><font size="6">Globemaster</font></h1><br>
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-append">
@@ -94,8 +94,8 @@ if(isset($_POST['login']))
     
     
     @font-face {
-    font-family: "Couture Bold";
-    src: url("css/fonts/couture-bld.otf");
+    font-family: "Couture Bold Italic";
+    src: url("css/fonts/couture-bldit.otf");
     }
 
 		body,
@@ -170,7 +170,7 @@ if(isset($_POST['login']))
     
     
         h1 {
-            font-family: 'COUTURE Bold', Arial, sans-serif;
+            font-family: 'COUTURE Bold Italic', Arial, sans-serif;
             font-weight:normal;
             font-style:normal;
             color: #1D2B51;

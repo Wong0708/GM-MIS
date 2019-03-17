@@ -12,7 +12,7 @@ if(!(isset($_SESSION['usertype']))){
     <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title">
-                <a href="MainDashboard.php" class="site_title"><img src="images/GM%20LOGO.png" width = "60px" height = "60px"><b>Globe Master</b></a>
+                <a href="MainDashboard.php" class="site_title"><img src="images/GM%20LOGO.png" width = "50px" height = "50px"><font face="Couture Bold Italic" size="4" color="#1D2B51">Globe Master</font></a>
             </div>
 
             <div class="clearfix"></div>
@@ -20,8 +20,8 @@ if(!(isset($_SESSION['usertype']))){
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="images/img.jpg" alt="..." class="img-circle profile_img">
-              </div>
+                <img src="images/user.png" alt="..." class="img-circle profile_img">
+              </div><br>
               <div class="profile_info">
                 <span>
                 <?php
@@ -37,15 +37,15 @@ if(!(isset($_SESSION['usertype']))){
 
 
                 $user=$row['usertype'];
-                    echo "<h2>Welcome, ";
+                    echo "<h2><font face='Couture Bold'>Welcome, ";
                     echo $row['usertype'];
-                    echo "</h2>";
+                    echo "</font></h2>";
                   
         
                 ?>
                 </span>
-              </div>
-            </div>
+              </div><br><hr>
+            </div><br>
             <!-- /menu profile quick info -->
 
             
@@ -73,6 +73,7 @@ if(!(isset($_SESSION['usertype']))){
                       echo "<li><a>Economic order Quantity (EOQ)<span class='fa fa-chevron-down'></span></a>";
                       echo "<ul class='nav child_menu'>";
                       if($user == 'CFO'){
+                      echo    "<li><a href='InputPage.php'>Input EOQ Details</a></li>";
                       echo    "<li><a href='EOQ Input.php'>Input EOQ Details</a></li>";
                       
                       }
@@ -86,7 +87,7 @@ if(!(isset($_SESSION['usertype']))){
                      
                       <?php
                       if($user == 'CEO' or $user == 'CFO' or $user == 'MKT'){
-                      echo "<li><a href='index2.html'>Item Sales Visualization</a></li>";
+                      echo "<li><a>Item Sales Visualization</a></li>";
                       }
                       ?>
                         
@@ -151,6 +152,7 @@ if(!(isset($_SESSION['usertype']))){
                       
               
                       if($user == 'CFO'){
+                      echo "<li><a href='ClientApproval.php'>Client Order Approval</a></li>";
                         echo "<li><a href='ClientApproval.php'>Client Order Approval</a></li>";
                       
                         }
@@ -158,24 +160,25 @@ if(!(isset($_SESSION['usertype']))){
                         echo "</li>";
                       }
                       ?>
-                    <!--/ul>
-                  </li-->
+
 
                   <?php
                      if($user == 'CEO' or $user == 'CFO' or $user == 'MKT'){
-                  //echo "</ul>";
-                  //echo "</li>";
+                  
 
                   echo "<li><a><i class='fa fa-bar-chart-o'></i> Data Analytics <span class='fa fa-chevron-down'></span></a>";
                   echo   "<ul class='nav child_menu'>";
                   echo     "<li><a> Sales <span class='fa fa-chevron-down'></span></a>";
                   echo       "<ul class='nav child_menu'>";
+                  echo         "<li><a>Sales Variance Analysis</a></li>";
+                  echo         "<li><a>Sales Forecasting</a></li>";
                   echo         "<li><a href='index.html'>Sales Variance Analysis</a></li>";
                   echo         "<li data-toggle='modal' data-target='.bs-example-modal-sm'><a>Sales Forecasting</a></li>";
                   echo       "</ul>";
                   echo    "</li>";
                   echo    "<li><a> Inventory <span class='fa fa-chevron-dow'></span></a>";
                   echo        "<ul class='nav child_menu'>";
+                  echo            "<li><a>Inventory Forecasting</a></li>";
                   echo            "<li><a href='InventoryForecasting.php'>Inventory Forecasting</a></li>";
                   echo         "</ul>";
                   echo    "</li>";
@@ -337,3 +340,25 @@ if(!(isset($_SESSION['usertype']))){
           </div>
         </div>
         <!-- /top navigation -->
+
+        <!-- Custom Fonts -->
+    <style>
+        
+        @font-face {
+        font-family: "Couture Bold Italic";
+        src: url("css/fonts/couture-bldit.otf");
+        }
+        
+        @font-face {
+        font-family: "Couture Bold";
+        src: url("css/fonts/couture-bld.otf");
+        }
+        
+        .navbar nav_title {
+            font-family: 'COUTURE Bold', Arial, sans-serif;
+            font-weight:normal;
+            font-style:normal;
+            color: #1D2B51;
+            }
+
+    </style>    
