@@ -101,7 +101,7 @@
                           <?php 
                             require_once('DataFetchers/mysql_connect.php');
 
-                            $querytogetDBTable = "SELECT * FROM scheduledelivery";
+                            $querytogetDBTable = "SELECT * FROM gm_deliveries";
                             $resultofQuery =  mysqli_query($dbc, $querytogetDBTable);
                             $count = 0;
                             $postmalone;
@@ -109,23 +109,23 @@
                             {
 
                               echo " <tr>";
-                                echo '<td  id = "delivrow',$count,'"  value="',$rowofResult['delivery_Receipt'],'"  onclick="getDR(this)"> <a href="Delivery Receipt.php">';            
+                                echo '<td  id = "delivrow',$count,'"  value="',$rowofResult['delivery_receipt'],'"  onclick="getDR(this)"> <a href="Delivery Receipt.php">';            
                                 echo $rowofResult['delivery_Receipt'];
                                 echo '</a></td>';  
                                 echo '<td>';
-                                echo $rowofResult['delivery_Date'];
+                                echo $rowofResult['delivery_date'];
                                 echo '</td>'; 
                                 echo '<td>';
                                 echo $rowofResult['driver'];
                                 echo '</td>';  
                                 echo '<td>';
-                                echo $rowofResult['truck_Number'];
+                                echo $rowofResult['truck_number'];
                                 echo '</td>';  
                                 echo '<td>';
-                                echo $rowofResult['customer_Name'];
+                                echo $rowofResult['customer_name'];
                                 echo '</td>';  
                                 echo '<td>';
-                                echo $rowofResult['Destination'];
+                                echo $rowofResult['destination'];
                                 echo '</td>';  
                                 echo '<td>';
                                 echo $rowofResult['delivery_status'];
