@@ -72,7 +72,10 @@
                             </div> <!--END Xtitle-->
                            
                             <div class="x_content">
-                                <br>
+
+                                <div class="col-md-12 col-sm-12 col-xs-12" >
+                                     <p><font color = "red">This item is on a 30% discount. The discount will end at 3/30/19 2:30:00 PM.</font></p>
+                                </div>
 
                                 <form class="form-horizontal form-label-center" method="GET">
 
@@ -232,7 +235,7 @@
                                                 <br>
                                                 <label class="control-label col-md-4 col-sm-4 col-xs-12">Discount Amount:</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" name ="discountamt" id = "discountamt" class="form-control" value = "0" min = "1" max="20" placeholder= "%" oninput="validate(this)">
+                                                    <input type="number" name ="discountamt" id = "discountamt" class="form-control" value = "" min = "1" max="30" placeholder= "%" oninput="validate(this)">
                                                 </div>
                                             </div>
 
@@ -837,7 +840,7 @@
         discountinput.disabled = true;
         updatediscount.disabled = true;
 
-        var insideval1 = discountinput.value = "0";
+        var insideval1 = discountinput.value = "";
     }
 
     function updatediscountalert()
