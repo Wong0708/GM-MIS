@@ -1,55 +1,32 @@
 <?php
     session_start();
     require_once('mysql_connect.php');
-    $itemIDArray = $_POST['post_item_id'];
-    $itemQtyArray = $_POST['post_item_qty'];
-    $CurrentOR = $_POST['post_order_number'];
-    $clientID = $_POST['post_client_id'];
-    $itemNameArray = array();
-    $itemPriceArray = array();
-    $DeliveryStatus = $_POST['post_delivery_status'];
-    $FabStatus = $_POST['post_fab_status'];
+    $GET_DMG_QTY = $_POST['post_damage_qty'];
+    $GET_DMG_PERCENT = $_POST['post_damage_percent'];
+    $GET_DMG_PRICE = $_POST['post_damage_price'];
+    $GET_DMG_TOTAL = $_POST['post_damage_total'];
+    $GET_DMG_ITEM_NAME = $_POST['post_damage_item'];
+    $ITEM_ID_FROM_DB = $_SESSION['item_IDfromView'];
 
-    for($i = 0; $i < sizeof($itemIDArray); $i++)
+    // $SQL_GET_ITEM_ID = "SELECT item_id FROM items_tradings WHERE sku_id = $GET_DMG_ITEM_NAME";
+    // $RESULT_GET_SQL = mysqli_query($dbc,$SQL_GET_ITEM_ID);
+    // while($ROW_RESULT=mysqli_fetch_array($RESULT_GET_SQL,MYSQLI_ASSOC))
+    // {
+    //     $ITEM_ID_FROM_DB = $ROW_RESULT['item_id'];
+    // } 
+
+    $SQL_INSERT_DMG_TABLE = "INSERT INTO damage_item (refitem_id, item_name, damage_percentage, item_quantity,total_loss,last_update)
+    VALUES ('$ITEM_ID_FROM_DB', '$GET_DMG_ITEM_NAME','$GET_DMG_PERCENT','$GET_DMG_QTY','$GET_DMG_TOTAL',Now())";
+    $RESULT_GET_SQL = mysqli_query($dbc,$SQL_INSERT_DMG_TABLE);
+    if(! $RESULT_GET_SQL) 
     {
-        $sqlToGetItemDetail = "SELECT * FROM items_trading WHERE item_id ='$itemIDArray[$i]'";
-        $resultofGetItemDetail =mysqli_query($dbc,$sqlToGetItemDetail);
-        while($rowofGetItemDetail = mysqli_fetch_array($resultofGetItemDetail,MYSQLI_ASSOC))
-        {
-            $itemNameArray[] = $rowofGetItemDetail['item_name'];
-            $itemPriceArray[] = $rowofGetItemDetail['price']; 
-            echo $rowofGetItemDetail['sku_id'], "<br>";
-            echo "Item Name = ", $rowofGetItemDetail['item_name'],"<br>";
-            echo "Item Price = ", $rowofGetItemDetail['price'],"<br>";
-            echo "Item Quantity = ",$itemQtyArray[$i],"<br>";
-        }
-         echo "Item ID = ",$itemIDArray[$i],"<br>";
-        
-
-        $sqlInsertToOrderDetail = "INSERT INTO order_details (ordernumber, client_id, item_id, item_name, item_price, item_qty, item_status, fabrication_status, payment_status)
-        VALUES(
-            '$CurrentOR', 
-            '$clientID', 
-            '$itemIDArray[$i]', 
-            '$itemNameArray[$i]',
-            '$itemPriceArray[$i]',
-            '$itemQtyArray[$i]',
-            '$DeliveryStatus',
-            '$FabStatus',
-            'Not Yet Paid');";
-        $resultofInsert =mysqli_query($dbc,$sqlInsertToOrderDetail);
+        die('Error: ' . mysqli_error($dbc));
+    } 
+    else 
+    {
+        echo 'Damaged Item Added!';
+    
     }
-    echo implode(" ",$_POST['post_item_qty']),"<br>";
-    echo implode(" ",$_POST['post_item_id']),"<br>";
-    echo $_POST['post_expected_date'],"<br>";
-    echo $_POST['post_payment_id'],"<br>";
-    echo $_POST['post_client_id'],"<br>";
-    echo $_POST['post_order_number'],"<br>";
-    echo $_POST['post_delivery_status'],"<br>";
-    echo $_POST['post_fab_status'],"<br>";
-
-    echo $_POST['delivery_status'],"<br>";
-
-   
+    
     
 ?>
