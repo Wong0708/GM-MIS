@@ -209,7 +209,7 @@ if(!(isset($_SESSION['usertype']))){
                 </ul>
               </div>
             </div>
-            <!-- /sidebar menu -->
+            <!-- /sidebar menu sdfghjkjhgfdsdfghjk -->
 
 
             <!-- Modal Trigger -->
