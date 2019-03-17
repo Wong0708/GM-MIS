@@ -37,29 +37,12 @@
       </div>
         <!-- page content -->
         <div class="right_col" role="main">
-          <div class="">
             <div class="page-title">
-              <div class="title_left">
-                <h1>Deliveries: <small>List of deliveries for Globe Master Trading</small></h1>
-              </div>
-
-              
-
-              <div class="title_right">
-                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                  <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">Go!</button>
-                    </span>
-                  </div>
-                </div>
+              <div>
+                  <center><h1><img src="images/GM%20LOGO.png" width = "80px" height = "80px">DELIVERIES</h1>
               </div>
             </div>
-
-
-          
-            
+            <br><br><br><br>
             <div class="clearfix"></div>
 
             <div class="row">
@@ -187,6 +170,25 @@
             localStorage.setItem('DRfromDeliveriesPage',textFromDeliveriesPage);
          }
     </script>
+
+    <!-- Custom Fonts -->
+    <style>
+        
+        @font-face {
+        font-family: "Couture Bold";
+        src: url("css/fonts/couture-bld.otf");
+        }
+        
+        h1 {
+            font-family: 'COUTURE Bold', Arial, sans-serif;
+            font-weight:normal;
+            font-style:normal;
+            font-size: 50px;
+            color: #1D2B51;
+            }
+
+    </style>   
+
 
   </body>
 </html>
