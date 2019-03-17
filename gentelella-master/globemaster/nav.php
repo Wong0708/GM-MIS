@@ -102,7 +102,6 @@ if(!(isset($_SESSION['usertype']))){
                       <?php
                        if($user == 'CEO' or $user == 'CFO' or $user == 'MKT'){
                       
-                      echo "<li><a>Discounts</a></li>";
                       echo "<li><a href='ItemDiscounts.php'>Discounts</a></li>";
                       
                         }
@@ -117,7 +116,7 @@ if(!(isset($_SESSION['usertype']))){
                   echo "<li><a><i class='fa fa-car'></i> Deliveries <span class='fa fa-chevron-down'></span></a>";
                   echo   "<ul class='nav child_menu'>";
                   if($user == 'CEO' or $user == 'SALES' or $user == 'INV'){
-                  echo    "<li><a href='Delivery Receipt.php'>View Deliveries</a></li>";
+                  echo    "<li><a href='Deliveries.php'>View Deliveries</a></li>";
                 }
                 if($user == 'SALES'){
                   echo    "<li><a href='CreateDeliveryReceipt.php'>Create Delivery Receipt</a></li>";
