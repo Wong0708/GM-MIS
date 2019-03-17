@@ -521,7 +521,6 @@
       fab_total.innerHTML = parseFloat(getTotal);
       fab_total.value =parseFloat(getTotal);
       
-
     }     
     </script>
 
