@@ -73,11 +73,8 @@ if(!(isset($_SESSION['usertype']))){
                       echo "<li><a>Economic order Quantity (EOQ)<span class='fa fa-chevron-down'></span></a>";
                       echo "<ul class='nav child_menu'>";
                       if($user == 'CFO'){
-<<<<<<< HEAD
                       echo    "<li><a href='InputPage.php'>Input EOQ Details</a></li>";
-=======
                       echo    "<li><a href='EOQ Input.php'>Input EOQ Details</a></li>";
->>>>>>> b5f0f9aa26b5232145e116b48ef4bc25a1278e8c
                       
                       }
                       if($user == 'CEO' or $user == 'CFO' or $user == 'MKT'){
@@ -105,11 +102,8 @@ if(!(isset($_SESSION['usertype']))){
                       <?php
                        if($user == 'CEO' or $user == 'CFO' or $user == 'MKT'){
                       
-<<<<<<< HEAD
                       echo "<li><a>Discounts</a></li>";
-=======
                       echo "<li><a href='ItemDiscounts.php'>Discounts</a></li>";
->>>>>>> b5f0f9aa26b5232145e116b48ef4bc25a1278e8c
                       
                         }
                       ?>
@@ -123,17 +117,14 @@ if(!(isset($_SESSION['usertype']))){
                   echo "<li><a><i class='fa fa-car'></i> Deliveries <span class='fa fa-chevron-down'></span></a>";
                   echo   "<ul class='nav child_menu'>";
                   if($user == 'CEO' or $user == 'SALES' or $user == 'INV'){
-<<<<<<< HEAD
                   echo    "<li><a href='Delivery Receipt.php'>View Deliveries</a></li>";
                 }
                 if($user == 'SALES'){
                   echo    "<li><a href='CreateDeliveryReceipt.php'>Create Delivery Receipt</a></li>";
-=======
                   echo    "<li><a href='Deliveries.php'>View Deliveries</a></li>";
                 }
                 if($user == 'SALES'){
                   echo    "<li><a href='CreateDeliveryReceipt.php'>Generate Delivery Receipt</a></li>";
->>>>>>> b5f0f9aa26b5232145e116b48ef4bc25a1278e8c
                 }
                   echo   "</ul>";
                   echo "</li>";
@@ -166,11 +157,8 @@ if(!(isset($_SESSION['usertype']))){
                       
               
                       if($user == 'CFO'){
-<<<<<<< HEAD
                       echo "<li><a href='ClientApproval.php'>Client Order Approval</a></li>";
-=======
                         echo "<li><a href='ClientApproval.php'>Client Order Approval</a></li>";
->>>>>>> b5f0f9aa26b5232145e116b48ef4bc25a1278e8c
                       
                         }
                         echo "</ul>";
@@ -187,22 +175,16 @@ if(!(isset($_SESSION['usertype']))){
                   echo   "<ul class='nav child_menu'>";
                   echo     "<li><a> Sales <span class='fa fa-chevron-down'></span></a>";
                   echo       "<ul class='nav child_menu'>";
-<<<<<<< HEAD
                   echo         "<li><a>Sales Variance Analysis</a></li>";
                   echo         "<li><a>Sales Forecasting</a></li>";
-=======
                   echo         "<li><a href='index.html'>Sales Variance Analysis</a></li>";
                   echo         "<li data-toggle='modal' data-target='.bs-example-modal-sm'><a>Sales Forecasting</a></li>";
->>>>>>> b5f0f9aa26b5232145e116b48ef4bc25a1278e8c
                   echo       "</ul>";
                   echo    "</li>";
                   echo    "<li><a> Inventory <span class='fa fa-chevron-dow'></span></a>";
                   echo        "<ul class='nav child_menu'>";
-<<<<<<< HEAD
                   echo            "<li><a>Inventory Forecasting</a></li>";
-=======
                   echo            "<li><a href='InventoryForecasting.php'>Inventory Forecasting</a></li>";
->>>>>>> b5f0f9aa26b5232145e116b48ef4bc25a1278e8c
                   echo         "</ul>";
                   echo    "</li>";
                   echo   "</ul>";
@@ -219,13 +201,10 @@ if(!(isset($_SESSION['usertype']))){
                   echo "<li><a><i class='fa fa-folder-open'></i> Reports <span class='fa fa-chevron-down'></span></a>";
                   echo   "<ul class='nav child_menu'>";
                   echo     "<li><a>Inventory Report</a></li>";
-<<<<<<< HEAD
                   echo    "<li><a>Sales Report</a></li>";
                   echo    "<li><a>Delivery Report</a></li>";
-=======
                   echo    "<li><a href='SalesReport.php'>Sales Report</a></li>";
                   echo    "<li><a href='DeliveryReport.php'>Delivery Report</a></li>";
->>>>>>> b5f0f9aa26b5232145e116b48ef4bc25a1278e8c
                   echo   "</ul>";
                   echo "</li>";
 
