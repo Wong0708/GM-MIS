@@ -44,7 +44,7 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h1>Add Inventory</h1><br>
+                <h1>GM-MIS | Add Inventory</h1><br>
               </div>
             </div>
             <div class="clearfix"></div>

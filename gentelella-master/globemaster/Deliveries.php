@@ -39,24 +39,10 @@
         <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
-              <div class="title_left">
-                <h1>Deliveries: <small>List of deliveries for Globe Master Trading</small></h1>
+              <div>
+                <center><h1>DELIVERIES <br><small>List of deliveries for Globe Master Trading</small></h1>
               </div>
-
-              
-
-              <div class="title_right">
-                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                  <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">Go!</button>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+            </div><br><br><br><br><br>
 
           
             

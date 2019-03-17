@@ -41,62 +41,76 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                  <h1>Globemaster Inventory Forecasting</h1><br>
+                  <h1>Inventory Forecasting</h1><br>
               </div>
             </div>
 
               <div class="clearfix"></div>
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
-                  <div class="x_content">
-                    <p class="text-muted font-13 m-b-30">
-                      This is where the users will be able to add and remove inventory based on the data tables provided by the company. These can be editable and can be subjected to changes in accordance to the
-                  desires of the head different screen sizes through the dynamic insertion and removal of columns from the table.
-                    </p><br>
-					
-                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-                      <thead>
-                        <tr>
-                          <th>SKU</th>
-                          <th>Item Name</th>                       
-                          <th>Stock Count</th>
-                          <th>Price</th>
-                          <th>EOQ</th>                         
-                          <th>Last Update</th>
-                          
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php
-                            
-                            require_once('DataFetchers/mysql_connect.php');
-                            $query = "SELECT * FROM items_trading;";
-                            $result=mysqli_query($dbc,$query);
-                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                            {
-                                
-                                    echo '<tr>';
-                                    echo '<td>';
-                                    echo $row['sku_id'];
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $row['item_name'];
-                                    echo '</td>';                                  
-                                    echo '<td>';
-                                    echo $row['item_count'];
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo  'Php'." ".number_format($row['price'], 2);
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $row['last_restock'];
-                                    echo '</td>';
-                                    echo '</tr>';
-                                    
-                            }
-                        ?>  
-                      </tbody>
-                    </table><br>
+                  <div class="x_content"><br>
+                      
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Client</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select class="form-control col-md-7 col-xs-12" id="clientID" name="clientID">
+                                <option value="annual">Annual</option>;  
+                                <option value="month">Month</option>;  
+                                <option value="week">Week</option>;  
+                                <option value="day">Day</option>;  
+                            </select>
+                        </div>
+
+                    </div>
+                   <br>
+                    <hr>
+                    <div class="form-group">  
+                        <table id="datatable-fixed-header" class="table table-striped table-bordered">
+                          <thead>
+                            <tr>
+                              <th>SKU</th>
+                              <th>Item Name</th>                       
+                              <th>Stock Count</th>
+                              <th>Price</th>
+                              <th>EOQ Value</th>                         
+                              <th>Last Update</th>
+
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php
+
+                                require_once('DataFetchers/mysql_connect.php');
+                                $query = "SELECT * FROM items_trading;";
+                                $result=mysqli_query($dbc,$query);
+                                while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                                {
+
+                                        echo '<tr>';
+                                        echo '<td>';
+                                        echo $row['sku_id'];
+                                        echo '</td>';
+                                        echo '<td>';
+                                        echo $row['item_name'];
+                                        echo '</td>';                                  
+                                        echo '<td>';
+                                        echo $row['item_count'];
+                                        echo '</td>';
+                                        echo '<td>';
+                                        echo  'Php'." ".number_format($row['price'], 2);
+                                        echo '</td>';
+                                        echo '<td>';
+                                        echo '</td>';
+                                        echo '<td>';
+                                        echo $row['last_restock'];
+                                        echo '</td>';
+                                        echo '</tr>';
+
+                                }
+                            ?>  
+                          </tbody>
+                        </table><br>
+                    </div>    
                   </div>
                 </div>
               </div>
