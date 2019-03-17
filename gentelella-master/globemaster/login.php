@@ -95,7 +95,7 @@ if(isset($_POST['login']))
     
     @font-face {
     font-family: "Couture Bold";
-    src: url("css/fonts/couture-bld.tff");
+    src: url("css/fonts/couture-bld.otf");
     }
 
 		body,
