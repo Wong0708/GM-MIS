@@ -12,7 +12,7 @@ if(!(isset($_SESSION['usertype']))){
     <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title">
-                <a href="MainDashboard.php" class="site_title"><img src="images/GM%20LOGO.png" width = "60px" height = "60px"><b>Globe Master</b></a>
+                <a href="MainDashboard.php" class="site_title"><img src="images/GM%20LOGO.png" width = "50px" height = "50px"><font face="Couture Bold Italic" size="4" color="#1D2B51">Globe Master</font></a>
             </div>
 
             <div class="clearfix"></div>
@@ -37,15 +37,15 @@ if(!(isset($_SESSION['usertype']))){
 
 
                 $user=$row['usertype'];
-                    echo "<h2>Welcome, ";
+                    echo "<h2><font face='Couture Bold Italic'>Welcome, ";
                     echo $row['usertype'];
-                    echo "</h2>";
+                    echo "</font></h2>";
                   
         
                 ?>
                 </span>
-              </div>
-            </div>
+              </div><br><hr>
+            </div><br>
             <!-- /menu profile quick info -->
 
             
@@ -337,3 +337,20 @@ if(!(isset($_SESSION['usertype']))){
           </div>
         </div>
         <!-- /top navigation -->
+
+        <!-- Custom Fonts -->
+    <style>
+        
+        @font-face {
+        font-family: "Couture Bold Italic";
+        src: url("css/fonts/couture-bldit.otf");
+        }
+        
+        .navbar nav_title {
+            font-family: 'COUTURE Bold', Arial, sans-serif;
+            font-weight:normal;
+            font-style:normal;
+            color: #1D2B51;
+            }
+
+    </style>    
