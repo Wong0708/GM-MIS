@@ -20,7 +20,7 @@ if(!(isset($_SESSION['usertype']))){
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="images/GM%20LOGO.png" alt="..." class="img-circle profile_img">
+                <img src="images/user.png" alt="..." class="img-circle profile_img">
               </div><br>
               <div class="profile_info">
                 <span>
