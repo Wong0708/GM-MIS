@@ -94,7 +94,7 @@
                                         $discountstatus[] = $rowDiscountNotif['onDiscount'];
     
                                     }
-                                    echo sizeof($discountstatus);
+                                   
                                   
                                     for($i = 0; $i < sizeof($discountpercent); $i++)
                                     {
@@ -281,67 +281,10 @@
                                             <div class="form-group">
                                                 <div class="col-md-12 col-sm-12 col-xs-12" align = "center">
                                                 <!--  -->
-                                                    <button type="submit" class="btn btn-success" onclick = "updatediscountalert(this)" id = "updatediscount" name ="discountBtn" >Update</button>
+                                                    <button type="button" class="btn btn-success" onclick = "updatediscountalert()" id = "updatediscount" name ="discountBtn" >Update</button>
 
-                                                    <script>
-                                                   
-                                                    var discount_button = document.getElementById('discountBtn');
-                                                    var discount_amount = document.getElementById('discountamt');
-
+                                                    
                                                      
-                                                        discount_button.onclick = function()
-                                                        {
-                                                            request = $.ajax({
-                                                            url: "ajax/JSV_Getter.php",
-                                                            type: "POST",
-                                                                data:{
-                                                                    post_discount_amount: discount_amount.value, //Never forget to get the Value from the <INPUTS>
-                                                                    post_item_id: $_SESSION['item_IDfromView']
-                                                                    
-                                                                },
-                                                                success: function(data)
-                                                                {
-                                                                    console.log(data);
-                                                                    alert(data);   
-                                                                }//End Scucess        
-                                                            }); // End ajax                                                   
-                                                        }                                                                                                     
-                                                    </script>
-
-                                                      <?php  // UPDATE item stock 
-                                                        
-                                                        require_once('DataFetchers/mysql_connect.php');
-                                                        if(isset($_GET['restockBtn'], $_GET['restockAmount'])) //checks if both GET have values because the form post is = "GET"                                                    
-                                                        {               
-                                                         
-                                                            $restockCount = $_GET['restockAmount'];
-                                                            
-                                                            $itemIDfromViewInventory = $_SESSION['item_IDfromView'];
-                                                            $sqlInsert = "UPDATE items_trading  
-                                                            SET items_trading.item_count  = (item_count + '$restockCount'),
-                                                            last_restock = Now() 
-                                                            WHERE item_id ='$itemIDfromViewInventory';"; //Updates the item count in DB
-                                                            $result=mysqli_query($dbc,$sqlInsert); 
-                                                            
-                                                            if(!$result) 
-                                                            {
-                                                                die('Error: ' . mysqli_error($dbc));
-                                                            } 
-                                                            else 
-                                                            {
-                                                                echo '<script language="javascript">';
-                                                                echo 'alert("Successful!");';
-                                                                echo '</script>';
-                                                            }
-
-                                                            $itemID =  $_SESSION['item_IDfromView'];
-                                                            $queryToInserttoRestockTable = "INSERT INTO restock_detail (item_id, quantity, restock_date)
-                                                            VALUES ('$itemID','$restockCount',Now())";
-                                                            $result=mysqli_query($dbc,$queryToInserttoRestockTable); 
-
-                                             
-                                                        }                                                     
-                                                    ?>
 
                                                    
 
@@ -487,34 +430,49 @@
                                             <button name = "confirmButton" type="submit" class="btn btn-success" onclick ="generalAlert()">Confirm</button>
                                             <button type="reset" class="btn btn-warning" onclick="clearLocalStorage()">Archive</button>
 
-                                            <?php 
-                                            
-                                                if(isset($_GET['confirmButton']))
-                                                {
-
-                                                }
-                                            
-                                                
-                                            ?>
                                         </div><!--END Col MD-->
                                     
                             </div> <!--END X Panel-->
                         </div><!--END Col MD-->
                         </div>
                             </form>
-                                    
-                                    
-                                    
-                                
-                              
-                                    
-                                        
-                        
                     </div><!--END Role=Main -->
-                </div><!--END Container Body-->
-          
+                </div><!--END Container Body-->        
 </body>
 <!-- /page content -->
+<?php  // UPDATE item stock 
+                                                        
+    require_once('DataFetchers/mysql_connect.php');
+    if(isset($_GET['restockBtn'], $_GET['restockAmount'])) //checks if both GET have values because the form post is = "GET"                                                    
+    {               
+        
+        $restockCount = $_GET['restockAmount'];
+        
+        $itemIDfromViewInventory = $_SESSION['item_IDfromView'];
+        $sqlInsert = "UPDATE items_trading  
+        SET items_trading.item_count  = (item_count + '$restockCount'),
+        last_restock = Now() 
+        WHERE item_id ='$itemIDfromViewInventory';"; //Updates the item count in DB
+        $result=mysqli_query($dbc,$sqlInsert); 
+        
+        if(!$result) 
+        {
+            die('Error: ' . mysqli_error($dbc));
+        } 
+        else 
+        {
+            echo '<script language="javascript">';
+            echo 'alert("Successful!");';
+            echo '</script>';
+        }
+
+        $itemID =  $_SESSION['item_IDfromView'];
+        $queryToInserttoRestockTable = "INSERT INTO restock_detail (item_id, quantity, restock_date)
+        VALUES ('$itemID','$restockCount',Now())";
+        $result=mysqli_query($dbc,$queryToInserttoRestockTable); 
+
+    }                                                     
+?>
 <?php
     require_once('DataFetchers/mysql_connect.php');
    
@@ -788,8 +746,10 @@
 
     function updatestockalert()
     {
+        
         var insideval = restockinput.value;
         alert("Do you want to restock this amount: " + insideval);
+        
 
     }
     function generalAlert()
@@ -880,10 +840,10 @@
         var insideval1 = discountinput.value = "";
     }
 
-    function updatediscountalert()
+    function updatediscountalert() //Update Discount
     {
-        var insideval1 = discountinput.value;
-        alert("Do you want to add a " + insideval1 + " % discount to this item?");
+        insertDiscount();
+        
 
     }
 </script>
@@ -919,7 +879,34 @@
         
     }
 </script>
+<script> //Sets the discount for the Item selected
+                                                   
+var discount_button = document.getElementById('discountBtn'); 
+var discount_amount = document.getElementById('discountamt'); 
 
+    function insertDiscount()
+    {
+        if(confirm("Confirm Discount: "+discount_amount.value+"%"))
+        {
+            request = $.ajax({
+            url: "ajax/discountInsert.php",
+            type: "POST",
+                data:{
+                    post_discount_amount: discount_amount.value, //Never forget to get the Value from the <INPUTS>
+                    post_item_id: <?php echo $_SESSION['item_IDfromView']; ?>
+                    
+                },
+                success: function(data)
+                {
+                    console.log(data);
+                    alert(data);   
+                   
+                }//End Scucess
+                        
+            }); // End ajax     
+        }
+    }                                                                                                     
+</script> 
 </body>
 
 </html>

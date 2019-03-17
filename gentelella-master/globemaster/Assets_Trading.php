@@ -73,14 +73,13 @@
           echo'</div>';
           echo'<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">';
           echo'<span class="count_top"> Total Sales: </span>';
-            echo'<div class="count">'; 
-            echo $itemQty;
-            echo'</div>';
+          echo'<div class="count">';
+          echo $itemQty;
+          echo'</div>';
           echo'</div>';
           
           $query = "SELECT * FROM items_trading"; //Query for getting the Total Profit of All Sales
           $result=mysqli_query($dbc,$query);
-
           $totalPrice = 0;
 
           while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
@@ -89,21 +88,18 @@
             $i = $row['item_id'];
             foreach((array) $row['item_id'] as $count)
             {
-              $query = "SELECT *,SUM(item_qty) as total_amount FROM order_details where item_id = $count GROUP BY item_id";
+              $query = "SELECT *,SUM(item_qty) as total_amount FROM order_details where item_id = $count GROUP BY 1,2";
               $resultOrderDetail = mysqli_query($dbc,$query);
               $qtyfromOrderDeatils = mysqli_fetch_array($resultOrderDetail,MYSQLI_ASSOC);
               $itemQty = $qtyfromOrderDeatils['total_amount'];
-             
-              
             }   
-            $totalPrice += $row['price'] * $itemQty; 
-                                 
+            $totalPrice += $row['price'] * $itemQty;
           }
           echo'<div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">'; //HTML to display TOTAL PROFIT and Cost
           echo'<span class="count_top">Total Profit: </span>';
-            echo'<div class="count green"> ₱';
-            echo number_format($totalPrice, 2, '.', ',');
-            echo'</div>';
+          echo'<div class="count green"> ₱';
+          echo number_format($totalPrice, 2, '.', ',');
+          echo'</div>';
           echo'</div>';
           echo'<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">';
           // echo'<span class="count_top"><i class="fa fa-user"></i> Total Incurred Cost: </span>';
@@ -132,68 +128,10 @@
                   </div>
                 
 
-                  <!-- <div class="x_content">
-                    <canvas id="lineChart"></canvas>
-                  </div> -->
-
                   <div class="x_content; col-md-12 col-sm-9 col-xs-12 bg-white" id ="topSellingChart">
                     <canvas id="lineChart1" height = "100"></canvas>
                     
                   </div>
-                  
-
-
-                 <!-- <div class="col-md-3 col-sm-3 col-xs-12 bg-white"> 
-                      <div class="x_panel tile fixed_height_320">
-                        <div class="x_title">
-                          <h2>Top Selling This Month: </h2>                          
-                          <div class="clearfix"></div>
-                        </div>
-                
-                <?php
-                  // require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-                
-
-                  // $query = "SELECT *, SUM(item_qty) as total_amount 
-                  // FROM order_details 
-                  // GROUP BY item_id 
-                  // ORDER by total_amount 
-                  // DESC LIMIT 5 "; //Query to get the 5 most sold items in current month.
-
-                  // $resultOrderDetail = mysqli_query($dbc,$query);
-                  
-                  
-                  // while($qtyfromOrderDetails = mysqli_fetch_array($resultOrderDetail,MYSQLI_ASSOC))
-                  // { 
-                   
-                  //   $itemName =  $qtyfromOrderDetails['item_name'];
-                  //   $itemQty = $qtyfromOrderDetails['total_amount'];
-
-
-                  //   echo'     <div class="x_content">'; //Html to show the top 5 most sold assets in trading
-                  //   echo'         <h4></h4>';
-                  //   echo'   <div class="widget_summary">';
-                  //   echo'       <div class="w_right w_45">';
-                  //   echo'         <span>';
-                  //   echo '<b><font size="3" color="black">',$itemName,':</b></font>';
-                  //   echo'        </span>';
-                  //   echo'      </div>';
-                  //   echo'      ';
-                  //   echo'      <div class="w_right w_20">';
-                  //   echo'        <span>';
-                  //   echo '<b><font size="3" color="green">',$itemQty,'</b></font>'  ;
-                  //   echo'        </span>';
-                  //   echo'      </div>';
-                  //   echo'      <div class="clearfix"></div>';
-                  //   echo'     </div>';
-                  //   echo'  </div>';
-                   
-                  // }                                 
-                  ?>    
-                    
-                    </div>
-                  </div>        
-          </div>        -->
           <br />
 
           <div class="clearfix"></div>
@@ -242,49 +180,49 @@
                               $i = $row['item_id'];
                               foreach((array) $row['item_id'] as $count)
                               {
-                                $query = "SELECT *,SUM(item_qty) as total_amount FROM order_details where item_id = $count GROUP BY item_id";
+                               /* query that gets the last 30 days of sales from the orders
+                               $query = "SELECT od.*,SUM(od.item_qty) as total_amount FROM
+                                            order_details od JOIN orders o on od.ordernumber = o.ordernumber 
+                                            where od.item_id = $count and (o.order_date 
+                                            between DATE_SUB(DATE(NOW()), INTERVAL 30 DAY ) and DATE(NOW())) GROUP BY 1,2
+                                            
+                                            ";
+                               */
+                                $query = "SELECT *,SUM(item_qty) as total_amount FROM order_details where item_id = $count GROUP BY 1,2";
                                 $resultOrderDetail = mysqli_query($dbc,$query);
                                 $qtyfromOrderDeatils = mysqli_fetch_array($resultOrderDetail,MYSQLI_ASSOC);
                                 $itemQty = $qtyfromOrderDeatils['total_amount'];
-                               
-                              }                                  
-
-                              echo '<tr class="even pointer">';
-                                echo '<td class="a-center">';
-                                echo    '<input type="checkbox">';
-                                echo  '</td>';
-                                echo '<td align ="right">';
-                                echo $row['sku_id'];
-                                echo '</td>';  
-                                echo '<td align ="right">';
-                                echo $row['item_name'];
-                                echo '</td>'; 
-                                echo '<td align ="right"> ₱ ';
-                                echo $row['price'];
-                                echo '</td>';  
-                                echo '<td align ="right">';
-                                echo $itemQty;
-                                echo '</td>';  
-                                echo '<td align ="right"> ₱ ';
-                                echo number_format((float)($row['price'] * $itemQty), 2, '.', ',');
-                                echo '</td>';  
-                                echo '<td align = "center" class="last" ><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg">View Details</a></td>';                          
-                              echo '</tr>';
+                              }
+                              if($itemQty>0) {
+                                  echo '<tr class="even pointer">';
+                                  echo '<td class="a-center">';
+                                  echo '<input type="checkbox" id="chk_itm_'.$row['item_id'].'" onclick="add_new_chart(this)" item_id="'.$row['item_id'].'" item_name="'.$row['item_name'].'" >';
+                                  echo '</td>';
+                                  echo '<td align ="right">';
+                                  echo $row['sku_id'];
+                                  echo '</td>';
+                                  echo '<td align ="right">';
+                                  echo $row['item_name'];
+                                  echo '</td>';
+                                  echo '<td align ="right"> ₱ ';
+                                  echo $row['price'];
+                                  echo '</td>';
+                                  echo '<td align ="right">';
+                                  echo $itemQty;
+                                  echo '</td>';
+                                  echo '<td align ="right"> ₱ ';
+                                  echo number_format((float)($row['price'] * $itemQty), 2, '.', ',');
+                                  echo '</td>';
+                                  echo '<td align = "center" class="last" ><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg">View Details</a></td>';
+                                  echo '</tr>';
+                              }
                             }
                           ;    
-                         ?>                                              
-   
-                            
-                             
-                          
+                         ?>
                         </tbody>
                       </table>
                     </div>
                            <!-- <div id="echart_line" style="height:350px;"></div> -->
-        
-                        
-
-         
         <!-- /page content -->
 
       </div>
@@ -358,58 +296,93 @@
       $months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
 
     ?>
+
     <script>
     // Line chart
 
     var expected = <?php echo json_encode($months); ?>;
-			 
-			if ($('#topSellingChart').length ){	
-			
-      var ctx = document.getElementById("lineChart1");
-      var lineChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: expected,
-        datasets: [{
-        label: "Item 1",
-        backgroundColor: "rgba(38, 185, 154, 0.31)",
-        borderColor: "rgba(38, 185, 154, 0.7)",
-        pointBorderColor: "rgba(38, 185, 154, 0.7)",
-        pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
-        pointHoverBackgroundColor: "#fff",
-        pointHoverBorderColor: "rgba(220,220,220,1)",
-        pointBorderWidth: 1,
-        data: [31, 74, 6, 39, 20, 85, 7,69,100,88,89]
-        }, {
-        label: "Item 2",
-        backgroundColor: "rgba(3, 88, 106, 0.3)",
-        borderColor: "rgba(3, 88, 106, 0.70)",
-        pointBorderColor: "rgba(3, 88, 106, 0.70)",
-        pointBackgroundColor: "rgba(3, 88, 106, 0.70)",
-        pointHoverBackgroundColor: "#fff",
-        pointHoverBorderColor: "rgba(151,187,205,1)",
-        pointBorderWidth: 1,
-        data: [82, 23, 66, 9, 99, 4, 2]
-        }, {
-        label: "Item 3",
-        backgroundColor: "rgba(3, 90, 106, 0.3)",
-        borderColor: "rgba(3, 88, 106, 0.70)",
-        pointBorderColor: "rgba(3, 88, 106, 0.70)",
-        pointBackgroundColor: "rgba(3, 88, 106, 0.70)",
-        pointHoverBackgroundColor: "#fff",
-        pointHoverBorderColor: "rgba(151,187,205,1)",
-        pointBorderWidth: 1,
-        data: [81, 33, 96, 12, 59, 1, 122]
-        }]
-        
-      },
-      });
-    
+    var config = {
+        type: 'line',
+        data: {
+            labels: expected,
+            datasets: []
+        },
+        options: {
+            responsive: true,
+            title: {
+                display: true,
+                text: 'Chart.js Line Chart'
+            },
+            tooltips: {
+                mode: 'label',
+            },
+            hover: {
+                mode: 'dataset'
+            },
+            scales: {
+                xAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Month'
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Value'
+                    }
+                }]
+            }
+        }
+    };
+			if ($('#topSellingChart').length ){
+
+      var ctx = document.getElementById("lineChart1").getContext('2d');
+      window.lineChart = new Chart(ctx,config);
+
     }
 
+    var color = Chart.helpers.color;
+    var chartColors = {
+        red: 'rgb(255, 99, 132)',
+        orange: 'rgb(255, 159, 64)',
+        yellow: 'rgb(255, 205, 86)',
+        green: 'rgb(75, 192, 192)',
+        blue: 'rgb(54, 162, 235)',
+        purple: 'rgb(153, 102, 255)',
+        grey: 'rgb(231,233,237)',
+        black: 'rgb(0,0,0)',
+    };
+    var colorNames = Object.keys(window.chartColors);
+    function populateChart(item_id,item_name) {
+        $.ajax({
+            method: "POST",
+            url: "ajax/yearlyItemData.php",
+            data: { item_id: item_id}
+        })
+        .done(function( data ) {
+            var colorName = colorNames[window.lineChart.data.datasets.length % colorNames.length];
+            var newColor = window.chartColors[colorName];
+            datset = {
+                label: item_name,
+                fill: false,
+                type:'line',
+                lineTension: 0,
+                backgroundColor: color(newColor).alpha(0.2).rgbString(),
+                borderColor: newColor,
+                pointStyle: "rectRot",
+                pointBorderColor: color(window.chartColors.red).alpha(0.2).rgbString(),
+                data: JSON.parse(data)
+            };
+            window.lineChart.config.data.datasets.push(datset);
+            window.lineChart.update();
+        });
+    }
      /* DATERANGEPICKER */
 	   
-        function init_daterangepicker() {
+    function init_daterangepicker() {
 
     if( typeof ($.fn.daterangepicker) === 'undefined'){ return; }
     console.log('init_daterangepicker');
@@ -417,6 +390,7 @@
     var cb = function(start, end, label) {
       console.log(start.toISOString(), end.toISOString(), label);
       $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+
     };
 
     var optionSet1 = {
@@ -616,7 +590,22 @@
     });
 
     }
-
+    function add_new_chart(obj){
+        if($(obj).is(":checked")){
+            populateChart($(obj).attr("item_id"), $(obj).attr("item_name"));
+        }
+        else{
+            removeDataSet($(obj).attr("item_name"));
+        }
+    }
+    function removeDataSet(item_name){
+        for(i in window.lineChart.config.data.datasets){
+            if (window.lineChart.config.data.datasets[i].label === item_name){
+                window.lineChart.config.data.datasets.splice(i, 1);
+                window.lineChart.update();
+            }
+        }
+    }
     $(document).ready(function() {
 
       init_daterangepicker();
@@ -625,6 +614,30 @@
       init_daterangepicker_reservation();
 
     });	
-    </script>             
+    </script>
+  <script>
+      <?php
+      require_once('DataFetchers/mysql_connect.php');
+
+      $query = "SELECT it.*, (SUM(od.item_qty)*it.price) as 'total_amount' FROM items_trading it join 
+            order_details od on it.item_id = od.item_id group by 1 order by (SUM(od.item_qty)*it.price) desc limit 3;";
+      $result=mysqli_query($dbc,$query);
+
+      while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+      {
+      $length = count($row);
+      $i = $row['item_id'];
+      foreach((array) $row['item_id'] as $count)
+      {
+      ?>
+      populateChart(<?php echo $count?>,'<?php echo $row['item_name']?>');
+
+      $("#chk_itm_<?php echo $count?>").attr("checked", true);
+      <?php
+      }
+      }
+      ;
+      ?>
+  </script>
   </body>
 </html>
