@@ -200,8 +200,6 @@ if(!(isset($_SESSION['usertype']))){
                   echo "<li><a><i class='fa fa-folder-open'></i> Reports <span class='fa fa-chevron-down'></span></a>";
                   echo   "<ul class='nav child_menu'>";
                   echo     "<li><a>Inventory Report</a></li>";
-                  echo    "<li><a>Sales Report</a></li>";
-                  echo    "<li><a>Delivery Report</a></li>";
                   echo    "<li><a href='SalesReport.php'>Sales Report</a></li>";
                   echo    "<li><a href='DeliveryReport.php'>Delivery Report</a></li>";
                   echo   "</ul>";
