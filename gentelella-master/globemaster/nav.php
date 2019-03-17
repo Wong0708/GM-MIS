@@ -77,7 +77,7 @@ if(!(isset($_SESSION['usertype']))){
                       
                       }
                       if($user == 'CEO' or $user == 'CFO' or $user == 'MKT'){
-                      echo    "<li><a href='index2.html'>View Inventory EOQ</a></li>";
+                      echo    "<li><a href='EOQInventory.php'>View Inventory EOQ</a></li>";
                       }
                       echo "</ul>"; 
                      echo "</li>";
