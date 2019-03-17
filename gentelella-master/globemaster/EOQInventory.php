@@ -383,8 +383,8 @@ require_once('DataFetchers/mysql_connect.php');
                     ],
                     borderColor:
                         '#046f00',
-                    pointStyle: 'circle',
-                    pointRadius: 10,
+                    pointStyle: 'star',
+                    pointRadius: 20,
                     pointBorderColor: "#046f00",
                     pointBackgroundColor: "#046f00",
                     pointHoverBackgroundColor: "#046f00",
@@ -465,17 +465,20 @@ require_once('DataFetchers/mysql_connect.php');
     var curr_item_selected_price = 200;
     var demand = rangeSlider.value;
     var eoq = 100;
+    var this_obj = null;
     var slide = document.getElementById('rangeSlider'),
         sliderDiv = document.getElementById("sliderAmount");
     slider.onchange = function()
     {
         demand = this.value;
-        recompute_chart(curr_item_selected_price);
+        myTD(this_obj);
+        //recompute_chart(curr_item_selected_price);
     }
 
     function myTD(obj) {
 //  alert(obj.innerHTML);
         var textFromHTML = obj.innerHTML;
+        this_obj = obj;
         console.log(AcquisitionCostFromPHP);
         console.log(ItemPriceFromPHP);
         console.log(HoldingCostFromPHP);
@@ -486,11 +489,12 @@ require_once('DataFetchers/mysql_connect.php');
                 var eoq = Math.sqrt((2 * demand * AcquisitionCostFromPHP[0]) / ((HoldingCostFromPHP[0]/100) * ItemPriceFromPHP[i]));
                 var Final = eoq.toFixed(2);
                 // echo 'tableCell[i].textContent = Final;
-                computeLabels(Final);
+
                 curr_item_selected_price = ItemPriceFromPHP[i];
                 window.eoq = Final;
+                computeLabels(Final);
                 recompute_chart(ItemPriceFromPHP[i]);
-                console.log(Final);
+                console.log("EOQ Val: "+Final);
                 // echo'break;';
             };//End IF
 
@@ -500,12 +504,13 @@ require_once('DataFetchers/mysql_connect.php');
     function recompute_chart(item_cost){
         //Annual Holding Cost
         //computeLabels()
-        window.myChart.data.datasets[0].data.splice(0,21);
+        window.myChart.data.datasets[0].data.splice(0,25);
         window.myChart.data.datasets[0].data.push(null);
-        window.myChart.data.datasets[1].data.splice(0,21);
+        window.myChart.data.datasets[1].data.splice(0,25);
         window.myChart.data.datasets[1].data.push(null);
-        window.myChart.data.datasets[2].data.splice(0,21);
+        window.myChart.data.datasets[2].data.splice(0,25);
         window.myChart.data.datasets[2].data.push(null);
+        window.myChart.data.datasets[3].data.splice(0,25);
         placed = false;
         for (var i = 1; i <= 20; i++) {
 
@@ -521,38 +526,48 @@ require_once('DataFetchers/mysql_connect.php');
             window.myChart.data.datasets[1].data.push(pt2);
             //Annual Total Cost
             pt3 = pt1+pt2;
-
             window.myChart.data.datasets[2].data.push(pt3);
             if (placed === false && (i*100>eoq)){
-                console.log("pazucc: "+i*100);
-                console.log("eoq: "+eoq-100);
-                window.myChart.data.datasets[3].data.push(pt1);
                 placed = true;
-            }
-            else{
+                if (eoq === parseFloat(i*100)) {
+                    not_equals = false;
+                    placed = false;
+                }
+                if(not_equals){
+                    window.myChart.data.datasets[0].data.push(pt1);
+                    window.myChart.data.datasets[1].data.push(pt2);
+                    window.myChart.data.datasets[2].data.push(pt3);
+                    window.myChart.data.datasets[3].data.push(eoq*(HoldingCostFromPHP[0]));
+                }
+
+            }else{
                 window.myChart.data.datasets[3].data.push(null);
             }
+
             window.myChart.update();
         }
         console.log("Garp:"+ window.myChart.data.datasets[3].data);
         window.myChart.update();
     }
     //Annual Holding Costs. Annual Acquisition Cost, Annual Total Cost
-    function computeLabels(){
-        window.myChart.data.labels.splice(0,20);
+    function computeLabels(eoq){
+        window.myChart.data.labels.splice(0,25);
+        placed = false;
+        not_equals=true;
         for (var i = 1; i <=20; i++) {
+            if (placed === false && (i*100>eoq)) {
+                if (eoq === parseFloat(i * 100)) {
+                    not_equals = false;
+                }
+                }
+                if (not_equals) {
+                    window.myChart.data.labels.push(eoq);
+                }
+                placed = true;
+            }
             window.myChart.data.labels.push(i*100);
         }
         window.myChart.update();
-    }
-    function computeAnnHoldingCost(){
-
-    }
-    function computeAnnAcquisitonCost(item_cost){
-
-    }
-    function computeAnnTotalCost(total_cost){
-
     }
 </script>
 

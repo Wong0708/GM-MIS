@@ -40,10 +40,10 @@
         <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
-              <div class="title_left">
-                  <h1>Globemaster Inventory</h1><br>
+              <div>
+                  <center><h1>GLOBEMASTER INVENTORY</h1><br>
               </div>
-            </div>
+            </div><br><br><br>
 
               <div class="clearfix"></div>
               <div class="col-md-12 col-sm-12 col-xs-12">
@@ -54,7 +54,7 @@
                   desires of the head different screen sizes through the dynamic insertion and removal of columns from the table.
                     </p><br>
 					
-                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                     <table id="datatable-fixed-header" class="table table-striped table-bordered">
                       <thead>
                         <tr>
                           <th>SKU</th>
@@ -93,10 +93,10 @@
                                     
                                 
                                     echo '<tr>';
-                                    echo '<td>';
+                                    echo '<td><b>';
                                     echo $row['sku_id'];
                                     echo '</td>';
-                                    echo '<td>';
+                                    echo '<td><b>';
                                     echo $row['item_name'];
                                     echo '</td>';                                  
                                     echo '<td>';
@@ -179,6 +179,10 @@
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+      
+      
+    <!-- Custom Fonts -->
+      
 
   </body>
 </html>

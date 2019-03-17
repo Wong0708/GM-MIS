@@ -104,7 +104,7 @@
                       Select an inventory SKU to generate a QR code respectively. <br><font color = "red"> The QR code changes based on the clicked SKU. Please scan the QR code to confirm.</font>
                     </p>
 					
-                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                     <table id="datatable-fixed-header" class="table table-striped table-bordered">
                       <thead>
                         <tr>
                           <th>SKU</th>
@@ -119,7 +119,7 @@
                         <?php 
                           require_once('DataFetchers/mysql_connect.php');
 
-                          $querytogetDBTable = "SELECT item_id, item_name, itemtype, supplier_name, warehouse, price FROM items_trading g 
+                          $querytogetDBTable = "SELECT item_id, item_name, itemtype, supplier_name, warehouse, price, sku_id FROM items_trading g 
                           JOIN ref_itemtype f ON g.itemtype_id
                           JOIN suppliers s ON g.supplier_id
                           JOIN warehouses w ON g.warehouse_id
@@ -148,8 +148,8 @@
                             $price[] = $rowofResult['price'];
 
                             echo " <tr>";
-                              echo '<td id = "SKU" onclick = "SKUclick(this), OnQRDataChange()"  onMouseOver="this.style.cursor="hand"">';
-                              echo $rowofResult['item_id'];
+                              echo '<td id = "SKU" onclick = "SKUclick(this), OnQRDataChange()"  onMouseOver="this.style.cursor="hand""><b>';
+                              echo $rowofResult['sku_id'];
                               echo '</input></a></td>';  
                               echo '<td>';
                               echo $rowofResult['item_name'];
@@ -164,7 +164,7 @@
                               echo $rowofResult['warehouse'];
                               echo '</td>';  
                               echo '<td>';
-                              echo $rowofResult['price'];
+                              echo  'Php'." ".number_format($rowofResult['price'], 2);
                               echo '</td>';   
                             echo "</tr>";
                           };
@@ -245,7 +245,7 @@
 
 
      <!-- Datatables -->
-     <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
     <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
     <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
