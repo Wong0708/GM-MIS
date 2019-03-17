@@ -383,7 +383,7 @@ require_once('DataFetchers/mysql_connect.php');
                     ],
                     borderColor:
                         '#046f00',
-                    pointStyle: 'circle',
+                    pointStyle: 'triangle',
                     pointRadius: 10,
                     pointBorderColor: "#046f00",
                     pointBackgroundColor: "#046f00",
