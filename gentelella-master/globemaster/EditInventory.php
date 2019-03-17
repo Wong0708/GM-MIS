@@ -74,9 +74,31 @@
                            
                             <div class="x_content">
 
-                                <div class="col-md-12 col-sm-12 col-xs-12" >
-                                     <p><font color = "red">This item is on a 30% discount. The discount will end at 3/30/19 2:30:00 PM.</font></p>
-                                </div>
+                               <?php
+                                    $queryDiscountNotif = "SELECT * FROM discounts d 
+                                                        JOIN items_trading i ON d.item_id
+                                                        WHERE item_id = .'$_SESSION['getIDfromView']'. 
+                                                        AND d.onDiscount = 'On Discount'; "
+                                    $resultDiscountNotif = mysqli_query($dbc,$queryDiscountNotif);
+                                    $rowDiscountNotif = mysqli_fetch_array($resultDiscountNotif,MYSQLI_ASSOC);
+
+                                    $discountpercent = $rowDiscountNotif['percentage'];
+                                    $discountdateend = $rowDiscountNotif['dateEnd'];
+                                    $discountstatus = $rowDiscountNotif['onDiscount'];
+
+                                    if($discountstatus = "On Discount")
+                                    {
+                                ?>
+                                    <div class="col-md-12 col-sm-12 col-xs-12" >
+                                        <p><font color = "red">This item is on a <?php echo $discountpercent;?>% discount. The discount will end at <?php echo $discountdateend; ?>.</font></p>
+                                    </div>
+                                <?php
+                                    }
+                                    else
+                                    {
+                                        echo "<p><font color = 'blue'>This item is currently on its regular price.</font></p>"
+                                    }
+                                ?>
 
                                 <form class="form-horizontal form-label-center" method="GET">
 
@@ -246,6 +268,19 @@
                                                 <div class="col-md-12 col-sm-12 col-xs-12" align = "center">
                                                 <!--  -->
                                                     <button type="submit" class="btn btn-success" onclick = "updatediscountalert(this)" id = "updatediscount" name ="discountBtn" >Update</button>
+
+                                                    <script>
+
+                                                   
+
+                                                    var discount_button = document.getElementById('discountBtn');
+                                                    var discount_amount = document.getElementById('discountamt');
+
+                                                    
+
+                                                    
+
+                                                    </script>
 
                                                       <?php  // UPDATE item stock 
                                                         
