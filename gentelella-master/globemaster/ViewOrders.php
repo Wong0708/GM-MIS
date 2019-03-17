@@ -40,10 +40,11 @@
         <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
-              <div class="title_left">
-                  <h1>Globemaster All Orders</h1><br>
+              <div>
+                  <center><h1><img src="images/GM%20LOGO.png" width = "80px" height = "80px">GLOBEMASTER ORDERS</h1><br>
               </div>
             </div>
+            <br><br><br><br>
 
               <div class="clearfix"></div>
               <div class="col-md-12 col-sm-12 col-xs-12">
@@ -173,6 +174,24 @@
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+    
+    <!-- Custom Fonts -->
+    <style>
+        
+        @font-face {
+        font-family: "Couture Bold";
+        src: url("css/fonts/couture-bld.otf");
+        }
+        
+        h1 {
+            font-family: 'COUTURE Bold', Arial, sans-serif;
+            font-weight:normal;
+            font-style:normal;
+            font-size: 50px;
+            color: #1D2B51;
+            }
+
+    </style>    
 
   </body>
 </html>

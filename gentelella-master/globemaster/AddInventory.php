@@ -39,25 +39,37 @@
                 require_once("nav.php");    
             ?>
             <!-- /sidebar menu -->
+        <!-- Custom Fonts -->
+        <style>
+
+            @font-face {
+            font-family: "Couture Bold";
+            src: url("css/fonts/couture-bld.otf");
+            }
+
+            h1 {
+                font-family: 'COUTURE Bold', Arial, sans-serif;
+                font-weight:normal;
+                font-style:normal;
+                font-size: 50px;
+                color: #1D2B51;
+                }
+
+        </style>      
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
-              <div class="title_left">
-                <h1>GM-MIS | Add Inventory</h1><br>
+              <div>
+                  <center><h1><img src="images/GM%20LOGO.png" width = "80px" height = "80px">GLOBEMASTER | ADD INVENTORY</h1><br>
               </div>
             </div>
-            <div class="clearfix"></div>
+            <br><br><br><br>
+            
+            
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
-                  <div class="x_title">
-                    <!-- <p class="text-muted font-13 m-b-30">
-                      This is where the users will be able to add and remove inventory based on the data tables provided by the company. These can be editable and can be subjected to changes in accordance to the
-                  desires of the head different screen sizes through the dynamic insertion and removal of columns from the table.
-                    </p> -->
-                    <div class="clearfix"></div>
-                  </div>
                   <div class="x_content">
                     <br />
                     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form-horizontal form-label-left">
@@ -326,6 +338,6 @@
      
      }
     </script>
-	
+        
   </body>
 </html>

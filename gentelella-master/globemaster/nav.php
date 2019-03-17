@@ -119,10 +119,6 @@ if(!(isset($_SESSION['usertype']))){
                   echo    "<li><a href='Deliveries.php'>View Deliveries</a></li>";
                 }
                 if($user == 'SALES'){
-                  echo    "<li><a href='CreateDeliveryReceipt.php'>Create Delivery Receipt</a></li>";
-                  echo    "<li><a href='Deliveries.php'>View Deliveries</a></li>";
-                }
-                if($user == 'SALES'){
                   echo    "<li><a href='CreateDeliveryReceipt.php'>Generate Delivery Receipt</a></li>";
                 }
                   echo   "</ul>";
