@@ -206,13 +206,13 @@
             var invtimeseries = document.getElementById("invtimerseries");
             function changetonaive()
             {
-              invforecastlabel.value = "Naive Forecasting`";
-              
+              invforecastlabel.value = "Naive Forecasting";
+              alert("qweq");
             }
             function changetots()
             {
               invforecastlabel.value = "Time Series Forecasting";
-              
+              alert("qweq");
             }
             function changetost()
             {
