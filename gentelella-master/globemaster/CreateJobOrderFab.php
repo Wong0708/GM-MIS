@@ -112,7 +112,8 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form-horizontal form-label-left">
+                    <!-- enctype="multipart/form-data" : required inside tag to upload correctly -->
+                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form-horizontal form-label-left" enctype="multipart/form-data">
 
                     
                       <div class="form-group">
@@ -171,135 +172,177 @@
                         </div>
                       </div>
 
-                      <?php 
+                      <?php      
                       if(isset($_POST['createBtn']))
                       {
-                        if($currentStatus == "Deliver") //Insert to DB IF Deliver
-                        {
-                          $OR_NUM = $_SESSION['getORNumber'];
-                          $CLIENT_ID = $_SESSION['client_id'];
-                          $ORDER_DATE = $_SESSION['order_date'];
-                          $EXPECTED_DATE = $_SESSION['getDeliveryDate'];
-                          $PAYMENT_ID = $_SESSION['payment_id'];
+                         //<--------------------------------------------------------[ UPLOADED FILE Checker ]----------------------------------------------------->
+                         if(isset($_FILES['file_reference']))
+                          {                          
+                            echo "Upload: " . $_FILES['file_reference']['name'] . "<br>";
+                            echo "Type: " . $_FILES['file_reference']['type'] . "<br>";
+                            echo "Size: " . ($_FILES['file_reference']['size'] / 1024) . " kB<br>";
+                            echo "Stored in: " . $_FILES['file_reference']['tmp_name'];
 
-                          $TOTAL_AMOUNT = $_SESSION['total'];
-                          $SANITIZED_TOTAL = filter_var($TOTAL_AMOUNT,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION); //Removes Peso Sign
+                            $filename = $_FILES['file_reference']['name'];
+                            $filetype = $_FILES['file_reference']['type'];
+                            $filesize = $_FILES['file_reference']['size'];
 
-                          $ORDER_STATUS = $currentStatus;
-                          $FAB_STATUS = $fabricationStatus;
-                          $PAYMENT_STATUS = "UNPAID";
-                          if($_POST['installation'] == "With Installation")
-                          {
-                            $INSTALLATION_STATUS = $_POST['installation'];
-                          }
-                          else
-                          {
-                            $INSTALLATION_STATUS = "No Installation";
-                          }
-                          $sqlToInsertToORDERS = "INSERT INTO orders(ordernumber, client_id, order_date, expected_date, payment_id, totalamt, order_status,installation_status, fab_status, payment_status)
-                          VALUES(
-                            '$OR_NUM',
-                            '$CLIENT_ID',
-                            '$ORDER_DATE',
-                            '$EXPECTED_DATE',
-                            '$PAYMENT_ID',
-                            '$SANITIZED_TOTAL',
-                            '$ORDER_STATUS',
-                            '$INSTALLATION_STATUS',
-                            '$FAB_STATUS',
-                            '$PAYMENT_STATUS');";
-                           $resultToInsertORDERS = mysqli_query($dbc,$sqlToInsertToORDERS);
+                            $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png"); //Checks the File type extension 
+                            
+                            $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
-                          if(!$resultToInsertORDERS) //Chceker
+                            if(!array_key_exists($ext, $allowed))
                             {
-                                die('Error: ' . mysqli_error($dbc));
-                            } 
-                            else 
-                            {                            
-                                echo '<script language="javascript">';
-                                echo 'alert("1st Insert Successful!");';
-                                echo '</script>';                            
+                              die("Error: Please select a valid file format.");
                             }
 
-                         $ITEM_ID = $_SESSION['item_id'];
-                         $EXPLODED_ITEM_ID = explode(",", $ITEM_ID);
-
-                         $ITEM_QTY = $_SESSION['item_qty'];
-                         $EXPLODED_ITEM_QTY = explode(",", $ITEM_QTY);
-
-                         $ITEM_NAME = array();
-                         $ITEM_PRICE = array(); 
-
-                            for($i = 0; $i < sizeof($EXPLODED_ITEM_ID) ; $i++)
+                            $maxsize = 5 * 1024 * 1024;
+                            if($filesize > $maxsize)
                             {
-                              $sqlSelect ="SELECT * FROM items_trading WHERE item_id = $EXPLODED_ITEM_ID[$i];";
-                              $resultOfSelect = mysqli_query($dbc,$sqlSelect);
-                              while($rowOfSelect=mysqli_fetch_array($resultOfSelect,MYSQLI_ASSOC))
-                              {
-                                $ITEM_NAME[] = $rowOfSelect['item_name'];
-                                $ITEM_PRICE[] = $rowOfSelect['price']; 
-                              }
-                            //Insert to Order Details
-                              $sqlToInsertToOrderDetail = "INSERT INTO order_details(ordernumber, client_id, item_id, item_name, item_price, item_qty, item_status) 
-                              VALUES(
-                                '$OR_NUM',
-                                '$CLIENT_ID',
-                                '$EXPLODED_ITEM_ID[$i]',
-                                '$ITEM_NAME[$i]',
-                                '$ITEM_PRICE[$i]',
-                                '$EXPLODED_ITEM_QTY[$i]',
-                                '$ORDER_STATUS'
-                                );";
-                              $resultToInsertOrderDetail = mysqli_query($dbc,$sqlToInsertToOrderDetail);
-                              if(!$resultToInsertOrderDetail) 
-                              {
-                                  die('Error: ' . mysqli_error($dbc));
-                              } 
-                              else 
-                              {                            
-                                  echo '<script language="javascript">';
-                                  echo 'alert("2nd Insert Successful!");';
-                                  echo '</script>';                            
-                              } 
-                              //Subtracts QTY in the inventory
-                              $sqlToSubtractFromItemsTrading = "UPDATE items_trading
-                              SET items_trading.item_count  = (item_count - '$EXPLODED_ITEM_QTY[$i]'),
-                              last_update = Now() 
-                              WHERE item_id ='$EXPLODED_ITEM_ID[$i]';";
-                              $resultOfSubtract=mysqli_query($dbc,$sqlToSubtractFromItemsTrading); 
-                              if(!$resultOfSubtract) 
-                              {
-                                  die('Error: ' . mysqli_error($dbc));
-                              } 
-                              else 
-                              {
-                                  echo '<script language="javascript">';
-                                  echo 'alert("Subtract Successfull");';
-                                  echo '</script>';
-                              }
-                            } //END FOR
+                              die("Error: File size is larger than the allowed limit.");
+                            } 
 
-                          $fab_text = htmlspecialchars($_POST['item_description']);  //Insert Job Order
-                          $fab_price = $_POST['fab_cost'];
-                          $fab_totalprice = $_POST['total_amount'];
-                          $blob = file_get_contents($_FILES['file_reference']['tmp_name']);
-
-                          $currentStatus = $_SESSION['DeliveryStatus'];
-
-                          $sqlToInsertJOBFAB = "INSERT INTO joborderfabrication(fab_description,order_number, fab_price, fab_totalprice, reference_drawing)
-                          VALUES('$fab_text','$OR_NUM','$fab_price', '$fab_totalprice', '$blob' );";
-                          $resultToInsertJOBFAB = mysqli_query($dbc,$sqlToInsertJOBFAB);
-                          if(!$resultToInsertJOBFAB) 
+                          }//END IF ISSET FILE REFERENCE
+                          else
                           {
-                              die('Error: ' . mysqli_error($dbc));
-                          } 
-                          else 
-                          {                            
-                              echo '<script language="javascript">';
-                              echo 'alert("3rd Insert Successful!");';
-                              echo '</script>';                            
-                          }                                                                                                   
-                        } // END IF
+                            echo "CANT DETECT FILE";
+                          }                                                   
+                        //<--------------------------------------------------------[ UPLOADED FILE Checker ]----------------------------------------------------->
+                        if($currentStatus == "Deliver") //Insert to DB IF Deliver
+                        {
+                          
+                          
+                      
+                      
+                        //   $OR_NUM = $_SESSION['getORNumber'];
+                        //   $CLIENT_ID = $_SESSION['client_id'];
+                        //   $ORDER_DATE = $_SESSION['order_date'];
+                        //   $EXPECTED_DATE = $_SESSION['getDeliveryDate'];
+                        //   $PAYMENT_ID = $_SESSION['payment_id'];
+
+                        //   $TOTAL_AMOUNT = $_SESSION['total'];
+                        //   $SANITIZED_TOTAL = filter_var($TOTAL_AMOUNT,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION); //Removes Peso Sign
+
+                        //   $ORDER_STATUS = $currentStatus;
+                        //   $FAB_STATUS = $fabricationStatus;
+                        //   $PAYMENT_STATUS = "UNPAID";
+                        //   if($_POST['installation'] == "With Installation")
+                        //   {
+                        //     $INSTALLATION_STATUS = $_POST['installation'];
+                        //   }
+                        //   else
+                        //   {
+                        //     $INSTALLATION_STATUS = "No Installation";
+                        //   }
+                        //   $sqlToInsertToORDERS = "INSERT INTO orders(ordernumber, client_id, order_date, expected_date, payment_id, totalamt, order_status,installation_status, fab_status, payment_status)
+                        //   VALUES(
+                        //     '$OR_NUM',
+                        //     '$CLIENT_ID',
+                        //     '$ORDER_DATE',
+                        //     '$EXPECTED_DATE',
+                        //     '$PAYMENT_ID',
+                        //     '$SANITIZED_TOTAL',
+                        //     '$ORDER_STATUS',
+                        //     '$INSTALLATION_STATUS',
+                        //     '$FAB_STATUS',
+                        //     '$PAYMENT_STATUS');";
+                        //    $resultToInsertORDERS = mysqli_query($dbc,$sqlToInsertToORDERS);
+
+                        //   if(!$resultToInsertORDERS) //Chceker
+                        //     {
+                        //         die('Error: ' . mysqli_error($dbc));
+                        //     } 
+                        //     else 
+                        //     {                            
+                        //         echo '<script language="javascript">';
+                        //         echo 'alert("1st Insert Successful!");';
+                        //         echo '</script>';                            
+                        //     }
+
+                        //  $ITEM_ID = $_SESSION['item_id'];
+                        //  $EXPLODED_ITEM_ID = explode(",", $ITEM_ID);
+
+                        //  $ITEM_QTY = $_SESSION['item_qty'];
+                        //  $EXPLODED_ITEM_QTY = explode(",", $ITEM_QTY);
+
+                        //  $ITEM_NAME = array();
+                        //  $ITEM_PRICE = array(); 
+
+                        //     for($i = 0; $i < sizeof($EXPLODED_ITEM_ID) ; $i++)
+                        //     {
+                        //       $sqlSelect ="SELECT * FROM items_trading WHERE item_id = $EXPLODED_ITEM_ID[$i];";
+                        //       $resultOfSelect = mysqli_query($dbc,$sqlSelect);
+                        //       while($rowOfSelect=mysqli_fetch_array($resultOfSelect,MYSQLI_ASSOC))
+                        //       {
+                        //         $ITEM_NAME[] = $rowOfSelect['item_name'];
+                        //         $ITEM_PRICE[] = $rowOfSelect['price']; 
+                        //       }
+                        //     //Insert to Order Details
+                        //       $sqlToInsertToOrderDetail = "INSERT INTO order_details(ordernumber, client_id, item_id, item_name, item_price, item_qty, item_status) 
+                        //       VALUES(
+                        //         '$OR_NUM',
+                        //         '$CLIENT_ID',
+                        //         '$EXPLODED_ITEM_ID[$i]',
+                        //         '$ITEM_NAME[$i]',
+                        //         '$ITEM_PRICE[$i]',
+                        //         '$EXPLODED_ITEM_QTY[$i]',
+                        //         '$ORDER_STATUS'
+                        //         );";
+                        //       $resultToInsertOrderDetail = mysqli_query($dbc,$sqlToInsertToOrderDetail);
+                        //       if(!$resultToInsertOrderDetail) 
+                        //       {
+                        //           die('Error: ' . mysqli_error($dbc));
+                        //       } 
+                        //       else 
+                        //       {                            
+                        //           echo '<script language="javascript">';
+                        //           echo 'alert("2nd Insert Successful!");';
+                        //           echo '</script>';                            
+                        //       } 
+                        //       //Subtracts QTY in the inventory
+                        //       $sqlToSubtractFromItemsTrading = "UPDATE items_trading
+                        //       SET items_trading.item_count  = (item_count - '$EXPLODED_ITEM_QTY[$i]'),
+                        //       last_update = Now() 
+                        //       WHERE item_id ='$EXPLODED_ITEM_ID[$i]';";
+                        //       $resultOfSubtract=mysqli_query($dbc,$sqlToSubtractFromItemsTrading); 
+                        //       if(!$resultOfSubtract) 
+                        //       {
+                        //           die('Error: ' . mysqli_error($dbc));
+                        //       } 
+                        //       else 
+                        //       {
+                        //           echo '<script language="javascript">';
+                        //           echo 'alert("Subtract Successfull");';
+                        //           echo '</script>';
+                        //       }
+                        //     } //END FOR
+
+                        //   $fab_text = htmlspecialchars($_POST['item_description']);  //Insert Job Order
+                        //   $fab_price = $_POST['fab_cost'];
+                        //   $fab_totalprice = $_POST['total_amount'];
+                        //   $blob = addslashes(file_get_contents($_FILES['file_reference']['tmp_name']));
+
+                         
+
+                        //   $currentStatus = $_SESSION['DeliveryStatus'];
+
+                        //   $sqlToInsertJOBFAB = "INSERT INTO joborderfabrication(fab_description,order_number, fab_price, fab_totalprice, reference_drawing)
+                        //   VALUES('$fab_text','$OR_NUM','$fab_price', '$fab_totalprice', '$blob' );";
+                        //   $resultToInsertJOBFAB = mysqli_query($dbc,$sqlToInsertJOBFAB);
+                        //   if(!$resultToInsertJOBFAB) 
+                        //   {
+                        //       die('Error: ' . mysqli_error($dbc));
+                        //   } 
+                        //   else 
+                        //   {                            
+                        //       echo '<script language="javascript">';
+                        //       echo 'alert("3rd Insert Successful!");';
+
+                                
+
+                        //       echo '</script>';                            
+                        //   }                                                                                                   
+                        } // END IF DELIVER
                         else //Insert to DB if PickUp
                         {
                           $OR_NUM = $_SESSION['getORNumber'];
@@ -423,8 +466,10 @@
                               echo 'alert("Order Successful!");';
                               echo '</script>';                            
                           }
-                        }
-                      }                     
+                        }//END ELSE 
+                      } //END IF ISSET POST BTN  
+                      
+                   
                       ?>
                     </form>
                   </div>

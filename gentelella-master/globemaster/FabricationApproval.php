@@ -61,6 +61,23 @@
                       </thead>
                       <tbody>
                         <?php
+                        $SQL_GET_JOB_FAB = "SELECT * FROM joborderfabrication ORDER BY joborderID ASC;";
+                        $RESULT_JOB_FAB = mysqli_query($dbc,$SQL_GET_JOB_FAB);
+                        while($ROW_RESULT_FAB=mysqli_fetch_array($RESULT_JOB_FAB,MYSQLI_ASSOC))
+                        {
+                          $blob = $ROW_RESULT_FAB['reference_drawing'];
+                          $BLOB_ENCODED = base64_encode($blob); 
+
+                          echo "JOB ORDER = ",$ROW_RESULT_FAB['joborderID'],"<br>";
+                          echo "BLOB VALUE = ",$BLOB_ENCODED,"<br>";
+
+                          echo '<img src = "data:image/jpg;base64,'.$BLOB_ENCODED.'" border-style = "border-width:3px;"style = "height:40vh; width:30vw">'; 
+                        }
+
+                        $blob = $ROW_RESULT_FAB['reference_drawing'];
+                        $BLOB_ENCODED = base64_encode($blob); 
+                       
+                      
                             
                             require_once('DataFetchers/mysql_connect.php');
                             $query = "SELECT * FROM orders ORDER BY orderID ASC;";
@@ -77,32 +94,37 @@
                                     $rowClientName=mysqli_fetch_array($resultClientName,MYSQLI_ASSOC);
                                     $clientName = $rowClientName['client_name'];
                                     
-                                    ?>
-                                    <tr>
-                                    <td>
-                                    <div class="panel panel-default">
-                                      <div class="panel-body">
-                                        <div class = "row">
-                                          <div class = "col-md-6">
-                                            <img src = "images/gt86.jpg" border-style = "border-width:3px;"style = "height:40vh; width:30vw">
-                                          </div>
-                                          <div class = "col-md-6">
-                                            <div class = "row"><h2><?php  echo "tite #1"?></h2></div>
+                                   
+                                    
 
-                                            <div class = "row">
+                               
+                                 echo '<tr>';
 
-                                              <div class = "col-md-6">
-                                              </div>                    
-                                              <div class = "col-md-6">
-                                              </div>                          
-                                            </div> 
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    </td>
-                                    </tr>
-                                    <?php
+                                 
+                                  //  echo '<td>';
+                                  //  echo '<div class="panel panel-default">';
+                                  //  echo '<div class="panel-body">';
+                                  //  echo '<div class = "row">';
+                                  //  echo '<div class = "col-md-6">';
+                                         //   echo '<img src = "data:image/jpg;base64,'.$BLOB_ENCODED.'" border-style = "border-width:3px;"style = "height:40vh; width:30vw">'; 
+                                  //          echo '</div>';
+                                  //          echo '<div class = "col-md-6">';
+                                  //          echo '<div class = "row"><h2>peipito</h2></div>';
+
+                                  //    echo '<div class = "row">';
+
+                                  //      echo '<div class = "col-md-6">';
+                                  //      echo '</div>';                    
+                                  //       echo '<div class = "col-md-6">';
+                                  //       echo '</div>';                          
+                                  //       echo '</div>'; 
+                                  //       echo '</div>';
+                                  //       echo '</div>';
+                                  //       echo '</div>';
+                                  //       echo '</div>';
+                                  //       echo '</td>';
+                                      echo '</tr>';
+                                    
                             }
                         ?>  
                       </tbody>

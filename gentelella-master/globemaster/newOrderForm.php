@@ -887,7 +887,7 @@ function nextpageWithFabrication() //Gets all necessary values from current page
             {
                 var getValue =parseInt($(this).text());
                 getCartQuantity.push(getValue);
-                alert(getCartQuantity);
+                // alert(getCartQuantity);
                 window.location.href = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?>&deliver_date="+ expected_date +"&pay_id="+ payment_id +"&client_id="+ client_id +"&cart_item_id="+ item_id_in_cart +"&cart_qty_per_item="+ getCartQuantity +"&total_amount="+ total_amount +"&order_date="+ CurrentOrderDate +"  ";  
                 var days = localStorage.setItem("settotal", total_amount); //Stores total value to get in next page                                    
             }                           
