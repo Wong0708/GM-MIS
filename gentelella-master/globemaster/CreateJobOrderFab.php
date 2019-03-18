@@ -316,7 +316,7 @@
                           $fab_text = htmlspecialchars($_POST['item_description']);  //Insert Job Order
                           $fab_price = $_POST['fab_cost'];
                           $fab_totalprice = $_POST['total_amount'];
-                          $blob = file_get_contents($_FILES['file_reference']['tmp_name']);
+                          $blob = addslashes(file_get_contents($_FILES['file_reference']['tmp_name']));
                           
                           $currentStatus = $_SESSION['DeliveryStatus'];
 
@@ -434,7 +434,7 @@
                           $fab_text = htmlspecialchars($_POST['item_description']);
                           $fab_price = $_POST['fab_cost'];
                           $fab_totalprice = $_POST['total_amount'];
-                          $blob = file_get_contents($_FILES['file_reference']['tmp_name']);
+                          $blob = addslashes(file_get_contents($_FILES['file_reference']['tmp_name']));
 
                           $currentStatus = $_SESSION['DeliveryStatus'];
                                               
