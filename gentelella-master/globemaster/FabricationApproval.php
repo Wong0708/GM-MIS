@@ -161,7 +161,7 @@
                                         
                                         echo '<p><b>Description:</b> '.$FAB_DESCRIPTION[$i].'<p>';
 
-                                        if($FAB_DESCRIPTION[$i] == "For Fabrication")
+                                        if($ORDER_STATUS[$i] == "For Fabrication")
                                         {
                             
                                           echo '<button type="button" class="btn btn-round btn-danger" onclick = "disApproveconfirm()">Disapprove</button>';
@@ -169,7 +169,7 @@
                                           echo '<button type="button" class="btn btn-round btn-success" disabled>Finish</button>';
                             
                                         }
-                                        else if($FAB_DESCRIPTION[$i] == "Under Fabrication")
+                                        else if($ORDER_STATUS[$i] == "Under Fabrication")
                                         {
                                 
                                           echo '<button type="button" class="btn btn-round btn-primary" disabled>Approve</button>';

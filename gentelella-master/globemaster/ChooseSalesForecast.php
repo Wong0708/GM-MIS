@@ -124,7 +124,7 @@
                         <p>Please choose a date range of forecast.</p>
                         <div class='col-md-12'>
                             <div class="form-group">
-                              <input type="date" name="startdate" id = "startdate" class="form-control col-md-7 col-xs-12">
+                              <input type="date" name="startdate" id = "startdate" onchange ="date_setter(this)" class="form-control col-md-7 col-xs-12 deliveryDate">
                             </div>
                         </div>
 
@@ -132,10 +132,37 @@
 
                         <div class='col-md-12'>
                             <div class="form-group">
-                              <input type="date" name="enddate" id = "enddate" class="form-control col-md-7 col-xs-12">
+                              <input type="date" name="enddate" id = "enddate" class="form-control col-md-7 col-xs-12 deliveryDate">
                             </div>
                         </div>
                         <button type="button" class="btn btn-info">Show Forecast</button>
+
+                        <script>
+                        function date_setter(obj)
+                        {
+                          // document.getElementById("enddate").valueAsDate = new Date()
+                          var start_date = new Date(obj.valueAsDate);
+                          var end_date = start_date.addDays(30)
+
+                          end_date = moment(start_date).format('YYYY-MM-DD');
+                          
+                          
+
+                          $('#enddate').val(end_date);
+                          
+                          var END_DATE_INPUT = document.getElementById('enddate').valueAsDate;
+                          
+                          var old_start_date = END_DATE_INPUT.addDays(-30);
+
+                          start_date = moment(start_date).format('YYYY-MM-DD');
+                          old_start_date = moment(END_DATE_INPUT).format('YYYY-MM-DD');
+             
+                          document.getElementById('enddate').setAttribute('max', start_date);
+                          document.getElementById('enddate').setAttribute('min', old_start_date );
+                        }
+                       
+
+                        </script>
                         </center>
                         </div>
                         </form>
@@ -161,6 +188,17 @@
         <!-- /footer content -->
       </div>
     </div>
+    <style>
+    .deliveryDate {
+        -moz-appearance:textfield;
+    }
+    
+    .deliveryDate::-webkit-outer-spin-button,
+    .deliveryDate::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style> <!-- To Remove the Up/Down Arrows from Date Selection -->
 
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
@@ -243,46 +281,6 @@
           datepickerdiv.style.display = "block";
           salesforecastlabel.value = "Custom Date Pick";
         }
-    </script>
-
-  <script>
-    $('#myDatepicker2').datetimepicker({
-        format: 'DD-MM-YYYY'
-    });
-  </script>
-  <script>
-    $('#myDatepicker3').datetimepicker({
-        format: 'DD.MM.YYYY'
-    });
-  </script>
-  <script>
-    // $('#start_date').change(function() 
-    // {
-    //   var date2 = $('#start_date').datepicker('getDate'); 
-    //   date2.setDate(date2.getDate()+30); 
-    //   $('#end_date').datepicker('setDate', date2);
-    // });
-    $("#myDatepicker2").datepicker({
-        showOtherMonths: true,
-        selectOtherMonths: true,
-        dateFormat: "dd/mm/y",
-        onSelect: function(selectedDate) {
-            //$("#cal4").datepicker("setDate", selectedDate);
-            var date = $(this).datepicker("getDate");
-            date.setDate(date.getDate() + 30);
-            $("#myDatepicker3").datepicker("setDate", date);
-            $("#myDatepicker3").datepicker( "option", "minDate", selectedDate );
-        }
-    });
-    $("#myDatepicker3").datepicker({
-        showOtherMonths: true,
-        selectOtherMonths: true,
-        dateFormat: "dd/mm/y",
-        onSelect: function(selectedDate) {
-            $("#myDatepicker2").datepicker( "option", "maxDate", selectedDate );
-        }
-    });
-  </script>
-  
+    </script>  
   </body>
 </html>
