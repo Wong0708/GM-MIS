@@ -209,6 +209,7 @@
                             $ItemtypeID = $rowItemtypeID['itemtype_id'];
                             $ItemID = $rowResultItemID['item_id']+1;
                             $SupplierID = $rowSupplierID['supplier_id'];
+                            $DiscountStatus = "Regular Price";
 
                             echo  "warehouse = ".$WareHouseID;
                             echo  "itemtype = ".$ItemtypeID;
@@ -229,7 +230,8 @@
                             '$itemThreshold',
                             '$WareHouseID',
                             '$SupplierID',
-                            '$itemPrice')";
+                            '$itemPrice',
+                            '$DiscountStatus')";
 
                             $result=mysqli_query($dbc,$sql);
                             if(!$result) 

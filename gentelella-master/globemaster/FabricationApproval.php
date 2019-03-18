@@ -61,6 +61,9 @@
                       </thead>
                       <tbody>
                         <?php
+                        $SQL_GET_JOB_FAB = "SELECT * FROM joborderfabrication ORDER BY joborderID ASC;";
+                        $RESULT_JOB_FAB = mysqli_query($dbc,$SQL_GET_JOB_FAB);
+                        $ROW_RESULT_FAB=mysqli_fetch_array($RESULT_JOB_FAB,MYSQLI_ASSOC);
 
                             require_once('DataFetchers/mysql_connect.php');
                             $query = "SELECT * FROM orders WHERE fab_status = 'For Fabrication' ORDER BY orderID ASC ;";
@@ -77,9 +80,7 @@
                                     $rowClientName=mysqli_fetch_array($resultClientName,MYSQLI_ASSOC);
                                     $clientName = $rowClientName['client_name'];
 
-                                    $SQL_GET_JOB_FAB = "SELECT * FROM joborderfabrication ORDER BY joborderID ASC;";
-                                    $RESULT_JOB_FAB = mysqli_query($dbc,$SQL_GET_JOB_FAB);
-                                    $ROW_RESULT_FAB=mysqli_fetch_array($RESULT_JOB_FAB,MYSQLI_ASSOC);
+                                    
                                     
                                     $blob = $ROW_RESULT_FAB['reference_drawing'];
                                     $BLOB_ENCODED = base64_encode($blob); 
@@ -105,7 +106,7 @@
                                           echo '<div class = "col-md-6">';
                                             echo '<p><b>Description:</b> '.$ROW_RESULT_FAB['fab_description'].'<p>';
                                           echo '</div>';              
-                                          
+
                                         echo '</div>'; // END <div class row>
                                       echo '</div>'; // END <div class panel body>
                                     echo '</div>'; //END div class panel pabnel Default

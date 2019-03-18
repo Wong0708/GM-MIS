@@ -210,46 +210,12 @@
                                             <div class="form-group">
                                                 <div class="col-md-12 col-sm-12 col-xs-12" align = "center">
                                                 <!--  -->
-                                                    <button type="submit" class="btn btn-success"  id = "updatestock" name ="restockBtn" onclick = "generalAlert()" >Update</button>
+                                                    <button type="submit" class="btn btn-success"  id = "updatestock" name ="restockBtn" onclick = "insert_and_update_restock()" >Update</button>
 
 
                                                    <script>
                                                    function insert_and_update_restock()
-                                                   {
-                                                    <?php  // UPDATE item stock 
-
-
-                                                        if(isset($_GET['restockBtn'], $_GET['restockAmount'])) //checks if both GET have values because the form post is = "GET"                                                    
-                                                        {               
-
-                                                            $restockCount = $_GET['restockAmount'];
-
-                                                            $itemIDfromViewInventory = $_SESSION['item_IDfromView'];
-
-                                                            $UPDATE_ITEM_TRADING_RESTOCK = "UPDATE items_trading  
-                                                            SET items_trading.item_count  = (item_count + '$restockCount'),
-                                                            last_restock = Now() 
-                                                            WHERE item_id ='$itemIDfromViewInventory';"; //Updates the item count in DB
-
-                                                            $RESULT_RESTOCK=mysqli_query($dbc,$UPDATE_ITEM_TRADING_RESTOCK);    
-
-                                                            if(!$RESULT_RESTOCK) 
-                                                            {
-                                                                die('Error: ' . mysqli_error($dbc));
-                                                            } 
-                                                            else 
-                                                            {
-                                                                echo '<script language="javascript">';
-                                                                echo 'alert("Successful!");';
-                                                                echo '</script>';
-                                                            }
-
-                                                            $itemID =  $_SESSION['item_IDfromView'];//Adds items to restock table
-                                                            $SQL_INSERT_RESTOCK_DETAILS = "INSERT INTO restock_detail (item_id, quantity, restock_date)
-                                                            VALUES ('$itemID','$restockCount',Now())";
-                                                            $RESULT_INSERT_RESTOCK_DETAIL =mysqli_query($dbc,$SQL_INSERT_RESTOCK_DETAILS); 
-                                                        }                                                   
-                                                        ?>
+                                                   {                                                   
                                                         var GET_RESTOCK_QTY = document.getElementbyId("restockamt");
 
                                                         request = $.ajax({
@@ -257,15 +223,13 @@
                                                         type: "POST",
                                                         data: {
                                                             post_item_id: <?php echo  $_SESSION['item_IDfromView'];?>,
-                                                            post_restock_quantity: GET_CART_QTY
+                                                            post_restock_quantity: GET_RESTOCK_QTY
                                                         },
-                                                        success: function(data, textStatus)
-                                                        {
-                                                            $(".result").html(data); 
-                                                            alert("Ajax Gud");   
-                                                            }//End Scucess
-                                                        
-                                                            }); // End ajax    
+                                                            success: function(data, textStatus)
+                                                            {
+                                                                alert(data);
+                                                            }//End Scucess                                                        
+                                                        }); // End ajax    
                                                    } // End Function
 
                                                    </script>
