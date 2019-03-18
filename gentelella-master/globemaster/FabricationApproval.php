@@ -105,6 +105,21 @@
 
                                           echo '<div class = "col-md-6">';
                                             echo '<p><b>Description:</b> '.$ROW_RESULT_FAB['fab_description'].'<p>';
+
+                                            if($row['fab_status'] == "For Fabrication")
+                                            {
+                                ?>
+                                    <button type="button" class="btn btn-round btn-primary">Approve</button>
+                                    <button type="button" class="btn btn-round btn-success" disabled>Finish</button>
+                                <?php
+                                            }
+                                            else if($row['fab_status'] == "Under Fabrication")
+                                            {
+                                ?>    
+                                    <button type="button" class="btn btn-round btn-primary" disabled>Approve</button>
+                                    <button type="button" class="btn btn-round btn-success">Finish</button>  
+                                <?php
+                                            }          
                                           echo '</div>';              
 
                                         echo '</div>'; // END <div class row>

@@ -74,7 +74,7 @@
                   <div class="x_panel">
                     <div class="x_content">
                       <br />
-                      <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form-horizontal form-label-left">
+                      <form action="<?php echo $_SERVER['SalesForecasting.php']; ?>" method="POST" class="form-horizontal form-label-left">
 
                         <div class="form-group">
                         <center>
@@ -114,8 +114,7 @@
                                    echo '<option value = "'.$row['item_name'].'">'.$row['item_name'].'</option>';
                                 }
                             ?>             
-                            </select>
-                          
+                        </select>
                         </center>
                         </div>
                         </form>
