@@ -87,32 +87,27 @@
                                  echo '<tr>';
                                    echo '<td>';
                                     echo '<div class="panel panel-default">';
-                                      echo '<div class="panel-body">';
-                                        echo '<div class = "row">';
-
-                                          echo '<div class = "col-md-6">';
-                                            echo '<img src = "data:image/jpg;base64,'.$BLOB_ENCODED.'" border-style = "border-width:3px;"style = "height:40vh; width:30vw">'; 
-                                          echo '</div>';
-
-                                          echo '<div class = "col-md-6">';
-                                            echo '<div class = "row"><h2> </h2></div>';
-                                          echo '<div class = "row">';
-
-                                          echo '<div class = "col-md-6">';
-                                            echo '<p><b>Order Number:</b> '.$row['ordernumber'].'<p>';
-                                          echo '</div>';                  
-
-                                          echo '<div class = "col-md-6">';
-                                            echo '<p><b>Description:</b> '.$ROW_RESULT_FAB['fab_description'].'<p>';
-                                          echo '</div>';              
-                                          
-                                        echo '</div>'; // END <div class row>
-                                      echo '</div>'; // END <div class panel body>
-                                    echo '</div>'; //END div class panel pabnel Default
-                                //   echo '</div>';
-                                // echo '</div>';
-                              echo '</td>';
-                            echo '</tr>';                                    
+                                    echo '<div class="panel-body">';
+                                    echo '<div class = "row">';
+                                    echo '<div class = "col-md-6">';
+                                      echo '<img src = "data:image/jpg;base64,'.$BLOB_ENCODED.'" border-style = "border-width:3px;"style = "height:40vh; width:30vw">'; 
+                                    echo '</div>';
+                                    echo '<div class = "col-md-6">';
+                                    echo '<div class = "row"><h2> </h2></div>';
+                                     echo '<div class = "row">';
+                                       echo '<div class = "col-md-6">';
+                                       echo '<p><b>Order Number:</b> '.$row['ordernumber'].'<p>';
+                                       echo '</div>';                    
+                                        echo '<div class = "col-md-6">';
+                                        echo '<p><b>Description:</b> '.$ROW_RESULT_FAB['fab_description'].'<p>';
+                                        echo '</div>';                          
+                                        echo '</div>'; 
+                                        echo '</div>';
+                                        echo '</div>';
+                                        echo '</div>';
+                                        echo '</div>';
+                                        echo '</td>';
+                                      echo '</tr>';                                    
                             }
                         ?>  
                       </tbody>
@@ -184,8 +179,22 @@
             font-size: 50px;
             color: #1D2B51;
             }
+        h2 {
+            font-family: 'COUTURE', Arial, sans-serif;
+            font-weight:normal;
+            font-style:normal;
+            font-size: 30px;
+            color: #1D2B51;
+            }
 
     </style>    
+
+    <style>
+    p {
+        word-break: break-all;
+        white-space: normal;
+    }
+    </style>
 
   </body>
 </html>
