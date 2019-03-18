@@ -112,7 +112,8 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form-horizontal form-label-left">
+                    <!-- enctype="multipart/form-data" : required inside tag to upload correctly -->
+                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form-horizontal form-label-left" enctype="multipart/form-data">
 
                     
                       <div class="form-group">
@@ -171,9 +172,42 @@
                         </div>
                       </div>
 
-                      <?php 
+                      <?php      
                       if(isset($_POST['createBtn']))
                       {
+                         //<--------------------------------------------------------[ UPLOADED FILE Checker ]----------------------------------------------------->
+                         if(isset($_FILES['file_reference']))
+                          {                          
+                            echo "Upload: " . $_FILES['file_reference']['name'] . "<br>";
+                            echo "Type: " . $_FILES['file_reference']['type'] . "<br>";
+                            echo "Size: " . ($_FILES['file_reference']['size'] / 1024) . " kB<br>";
+                            echo "Stored in: " . $_FILES['file_reference']['tmp_name'];
+
+                            $filename = $_FILES['file_reference']['name'];
+                            $filetype = $_FILES['file_reference']['type'];
+                            $filesize = $_FILES['file_reference']['size'];
+
+                            $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "png" => "image/png"); //Checks the File type extension 
+                            
+                            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+                            if(!array_key_exists($ext, $allowed))
+                            {
+                              die("Error: Please select a valid file format.");
+                            }
+
+                            $maxsize = 10 * 1024 * 1024;
+                            if($filesize > $maxsize)
+                            {
+                              die("Error: File size is larger than the allowed limit.");
+                            } 
+
+                          }//END IF ISSET FILE REFERENCE
+                          else
+                          {
+                            echo "CANT DETECT FILE";
+                          }                                                   
+                        //<--------------------------------------------------------[ UPLOADED FILE Checker ]----------------------------------------------------->
                         if($currentStatus == "Deliver") //Insert to DB IF Deliver
                         {
                           $OR_NUM = $_SESSION['getORNumber'];
@@ -188,7 +222,7 @@
                           $ORDER_STATUS = $currentStatus;
                           $FAB_STATUS = $fabricationStatus;
                           $PAYMENT_STATUS = "UNPAID";
-                          if($_POST['installation'] == "With Installation")
+                          if(!empty($_POST['installation']))
                           {
                             $INSTALLATION_STATUS = $_POST['installation'];
                           }
@@ -282,8 +316,8 @@
                           $fab_text = htmlspecialchars($_POST['item_description']);  //Insert Job Order
                           $fab_price = $_POST['fab_cost'];
                           $fab_totalprice = $_POST['total_amount'];
-                          $blob = file_get_contents($_FILES['file_reference']['tmp_name']);
-
+                          $blob = addslashes(file_get_contents($_FILES['file_reference']['tmp_name']));
+                          
                           $currentStatus = $_SESSION['DeliveryStatus'];
 
                           $sqlToInsertJOBFAB = "INSERT INTO joborderfabrication(fab_description,order_number, fab_price, fab_totalprice, reference_drawing)
@@ -299,7 +333,7 @@
                               echo 'alert("3rd Insert Successful!");';
                               echo '</script>';                            
                           }                                                                                                   
-                        } // END IF
+                        } // END IF DELIVER
                         else //Insert to DB if PickUp
                         {
                           $OR_NUM = $_SESSION['getORNumber'];
@@ -313,14 +347,8 @@
                           $ORDER_STATUS = $currentStatus;
                           $FAB_STATUS = $fabricationStatus;
                           $PAYMENT_STATUS = "UNPAID";
-                          if($_POST['installation'] == "With Installation")
-                          {
-                            $INSTALLATION_STATUS = $_POST['installation'];
-                          }
-                          else
-                          {
-                            $INSTALLATION_STATUS = "No Installation";
-                          }
+                          $INSTALLATION_STATUS = "No Installation";
+                          
                           $sqlToInsertToORDERS = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, totalamt, order_status,installation_status, fab_status, payment_status)
                           VALUES(
                             '$OR_NUM',
@@ -406,7 +434,7 @@
                           $fab_text = htmlspecialchars($_POST['item_description']);
                           $fab_price = $_POST['fab_cost'];
                           $fab_totalprice = $_POST['total_amount'];
-                          $blob = file_get_contents($_FILES['file_reference']['tmp_name']);
+                          $blob = addslashes(file_get_contents($_FILES['file_reference']['tmp_name']));
 
                           $currentStatus = $_SESSION['DeliveryStatus'];
                                               
@@ -423,8 +451,10 @@
                               echo 'alert("Order Successful!");';
                               echo '</script>';                            
                           }
-                        }
-                      }                     
+                        }//END ELSE 
+                      } //END IF ISSET POST BTN  
+                      
+                   
                       ?>
                     </form>
                   </div>

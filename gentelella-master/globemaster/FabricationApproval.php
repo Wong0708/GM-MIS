@@ -61,8 +61,12 @@
                       </thead>
                       <tbody>
                         <?php
+                       
+                       
+                      
                             
                             require_once('DataFetchers/mysql_connect.php');
+<<<<<<< HEAD
                             $query = "SELECT * FROM orders o  
                                     JOIN joborderfabrication j
                                     ON j.order_number  = o.ordernumber
@@ -179,6 +183,52 @@
                                     </td>
                                     </tr>
                         <?php
+=======
+                            $query = "SELECT * FROM orders WHERE fab_status = 'For Fabrication' ORDER BY orderID ASC ;";
+                            $result=mysqli_query($dbc,$query);
+                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                            {
+                                    $queryPaymentType = "SELECT paymenttype FROM ref_payment WHERE payment_id =" . $row['payment_id'] . ";";
+                                    $resultPaymentType = mysqli_query($dbc,$queryPaymentType);
+                                    $rowPaymentType=mysqli_fetch_array($resultPaymentType,MYSQLI_ASSOC);
+                                    $paymentType = $rowPaymentType['paymenttype'];
+
+                                    $queryClientName = "SELECT client_name FROM clients WHERE client_id =" . $row['client_id'] . ";";
+                                    $resultClientName = mysqli_query($dbc,$queryClientName);
+                                    $rowClientName=mysqli_fetch_array($resultClientName,MYSQLI_ASSOC);
+                                    $clientName = $rowClientName['client_name'];
+
+                                    $SQL_GET_JOB_FAB = "SELECT * FROM joborderfabrication ORDER BY joborderID ASC;";
+                                    $RESULT_JOB_FAB = mysqli_query($dbc,$SQL_GET_JOB_FAB);
+                                    $ROW_RESULT_FAB=mysqli_fetch_array($RESULT_JOB_FAB,MYSQLI_ASSOC);
+                                    
+                                    $blob = $ROW_RESULT_FAB['reference_drawing'];
+                                    $BLOB_ENCODED = base64_encode($blob); 
+                                               
+                                 echo '<tr>';
+                                   echo '<td>';
+                                    echo '<div class="panel panel-default">';
+                                    echo '<div class="panel-body">';
+                                    echo '<div class = "row">';
+                                    echo '<div class = "col-md-6">';
+                                      echo '<img src = "data:image/jpg;base64,'.$BLOB_ENCODED.'" border-style = "border-width:3px;"style = "height:40vh; width:30vw">'; 
+                                    echo '</div>';
+                                    echo '<div class = "col-md-6">';
+                                    echo '<div class = "row"><h2>peipito</h2></div>';
+                                     echo '<div class = "row">';
+                                       echo '<div class = "col-md-6">';
+                                       echo '</div>';                    
+                                        echo '<div class = "col-md-6">';
+                                        echo '</div>';                          
+                                        echo '</div>'; 
+                                        echo '</div>';
+                                        echo '</div>';
+                                        echo '</div>';
+                                        echo '</div>';
+                                        echo '</td>';
+                                      echo '</tr>';
+                                    
+>>>>>>> 6ea64346ffc417f25d5567c4a1ff1e3c094d3e67
                             }
                         ?>  
                       </tbody>
