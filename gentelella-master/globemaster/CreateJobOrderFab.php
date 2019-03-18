@@ -187,7 +187,7 @@
                             $filetype = $_FILES['file_reference']['type'];
                             $filesize = $_FILES['file_reference']['size'];
 
-                            $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png"); //Checks the File type extension 
+                            $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "png" => "image/png"); //Checks the File type extension 
                             
                             $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
@@ -196,7 +196,7 @@
                               die("Error: Please select a valid file format.");
                             }
 
-                            $maxsize = 5 * 1024 * 1024;
+                            $maxsize = 10 * 1024 * 1024;
                             if($filesize > $maxsize)
                             {
                               die("Error: File size is larger than the allowed limit.");
@@ -222,7 +222,7 @@
                           $ORDER_STATUS = $currentStatus;
                           $FAB_STATUS = $fabricationStatus;
                           $PAYMENT_STATUS = "UNPAID";
-                          if($_POST['installation'] == "With Installation")
+                          if(!empty($_POST['installation']))
                           {
                             $INSTALLATION_STATUS = $_POST['installation'];
                           }

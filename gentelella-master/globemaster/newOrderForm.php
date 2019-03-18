@@ -901,10 +901,10 @@ function nextpageNOFabrication()
 {                                                                                               
     if(confirm("Submit Order?"))
     {
-    
+        getAjax();
         alert("Order Successful!")
     
-        getAjax();
+        
         // window.location.href = "ViewOrders.php";   
          
         
