@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>GM - View Orders</title>
+    <title>GM - Fabrication Approval</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -41,7 +41,7 @@
           <div class="">
             <div class="page-title">
               <div>
-                  <center><h1><img src="images/GM%20LOGO.png" width = "80px" height = "80px">GLOBEMASTER ORDERS</h1><br>
+                  <center><h1><img src="images/GM%20LOGO.png" width = "80px" height = "80px">ORDERS WITH FABRICATION REQUEST</h1><br>
               </div>
             </div>
             <br><br><br><br>
@@ -50,22 +50,13 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_content">
-                    <p class="text-muted font-13 m-b-30">
-                      
-                        <button type="button" class="btn btn-success" onclick="window.location.href='newOrderForm.php'"><i class="fa fa-plus" onclick =""></i> Create Order </button>
-                      
-                    </p><br>
+                    <div>
+                    <div class="x_content">
 					
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
-                          <th>Order Number</th>
-                          <th>Client Name</th>
-                          <th>Order Date</th>
-                          <th>Delivery Date</th>
-                          <th>Total Amount</th>
-                          <th>Payment Type</th>
-                          <th>Status</th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -86,39 +77,32 @@
                                     $rowClientName=mysqli_fetch_array($resultClientName,MYSQLI_ASSOC);
                                     $clientName = $rowClientName['client_name'];
                                     
-                                
-                                    echo '<tr>';
-                                    echo '<td>';
-                                    echo $row['ordernumber'];
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $clientName;
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $row['order_date'];
-                                    echo '</td>';
-                                    echo '<td>';
-                                    
-                                    // if($row['delivery_date'] == null || $row['delivery_date'] == "")
-                                    // {
-                                    //     echo '<button type="submit" class="btn btn-round btn-success"><i class="fa fa-plus"></i> Set Delivery Date</button>';
-                                    // }
-                                    // else
-                                    // {
-                                        echo $row['delivery_date'];
-                                    // }
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo  'Php'." ".number_format($row['totalamt'], 2);
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $paymentType;
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $row['order_status'];
-                                    echo '</td>';
-                                    echo '</tr>';
-                                    
+                                    ?>
+                                    <tr>
+                                    <td>
+                                    <div class="panel panel-default">
+                                      <div class="panel-body">
+                                        <div class = "row">
+                                          <div class = "col-md-6">
+                                            <img src = "images/gt86.jpg" border-style = "border-width:3px;"style = "height:40vh; width:30vw">
+                                          </div>
+                                          <div class = "col-md-6">
+                                            <div class = "row"><h2><?php  echo "tite #1"?></h2></div>
+
+                                            <div class = "row">
+
+                                              <div class = "col-md-6">
+                                              </div>                    
+                                              <div class = "col-md-6">
+                                              </div>                          
+                                            </div> 
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    </td>
+                                    </tr>
+                                    <?php
                             }
                         ?>  
                       </tbody>

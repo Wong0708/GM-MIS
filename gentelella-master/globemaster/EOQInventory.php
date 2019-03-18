@@ -383,7 +383,7 @@ require_once('DataFetchers/mysql_connect.php');
                     ],
                     borderColor:
                         '#046f00',
-                    pointStyle: 'star',
+                    pointStyle: 'triangle',
                     pointRadius: 20,
                     pointBorderColor: "#046f00",
                     pointBackgroundColor: "#046f00",
@@ -559,7 +559,7 @@ require_once('DataFetchers/mysql_connect.php');
                 if (eoq === parseFloat(i * 100)) {
                     not_equals = false;
                 }
-                }
+                
                 if (not_equals) {
                     window.myChart.data.labels.push(eoq);
                 }
