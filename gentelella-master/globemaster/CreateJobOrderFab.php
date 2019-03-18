@@ -210,10 +210,6 @@
                         //<--------------------------------------------------------[ UPLOADED FILE Checker ]----------------------------------------------------->
                         if($currentStatus == "Deliver") //Insert to DB IF Deliver
                         {
-                          
-                          
-                      
-                      
                           $OR_NUM = $_SESSION['getORNumber'];
                           $CLIENT_ID = $_SESSION['client_id'];
                           $ORDER_DATE = $_SESSION['order_date'];
@@ -320,10 +316,8 @@
                           $fab_text = htmlspecialchars($_POST['item_description']);  //Insert Job Order
                           $fab_price = $_POST['fab_cost'];
                           $fab_totalprice = $_POST['total_amount'];
-                          $blob = addslashes(file_get_contents($_FILES['file_reference']['tmp_name']));
-
-                         
-
+                          $blob = file_get_contents($_FILES['file_reference']['tmp_name']);
+                          
                           $currentStatus = $_SESSION['DeliveryStatus'];
 
                           $sqlToInsertJOBFAB = "INSERT INTO joborderfabrication(fab_description,order_number, fab_price, fab_totalprice, reference_drawing)
@@ -337,9 +331,6 @@
                           {                            
                               echo '<script language="javascript">';
                               echo 'alert("3rd Insert Successful!");';
-
-                                
-
                               echo '</script>';                            
                           }                                                                                                   
                         } // END IF DELIVER
@@ -356,14 +347,8 @@
                           $ORDER_STATUS = $currentStatus;
                           $FAB_STATUS = $fabricationStatus;
                           $PAYMENT_STATUS = "UNPAID";
-                          if($_POST['installation'] == "With Installation")
-                          {
-                            $INSTALLATION_STATUS = $_POST['installation'];
-                          }
-                          else
-                          {
-                            $INSTALLATION_STATUS = "No Installation";
-                          }
+                          $INSTALLATION_STATUS = "No Installation";
+                          
                           $sqlToInsertToORDERS = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, totalamt, order_status,installation_status, fab_status, payment_status)
                           VALUES(
                             '$OR_NUM',

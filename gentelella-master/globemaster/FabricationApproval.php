@@ -80,7 +80,7 @@
                       
                             
                             require_once('DataFetchers/mysql_connect.php');
-                            $query = "SELECT * FROM orders ORDER BY orderID ASC;";
+                            $query = "SELECT * FROM orders ORDER BY orderID ASC WHERE fab_status = 'With Fabrication';";
                             $result=mysqli_query($dbc,$query);
                             while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                             {
