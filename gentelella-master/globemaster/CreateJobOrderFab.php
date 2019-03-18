@@ -214,134 +214,134 @@
                           
                       
                       
-                        //   $OR_NUM = $_SESSION['getORNumber'];
-                        //   $CLIENT_ID = $_SESSION['client_id'];
-                        //   $ORDER_DATE = $_SESSION['order_date'];
-                        //   $EXPECTED_DATE = $_SESSION['getDeliveryDate'];
-                        //   $PAYMENT_ID = $_SESSION['payment_id'];
+                          $OR_NUM = $_SESSION['getORNumber'];
+                          $CLIENT_ID = $_SESSION['client_id'];
+                          $ORDER_DATE = $_SESSION['order_date'];
+                          $EXPECTED_DATE = $_SESSION['getDeliveryDate'];
+                          $PAYMENT_ID = $_SESSION['payment_id'];
 
-                        //   $TOTAL_AMOUNT = $_SESSION['total'];
-                        //   $SANITIZED_TOTAL = filter_var($TOTAL_AMOUNT,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION); //Removes Peso Sign
+                          $TOTAL_AMOUNT = $_SESSION['total'];
+                          $SANITIZED_TOTAL = filter_var($TOTAL_AMOUNT,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION); //Removes Peso Sign
 
-                        //   $ORDER_STATUS = $currentStatus;
-                        //   $FAB_STATUS = $fabricationStatus;
-                        //   $PAYMENT_STATUS = "UNPAID";
-                        //   if($_POST['installation'] == "With Installation")
-                        //   {
-                        //     $INSTALLATION_STATUS = $_POST['installation'];
-                        //   }
-                        //   else
-                        //   {
-                        //     $INSTALLATION_STATUS = "No Installation";
-                        //   }
-                        //   $sqlToInsertToORDERS = "INSERT INTO orders(ordernumber, client_id, order_date, expected_date, payment_id, totalamt, order_status,installation_status, fab_status, payment_status)
-                        //   VALUES(
-                        //     '$OR_NUM',
-                        //     '$CLIENT_ID',
-                        //     '$ORDER_DATE',
-                        //     '$EXPECTED_DATE',
-                        //     '$PAYMENT_ID',
-                        //     '$SANITIZED_TOTAL',
-                        //     '$ORDER_STATUS',
-                        //     '$INSTALLATION_STATUS',
-                        //     '$FAB_STATUS',
-                        //     '$PAYMENT_STATUS');";
-                        //    $resultToInsertORDERS = mysqli_query($dbc,$sqlToInsertToORDERS);
+                          $ORDER_STATUS = $currentStatus;
+                          $FAB_STATUS = $fabricationStatus;
+                          $PAYMENT_STATUS = "UNPAID";
+                          if($_POST['installation'] == "With Installation")
+                          {
+                            $INSTALLATION_STATUS = $_POST['installation'];
+                          }
+                          else
+                          {
+                            $INSTALLATION_STATUS = "No Installation";
+                          }
+                          $sqlToInsertToORDERS = "INSERT INTO orders(ordernumber, client_id, order_date, expected_date, payment_id, totalamt, order_status,installation_status, fab_status, payment_status)
+                          VALUES(
+                            '$OR_NUM',
+                            '$CLIENT_ID',
+                            '$ORDER_DATE',
+                            '$EXPECTED_DATE',
+                            '$PAYMENT_ID',
+                            '$SANITIZED_TOTAL',
+                            '$ORDER_STATUS',
+                            '$INSTALLATION_STATUS',
+                            '$FAB_STATUS',
+                            '$PAYMENT_STATUS');";
+                           $resultToInsertORDERS = mysqli_query($dbc,$sqlToInsertToORDERS);
 
-                        //   if(!$resultToInsertORDERS) //Chceker
-                        //     {
-                        //         die('Error: ' . mysqli_error($dbc));
-                        //     } 
-                        //     else 
-                        //     {                            
-                        //         echo '<script language="javascript">';
-                        //         echo 'alert("1st Insert Successful!");';
-                        //         echo '</script>';                            
-                        //     }
+                          if(!$resultToInsertORDERS) //Chceker
+                            {
+                                die('Error: ' . mysqli_error($dbc));
+                            } 
+                            else 
+                            {                            
+                                echo '<script language="javascript">';
+                                echo 'alert("1st Insert Successful!");';
+                                echo '</script>';                            
+                            }
 
-                        //  $ITEM_ID = $_SESSION['item_id'];
-                        //  $EXPLODED_ITEM_ID = explode(",", $ITEM_ID);
+                         $ITEM_ID = $_SESSION['item_id'];
+                         $EXPLODED_ITEM_ID = explode(",", $ITEM_ID);
 
-                        //  $ITEM_QTY = $_SESSION['item_qty'];
-                        //  $EXPLODED_ITEM_QTY = explode(",", $ITEM_QTY);
+                         $ITEM_QTY = $_SESSION['item_qty'];
+                         $EXPLODED_ITEM_QTY = explode(",", $ITEM_QTY);
 
-                        //  $ITEM_NAME = array();
-                        //  $ITEM_PRICE = array(); 
+                         $ITEM_NAME = array();
+                         $ITEM_PRICE = array(); 
 
-                        //     for($i = 0; $i < sizeof($EXPLODED_ITEM_ID) ; $i++)
-                        //     {
-                        //       $sqlSelect ="SELECT * FROM items_trading WHERE item_id = $EXPLODED_ITEM_ID[$i];";
-                        //       $resultOfSelect = mysqli_query($dbc,$sqlSelect);
-                        //       while($rowOfSelect=mysqli_fetch_array($resultOfSelect,MYSQLI_ASSOC))
-                        //       {
-                        //         $ITEM_NAME[] = $rowOfSelect['item_name'];
-                        //         $ITEM_PRICE[] = $rowOfSelect['price']; 
-                        //       }
-                        //     //Insert to Order Details
-                        //       $sqlToInsertToOrderDetail = "INSERT INTO order_details(ordernumber, client_id, item_id, item_name, item_price, item_qty, item_status) 
-                        //       VALUES(
-                        //         '$OR_NUM',
-                        //         '$CLIENT_ID',
-                        //         '$EXPLODED_ITEM_ID[$i]',
-                        //         '$ITEM_NAME[$i]',
-                        //         '$ITEM_PRICE[$i]',
-                        //         '$EXPLODED_ITEM_QTY[$i]',
-                        //         '$ORDER_STATUS'
-                        //         );";
-                        //       $resultToInsertOrderDetail = mysqli_query($dbc,$sqlToInsertToOrderDetail);
-                        //       if(!$resultToInsertOrderDetail) 
-                        //       {
-                        //           die('Error: ' . mysqli_error($dbc));
-                        //       } 
-                        //       else 
-                        //       {                            
-                        //           echo '<script language="javascript">';
-                        //           echo 'alert("2nd Insert Successful!");';
-                        //           echo '</script>';                            
-                        //       } 
-                        //       //Subtracts QTY in the inventory
-                        //       $sqlToSubtractFromItemsTrading = "UPDATE items_trading
-                        //       SET items_trading.item_count  = (item_count - '$EXPLODED_ITEM_QTY[$i]'),
-                        //       last_update = Now() 
-                        //       WHERE item_id ='$EXPLODED_ITEM_ID[$i]';";
-                        //       $resultOfSubtract=mysqli_query($dbc,$sqlToSubtractFromItemsTrading); 
-                        //       if(!$resultOfSubtract) 
-                        //       {
-                        //           die('Error: ' . mysqli_error($dbc));
-                        //       } 
-                        //       else 
-                        //       {
-                        //           echo '<script language="javascript">';
-                        //           echo 'alert("Subtract Successfull");';
-                        //           echo '</script>';
-                        //       }
-                        //     } //END FOR
+                            for($i = 0; $i < sizeof($EXPLODED_ITEM_ID) ; $i++)
+                            {
+                              $sqlSelect ="SELECT * FROM items_trading WHERE item_id = $EXPLODED_ITEM_ID[$i];";
+                              $resultOfSelect = mysqli_query($dbc,$sqlSelect);
+                              while($rowOfSelect=mysqli_fetch_array($resultOfSelect,MYSQLI_ASSOC))
+                              {
+                                $ITEM_NAME[] = $rowOfSelect['item_name'];
+                                $ITEM_PRICE[] = $rowOfSelect['price']; 
+                              }
+                            //Insert to Order Details
+                              $sqlToInsertToOrderDetail = "INSERT INTO order_details(ordernumber, client_id, item_id, item_name, item_price, item_qty, item_status) 
+                              VALUES(
+                                '$OR_NUM',
+                                '$CLIENT_ID',
+                                '$EXPLODED_ITEM_ID[$i]',
+                                '$ITEM_NAME[$i]',
+                                '$ITEM_PRICE[$i]',
+                                '$EXPLODED_ITEM_QTY[$i]',
+                                '$ORDER_STATUS'
+                                );";
+                              $resultToInsertOrderDetail = mysqli_query($dbc,$sqlToInsertToOrderDetail);
+                              if(!$resultToInsertOrderDetail) 
+                              {
+                                  die('Error: ' . mysqli_error($dbc));
+                              } 
+                              else 
+                              {                            
+                                  echo '<script language="javascript">';
+                                  echo 'alert("2nd Insert Successful!");';
+                                  echo '</script>';                            
+                              } 
+                              //Subtracts QTY in the inventory
+                              $sqlToSubtractFromItemsTrading = "UPDATE items_trading
+                              SET items_trading.item_count  = (item_count - '$EXPLODED_ITEM_QTY[$i]'),
+                              last_update = Now() 
+                              WHERE item_id ='$EXPLODED_ITEM_ID[$i]';";
+                              $resultOfSubtract=mysqli_query($dbc,$sqlToSubtractFromItemsTrading); 
+                              if(!$resultOfSubtract) 
+                              {
+                                  die('Error: ' . mysqli_error($dbc));
+                              } 
+                              else 
+                              {
+                                  echo '<script language="javascript">';
+                                  echo 'alert("Subtract Successfull");';
+                                  echo '</script>';
+                              }
+                            } //END FOR
 
-                        //   $fab_text = htmlspecialchars($_POST['item_description']);  //Insert Job Order
-                        //   $fab_price = $_POST['fab_cost'];
-                        //   $fab_totalprice = $_POST['total_amount'];
-                        //   $blob = addslashes(file_get_contents($_FILES['file_reference']['tmp_name']));
+                          $fab_text = htmlspecialchars($_POST['item_description']);  //Insert Job Order
+                          $fab_price = $_POST['fab_cost'];
+                          $fab_totalprice = $_POST['total_amount'];
+                          $blob = addslashes(file_get_contents($_FILES['file_reference']['tmp_name']));
 
                          
 
-                        //   $currentStatus = $_SESSION['DeliveryStatus'];
+                          $currentStatus = $_SESSION['DeliveryStatus'];
 
-                        //   $sqlToInsertJOBFAB = "INSERT INTO joborderfabrication(fab_description,order_number, fab_price, fab_totalprice, reference_drawing)
-                        //   VALUES('$fab_text','$OR_NUM','$fab_price', '$fab_totalprice', '$blob' );";
-                        //   $resultToInsertJOBFAB = mysqli_query($dbc,$sqlToInsertJOBFAB);
-                        //   if(!$resultToInsertJOBFAB) 
-                        //   {
-                        //       die('Error: ' . mysqli_error($dbc));
-                        //   } 
-                        //   else 
-                        //   {                            
-                        //       echo '<script language="javascript">';
-                        //       echo 'alert("3rd Insert Successful!");';
+                          $sqlToInsertJOBFAB = "INSERT INTO joborderfabrication(fab_description,order_number, fab_price, fab_totalprice, reference_drawing)
+                          VALUES('$fab_text','$OR_NUM','$fab_price', '$fab_totalprice', '$blob' );";
+                          $resultToInsertJOBFAB = mysqli_query($dbc,$sqlToInsertJOBFAB);
+                          if(!$resultToInsertJOBFAB) 
+                          {
+                              die('Error: ' . mysqli_error($dbc));
+                          } 
+                          else 
+                          {                            
+                              echo '<script language="javascript">';
+                              echo 'alert("3rd Insert Successful!");';
 
                                 
 
-                        //       echo '</script>';                            
-                        //   }                                                                                                   
+                              echo '</script>';                            
+                          }                                                                                                   
                         } // END IF DELIVER
                         else //Insert to DB if PickUp
                         {
