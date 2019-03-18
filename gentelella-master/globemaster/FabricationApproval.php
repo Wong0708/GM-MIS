@@ -109,7 +109,15 @@
                                                      
 
                                           echo '<div class = "col-md-6">';
+                                          if($row['expected_date'] != NULL)
+                                          {
                                             echo '<p><b>Expected Delivery Date:</b> '.$row['expected_date'].'<p>';
+                                          }
+                                          else
+                                          {
+                                            echo '<p><b>Expected Delivery Date:</b> N/A<p>';
+                                          }
+                                            
                                             echo '<p><b>Description:</b> '.$ROW_RESULT_FAB['fab_description'].'<p>';
 
                                             if($row['fab_status'] == "For Fabrication")
