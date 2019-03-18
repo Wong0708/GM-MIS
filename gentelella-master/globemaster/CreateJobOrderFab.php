@@ -311,6 +311,7 @@
                                   echo '<script language="javascript">';
                                   echo 'alert("Subtract Successfull");';
                                   echo '</script>';
+                                  header("Location: ViewOrders.php");
                               }
                             } //END FOR
 
@@ -449,8 +450,9 @@
                           else 
                           {                            
                               echo '<script language="javascript">';
-                              echo 'alert("Order Successful!");';
-                              echo '</script>';                            
+                              echo 'alert("Order Successful!");';                             
+                              echo '</script>';               
+                              header("Location: ViewOrders.php");             
                           }
                         }//END ELSE 
                       } //END IF ISSET POST BTN  

@@ -65,6 +65,8 @@
                         $RESULT_JOB_FAB = mysqli_query($dbc,$SQL_GET_JOB_FAB);
                         $ROW_RESULT_FAB=mysqli_fetch_array($RESULT_JOB_FAB,MYSQLI_ASSOC);
 
+                        $blob = array();
+
                             require_once('DataFetchers/mysql_connect.php');
                             $query = "SELECT * FROM orders WHERE fab_status = 'For Fabrication' ORDER BY orderID ASC ;";
                             $result=mysqli_query($dbc,$query);
@@ -82,7 +84,7 @@
 
                                     
                                     
-                                    $blob = $ROW_RESULT_FAB['reference_drawing'];
+                                    $blob[] = $ROW_RESULT_FAB['reference_drawing'];
                                     $BLOB_ENCODED = base64_encode($blob); 
 
                                  echo '<tr>';
