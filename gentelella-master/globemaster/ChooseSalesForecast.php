@@ -145,21 +145,11 @@
                 </div>
             </div>            
           </div>
-          
-
-
-
-
         </div>
           
-
           </div>
           <br />
           <div class="row">
-            
-   
-
-           
               </div>
             </div>
           </div>
@@ -257,12 +247,40 @@
 
   <script>
     $('#myDatepicker2').datetimepicker({
-        format: 'DD.MM.YYYY'
+        format: 'DD-MM-YYYY'
     });
   </script>
   <script>
     $('#myDatepicker3').datetimepicker({
         format: 'DD.MM.YYYY'
+    });
+  </script>
+  <script>
+    // $('#start_date').change(function() 
+    // {
+    //   var date2 = $('#start_date').datepicker('getDate'); 
+    //   date2.setDate(date2.getDate()+30); 
+    //   $('#end_date').datepicker('setDate', date2);
+    // });
+    $("#myDatepicker2").datepicker({
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        dateFormat: "dd/mm/y",
+        onSelect: function(selectedDate) {
+            //$("#cal4").datepicker("setDate", selectedDate);
+            var date = $(this).datepicker("getDate");
+            date.setDate(date.getDate() + 30);
+            $("#myDatepicker3").datepicker("setDate", date);
+            $("#myDatepicker3").datepicker( "option", "minDate", selectedDate );
+        }
+    });
+    $("#myDatepicker3").datepicker({
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        dateFormat: "dd/mm/y",
+        onSelect: function(selectedDate) {
+            $("#myDatepicker2").datepicker( "option", "maxDate", selectedDate );
+        }
     });
   </script>
   

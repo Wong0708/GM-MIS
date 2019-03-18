@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="icon" href="images/favicon.ico" type="image/ico" />
     <title>GM - Fabrication Approval</title>
 
     <!-- Bootstrap -->
@@ -145,7 +145,7 @@
                                                 echo $ROW_RESULT_GET_OR ['item_name'] ,"<br>"; 
                                                 
                                               }
-                                            // echo  $ITEM_NAME_FROM_OR_DETAILS[$i],"<br>";                                       
+                                                                        
                                             
                                         echo '</div>';    
 
