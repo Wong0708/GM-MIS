@@ -58,7 +58,7 @@ require_once('DataFetchers/mysql_connect.php');
     <div class="right_col" role="main">
         <!-- top tiles -->
         <div class="title_left">
-            <h1>Inventory Forecasting for:<?php echo $_GET['item_id'];?>[<?php echo '';?>]</h1><br>
+            <h1>Sales Forecasting Paricipation for:<?php echo $_GET['item_id'];?>[<?php echo '';?>]</h1><br>
         </div><!-- PHP END -->
         <!-- /top tiles -->
 

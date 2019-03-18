@@ -341,7 +341,7 @@ if(!(isset($_SESSION['usertype']))){
         </div>
         <!-- /top navigation -->
 
-        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+        <!-- <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
               <div class="modal-dialog modal-sm">
                 <div class="modal-content">
 
@@ -352,9 +352,9 @@ if(!(isset($_SESSION['usertype']))){
                   </div>
                   <div class="modal-body">
                     <h4>Select a Type of Forecast</h4>
-                    <br>
+                    <br> -->
                         <!-- Split button -->
-                        <center><div class="btn-group">
+                        <!-- <center><div class="btn-group">
                           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="invforecastlabel">
                           Choose..
                             <span class="caret"></span>
@@ -419,7 +419,7 @@ if(!(isset($_SESSION['usertype']))){
 
                 </div>
               </div>
-            </div>
+            </div> -->
             <!-- /modals -->
             
 
@@ -449,7 +449,7 @@ if(!(isset($_SESSION['usertype']))){
     <!-- SCRIPTS -->
 
           <!-- Change Button Label Script -->
-          <script>
+          <!-- <script>
             var invforecastlabel = document.getElementById("invforecastlabel");
             
             var invnaive = document.getElementById("invnaive");
@@ -470,10 +470,10 @@ if(!(isset($_SESSION['usertype']))){
               invforecastlabel.innerHTML = "Short Term Forecasting";
               
             }
-          </script>
+          </script> -->
 
           <!-- Toggle datepicker script -->
-          <script>
+          <!-- <script>
             var customdatepick = document.getElementById("customdatepick");
             var datepickerdiv = document.getElementById("datepickerdiv");
             var invforecastlabel = document.getElementById("invforecastlabel");
@@ -483,4 +483,4 @@ if(!(isset($_SESSION['usertype']))){
               datepickerdiv.style.display = "block";
               invforecastlabel.innerHTML = "Custom Date Pick";
             }
-          </script>  
+          </script>   -->
