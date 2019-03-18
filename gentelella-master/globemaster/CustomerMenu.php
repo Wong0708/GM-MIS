@@ -186,10 +186,11 @@
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
-                          <th>Customer ID</th>
                           <th>Customer Name</th>
                           <th>Contact Number</th>
+                          <th>Delivery Address</th>
                           <th>E-mail Address</th>
+                          <th>Total Unpaid</th>
                           <th>Status</th>
                         </tr>
                       </thead>
@@ -203,13 +204,24 @@
 
                             while ($clients = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
                                 //output a row here
-                                echo "<tr><td>".($clients['client_id'])."</td>";
                                 echo "<td>".($clients['client_name'])."</td>";
                                 echo "<td>".($clients['client_contactno'])."</td>";
+                                echo "<td>".($clients['client_address'])."</td>";
                                 echo "<td>".($clients['client_email'])."</td>";
-                                echo "<td>".($clients['client_id'])."</td></tr>";
+                                echo "<td align = 'right'>₱ ".($clients['total_unpaid'])."</td>";
+                                if($clients['client_status'] == "Allowed")
+                                {
+                      ?>
+                                  <td align = 'center'><font color = "green">Allowed</font></td></tr>
+                      <?php
+                                }
+                                else if($clients['client_status'] == "Disallowed")
+                                {
+                      ?>
+                                  <td align = 'center'><font color = "red ">Disallowed</font></td></tr>
+                      <?php
+                                }
                             }
-
                             echo "</tbody>";
                       ?>
                     </table>
