@@ -63,46 +63,122 @@
                         <?php
                             
                             require_once('DataFetchers/mysql_connect.php');
-                            $query = "SELECT * FROM orders ORDER BY orderID ASC;";
+                            $query = "SELECT * FROM orders o  
+                                    JOIN joborderfabrication j
+                                    ON j.order_number  = o.ordernumber
+                                    WHERE o.fab_status = 'For Fabrication' 
+                                    OR o.fab_status = 'Under Fabrication'
+                                    ORDER BY expected_date ASC";
                             $result=mysqli_query($dbc,$query);
                             while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                             {
-                                    $queryPaymentType = "SELECT paymenttype FROM ref_payment WHERE payment_id =" . $row['payment_id'] . ";";
-                                    $resultPaymentType = mysqli_query($dbc,$queryPaymentType);
-                                    $rowPaymentType=mysqli_fetch_array($resultPaymentType,MYSQLI_ASSOC);
-                                    $paymentType = $rowPaymentType['paymenttype'];
-
-                                    $queryClientName = "SELECT client_name FROM clients WHERE client_id =" . $row['client_id'] . ";";
-                                    $resultClientName = mysqli_query($dbc,$queryClientName);
-                                    $rowClientName=mysqli_fetch_array($resultClientName,MYSQLI_ASSOC);
-                                    $clientName = $rowClientName['client_name'];
-                                    
-                                    ?>
+                            
+                              $query1 = "SELECT * FROM order_details d  
+                              JOIN orders o
+                              ON o.ordernumber  = d.ordernumber
+                              WHERE o.fab_status = 'For Fabrication' 
+                              ORDER BY expected_date ASC";
+                              $result1=mysqli_query($dbc,$query1);  
+                              $row1=mysqli_fetch_array($result1,MYSQLI_ASSOC)
+                                                                  
+                        ?>
                                     <tr>
                                     <td>
                                     <div class="panel panel-default">
                                       <div class="panel-body">
                                         <div class = "row">
                                           <div class = "col-md-6">
-                                            <img src = "images/gt86.jpg" border-style = "border-width:3px;"style = "height:40vh; width:30vw">
+                                            <img src = "images/gt86.jpg" border-style = "border-width:3px"style = "height:40vh; width:30vw">
                                           </div>
                                           <div class = "col-md-6">
-                                            <div class = "row"><h2><?php  echo "tite #1"?></h2></div>
+                                              <div class = "row"><h2>Order Number: <?php  echo $row['ordernumber'];?></h2></div>
+                                              <div class = "clearfix"></div>
+                                              <br><br><br>  
+                                            
 
-                                            <div class = "row">
+                                              <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
 
-                                              <div class = "col-md-6">
-                                              </div>                    
-                                              <div class = "col-md-6">
-                                              </div>                          
-                                            </div> 
+                                              <div class = "row">
+                                                    <div class = "col-md-6 col-sm-6 col-xs-12">
+                                                      <p><b>Ordered Items:</b> 
+                                                      <?php  
+                                                        for($i=0; $i<=$row1['item_name']; $i++)
+                                                        {
+                                                      ?>
+                                                        <p><?php  echo $row1['item_name'];?></p>
+                                                        
+                                                      <?php
+                                                        }
+                                                      ?></p>
+                                                    </div>                    
+                                                    <div class = "col-md-6 col-sm-6 col-xs-12">
+                                                      <p><b>Expected Delivery Date:</b> <?php  echo $row['expected_date'];?></p>
+                                                      <p><b>Description:</b> <?php  echo $row['fab_description'];?></p>
+                                                    </div>  
+                                                    <div class = "col-md-12 col-sm-12 col-xs-12" align="right">
+
+                                                    <?php 
+                                                      if($row['fab_status'] == "For Fabrication")
+                                                      {
+                                                    ?>
+                                                        <button type = "submit" name="approveBtn" class="btn btn-round btn-primary">Approve</button>
+                                                        <button type = "submit" name="finishBtn" class="btn btn-round btn-success" <?php echo 'disabled';?>>Finish</button> 
+                                                    <?php 
+                                                      } 
+                                                      else if($row['fab_status'] == "Under Fabrication")
+                                                      {
+                                                    ?>
+                                                        <button type = "submit" name="approveBtn" class="btn btn-round btn-primary" <?php echo 'disabled';?>>Approve</button>
+                                                        <button type = "submit" name="finishBtn" class="btn btn-round btn-success">Finish</button>
+                                                    
+                                                    <?php
+                                                      }
+
+                                                      if(isset($_POST['approveBtn']))
+                                                      {
+                                                        $updateApprove = "UPDATE orders
+                                                        SET orders.fab_status  = 'Under Fabrication';";
+                                                        $resultApprove=mysqli_query($dbc,$updateApprove); 
+                                                        if(!$resultApprove) 
+                                                        {
+                                                            die('Error: ' . mysqli_error($dbc));
+                                                        } 
+                                                        else 
+                                                        {
+                                                            echo '<script language="javascript">';
+                                                            echo 'alert("Fabrication approval successful! The items in this order are now under fabrication");';
+                                                            echo '</script>';
+                                                        }
+                                                      }
+
+                                                      if(isset($_POST['finishBtn']))
+                                                      {
+                                                        $updateFinish = "UPDATE orders
+                                                        SET orders.fab_status  = 'Finished';";
+                                                        $resultFinish=mysqli_query($dbc,$updateFinish); 
+                                                        if(!$resultFinish) 
+                                                        {
+                                                            die('Error: ' . mysqli_error($dbc));
+                                                        } 
+                                                        else 
+                                                        {
+                                                            echo '<script language="javascript">';
+                                                            echo 'alert("Fabrication done! This item is ready to deliver!");';
+                                                            echo '</script>';
+                                                        }
+                                                      }
+                                                    ?>
+                                                    </div>
+                                                                          
+                                              </div>
+                                              </form> 
                                           </div>
                                         </div>
                                       </div>
                                     </div>
                                     </td>
                                     </tr>
-                                    <?php
+                        <?php
                             }
                         ?>  
                       </tbody>
@@ -174,8 +250,22 @@
             font-size: 50px;
             color: #1D2B51;
             }
+        h2 {
+            font-family: 'COUTURE', Arial, sans-serif;
+            font-weight:normal;
+            font-style:normal;
+            font-size: 30px;
+            color: #1D2B51;
+            }
 
     </style>    
+
+    <style>
+    p {
+        word-break: break-all;
+        white-space: normal;
+    }
+    </style>
 
   </body>
 </html>

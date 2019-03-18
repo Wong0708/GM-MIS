@@ -365,6 +365,7 @@
         .done(function( data ) {
             var colorName = colorNames[window.lineChart.data.datasets.length % colorNames.length];
             var newColor = window.chartColors[colorName];
+            console.log(data);
             datset = {
                 label: item_name,
                 fill: false,
