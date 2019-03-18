@@ -121,7 +121,7 @@
                         </div>
                         <div class="form-group">
                         <center>
-
+                        <p>Please choose a date range of forecast.</p>
                         <div class='col-md-12'>
                             <div class="form-group">
                                 <div class='input-group date' id='myDatepicker2'>
@@ -137,7 +137,7 @@
 
                         <div class='col-md-12'>
                             <div class="form-group">
-                                <div class='input-group date' id='myDatepicker2'>
+                                <div class='input-group date' id='myDatepicker3'>
                                     <input type='text' class="form-control" />
                                     <span class="input-group-addon">
                                       <span class="glyphicon glyphicon-calendar"></span>
@@ -266,6 +266,11 @@
 
   <script>
     $('#myDatepicker2').datetimepicker({
+        format: 'DD.MM.YYYY'
+    });
+  </script>
+  <script>
+    $('#myDatepicker3').datetimepicker({
         format: 'DD.MM.YYYY'
     });
   </script>
