@@ -61,10 +61,7 @@
                       </thead>
                       <tbody>
                         <?php
-                       
-                       
-                      
-                            
+
                             require_once('DataFetchers/mysql_connect.php');
                             $query = "SELECT * FROM orders WHERE fab_status = 'For Fabrication' ORDER BY orderID ASC ;";
                             $result=mysqli_query($dbc,$query);
@@ -86,7 +83,7 @@
                                     
                                     $blob = $ROW_RESULT_FAB['reference_drawing'];
                                     $BLOB_ENCODED = base64_encode($blob); 
-                                               
+
                                  echo '<tr>';
                                    echo '<td>';
                                     echo '<div class="panel panel-default">';
@@ -96,7 +93,11 @@
                                       echo '<img src = "data:image/jpg;base64,'.$BLOB_ENCODED.'" border-style = "border-width:3px;"style = "height:40vh; width:30vw">'; 
                                     echo '</div>';
                                     echo '<div class = "col-md-6">';
+<<<<<<< HEAD
                                     echo '<div class = "row"><h2><b>Order Number:</b> '.$row['ordernumber'].'</h2></div>';
+=======
+                                    echo '<div class = "row"><h2> </h2></div>';
+>>>>>>> 3b0c3fac26367f1c489ab3b3ec17b538098f689e
                                      echo '<div class = "row">';
                                        echo '<div class = "col-md-6">';
                                        echo '</div>';                    
@@ -109,8 +110,7 @@
                                         echo '</div>';
                                         echo '</div>';
                                         echo '</td>';
-                                      echo '</tr>';
-                                    
+                                      echo '</tr>';                                    
                             }
                         ?>  
                       </tbody>
