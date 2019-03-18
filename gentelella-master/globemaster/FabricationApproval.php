@@ -93,13 +93,10 @@
                                       echo '<img src = "data:image/jpg;base64,'.$BLOB_ENCODED.'" border-style = "border-width:3px;"style = "height:40vh; width:30vw">'; 
                                     echo '</div>';
                                     echo '<div class = "col-md-6">';
-<<<<<<< HEAD
-                                    echo '<div class = "row"><h2><b>Order Number:</b> '.$row['ordernumber'].'</h2></div>';
-=======
                                     echo '<div class = "row"><h2> </h2></div>';
->>>>>>> 3b0c3fac26367f1c489ab3b3ec17b538098f689e
                                      echo '<div class = "row">';
                                        echo '<div class = "col-md-6">';
+                                       echo '<p><b>Order Number:</b> '.$row['ordernumber'].'<p>';
                                        echo '</div>';                    
                                         echo '<div class = "col-md-6">';
                                         echo '<p><b>Description:</b> '.$ROW_RESULT_FAB['fab_description'].'<p>';
