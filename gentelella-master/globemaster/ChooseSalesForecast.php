@@ -124,12 +124,7 @@
                         <p>Please choose a date range of forecast.</p>
                         <div class='col-md-12'>
                             <div class="form-group">
-                                <div class='input-group date' id='myDatepicker2'>
-                                    <input type='text' class="form-control" />
-                                    <span class="input-group-addon">
-                                      <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>
+                              <input type="date" name="startdate" id = "startdate" class="form-control col-md-7 col-xs-12">
                             </div>
                         </div>
 
@@ -137,14 +132,10 @@
 
                         <div class='col-md-12'>
                             <div class="form-group">
-                                <div class='input-group date' id='myDatepicker3'>
-                                    <input type='text' class="form-control" />
-                                    <span class="input-group-addon">
-                                      <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                                </div>
+                              <input type="date" name="enddate" id = "enddate" class="form-control col-md-7 col-xs-12">
                             </div>
                         </div>
+                        <button type="button" class="btn btn-info">Show Forecast</button>
                         </center>
                         </div>
                         </form>
