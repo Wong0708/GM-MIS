@@ -1,4 +1,5 @@
 <?php require_once('DataFetchers/mysql_connect.php');
+
     function short_term($start_date, $end_date, $item_id){
         $dbc=mysqli_connect('127.0.0.1','root','1234','mydb');
        

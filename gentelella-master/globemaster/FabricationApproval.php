@@ -61,90 +61,132 @@
                       </thead>
                       <tbody>
                         <?php
+                        $BLOB = array();
+                        $FAB_DESCRIPTION = array();
+
+                        $ITEM_NAME_FROM_OR_DETAILS = array();
+                        $ORDER_NUMBER = array();
+                        $ORDER_STATUS = array();
+                        $EXPECTED_DATE = array();
+
+                        $PAYMENT_TYPE = array();
+                        $CLIENT_NAME = array();
+
+                        require_once('DataFetchers/mysql_connect.php');
+
+                        $query = "SELECT * FROM orders WHERE fab_status = 'For Fabrication' ORDER BY orderID ASC ;";
+                        $result=mysqli_query($dbc,$query);
+                        while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                        {
+
+                          $ORDER_NUMBER[] = $row['ordernumber'];
+                          $ORDER_STATUS[] = $row['fab_status'];
+                          $EXPECTED_DATE[] = $row['expected_date'];
+
+                          $queryPaymentType = "SELECT paymenttype FROM ref_payment WHERE payment_id =" . $row['payment_id'] . ";";
+                          $resultPaymentType = mysqli_query($dbc,$queryPaymentType);
+                          $rowPaymentType=mysqli_fetch_array($resultPaymentType,MYSQLI_ASSOC);
+
+                          $PAYMENT_TYPE[] = $rowPaymentType['paymenttype'];
+
+                          $queryClientName = "SELECT client_name FROM clients WHERE client_id =" . $row['client_id'] . ";";
+                          $resultClientName = mysqli_query($dbc,$queryClientName);
+                          $rowClientName=mysqli_fetch_array($resultClientName,MYSQLI_ASSOC);
+
+                          $CLIENT_NAME[] = $rowClientName['client_name'];
+
+                        }
+
+                      
+
+                        //Gets the Blob and Description
                         $SQL_GET_JOB_FAB = "SELECT * FROM joborderfabrication ORDER BY joborderID ASC;";
                         $RESULT_JOB_FAB = mysqli_query($dbc,$SQL_GET_JOB_FAB);
-                        $ROW_RESULT_FAB=mysqli_fetch_array($RESULT_JOB_FAB,MYSQLI_ASSOC);
+                        while($ROW_RESULT_FAB=mysqli_fetch_array($RESULT_JOB_FAB,MYSQLI_ASSOC))
+                        {
+                          $FAB_DESCRIPTION[] = $ROW_RESULT_FAB['fab_description'];
+                          $BLOB[] = $ROW_RESULT_FAB['reference_drawing'];                                
+                        }
 
-                        $blob = array();
+                        // for($j = 0; $j < sizeof($ORDER_NUMBER); $j ++)
+                        // {
+                        
+                        // }
+                           
 
-                            require_once('DataFetchers/mysql_connect.php');
-                            $query = "SELECT * FROM orders WHERE fab_status = 'For Fabrication' ORDER BY orderID ASC ;";
-                            $result=mysqli_query($dbc,$query);
-                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                            {
-                                    $queryPaymentType = "SELECT paymenttype FROM ref_payment WHERE payment_id =" . $row['payment_id'] . ";";
-                                    $resultPaymentType = mysqli_query($dbc,$queryPaymentType);
-                                    $rowPaymentType=mysqli_fetch_array($resultPaymentType,MYSQLI_ASSOC);
-                                    $paymentType = $rowPaymentType['paymenttype'];
+                        for($i = 0; $i < sizeof($ORDER_NUMBER); $i ++)
+                        {
+                          
+                            echo '<tr>';
+                              echo '<td>';
+                                echo '<div class="panel panel-default">';
+                                  echo '<div class="panel-body">';
+                                    echo '<div class = "row">';
 
-                                    $queryClientName = "SELECT client_name FROM clients WHERE client_id =" . $row['client_id'] . ";";
-                                    $resultClientName = mysqli_query($dbc,$queryClientName);
-                                    $rowClientName=mysqli_fetch_array($resultClientName,MYSQLI_ASSOC);
-                                    $clientName = $rowClientName['client_name'];
+                                      echo '<div class = "col-md-6">';
+                                        echo '<img src = "data:image/jpg;base64,'. base64_encode($BLOB[$i]).'" border-style = "border-width:3px;"style = "height:40vh; width:30vw">'; 
+                                      echo '</div>';
 
-                                    
-                                    
-                                    $blob[] = $ROW_RESULT_FAB['reference_drawing'];
-                                    $BLOB_ENCODED = base64_encode($blob); 
+                                      echo '<div class = "col-md-6">';
+                                        echo '<div class = "row"><h2><b>Order Number:</b> '. $ORDER_NUMBER[$i].'</h2></div>';
 
-                                 echo '<tr>';
-                                   echo '<td>';
-                                    echo '<div class="panel panel-default">';
-                                      echo '<div class="panel-body">';
-                                        echo '<div class = "row">';
-
-                                          echo '<div class = "col-md-6">';
-                                            echo '<img src = "data:image/jpg;base64,'.$BLOB_ENCODED.'" border-style = "border-width:3px;"style = "height:40vh; width:30vw">'; 
-                                          echo '</div>';
-
-                                          echo '<div class = "col-md-6">';
-                                            echo '<div class = "row"><h2><b>Order Number:</b> '.$row['ordernumber'].'</h2></div>';
-                                            echo '<div class = "row"><h3><b>Order Status:</b> '.$row['fab_status'].'</h3></div>';
+                                            echo '<div class = "row"><h3><b>Order Status:</b> '. $ORDER_STATUS[$i].'</h3></div>';
                                             echo '<br><br>';
-                                          echo '<div class = "row">';
+                                     
 
+                                        echo '<div class = "row">';
                                           echo '<div class = "col-md-6">';
-                                            echo '<p><b>Items Ordered:</b> Items Ordered Here</p>'; 
-                                          echo '</div>';    
-                                                     
-
-                                          echo '<div class = "col-md-6">';
-                                          if($row['expected_date'] != NULL)
-                                          {
-                                            echo '<p><b>Expected Delivery Date:</b> '.$row['expected_date'].'<p>';
-                                          }
-                                          else
-                                          {
-                                            echo '<p><b>Expected Delivery Date:</b> N/A<p>';
-                                          }
+                                            echo '<p><b>Items Ordered:</b></p>';  
+                                              $SQL_GET_OR_NUMBER = "SELECT * FROM order_details WHERE ordernumber = '$ORDER_NUMBER[$i]'";
+                                              $RESULT_GET_OR =  mysqli_query($dbc,$SQL_GET_OR_NUMBER);
+                                              while($ROW_RESULT_GET_OR = mysqli_fetch_array($RESULT_GET_OR,MYSQLI_ASSOC))
+                                              {
+                                                $ITEM_NAME_FROM_OR_DETAILS[] = $ROW_RESULT_GET_OR ['item_name'];
+                                                echo $ROW_RESULT_GET_OR ['item_name'] ,"<br>"; 
+                                                
+                                              }
+                                            // echo  $ITEM_NAME_FROM_OR_DETAILS[$i],"<br>";                                       
                                             
-                                            echo '<p><b>Description:</b> '.$ROW_RESULT_FAB['fab_description'].'<p>';
+                                        echo '</div>';    
 
-                                            if($row['fab_status'] == "For Fabrication")
-                                            {
-                                ?>
-                                    <button type="button" class="btn btn-round btn-danger" onclick = "disApproveconfirm()">Disapprove</button>
-                                    <button type="button" class="btn btn-round btn-primary" onclick = "Approveconfirm()">Approve</button>
-                                    <button type="button" class="btn btn-round btn-success" disabled>Finish</button>
-                                <?php
-                                            }
-                                            else if($row['fab_status'] == "Under Fabrication")
-                                            {
-                                ?>    
-                                    <button type="button" class="btn btn-round btn-primary" disabled>Approve</button>
-                                    <button type="button" class="btn btn-round btn-success" onclick = "Finishconfirm()">Finish</button>  
-                                <?php
-                                            }          
-                                          echo '</div>';              
+                                      echo '<div class = "col-md-6">';
+                                      if($EXPECTED_DATE[$i] != NULL)
+                                      {
+                                        echo '<p><b>Expected Delivery Date:</b> '.$EXPECTED_DATE[$i].'<p>';
+                                      }
+                                      else
+                                      {
+                                        echo '<p><b>Expected Delivery Date:</b> N/A<p>';
+                                      }
+                                        
+                                        echo '<p><b>Description:</b> '.$FAB_DESCRIPTION[$i].'<p>';
 
-                                        echo '</div>'; // END <div class row>
-                                      echo '</div>'; // END <div class panel body>
-                                    echo '</div>'; //END div class panel pabnel Default
-                                //   echo '</div>';
-                                // echo '</div>';
-                              echo '</td>';
-                            echo '</tr>';                                    
-                            }
+                                        if($FAB_DESCRIPTION[$i] == "For Fabrication")
+                                        {
+                            
+                                          echo '<button type="button" class="btn btn-round btn-danger" onclick = "disApproveconfirm()">Disapprove</button>';
+                                          echo '<button type="button" class="btn btn-round btn-primary" onclick = "Approveconfirm()">Approve</button>';
+                                          echo '<button type="button" class="btn btn-round btn-success" disabled>Finish</button>';
+                            
+                                        }
+                                        else if($FAB_DESCRIPTION[$i] == "Under Fabrication")
+                                        {
+                                
+                                          echo '<button type="button" class="btn btn-round btn-primary" disabled>Approve</button>';
+                                          echo '<button type="button" class="btn btn-round btn-success" onclick = "Finishconfirm()">Finish</button> ';
+                            
+                                        }          
+                                      echo '</div>';              
+
+                                    echo '</div>'; // END <div class row>
+                                  echo '</div>'; // END <div class panel body>
+                                echo '</div>'; //END div class panel pabnel Default                   
+                          echo '</td>';
+                        echo '</tr>';                       
+                        }// END FOR
+
+                                             
+                            
                         ?>  
                       </tbody>
                     </table><br>

@@ -232,8 +232,8 @@ require_once('DataFetchers/mysql_connect.php');
                             <?php
 
                             // put if here ser.
+                        
                             $_GET['type']; 
-
                             $data = time_series($_GET['sd'],$_GET['ed'],$_GET['item_id']);
                             $dates = $data[0];
                             ?>
@@ -541,7 +541,6 @@ require_once('DataFetchers/mysql_connect.php');
                                     init_daterangepicker_right();
                                     init_daterangepicker_single_call();
                                     init_daterangepicker_reservation();
-
                                 });
                             </script>
 </body>
