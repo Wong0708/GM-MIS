@@ -232,7 +232,7 @@ require_once('DataFetchers/mysql_connect.php');
                             <?php
 
                             // put if here ser.
-                            $_GET['type'] ....
+                            $_GET['type']; 
 
                             $data = time_series($_GET['sd'],$_GET['ed'],$_GET['item_id']);
                             $dates = $data[0];

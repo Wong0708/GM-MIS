@@ -201,7 +201,7 @@
                                                 <br>
                                                 <label class="control-label col-md-4 col-sm-4 col-xs-12">Restock Amount:</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" name ="restockAmount" id = "restockamt" class="form-control" value = "0" min = "1">
+                                                    <input type="number" name ="restockAmount" oninput = "validate(this)"  id = "restockamt" class="form-control" min = "1" max ="1000" placeholder = "0">
                                                 </div>
                                             </div>
 
@@ -210,24 +210,30 @@
                                             <div class="form-group">
                                                 <div class="col-md-12 col-sm-12 col-xs-12" align = "center">
                                                 <!--  -->
-                                                    <button type="submit" class="btn btn-success" onclick = "updatestockalert(this)" id = "updatestock" name ="restockBtn" >Update</button>
+                                                    <button type="submit" class="btn btn-success"  id = "updatestock" name ="restockBtn" onclick = "generalAlert()" >Update</button>
 
-                                                      <?php  // UPDATE item stock 
-                                                        
-                                                        require_once('DataFetchers/mysql_connect.php');
+
+                                                   <script>
+                                                   function insert_and_update_restock()
+                                                   {
+                                                    <?php  // UPDATE item stock 
+
+
                                                         if(isset($_GET['restockBtn'], $_GET['restockAmount'])) //checks if both GET have values because the form post is = "GET"                                                    
                                                         {               
-                                                         
+
                                                             $restockCount = $_GET['restockAmount'];
-                                                            
+
                                                             $itemIDfromViewInventory = $_SESSION['item_IDfromView'];
-                                                            $sqlInsert = "UPDATE items_trading  
+
+                                                            $UPDATE_ITEM_TRADING_RESTOCK = "UPDATE items_trading  
                                                             SET items_trading.item_count  = (item_count + '$restockCount'),
                                                             last_restock = Now() 
                                                             WHERE item_id ='$itemIDfromViewInventory';"; //Updates the item count in DB
-                                                            $result=mysqli_query($dbc,$sqlInsert); 
-                                                            
-                                                            if(!$result) 
+
+                                                            $RESULT_RESTOCK=mysqli_query($dbc,$UPDATE_ITEM_TRADING_RESTOCK);    
+
+                                                            if(!$RESULT_RESTOCK) 
                                                             {
                                                                 die('Error: ' . mysqli_error($dbc));
                                                             } 
@@ -238,16 +244,31 @@
                                                                 echo '</script>';
                                                             }
 
-                                                            $itemID =  $_SESSION['item_IDfromView'];
-                                                            $queryToInserttoRestockTable = "INSERT INTO restock_detail (item_id, quantity, restock_date)
+                                                            $itemID =  $_SESSION['item_IDfromView'];//Adds items to restock table
+                                                            $SQL_INSERT_RESTOCK_DETAILS = "INSERT INTO restock_detail (item_id, quantity, restock_date)
                                                             VALUES ('$itemID','$restockCount',Now())";
-                                                            $result=mysqli_query($dbc,$queryToInserttoRestockTable); 
+                                                            $RESULT_INSERT_RESTOCK_DETAIL =mysqli_query($dbc,$SQL_INSERT_RESTOCK_DETAILS); 
+                                                        }                                                   
+                                                        ?>
+                                                        var GET_RESTOCK_QTY = document.getElementbyId("restockamt");
 
-                                             
-                                                        }                                                     
-                                                    ?>
+                                                        request = $.ajax({
+                                                        url: "ajax/insert_and_update_restock.php",
+                                                        type: "POST",
+                                                        data: {
+                                                            post_item_id: <?php echo  $_SESSION['item_IDfromView'];?>,
+                                                            post_restock_quantity: GET_CART_QTY
+                                                        },
+                                                        success: function(data, textStatus)
+                                                        {
+                                                            $(".result").html(data); 
+                                                            alert("Ajax Gud");   
+                                                            }//End Scucess
+                                                        
+                                                            }); // End ajax    
+                                                   } // End Function
 
-                                                   
+                                                   </script>
 
                                             </div> <!-- Col MD -->
                                         </div> <!-- FormGRP -->
@@ -282,12 +303,6 @@
                                                 <div class="col-md-12 col-sm-12 col-xs-12" align = "center">
                                                 <!--  -->
                                                     <button type="button" class="btn btn-success" onclick = "updatediscountalert()" id = "updatediscount" name ="discountBtn" >Update</button>
-
-                                                    
-                                                     
-
-                                                   
-
                                             </div> <!-- Col MD -->
                                         </div> <!-- FormGRP -->
                                   
@@ -440,39 +455,8 @@
                 </div><!--END Container Body-->        
 </body>
 <!-- /page content -->
-<?php  // UPDATE item stock 
-                                                        
-    require_once('DataFetchers/mysql_connect.php');
-    if(isset($_GET['restockBtn'], $_GET['restockAmount'])) //checks if both GET have values because the form post is = "GET"                                                    
-    {               
-        
-        $restockCount = $_GET['restockAmount'];
-        
-        $itemIDfromViewInventory = $_SESSION['item_IDfromView'];
-        $sqlInsert = "UPDATE items_trading  
-        SET items_trading.item_count  = (item_count + '$restockCount'),
-        last_restock = Now() 
-        WHERE item_id ='$itemIDfromViewInventory';"; //Updates the item count in DB
-        $result=mysqli_query($dbc,$sqlInsert); 
-        
-        if(!$result) 
-        {
-            die('Error: ' . mysqli_error($dbc));
-        } 
-        else 
-        {
-            echo '<script language="javascript">';
-            echo 'alert("Successful!");';
-            echo '</script>';
-        }
 
-        $itemID =  $_SESSION['item_IDfromView'];
-        $queryToInserttoRestockTable = "INSERT INTO restock_detail (item_id, quantity, restock_date)
-        VALUES ('$itemID','$restockCount',Now())";
-        $result=mysqli_query($dbc,$queryToInserttoRestockTable); 
 
-    }                                                     
-?>
 <?php
     require_once('DataFetchers/mysql_connect.php');
    
@@ -741,20 +725,20 @@
         restockinput.disabled = true;
         updatestock.disabled = true;
 
-        var insideval = restockinput.value = "0";
+        var insideval = restockinput.placeholder = "0";
     }
 
     function updatestockalert()
     {
         
         var insideval = restockinput.value;
-        alert("Do you want to restock this amount: " + insideval);
+        confirm("Do you want to restock this amount: " + insideval);
         
 
     }
     function generalAlert()
     {
-        alert("Do you want to Continue?");
+        confirm("Do you want to Continue?");
     }
 </script>
 
