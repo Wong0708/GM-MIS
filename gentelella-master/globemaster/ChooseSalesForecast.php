@@ -30,6 +30,8 @@
     <!-- bootstrap-daterangepicker -->
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
 
+    <!-- bootstrap-datetimepicker -->
+    <link href="../vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
   </head>
@@ -80,7 +82,7 @@
                         <center>
                         <p>Please choose a type of forecast.</p>
                           <div class="input-group">
-                              <input type="text" class="form-control" aria-label="Text input with dropdown button" value = "Naive Forecasting" id = "invforecastlabel" readonly>
+                              <input type="text" class="form-control" aria-label="Text input with dropdown button" value = "Naive Forecasting" id = "salesforecastlabel" readonly>
                               <div class="input-group-btn">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Choose.. <span class="caret"></span>
                                 </button>
@@ -115,6 +117,34 @@
                                 }
                             ?>             
                         </select>
+                        </center>
+                        </div>
+                        <div class="form-group">
+                        <center>
+
+                        <div class='col-md-12'>
+                            <div class="form-group">
+                                <div class='input-group date' id='myDatepicker2'>
+                                    <input type='text' class="form-control" />
+                                    <span class="input-group-addon">
+                                      <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p>to</p>
+
+                        <div class='col-md-12'>
+                            <div class="form-group">
+                                <div class='input-group date' id='myDatepicker2'>
+                                    <input type='text' class="form-control" />
+                                    <span class="input-group-addon">
+                                      <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                         </center>
                         </div>
                         </form>
@@ -192,33 +222,53 @@
     <script src="../vendors/moment/min/moment.min.js"></script>
     <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
 
+    <!-- bootstrap-datetimepicker -->    
+    <script src="../vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
 
     <!-- custom scripts -->
 
     <script>
-            var invforecastlabel = document.getElementById("invforecastlabel");
+            var salesforecastlabel = document.getElementById("salesforecastlabel");
             
             var invnaive = document.getElementById("invnaive");
             var invshortterm = document.getElementById("invshortterm");
             var invtimeseries = document.getElementById("invtimerseries");
+
+            
             function changetonaive()
             {
-              invforecastlabel.value = "Naive Forecasting";
-              alert("qweq");
+              salesforecastlabel.value = "Naive Forecasting";
             }
             function changetots()
             {
-              invforecastlabel.value = "Time Series Forecasting";
-              alert("qweq");
+              salesforecastlabel.value = "Time Series Forecasting";
             }
             function changetost()
             {
-              invforecastlabel.value = "Short Term Forecasting";
+              salesforecastlabel.value = "Short Term Forecasting";
               
             }
-          </script>
-	
+    </script>
+
+    <script>
+        var customdatepick = document.getElementById("customdatepick");
+        var datepickerdiv = document.getElementById("datepickerdiv");
+        var salesforecastlabel = document.getElementById("invforecastlabel");
+        
+        function toggledatepicker()
+        {
+          datepickerdiv.style.display = "block";
+          salesforecastlabel.value = "Custom Date Pick";
+        }
+    </script>
+
+  <script>
+    $('#myDatepicker2').datetimepicker({
+        format: 'DD.MM.YYYY'
+    });
+  </script>
+  
   </body>
 </html>
