@@ -58,6 +58,7 @@
                            
                            $currentStatus = $_SESSION['DeliveryStatus'];
                            $fabricationStatus = $_SESSION['FabricationStatus'];
+                           $payment_status_from_orders = $_SESSION['payment_status']; 
                           
                            echo $currentStatus,"<br>";
                            echo $fabricationStatus,"<br>";
@@ -80,7 +81,7 @@
                                
                                $ITEM = $_SESSION['item_id'];
                               $EXPLODED_ITEM = explode(",", $ITEM);
-                               echo"Item ID = ",$EXPLODED_ITEM[0],"<br>"; //Explodes String from $_GET to be converted to usable array
+                               echo"Exploded Item ID = ",$EXPLODED_ITEM[0],"<br>"; //Explodes String from $_GET to be converted to usable array
 
 
                                $_SESSION['total'] = $_GET['total_amount']; //Get Total Amount
@@ -221,7 +222,7 @@
 
                           $ORDER_STATUS = $currentStatus;
                           $FAB_STATUS = $fabricationStatus;
-                          $PAYMENT_STATUS = "UNPAID";
+                          $PAYMENT_STATUS =  $payment_status_from_orders;
                           if(!empty($_POST['installation']))
                           {
                             $INSTALLATION_STATUS = $_POST['installation'];
@@ -346,7 +347,7 @@
 
                           $ORDER_STATUS = $currentStatus;
                           $FAB_STATUS = $fabricationStatus;
-                          $PAYMENT_STATUS = "UNPAID";
+                          $PAYMENT_STATUS =  $payment_status_from_orders;
                           $INSTALLATION_STATUS = "No Installation";
                           
                           $sqlToInsertToORDERS = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, totalamt, order_status,installation_status, fab_status, payment_status)
@@ -360,7 +361,7 @@
                             '$INSTALLATION_STATUS',
                             '$FAB_STATUS',
                             '$PAYMENT_STATUS');";
-                           $resultToInsertORDERS = mysqli_query($dbc,$sqlToInsertToORDERS);
+                           $resultToInsertORDERS = mysqli_query($dbc,$sqlToInsertToORDERS); //Insert To Orders
 
                           if(!$resultToInsertORDERS) //Chceker
                             {

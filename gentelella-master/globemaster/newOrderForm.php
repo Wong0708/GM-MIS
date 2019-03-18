@@ -231,7 +231,7 @@
                                 $CURRENT_OR = $CurrentOR;
                                 $INSTALL_STATUS = "No Installation";
                                 $FAB_STATUS = $_SESSION['FabricationStatus'];
-                                $PAYMENT_STATUS = $_POST['payment_status'];
+                                $PAYMENT_STATUS = $_SESSION['payment_status'];
 
                                 $SANITIZED_CART_TOTAL = filter_var($CART_TOTAL,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
 
@@ -309,7 +309,7 @@
                             $CURRENT_OR = $CurrentOR;
                             $INSTALL_STATUS = "No Installation";
                             $FAB_STATUS = $_SESSION['FabricationStatus'];
-                            $PAYMENT_STATUS = $_POST['payment_status'];
+                            $PAYMENT_STATUS = $_SESSION['payment_status'];
                             $EXPECTED_DATE = date('Y-m-d', strtotime($_POST['getExpectedDelivery']));
 
                             $SANITIZED_CART_TOTAL = filter_var($CART_TOTAL,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION);
@@ -842,9 +842,7 @@
 <script text/javascript> 
 function doAction()
 {
-    nextpageNOFabrication();
-    
-    
+    nextpageNOFabrication();   
 }
 function checkCart()
 {
@@ -864,7 +862,6 @@ function checkCart()
         }
     });
 }
-
 var getCartQuantity = []; //Get this
 
 function nextpageWithFabrication() //Gets all necessary values from current page to give to next Page
@@ -875,28 +872,26 @@ function nextpageWithFabrication() //Gets all necessary values from current page
     var total_amount = document.getElementById("payment").value;
     var CurrentOrderDate = new Date().toJSON().slice(0,10);
 
-    $('#cart tr td:nth-child(4)').each(function (e) 
-    {
-        if($(this).length==null) //WIP : Alert not Showing WTF?
+        if(confirm("Submit Order?")) //ALert IS Showing
         {
-            alert("No Orders in Cart!");
-        }
-        else
-        {                                            
-            if(confirm("Submit Order?")) //ALert IS Showing
+            $('#cart tr td:nth-child(4)').each(function (e) 
             {
-                var getValue =parseInt($(this).text());
-                getCartQuantity.push(getValue);
-                // alert(getCartQuantity);
-                window.location.href = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?>&deliver_date="+ expected_date +"&pay_id="+ payment_id +"&client_id="+ client_id +"&cart_item_id="+ item_id_in_cart +"&cart_qty_per_item="+ getCartQuantity +"&total_amount="+ total_amount +"&order_date="+ CurrentOrderDate +"  ";  
-                var days = localStorage.setItem("settotal", total_amount); //Stores total value to get in next page                                    
-            }                           
-        }                                       
-    });
-
-
-     
-}
+                if($(this).length==null) //WIP : Alert not Showing WTF?
+                {
+                    alert("No Orders in Cart!");
+                }
+                else
+                {                                                        
+                    var getValue = parseInt($(this).text());
+                    getCartQuantity.push(getValue);
+                    // alert(getCartQuantity);
+                    window.location.href = "CreateJobOrderFab.php?order_id=<?php echo $CurrentOR?>&deliver_date="+ expected_date +"&pay_id="+ payment_id +"&client_id="+ client_id +"&cart_item_id="+ item_id_in_cart +"&cart_qty_per_item="+ getCartQuantity +"&total_amount="+ total_amount +"&order_date="+ CurrentOrderDate +"  ";  
+                    var days = localStorage.setItem("settotal", total_amount); //Stores total value to get in next page                                    
+                                            
+                }                                       
+            });
+        }    
+} //END Function
 function nextpageNOFabrication()
 {                                                                                               
     if(confirm("Submit Order?"))
@@ -959,6 +954,21 @@ function nextpageNOFabrication()
             paymentinput.classList.remove('btn','btn-default','dropdown-toggle');
             paymentinput.classList.remove('btn','btn-warning','dropdown-toggle');
             paymentinput.classList.add('btn','btn-success','dropdown-toggle');
+
+            payment_type = "Paid";
+
+            console.log(payment_type);
+
+            request = $.ajax({
+                url: "ajax/setpaymentstatus.php",
+                type: "POST",
+                data: {post_payment_type: payment_type},
+                success: function(data, textStatus) 
+                {
+                    console.log(data);
+                }
+
+            });
             
             
             // paymentinput.classList.remove("btn.btn-default.dropdown-toggle");
@@ -970,6 +980,21 @@ function nextpageNOFabrication()
             paymentinput.classList.remove('btn','btn-default','dropdown-toggle');
             paymentinput.classList.remove('btn','btn-success','dropdown-toggle');
             paymentinput.classList.add('btn','btn-warning','dropdown-toggle');
+
+            payment_type = "Unpaid";
+
+            console.log(payment_type);
+
+            request = $.ajax({
+                url: "ajax/setpaymentstatus.php",
+                type: "POST",
+                data: {post_payment_type: payment_type},
+                success: function(data, textStatus) 
+                {
+                    console.log(data);
+                }
+            
+            });
             
             // paymentinput.classList.remove('btn btn-default dropdown-toggle');
             // paymentinput.classList.remove('btn btn-success dropdown-toggle');
