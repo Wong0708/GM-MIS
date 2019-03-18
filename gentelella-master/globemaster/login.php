@@ -76,7 +76,7 @@ if(isset($_POST['login']))
                         <?php 
                           if(isset($error))
                           {
-                            echo "<h4><b><font color ='red'> $error</font></h4>";
+                            echo "<h4><b><center><font color ='red'> $error</font></h4>";
                           } 
                         ?>
                         <div class="d-flex justify-content-center mt-3 login_container">
@@ -180,6 +180,13 @@ if(isset($_POST['login']))
             font-weight:normal;
             font-style:normal;
             color: #1D2B51;
+            }
+        h4 {
+            font-family: 'COUTURE Bold Italic', Arial, sans-serif;
+            font-weight:normal;
+            font-style:normal;
+            color: #1D2B51;
+            font-size: 10px;
             }
     }
         
