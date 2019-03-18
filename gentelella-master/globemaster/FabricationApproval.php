@@ -95,20 +95,25 @@
                                           echo '</div>';
 
                                           echo '<div class = "col-md-6">';
-                                            echo '<div class = "row"><h2> </h2></div>';
+                                            echo '<div class = "row"><h2><b>Order Number:</b> '.$row['ordernumber'].'</h2></div>';
+                                            echo '<div class = "row"><h3><b>Order Status:</b> '.$row['fab_status'].'</h3></div>';
+                                            echo '<br><br>';
                                           echo '<div class = "row">';
 
                                           echo '<div class = "col-md-6">';
-                                            echo '<p><b>Order Number:</b> '.$row['ordernumber'].'<p>';
-                                          echo '</div>';                  
+                                            echo '<p><b>Items Ordered:</b> Items Ordered Here</p>'; 
+                                          echo '</div>';    
+                                                     
 
                                           echo '<div class = "col-md-6">';
+                                            echo '<p><b>Expected Delivery Date:</b> '.$row['expected_date'].'<p>';
                                             echo '<p><b>Description:</b> '.$ROW_RESULT_FAB['fab_description'].'<p>';
 
                                             if($row['fab_status'] == "For Fabrication")
                                             {
                                 ?>
-                                    <button type="button" class="btn btn-round btn-primary">Approve</button>
+                                    <button type="button" class="btn btn-round btn-danger" onclick = "disApproveconfirm()">Disapprove</button>
+                                    <button type="button" class="btn btn-round btn-primary" onclick = "Approveconfirm()">Approve</button>
                                     <button type="button" class="btn btn-round btn-success" disabled>Finish</button>
                                 <?php
                                             }
@@ -116,7 +121,7 @@
                                             {
                                 ?>    
                                     <button type="button" class="btn btn-round btn-primary" disabled>Approve</button>
-                                    <button type="button" class="btn btn-round btn-success">Finish</button>  
+                                    <button type="button" class="btn btn-round btn-success" onclick = "Finishconfirm()">Finish</button>  
                                 <?php
                                             }          
                                           echo '</div>';              
@@ -215,6 +220,28 @@
         white-space: normal;
     }
     </style>
+
+
+<!-- approve/disapprove/finish -->
+    <script>
+      function Approveconfirm()
+      {
+        confirm("Do you want to approve this fabrication request?");
+      }
+    </script>
+    <script>
+      function disApproveconfirm()
+      {
+        confirm("Do you want to disapprove this fabrication request?");
+        confirm("Are you sure?");
+      }
+    </script>
+    <script>
+      function Finishconfirm()
+      {
+        confirm("Is this fabrication finished?");
+      }
+    </script>
 
   </body>
 </html>
