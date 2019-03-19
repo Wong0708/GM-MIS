@@ -92,27 +92,30 @@
             </div> -->
           </div> 
           <!-- /top tiles -->
-
+            
              <div class="row">
-              <div class="col-md-6 col-sm-6 col-xs-12">
-                <div class="x_panel">
-                      <h2><center><i class='fa fa-car'></i><b>  ORDERS NEARING DELIVERY</b></h2>
-                    <div class="clearfix"></div>
-                  <div class="x_content">
+                 <?php
+            
+                    if($user == 'SALES')
+                    {
+                        echo '<div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="x_panel">
+                                      <h2><center><i class="fa fa-car"></i><b>  ORDERS NEARING DELIVERY</b></h2>
+                                    <div class="clearfix"></div>
+                                  <div class="x_content">
 
-                    <table class="table table-bordered">
-                      <thead>
-                        <tr>
-                          <th>Order Number</th>
-                          <th>Client Name</th>
-                          <th>Delivery Date</th>
-                          <th>Remaining Date</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php
-                            
-                            require_once('DataFetchers/mysql_connect.php');
+                                    <table class="table table-bordered">
+                                      <thead>
+                                        <tr>
+                                          <th>Order Number</th>
+                                          <th>Client Name</th>
+                                          <th>Delivery Date</th>
+                                          <th>Remaining Date</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>';
+                        
+                        require_once('DataFetchers/mysql_connect.php');
                             $query = "SELECT ordernumber, client_id, delivery_date, DATEDIFF(NOW(), delivery_date) AS 'remain_date' FROM orders WHERE DATEDIFF(NOW(), delivery_date) < 7";
                             $result=mysqli_query($dbc,$query);
                             while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
@@ -140,11 +143,13 @@
                                     echo '</td>';
                                     echo '</tr>';
                                     
-                            }
-                        ?>  
-                      </tbody>
-                    </table>
+                            } 
+                     echo '</tbody>';
+                    echo '</table>';
 
+                    }
+                ?>
+                            
                   </div>
                 </div>
               </div>
