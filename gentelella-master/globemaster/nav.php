@@ -264,7 +264,9 @@ if(!(isset($_SESSION['usertype']))){
                   $checkuser1 = "SELECT * FROM gm_users WHERE usertype_id = '{$_SESSION['usertype']}'";
                   $result1=mysqli_query($dbc,$checkuser1);
                   $row1=mysqli_fetch_array($result1,MYSQLI_ASSOC);
-                    echo $row['usertype'];
+                    echo $_SESSION["firstname"];
+                    echo " ";
+                    echo $_SESSION["lastname"];
                     echo "  ";
                   
         
