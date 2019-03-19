@@ -177,7 +177,7 @@
                                       <tbody>';
                         
                             require_once('DataFetchers/mysql_connect.php');
-                            $query = "SELECT item_name, damage_percentage*10, item_quantity, total_loss FROM damage_item";
+                            $query = "SELECT item_name, damage_percentage*10, item_quantity, total_loss, last_updated FROM damage_item WHERE DATEDIFF(month, NOW(), last_update) < 1";
                             $result=mysqli_query($dbc,$query);
                             while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                             {
@@ -398,7 +398,7 @@
                                       <tbody>';
                         
                             require_once('DataFetchers/mysql_connect.php');
-                            $query = "SELECT * from items_trading WHERE DATEDIFF(month, NOW(), last_update) > 6";
+                            $query = "SELECT * from items_trading WHERE DATEDIFF(NOW(), last_update) / 31 > 6";
                             $result=mysqli_query($dbc,$query);
                             while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                             {
