@@ -187,61 +187,53 @@
     </div>
 
     <script>
-      var add_btn = document.getElementById("add_button");
-        
-          add_btn.onclick = function()
-          {
-            var  SET_SKU_ID = document.getElementById("sku_id").value;
-            var  SET_ITEM_NAME = document.getElementById("itemName").value;
-            var  SET_ITEM_PRICE = document.getElementById("item_price").value;
-            var  SET_ITEM_THRESHOLD = document.getElementById("threshold_amount").value;
-            var  SET_WAREHOUSE_ID = document.getElementById("warehouse_id").value;
-            var  SET_TYPE_ID = document.getElementById("select_item_type").value;
-            var  SET_SUPPLIER = document.getElementById("supplier_id").value; 
+      var add_btn = document.getElementById("add_button");    
+        add_btn.onclick = function()
+        {
+          var  SET_SKU_ID = document.getElementById("sku_id").value;
+          var  SET_ITEM_NAME = document.getElementById("itemName").value;
+          var  SET_ITEM_PRICE = document.getElementById("item_price").value;
+          var  SET_ITEM_THRESHOLD = document.getElementById("threshold_amount").value;
+          var  SET_WAREHOUSE_ID = document.getElementById("warehouse_id").value;
+          var  SET_TYPE_ID = document.getElementById("select_item_type").value;
+          var  SET_SUPPLIER = document.getElementById("supplier_id").value; 
 
-            if(!SET_SKU_ID || !SET_ITEM_NAME || !SET_ITEM_PRICE || !SET_ITEM_THRESHOLD || !SET_WAREHOUSE_ID || !SET_TYPE_ID || !SET_SUPPLIER)
+          if(!SET_SKU_ID || !SET_ITEM_NAME || !SET_ITEM_PRICE || !SET_ITEM_THRESHOLD || !SET_WAREHOUSE_ID || !SET_TYPE_ID || !SET_SUPPLIER) //Checker
+          {
+            alert("Please Fill Up All Input");
+          }
+          else
+          {
+            if(confirm("Confirmation: Add New Item to Inventory?"))
             {
-              alert("Please Fill Up All Input");
+              request = $.ajax({
+                    url: "ajax/add_inventory.php",
+                    type: "POST",
+                    data: {
+                      post_sku_id: SET_SKU_ID,
+                      post_item_name: SET_ITEM_NAME,
+                      post_item_price: SET_ITEM_PRICE,
+                      post_item_threshold: SET_ITEM_THRESHOLD,
+                      post_warehouse_id: SET_WAREHOUSE_ID,
+                      post_type_id: SET_TYPE_ID,
+                      post_supplier_id: SET_SUPPLIER
+                    }, //{Variable name, variable value}
+                    success: function(data) 
+                    { //To test data
+                        alert(data);
+                        window.location.href = "ViewInventory.php";  
+                    }//End Success
+                  
+                });//End Ajax
+                alert("Item Added Successfully!");
             }
             else
             {
-              if(confirm("Confirmation: Add New Item to Inventory?"))
-              {
-                request = $.ajax({
-                      url: "ajax/add_inventory.php",
-                      type: "POST",
-                      data: {
-                        post_sku_id: SET_SKU_ID,
-                        post_item_name: SET_ITEM_NAME,
-                        post_item_price: SET_ITEM_PRICE,
-                        post_item_threshold: SET_ITEM_THRESHOLD,
-                        post_warehouse_id: SET_WAREHOUSE_ID,
-                        post_type_id: SET_TYPE_ID,
-                        post_supplier_id: SET_SUPPLIER
-                      }, //{Variable name, variable value}
-                      success: function(data) 
-                      { //To test data
-                          alert(data);
-                          window.location.href = "ViewInventory.php";  
-                      }//End Success
-                    
-                  });//End Ajax
-              }
-              else
-              {
-                alert("Action: Cancelled");
-              }
+              alert("Action: Cancelled");
             }
-
-            
-              
-          } //End onclikc
-      
-        
-     
+          }    
+        } //End onclikc   
     </script>
-
-
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->

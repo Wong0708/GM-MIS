@@ -274,7 +274,7 @@
                             success: function(data, textStatus)
                             {
                               alert("Fabrication Finished");
-                              // window.location.href= "/GM-MIS/gentelella-master/globemaster/FabricationApproval.php";
+                              window.location.href= "/GM-MIS/gentelella-master/globemaster/FabricationApproval.php";
                             }//End Scucess
                           
                           }); // End ajax  

@@ -229,6 +229,7 @@
                                                             success: function(data, textStatus)
                                                             {
                                                                 alert(data);
+                                                                window.location.href = "EditInventory.php";  
                                                             }//End Scucess                                                        
                                                         }); // End ajax    
                                                    } // End Function

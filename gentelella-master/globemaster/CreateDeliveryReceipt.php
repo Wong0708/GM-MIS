@@ -245,8 +245,6 @@
                                         $rowResultItemID = mysqli_fetch_assoc($resultItemID);
                                         $SchedID = $rowResultItemID['Count']; // Get SchedID and Add 1 for DR - 
 
-
-
                                         $orderNumArray = array();
                                         $queryOrderDetails = "SELECT * FROM mydb.orders
                                         join order_details ON orders.ordernumber = order_details.ordernumber 
@@ -290,10 +288,7 @@
                                                 $deliveryReceipt++;
                                             }                                        
                                         };
-                                       
-                                        
 
-                                        
                                         $OrderNumArray = array();
                                         $OrderDetailID = array();
 
@@ -318,7 +313,6 @@
                                             }
                                         }                                        
                                     }    
-
                             ?>
                         </div>
                       </div>
