@@ -119,7 +119,7 @@
                                     echo $row['order_status'];
                                     echo '</td>';
                                     echo '<td align="center">';
-                                    echo '<i class="fa fa-wrench"></i>';
+                                    echo '<a href ="ViewOrderDetails.php?order_number='.$row['ordernumber'].'"> <i class="fa fa-wrench"></i> </a>';
                                     echo '</td>';
                                     echo '</tr>';
                                     
