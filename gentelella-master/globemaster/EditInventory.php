@@ -52,7 +52,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12" >
                         <div class="x_panel" >
                             <div class="x_title">
-                                <h1><center>Edit Inventory | 
+                                <h1><center>Edit Item | 
                                     <?php
                                      if(isset($_GET['sku_id'], $_GET['item_id']))
                                      {

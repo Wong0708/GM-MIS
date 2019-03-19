@@ -135,11 +135,11 @@
                                     echo '</td>';
                                     if($row['diff'] >= 50)
                                     {
-                                        echo '<td><center><button class="btn btn-danger" ><a href ="EditInventory.php?sku_id='.$row['sku_id'].' & item_id='.$row['item_id'].'"><i onclick = "teit()"class="">Restock now</a></button></center></td>';
+                                        echo '<td><center><a href ="EditInventory.php?sku_id='.$row['sku_id'].' & item_id='.$row['item_id'].'"><button class="btn btn-danger" ><i onclick = "teit()"class="">Restock now</button></a></center></td>';
                                     }
                                     else
                                     {
-                                        echo '<td><center><button class="btn btn-warning"><a href ="EditInventory.php?sku_id='.$row['sku_id'].' & item_id='.$row['item_id'].'"><i onclick = "teit()"class="">Restock now</a></button></center></td>';
+                                        echo '<td><center><a href ="EditInventory.php?sku_id='.$row['sku_id'].' & item_id='.$row['item_id'].'"><button class="btn btn-warning"><i onclick = "teit()"class="">Restock now</button></a></center></td>';
                                     }
                                     echo '</td>';
                                     echo '</tr>';
@@ -417,7 +417,7 @@
                                     echo '<td>';
                                     echo $row['last_update'];
                                     echo '</td>';
-                                    echo '<td><center><button class="btn btn-info"><a href ="EditInventory.php?sku_id='.$row['sku_id'].' & item_id='.$row['item_id'].'"><i onclick = "teit()"class="">Place Discount</a></button></center></td>';
+                                    echo '<td><center><a href ="EditInventory.php?sku_id='.$row['sku_id'].' & item_id='.$row['item_id'].'"><button class="btn btn-info"><i onclick = "teit()"class="">Place Discount</button></a></center></td>';
                                     echo '</tr>';
                                     
                             } 
