@@ -96,10 +96,8 @@
              <div class="row">
               <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="x_panel">
-                  <div class="x_title">
-                      <h2><b>ORDERS NEARING DELIVERY</b></h2><br>
+                      <h2><center><i class='fa fa-car'></i><b>  ORDERS NEARING DELIVERY</b></h2>
                     <div class="clearfix"></div>
-                  </div>
                   <div class="x_content">
 
                     <table class="table table-bordered">
@@ -107,25 +105,18 @@
                         <tr>
                           <th>Order Number</th>
                           <th>Client Name</th>
-                          <th>Order Date</th>
                           <th>Delivery Date</th>
-                          <th>Total Amount</th>
-                          <th>Payment Type</th>
-                          <th>Status</th>
+                          <th>Remaining Date</th>
                         </tr>
                       </thead>
                       <tbody>
                         <?php
                             
                             require_once('DataFetchers/mysql_connect.php');
-                            $query = "SELECT * FROM orders ORDER BY orderID ASC;";
+                            $query = "SELECT ordernumber, client_id, delivery_date, DATEDIFF(NOW(), delivery_date) AS 'remain_date' FROM orders WHERE DATEDIFF(NOW(), delivery_date) < 7";
                             $result=mysqli_query($dbc,$query);
                             while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                             {
-                                    $queryPaymentType = "SELECT paymenttype FROM ref_payment WHERE payment_id =" . $row['payment_id'] . ";";
-                                    $resultPaymentType = mysqli_query($dbc,$queryPaymentType);
-                                    $rowPaymentType=mysqli_fetch_array($resultPaymentType,MYSQLI_ASSOC);
-                                    $paymentType = $rowPaymentType['paymenttype'];
 
                                     $queryClientName = "SELECT client_name FROM clients WHERE client_id =" . $row['client_id'] . ";";
                                     $resultClientName = mysqli_query($dbc,$queryClientName);
@@ -141,27 +132,11 @@
                                     echo $clientName;
                                     echo '</td>';
                                     echo '<td>';
-                                    echo $row['order_date'];
+                                    echo $row['delivery_date'];
                                     echo '</td>';
                                     echo '<td>';
-                                    
-                                    // if($row['delivery_date'] == null || $row['delivery_date'] == "")
-                                    // {
-                                    //     echo '<button type="submit" class="btn btn-round btn-success"><i class="fa fa-plus"></i> Set Delivery Date</button>';
-                                    // }
-                                    // else
-                                    // {
-                                        echo $row['delivery_date'];
-                                    // }
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo  'Php'." ".number_format($row['totalamt'], 2);
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $paymentType;
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $row['order_status'];
+                                    echo $row['remain_date'];
+                                    echo ' days left!';
                                     echo '</td>';
                                     echo '</tr>';
                                     
