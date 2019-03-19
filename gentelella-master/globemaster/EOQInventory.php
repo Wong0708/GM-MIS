@@ -374,7 +374,7 @@ require_once('DataFetchers/mysql_connect.php');
                     pointHoverBorderColor: "rgba(220,220,220,1)",
                     pointBorderWidth: 1,},
                 {
-                    label: "Gamol",
+                    label: "E.O.Q",
                     data: [],
                     fill: false,
                     type:'line',
