@@ -217,7 +217,8 @@
                           $EXPECTED_DATE = $_SESSION['getDeliveryDate'];
                           $PAYMENT_ID = $_SESSION['payment_id'];
 
-                          $TOTAL_AMOUNT = $_SESSION['total'];
+                          // $TOTAL_AMOUNT = $_SESSION['total'];
+                          $TOTAL_AMOUNT = $_POST['total_amount'];
                           $SANITIZED_TOTAL = filter_var($TOTAL_AMOUNT,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION); //Removes Peso Sign
 
                           $ORDER_STATUS = $currentStatus;
@@ -343,7 +344,8 @@
                           $ORDER_DATE = $_SESSION['order_date'];                          
                           $PAYMENT_ID = $_SESSION['payment_id'];
 
-                          $TOTAL_AMOUNT = $_SESSION['total'];
+                          // $TOTAL_AMOUNT = $_SESSION['total'];
+                          $TOTAL_AMOUNT = $_POST['total_amount'];
                           $SANITIZED_TOTAL = filter_var($TOTAL_AMOUNT,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION); //Removes Peso Sign
 
                           $ORDER_STATUS = $currentStatus;

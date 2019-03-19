@@ -210,7 +210,8 @@
                                             <div class="form-group">
                                                 <div class="col-md-12 col-sm-12 col-xs-12" align = "center">
                                                 <!--  -->
-                                                    <button type="submit" class="btn btn-success"  id = "updatestock" name ="restockBtn" onclick = "insert_and_update_restock()" >Update</button>
+                                                    <button type="submit
+                                                    " class="btn btn-success"  id = "updatestock" name ="restockBtn" onclick = "insert_and_update_restock()" >Update</button>
 
 
                                                    <script>

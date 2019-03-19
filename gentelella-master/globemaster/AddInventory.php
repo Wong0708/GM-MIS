@@ -72,14 +72,14 @@
                 <div class="x_panel">
                   <div class="x_content">
                     <br />
-                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form-horizontal form-label-left">
+                    <form method="POST" class="form-horizontal form-label-left" >
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Category <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
 
-                        <select name="selectItemtype" id="selectItemType" required="required" class="form-control col-md-7 col-xs-12" onchange="getType(this)">
+                        <select name="selectItemtype" id="select_item_type" required="required" class="form-control col-md-7 col-xs-12" onchange="getType(this)">
                         <option value = "">Choose...</option>
                          <?php
                                 require_once('DataFetchers/mysql_connect.php');
@@ -99,14 +99,14 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Stock Keeping Unit (SKU) <span class="required">*</span>
                         </label>
                          <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="skuid" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" name="skuid" id="sku_id" name="last-name" required="required" class="form-control col-md-7 col-xs-12"/>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Choose Supplier <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                        <select name="supplier" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                        <select name="supplier" id="supplier_id" required="required" class="form-control col-md-7 col-xs-12">
                         <option value = "">Choose...</option>
                             <?php
                                 require_once('DataFetchers/mysql_connect.php');
@@ -131,7 +131,7 @@
                       <div class="form-group">
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Warehouse Location</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                        <select name="selectWarehouse" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                        <select name="selectWarehouse" id="warehouse_id" required="required" class="form-control col-md-7 col-xs-12">
                         <option value = "">Choose...</option>
                           <?php
                                 require_once('DataFetchers/mysql_connect.php');
@@ -150,106 +150,22 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Threshold Amount <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input name="threshold" class="form-control col-md-7 col-xs-12" required="required" type="number" min = "0" max ="9999">
+                          <input name="threshold" id ="threshold_amount" class="form-control col-md-7 col-xs-12" required="required" type="number" min = "0" max ="9999">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Unit Price <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input name="price" class="form-control col-md-7 col-xs-12" required="required" type="number" step="0.01" placeholder = "1000.00">
+                          <input name="price" id="item_price" class="form-control col-md-7 col-xs-12" required="required" type="number" step="0.01" placeholder = "1000.00">
                         </div>
                       </div><div class="form-group">
                         <!-- <div class="col-md-6 col-sm-6 col-xs-12"> -->
-                          <button name="submitBtn" class="btn btn-success" type="submit" class="btn btn-success">Add</button>
+                          <button name="submitBtn" class="btn btn-success" type="submit" id= "add_button" onsubmit="alert('Items Added Successfully')">Add</button>
 						              <button class="btn btn-primary" type="reset">Reset</button>
                         <!-- </div>z -->
                       </div>
-
-                      <?php
-
-                      require_once('DataFetchers/mysql_connect.php');
-                        if(isset($_POST['submitBtn']))
-                        {
-                            $sku_id = $_POST['skuid'];
-                            $itemName = $_POST['item_name']; //Stores the Values from Textbox in HTML
-                          
-                            $itemPrice = $_POST['price'];
-                            $itemThreshold = $_POST['threshold'];
-
-                            $warehouseIDfromSelect = $_POST['selectWarehouse'];
-                            $itemTypeIDfromSelect = $_POST['selectItemtype'];
-                            $supplierIDFromSelect = $_POST['supplier'];
-
-                           
-
-                            $queryWarehouseID = "SELECT warehouses.warehouse_id FROM warehouses WHERE warehouse = '$warehouseIDfromSelect'";
-                            $resultWarehouseID = mysqli_query($dbc,$queryWarehouseID);                                
-                            $rowWarehouseID = mysqli_fetch_assoc($resultWarehouseID); //Query for getting WarehouseID 
-
-                            $queryItemtypeID = "SELECT ref_itemtype.itemtype_id FROM ref_itemtype WHERE itemtype = '$itemTypeIDfromSelect'";
-                            $resultItemtype = mysqli_query($dbc,$queryItemtypeID);                                
-                            $rowItemtypeID = mysqli_fetch_assoc($resultItemtype); //Query For getting itemtypeID
-                            
-                            $querySupplierID = "SELECT supplier_id FROM suppliers WHERE supplier_name = '$supplierIDFromSelect'";
-                            $resultSupplierID = mysqli_query($dbc,$querySupplierID);                                
-                            $rowSupplierID = mysqli_fetch_assoc($resultSupplierID); //Query For getting itemtypeID
-
-                            $queryItemID = "SELECT item_id FROM items_trading ORDER BY item_id DESC LIMIT 1 ";
-                            $resultItemID = mysqli_query($dbc,$queryItemID);
-                            $rowResultItemID = mysqli_fetch_assoc($resultItemID);
-
-                            // var_dump($resultWarehouseID);                               
-                            // print_r($queryWarehouseID);
-
-                            // echo $rowWarehouseID['warehouse_id'];
-                            // echo $rowItemtypeID['itemtype_id'];
-
-                            $WareHouseID = $rowWarehouseID['warehouse_id'];
-                            $ItemtypeID = $rowItemtypeID['itemtype_id'];
-                            $ItemID = $rowResultItemID['item_id']+1;
-                            $SupplierID = $rowSupplierID['supplier_id'];
-                            $DiscountStatus = "Regular Price";
-
-                            echo  "warehouse = ".$WareHouseID;
-                            echo  "itemtype = ".$ItemtypeID;
-                            echo  "itemID = ".$ItemID;
-                            echo  "supplierID = ".$SupplierID;
-                            echo  "skuid =  ".$sku_id;
-                            echo  "item name =  ".$itemName;
-                            echo  "3shold = ".$itemThreshold;
-                            echo  "price = ".$itemPrice;
-
-                            $sql = "INSERT INTO items_trading (item_id, sku_id, item_name, itemtype_id, item_count, last_restock, last_update, threshold_amt, warehouse_id, supplier_id, price)
-                            Values(
-                            '$ItemID',
-                            '$sku_id',
-                            '$itemName', 
-                            '$ItemtypeID',
-                            '0', now(),now(),
-                            '$itemThreshold',
-                            '$WareHouseID',
-                            '$SupplierID',
-                            '$itemPrice',
-                            '$DiscountStatus')";
-
-                            $result=mysqli_query($dbc,$sql);
-                            if(!$result) 
-                            {
-                                die('Error: ' . mysqli_error($dbc));
-                            } 
-                            else 
-                            {
-                                echo '<script language="javascript">';
-                                echo 'alert("Items Added Successfully");';
-                                echo '</script>';
-                                header("Location: ViewInventory.php");
-                            }              
-                        }
-
-?>
                       
-
                     </form>
                   </div>
                 </div>
@@ -269,6 +185,51 @@
         <!-- /footer content -->
       </div>
     </div>
+
+    <script>
+      var add_btn = document.getElementById("add_button");
+      
+        add_btn.onclick = function()
+        {
+          var  SET_SKU_ID = document.getElementById("sku_id").value;
+          var  SET_ITEM_NAME = document.getElementById("itemName").value;
+          var  SET_ITEM_PRICE = document.getElementById("item_price").value;
+          var  SET_ITEM_THRESHOLD = document.getElementById("threshold_amount").value;
+          var  SET_WAREHOUSE_ID = document.getElementById("warehouse_id").value;
+          var  SET_TYPE_ID = document.getElementById("select_item_type").value;
+          var  SET_SUPPLIER = document.getElementById("supplier_id").value; 
+
+          if(confirm("Confirmation: Add New Item to Inventory?"))
+            {
+              request = $.ajax({
+                    url: "ajax/add_inventory.php",
+                    type: "POST",
+                    data: {
+                      post_sku_id: SET_SKU_ID,
+                      post_item_name: SET_ITEM_NAME,
+                      post_item_price: SET_ITEM_PRICE,
+                      post_item_threshold: SET_ITEM_THRESHOLD,
+                      post_warehouse_id: SET_WAREHOUSE_ID,
+                      post_type_id: SET_TYPE_ID,
+                      post_supplier_id: SET_SUPPLIER
+                    }, //{Variable name, variable value}
+                    success: function(data) 
+                    { //To test data
+                        alert(data);
+                        // header("Location: ViewInventory.php");
+                    }//End Success
+                  
+                });//End Ajax
+            }
+            else
+            {
+              alert("Action: Cancelled");
+            }
+        
+        }
+     
+    </script>
+
 
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
@@ -295,8 +256,8 @@
     <script src="../vendors/switchery/dist/switchery.min.js"></script>
     <!-- Select2 -->
     <script src="../vendors/select2/dist/js/select2.full.min.js"></script>
-    <!-- Parsley -->
-    <script src="../vendors/parsleyjs/dist/parsley.min.js"></script>
+    <!-- Parsley
+    <script src="../vendors/parsleyjs/dist/parsley.min.js"></script> -->
     <!-- Autosize -->
     <script src="../vendors/autosize/dist/autosize.min.js"></script>
     <!-- jQuery autocomplete -->
@@ -340,6 +301,9 @@
      
      }
     </script>
+    
+    
+    
         
   </body>
 </html>
