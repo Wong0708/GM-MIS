@@ -151,64 +151,8 @@
                              echo '</div>
                         </div>
                       </div>';
-
-                         //ORDERS NEARING DELIVERY
-                 
-                        echo '<div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="x_panel">
-                                      <h2><center><i class="fa fa-car"></i><b>  ORDERS NEARING DELIVERY</b></h2>
-                                    <div class="clearfix"></div>
-                                  <div class="x_content">
-
-                                    <table class="table table-bordered">
-                                      <thead>
-                                        <tr>
-                                          <th>Order Number</th>
-                                          <th>Client Name</th>
-                                          <th>Delivery Date</th>
-                                          <th>Remaining Date</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>';
                         
-                            require_once('DataFetchers/mysql_connect.php');
-                            $query = "SELECT ordernumber, client_id, delivery_date, DATEDIFF(NOW(), delivery_date) AS 'remain_date' FROM orders WHERE DATEDIFF(NOW(), delivery_date) < 7";
-                            $result=mysqli_query($dbc,$query);
-                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                            {
-
-                                    $queryClientName = "SELECT client_name FROM clients WHERE client_id =" . $row['client_id'] . ";";
-                                    $resultClientName = mysqli_query($dbc,$queryClientName);
-                                    $rowClientName=mysqli_fetch_array($resultClientName,MYSQLI_ASSOC);
-                                    $clientName = $rowClientName['client_name'];
-                                    
-                                
-                                    echo '<tr>';
-                                    echo '<td>';
-                                    echo $row['ordernumber'];
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $clientName;
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $row['delivery_date'];
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $row['remain_date'];
-                                    echo ' days left!';
-                                    echo '</td>';
-                                    echo '</tr>';
-                                    
-                            } 
-                     echo '</tbody>';
-                    echo '</table>';
-                        
-                             echo '</div>
-                        </div>
-                      </div>';
-                    echo '<div class="clearfix"></div>';    
-
-                     //UNPAID ORDERS
+                        //UNPAID ORDERS
                  
                         echo '<div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="x_panel">
@@ -257,10 +201,108 @@
                              echo '</div>
                         </div>
                       </div>';
+                    echo '<div class="clearfix"></div>';        
 
+                         //ORDERS NEARING DELIVERY
+                 
+                        echo '<div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="x_panel">
+                                      <h2><center><i class="fa fa-car"></i><b>  ORDERS NEARING DELIVERY</b></h2>
+                                    <div class="clearfix"></div>
+                                  <div class="x_content">
+
+                                    <table class="table table-bordered">
+                                      <thead>
+                                        <tr>
+                                          <th>Order Number</th>
+                                          <th>Client Name</th>
+                                          <th>Delivery Date</th>
+                                          <th>Remaining Date</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>';
+                        
+                            require_once('DataFetchers/mysql_connect.php');
+                            $query = "SELECT ordernumber, client_id, delivery_date, DATEDIFF(delivery_date, NOW()) AS 'remain_date' FROM orders WHERE DATEDIFF(NOW(), delivery_date) < 7";
+                            $result=mysqli_query($dbc,$query);
+                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                            {
+
+                                    $queryClientName = "SELECT client_name FROM clients WHERE client_id =" . $row['client_id'] . ";";
+                                    $resultClientName = mysqli_query($dbc,$queryClientName);
+                                    $rowClientName=mysqli_fetch_array($resultClientName,MYSQLI_ASSOC);
+                                    $clientName = $rowClientName['client_name'];
+                                    
+                                
+                                    echo '<tr>';
+                                    echo '<td>';
+                                    echo $row['ordernumber'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $clientName;
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $row['delivery_date'];
+                                    echo '</td>';
+                                    echo '<td><b>';
+                                    echo $row['remain_date'];
+                                    echo ' days left!';
+                                    echo '</b></td>';
+                                    echo '</tr>';
+                                    
+                            } 
+                     echo '</tbody>';
+                    echo '</table>';
+                        
+                             echo '</div>
+                        </div>
+                      </div>';
+                    
+                        //FABRICATION APPROVALS
+                 
+                        echo '<div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="x_panel">
+                                      <h2><center><i class="fa fa-check-circle"></i><b>  FABRICATIONS FOR APPROVAL</b></h2>
+                                    <div class="clearfix"></div>
+                                  <div class="x_content">
+
+                                    <table class="table table-bordered">
+                                      <thead>
+                                        <tr>
+                                          <th>Order Number</th>
+                                          <th>Order Date</th>
+                                          <th>Action</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>';
+                        
+                            require_once('DataFetchers/mysql_connect.php');
+                            $query = "SELECT j.order_number, o.order_date FROM joborderfabrication j JOIN orders o ON j.order_number = o.ordernumber WHERE o.fab_status = 'For Approval'";
+                            $result=mysqli_query($dbc,$query);
+                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                            {
+
+                                    echo '<tr>';
+                                    echo '<td>';
+                                    echo $row['order_number'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $row['order_date'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo '</td>';
+                                    echo '</tr>';
+                                    
+                            } 
+                     echo '</tbody>';
+                    echo '</table>';
+                        
+                             echo '</div>
+                        </div>
+                      </div>';
+                    
+                        
                      
-
-
                     }
             ?>
 
