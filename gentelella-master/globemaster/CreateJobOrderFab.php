@@ -188,7 +188,7 @@
                             $filetype = $_FILES['file_reference']['type'];
                             $filesize = $_FILES['file_reference']['size'];
 
-                            $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "png" => "image/png"); //Checks the File type extension 
+                            $allowed = array("JPG" => "image/JPG", "jpg" => "image/jpg", "jpeg" => "image/jpeg", "png" => "image/png"); //Checks the File type extension 
                             
                             $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
