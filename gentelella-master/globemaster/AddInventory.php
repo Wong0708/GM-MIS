@@ -72,7 +72,7 @@
                 <div class="x_panel">
                   <div class="x_content">
                     <br />
-                    <form method="POST" class="form-horizontal form-label-left" >
+                    <form method="POST" class="form-horizontal form-label-left" id = "item_detail" >
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Category <span class="required">*</span>
@@ -161,7 +161,7 @@
                         </div>
                       </div><div class="form-group">
                         <!-- <div class="col-md-6 col-sm-6 col-xs-12"> -->
-                          <button name="submitBtn" class="btn btn-success" type="submit" id= "add_button" onsubmit="alert('Items Added Successfully')">Add</button>
+                          <button name="submitBtn" class="btn btn-success" type="button" id= "add_button">Add</button>
 						              <button class="btn btn-primary" type="reset">Reset</button>
                         <!-- </div>z -->
                       </div>
@@ -188,45 +188,56 @@
 
     <script>
       var add_btn = document.getElementById("add_button");
-      
-        add_btn.onclick = function()
-        {
-          var  SET_SKU_ID = document.getElementById("sku_id").value;
-          var  SET_ITEM_NAME = document.getElementById("itemName").value;
-          var  SET_ITEM_PRICE = document.getElementById("item_price").value;
-          var  SET_ITEM_THRESHOLD = document.getElementById("threshold_amount").value;
-          var  SET_WAREHOUSE_ID = document.getElementById("warehouse_id").value;
-          var  SET_TYPE_ID = document.getElementById("select_item_type").value;
-          var  SET_SUPPLIER = document.getElementById("supplier_id").value; 
+        
+          add_btn.onclick = function()
+          {
+            var  SET_SKU_ID = document.getElementById("sku_id").value;
+            var  SET_ITEM_NAME = document.getElementById("itemName").value;
+            var  SET_ITEM_PRICE = document.getElementById("item_price").value;
+            var  SET_ITEM_THRESHOLD = document.getElementById("threshold_amount").value;
+            var  SET_WAREHOUSE_ID = document.getElementById("warehouse_id").value;
+            var  SET_TYPE_ID = document.getElementById("select_item_type").value;
+            var  SET_SUPPLIER = document.getElementById("supplier_id").value; 
 
-          if(confirm("Confirmation: Add New Item to Inventory?"))
+            if(!SET_SKU_ID || !SET_ITEM_NAME || !SET_ITEM_PRICE || !SET_ITEM_THRESHOLD || !SET_WAREHOUSE_ID || !SET_TYPE_ID || !SET_SUPPLIER)
             {
-              request = $.ajax({
-                    url: "ajax/add_inventory.php",
-                    type: "POST",
-                    data: {
-                      post_sku_id: SET_SKU_ID,
-                      post_item_name: SET_ITEM_NAME,
-                      post_item_price: SET_ITEM_PRICE,
-                      post_item_threshold: SET_ITEM_THRESHOLD,
-                      post_warehouse_id: SET_WAREHOUSE_ID,
-                      post_type_id: SET_TYPE_ID,
-                      post_supplier_id: SET_SUPPLIER
-                    }, //{Variable name, variable value}
-                    success: function(data) 
-                    { //To test data
-                        alert(data);
-                        // header("Location: ViewInventory.php");
-                    }//End Success
-                  
-                });//End Ajax
+              alert("Please Fill Up All Input");
             }
             else
             {
-              alert("Action: Cancelled");
+              if(confirm("Confirmation: Add New Item to Inventory?"))
+              {
+                request = $.ajax({
+                      url: "ajax/add_inventory.php",
+                      type: "POST",
+                      data: {
+                        post_sku_id: SET_SKU_ID,
+                        post_item_name: SET_ITEM_NAME,
+                        post_item_price: SET_ITEM_PRICE,
+                        post_item_threshold: SET_ITEM_THRESHOLD,
+                        post_warehouse_id: SET_WAREHOUSE_ID,
+                        post_type_id: SET_TYPE_ID,
+                        post_supplier_id: SET_SUPPLIER
+                      }, //{Variable name, variable value}
+                      success: function(data) 
+                      { //To test data
+                          alert(data);
+                          window.location.href = "ViewInventory.php";  
+                      }//End Success
+                    
+                  });//End Ajax
+              }
+              else
+              {
+                alert("Action: Cancelled");
+              }
             }
+
+            
+              
+          } //End onclikc
+      
         
-        }
      
     </script>
 
