@@ -175,8 +175,8 @@ if(!(isset($_SESSION['usertype']))){
                   echo   "<ul class='nav child_menu'>";
                   echo     "<li><a> Sales <span class='fa fa-chevron-down'></span></a>";
                   echo       "<ul class='nav child_menu'>";
-                  echo         "<li><a>Sales Variance Analysis</a></li>";
-                  echo         "<li><a>Sales Forecasting</a></li>";
+                  echo         "<li><a href='index.html'>Sales Variance Analysis</a></li>";
+                  echo         "<li data-toggle='modal' data-target='.bs-example-modal-sm'><a>Sales Forecasting</a></li>";
                   echo       "</ul>";
                   echo    "</li>";
                   echo    "<li><a> Inventory <span class='fa fa-chevron-dow'></span></a>";
