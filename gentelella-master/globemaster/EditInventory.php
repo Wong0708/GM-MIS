@@ -52,7 +52,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12" >
                         <div class="x_panel" >
                             <div class="x_title">
-                                <h1>Edit Inventory - 
+                                <h1><center>Edit Inventory | 
                                     <?php
                                      if(isset($_GET['sku_id'], $_GET['item_id']))
                                      {
@@ -120,7 +120,7 @@
                                     <div class="col-md-6 col-sm-6 col-xs-12" >
                                         <div class="x_panel" >
 
-                                            <center><font color = "#2a5eb2"><h3>Item Details </h1>
+                                            <center><font color = "#2a5eb2"><h3>Item Details
                                             
                                             </h3></font></center>
                                             <div class="ln_solid"></div>
@@ -855,6 +855,31 @@ var discount_amount = document.getElementById('discountamt');
         }
     }                                                                                                     
 </script> 
+
+<!-- Custom Fonts -->
+    <style>
+        
+        @font-face {
+        font-family: "Couture Bold";
+        src: url("css/fonts/couture-bld.otf");
+        }
+        
+        h1 {
+            font-family: 'COUTURE Bold', Arial, sans-serif;
+            font-weight:normal;
+            font-style:normal;
+            font-size: 50px;
+            color: #1D2B51;
+            }
+        h3 {
+            font-family: 'COUTURE Bold', Arial, sans-serif;
+            font-weight:normal;
+            font-style:normal;
+            font-size: 20px;
+            color: #1D2B51;
+            }
+
+    </style>        
 </body>
 
 </html>
