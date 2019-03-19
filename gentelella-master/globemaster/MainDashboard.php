@@ -153,7 +153,7 @@
                       </div>';
                     }
                  
-                    if($user == 'CEO' || $user == 'CFO')
+                    if($user == 'CEO' || $user == 'CFO' || $user == 'MKT')
                     {
                          
 
@@ -177,7 +177,7 @@
                                       <tbody>';
                         
                             require_once('DataFetchers/mysql_connect.php');
-                            $query = "SELECT item_name, damage_percentage*10, item_quantity, total_loss, last_updated FROM damage_item WHERE DATEDIFF(month, NOW(), last_update) < 1";
+                            $query = "SELECT item_name, damage_percentage * 10, item_quantity, total_loss, last_update FROM damage_item WHERE DATEDIFF(NOW(), last_update) / 31 < 1";
                             $result=mysqli_query($dbc,$query);
                             while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                             {
@@ -189,8 +189,8 @@
                                     echo $row['item_name'];
                                     echo '</td>';
                                     echo '<td><b>';
-                                    echo $row['damage_percentage*10'];
-                                    echo ' %';
+                                    echo $row['damage_percentage * 10'];
+                                    echo '%';
                                     echo '</b></td>';
                                     echo '<td>';
                                     echo $row['item_quantity'];
@@ -212,7 +212,7 @@
                     }
                  
                  
-                    if($user == 'CFO' || $user == 'SALES')
+                    if($user == 'CFO' || $user == 'SALES' || $user == 'MKT')
                     {
                         //UNPAID ORDERS
                  
@@ -263,11 +263,15 @@
                              echo '</div>
                         </div>
                       </div>';
-                    echo '<div class="clearfix"></div>';        
+                       
                     }
                  
-                    if($user == 'SALES')
+                    if($user == 'SALES' || $user == 'MKT')
                     {
+                        if($user != 'MKT')
+                        {
+                             echo '<div class="clearfix"></div>';    
+                        }
                         
                          //ORDERS NEARING DELIVERY
                  
@@ -375,7 +379,7 @@
                      
                     }
                  
-                 if($user == 'INV')
+                 if($user == 'INV' || $user == 'CEO')
                  {
                     
                         //RECOMMEND INVENTORY DISCOUNT
