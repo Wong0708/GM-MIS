@@ -74,7 +74,7 @@
 
                         require_once('DataFetchers/mysql_connect.php');
 
-                        $query = "SELECT * FROM orders WHERE fab_status = 'For Fabrication' ORDER BY orderID ASC ;";
+                        $query = "SELECT * FROM orders WHERE (fab_status = 'For Fabrication') OR (fab_status = 'Under Fabrication') ORDER BY orderID ASC ;";
                         $result=mysqli_query($dbc,$query);
                         while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                         {
@@ -82,6 +82,8 @@
                           $ORDER_NUMBER[] = $row['ordernumber'];
                           $ORDER_STATUS[] = $row['fab_status'];
                           $EXPECTED_DATE[] = $row['expected_date'];
+
+                       
 
                           $queryPaymentType = "SELECT paymenttype FROM ref_payment WHERE payment_id =" . $row['payment_id'] . ";";
                           $resultPaymentType = mysqli_query($dbc,$queryPaymentType);
@@ -93,29 +95,28 @@
                           $resultClientName = mysqli_query($dbc,$queryClientName);
                           $rowClientName=mysqli_fetch_array($resultClientName,MYSQLI_ASSOC);
 
-                          $CLIENT_NAME[] = $rowClientName['client_name'];
-
-                        }
-
-                      
-
-                        //Gets the Blob and Description
-                        $SQL_GET_JOB_FAB = "SELECT * FROM joborderfabrication ORDER BY joborderID ASC;";
-                        $RESULT_JOB_FAB = mysqli_query($dbc,$SQL_GET_JOB_FAB);
-                        while($ROW_RESULT_FAB=mysqli_fetch_array($RESULT_JOB_FAB,MYSQLI_ASSOC))
-                        {
-                          $FAB_DESCRIPTION[] = $ROW_RESULT_FAB['fab_description'];
-                          $BLOB[] = $ROW_RESULT_FAB['reference_drawing'];                                
-                        }
-
-                        // for($j = 0; $j < sizeof($ORDER_NUMBER); $j ++)
-                        // {
-                        
-                        // }
+                           $CLIENT_NAME[] = $rowClientName['client_name'];
                            
+
+                          // $SQL_GET_JOB_FAB = "SELECT * FROM joborderfabrication WHERE order_number =  ".."; ";
+                          // $RESULT_JOB_FAB = mysqli_query($dbc,$SQL_GET_JOB_FAB);
+                          // $ROW_RESULT_FAB=mysqli_fetch_array($RESULT_JOB_FAB,MYSQLI_ASSOC);
+                          
+                          // $FAB_DESCRIPTION[] = $ROW_RESULT_FAB['fab_description'];
+                          // $BLOB[] = $ROW_RESULT_FAB['reference_drawing'];  
+
+                        }            
 
                         for($i = 0; $i < sizeof($ORDER_NUMBER); $i ++)
                         {
+                         // Gets the Blob and Description
+                          $SQL_GET_JOB_FAB = "SELECT * FROM joborderfabrication WHERE order_number = '$ORDER_NUMBER[$i]';";
+                          $RESULT_JOB_FAB = mysqli_query($dbc,$SQL_GET_JOB_FAB);
+                          while($ROW_RESULT_FAB=mysqli_fetch_array($RESULT_JOB_FAB,MYSQLI_ASSOC))
+                          {
+                            $FAB_DESCRIPTION[] = $ROW_RESULT_FAB['fab_description'];
+                            $BLOB[] = $ROW_RESULT_FAB['reference_drawing'];                                
+                          }
                           
                             echo '<tr>';
                               echo '<td>';
@@ -142,8 +143,7 @@
                                               while($ROW_RESULT_GET_OR = mysqli_fetch_array($RESULT_GET_OR,MYSQLI_ASSOC))
                                               {
                                                 $ITEM_NAME_FROM_OR_DETAILS[] = $ROW_RESULT_GET_OR ['item_name'];
-                                                echo $ROW_RESULT_GET_OR ['item_name'] ,"<br>"; 
-                                                
+                                                echo $ROW_RESULT_GET_OR ['item_name']," - ",$ROW_RESULT_GET_OR ['item_qty'] ,"pc/s <br>";                                                
                                               }
                                                                         
                                             
@@ -164,16 +164,16 @@
                                         if($ORDER_STATUS[$i] == "For Fabrication")
                                         {
                             
-                                          echo '<button type="button" class="btn btn-round btn-danger" onclick = "disApproveconfirm()">Disapprove</button>';
-                                          echo '<button type="button" class="btn btn-round btn-primary" onclick = "Approveconfirm()">Approve</button>';
-                                          echo '<button type="button" class="btn btn-round btn-success" disabled>Finish</button>';
+                                          echo '<button type="button" class="btn btn-round btn-danger" id = "disapporveBtn" onclick = "disApproveconfirm(this)" value ="'.$ORDER_NUMBER[$i].'">Disapprove</button>';
+                                          echo '<button type="button" class="btn btn-round btn-primary" id = "approveBtn" onclick = "Approveconfirm(this)" value ="'.$ORDER_NUMBER[$i].'">Approve</button>';
+                                          echo '<button type="button" class="btn btn-round btn-success" id = "finishBtn" disabled>Finish</button>';
                             
                                         }
                                         else if($ORDER_STATUS[$i] == "Under Fabrication")
                                         {
                                 
                                           echo '<button type="button" class="btn btn-round btn-primary" disabled>Approve</button>';
-                                          echo '<button type="button" class="btn btn-round btn-success" onclick = "Finishconfirm()">Finish</button> ';
+                                          echo '<button type="button" class="btn btn-round btn-success" onclick = "Finishconfirm(this)" value ="'.$ORDER_NUMBER[$i].'">Finish</button> ';
                             
                                         }          
                                       echo '</div>';              
@@ -183,14 +183,109 @@
                                 echo '</div>'; //END div class panel pabnel Default                   
                           echo '</td>';
                         echo '</tr>';                       
-                        }// END FOR
-
-                                             
-                            
-                        ?>  
+                        }// END FOR     
+                      ?>  
                       </tbody>
                     </table><br>
                     <div>
+                    <!-- approve/disapprove/finish -->
+                  <script>
+                    function Approveconfirm(obj)
+                    {
+                      if(confirm("Do you want to approve this fabrication request?"))
+                      {
+                        
+                        console.log(obj.value);
+
+                        var SET_UNDER_FAB_STATUS = "Under Fabrication";
+                        var SET_ORDER_NUMBER = obj.value;
+                        
+                        request = $.ajax({
+                        url: "ajax/set_under_fabrication.php",
+                        type: "POST",
+                        data: {post_under_fab: SET_UNDER_FAB_STATUS,
+                        post_order_number: SET_ORDER_NUMBER                        
+                        },
+                          success: function(data, textStatus)
+                          {
+                            alert("Fabrication Approved");
+                            window.location.href= "/GM-MIS/gentelella-master/globemaster/FabricationApproval.php";
+                          }//End Scucess
+                        
+                        }); // End ajax    
+
+                      
+                      }//END IF
+                    }
+                  </script>
+                  <script>
+                    function disApproveconfirm(obj)
+                    {
+                      if(confirm("Do you want to disapprove this fabrication request?"))
+                      {
+                        if(confirm("Are you sure?"))
+                        {
+                          var SET_UNDER_FAB_STATUS = "Disapproved";
+                          var SET_ORDER_NUMBER = obj.value;
+                          
+                          request = $.ajax({
+                          url: "ajax/set_under_fabrication.php",
+                          type: "POST",
+                          data: {post_under_fab: SET_UNDER_FAB_STATUS,
+                          post_order_number: SET_ORDER_NUMBER                        
+                          },
+                            success: function(data, textStatus)
+                            {
+                              alert("Fabrication Disapproved");
+                              window.location.href= "/GM-MIS/gentelella-master/globemaster/FabricationApproval.php";
+                            }//End Scucess
+                          
+                          }); // End ajax    
+                        }
+                        else
+                        {
+                          alert("Nakow, pabebe talaga oh");
+                        }
+                      }
+                      else
+                      {
+                        alert("Wag Pabebe please");
+                      }
+                    }
+                  </script>
+                  <script>
+                    function Finishconfirm(obj)
+                    {
+                      if(confirm("Is this fabrication finished?"))
+                      {
+                        var SET_UNDER_FAB_STATUS = "Finished Fabrication";
+                        var SET_ORDER_NUMBER = obj.value;
+
+                        console.log(SET_UNDER_FAB_STATUS);
+                        console.log(obj.value);
+                          
+                          request = $.ajax({
+                          url: "ajax/set_finished_fab.php",
+                          type: "POST",
+                          data: {
+                            post_under_fab: SET_UNDER_FAB_STATUS,
+                            post_order_number: SET_ORDER_NUMBER                        
+                          },
+                            success: function(data, textStatus)
+                            {
+                              alert("Fabrication Finished");
+                              // window.location.href= "/GM-MIS/gentelella-master/globemaster/FabricationApproval.php";
+                            }//End Scucess
+                          
+                          }); // End ajax  
+                      }//End IF
+                      else
+                      {
+                        
+                      }
+                    }//END function
+                  </script>
+<!-- approve/disapprove/finish -->
                         
                     </div>
                   </div>
@@ -275,26 +370,7 @@
     </style>
 
 
-<!-- approve/disapprove/finish -->
-    <script>
-      function Approveconfirm()
-      {
-        confirm("Do you want to approve this fabrication request?");
-      }
-    </script>
-    <script>
-      function disApproveconfirm()
-      {
-        confirm("Do you want to disapprove this fabrication request?");
-        confirm("Are you sure?");
-      }
-    </script>
-    <script>
-      function Finishconfirm()
-      {
-        confirm("Is this fabrication finished?");
-      }
-    </script>
+
 
   </body>
 </html>
