@@ -208,7 +208,7 @@
                         </div>
                       </div>';
                      
-                     
+                    echo '<div class="clearfix"></div>';  
                     }
                  
                  
