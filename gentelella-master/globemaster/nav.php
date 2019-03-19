@@ -3,6 +3,8 @@ ob_start();
 session_start();
 $_SESSION['user'] = 1;
 $user="";
+$fname="";
+$lname="";
 if(!(isset($_SESSION['usertype']))){
     header("Location: http://".$_SERVER['HTTP_HOST'].
         dirname($_SERVER['PHP_SELF'])."/login.php");
@@ -37,8 +39,11 @@ if(!(isset($_SESSION['usertype']))){
 
 
                 $user=$row['usertype'];
+                
                     echo "<h2><font face='Couture Bold'>Welcome, ";
-                    echo $row['usertype'];
+                    echo $_SESSION["firstname"];
+                    echo " ";
+                    echo $_SESSION["lastname"];
                     echo "</font></h2>";
                   
         
@@ -152,7 +157,7 @@ if(!(isset($_SESSION['usertype']))){
                       
               
                       if($user == 'CFO'){
-                      echo "<li><a href='ClientApproval.php'>Client Order Approval</a></li>";
+                      
                         echo "<li><a href='ClientApproval.php'>Client Order Approval</a></li>";
                       
                         }
@@ -170,8 +175,6 @@ if(!(isset($_SESSION['usertype']))){
                   echo   "<ul class='nav child_menu'>";
                   echo     "<li><a> Sales <span class='fa fa-chevron-down'></span></a>";
                   echo       "<ul class='nav child_menu'>";
-                  echo         "<li><a>Sales Variance Analysis</a></li>";
-                  echo         "<li><a>Sales Forecasting</a></li>";
                   echo         "<li><a href='index.html'>Sales Variance Analysis</a></li>";
                   echo         "<li data-toggle='modal' data-target='.bs-example-modal-sm'><a>Sales Forecasting</a></li>";
                   echo       "</ul>";
@@ -259,7 +262,9 @@ if(!(isset($_SESSION['usertype']))){
                   $checkuser1 = "SELECT * FROM gm_users WHERE usertype_id = '{$_SESSION['usertype']}'";
                   $result1=mysqli_query($dbc,$checkuser1);
                   $row1=mysqli_fetch_array($result1,MYSQLI_ASSOC);
-                    echo $row['usertype'];
+                    echo $_SESSION["firstname"];
+                    echo " ";
+                    echo $_SESSION["lastname"];
                     echo "  ";
                   
         
