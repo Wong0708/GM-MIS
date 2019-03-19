@@ -220,7 +220,7 @@
                             echo  "3shold = ".$itemThreshold;
                             echo  "price = ".$itemPrice;
 
-                            $sql = "INSERT INTO items_trading (item_id, sku_id, item_name, itemtype_id, item_count, last_restock, last_update, threshold_amt, warehouse_id, supplier_id, price)
+                            $sql = "INSERT INTO items_trading (item_id, sku_id, item_name, itemtype_id, item_count, last_restock, last_update, threshold_amt, warehouse_id, supplier_id, price, onDiscount)
                             Values(
                             '$ItemID',
                             '$sku_id',
