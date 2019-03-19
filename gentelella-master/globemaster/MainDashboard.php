@@ -118,7 +118,7 @@
                                       <tbody>';
                         
                             require_once('DataFetchers/mysql_connect.php');
-                            $query = "SELECT sku_id, item_name, item_count from items_trading WHERE item_count > threshold_amt + 50";
+                            $query = "SELECT sku_id, item_name, item_count, (threshold_amt-item_count) AS 'diff' from items_trading WHERE item_count < threshold_amt";
                             $result=mysqli_query($dbc,$query);
                             while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                             {
@@ -133,8 +133,14 @@
                                     echo '<td>';
                                     echo $row['item_count'];
                                     echo '</td>';
-                                    echo '<td>';
-                                    
+                                    if($row['diff'] >= 50)
+                                    {
+                                        echo '<td bgcolor="#A04444">';
+                                    }
+                                    else
+                                    {
+                                        echo '<td bgcolor="#FFBA57">';
+                                    }
                                     echo '</td>';
                                     echo '</tr>';
                                     
@@ -165,7 +171,7 @@
                                       </thead>
                                       <tbody>';
                         
-                        require_once('DataFetchers/mysql_connect.php');
+                            require_once('DataFetchers/mysql_connect.php');
                             $query = "SELECT ordernumber, client_id, delivery_date, DATEDIFF(NOW(), delivery_date) AS 'remain_date' FROM orders WHERE DATEDIFF(NOW(), delivery_date) < 7";
                             $result=mysqli_query($dbc,$query);
                             while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
@@ -200,8 +206,60 @@
                              echo '</div>
                         </div>
                       </div>';
+                    echo '<div class="clearfix"></div>';    
+
+                     //UNPAID ORDERS
+                 
+                        echo '<div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="x_panel">
+                                      <h2><center><i class="fa fa-minus-circle"></i><b>  UNPAID ORDERS</b></h2>
+                                    <div class="clearfix"></div>
+                                  <div class="x_content">
+
+                                    <table class="table table-bordered">
+                                      <thead>
+                                        <tr>
+                                          <th>Order Number</th>
+                                          <th>Client Name</th>
+                                          <th>Total Balance</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>';
+                        
+                            require_once('DataFetchers/mysql_connect.php');
+                            $query = "SELECT ordernumber, client_id, totalamt FROM orders WHERE payment_status = 'UNPAID'";
+                            $result=mysqli_query($dbc,$query);
+                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                            {
+
+                                    $queryClientName = "SELECT client_name FROM clients WHERE client_id =" . $row['client_id'] . ";";
+                                    $resultClientName = mysqli_query($dbc,$queryClientName);
+                                    $rowClientName=mysqli_fetch_array($resultClientName,MYSQLI_ASSOC);
+                                    $clientName = $rowClientName['client_name'];
+                                    
+                                
+                                    echo '<tr>';
+                                    echo '<td>';
+                                    echo $row['ordernumber'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $clientName;
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo  'Php'." ".number_format($row['totalamt'], 2);
+                                    echo '</td>';
+                                    echo '</tr>';
+                                    
+                            } 
+                     echo '</tbody>';
+                    echo '</table>';
+                        
+                             echo '</div>
+                        </div>
+                      </div>';
 
                      
+
 
                     }
             ?>
