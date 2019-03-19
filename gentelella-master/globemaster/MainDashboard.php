@@ -96,7 +96,7 @@
              <div class="row">
                  <?php
             
-                    if($user == 'SALES')
+                    if($user == 'SALES' || $user == 'CEO' || $user == 'MKT')
                     {
                         //INVENTORY BELOW THRESHOLD
                         
@@ -151,7 +151,69 @@
                              echo '</div>
                         </div>
                       </div>';
+                    }
+                 
+                    if($user == 'CEO' || $user == 'CFO')
+                    {
+                         
+
+                         //LOSSES FOR A MONTH
+                 
+                        echo '<div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="x_panel">
+                                      <h2><center><i class="fa fa-sort-amount-desc"></i><b> Losses</b></h2>
+                                    <div class="clearfix"></div>
+                                  <div class="x_content">
+
+                                    <table class="table table-bordered">
+                                      <thead>
+                                        <tr>
+                                          <th>Item</th>
+                                          <th>Damage Percent</th>
+                                          <th>Quantity</th>
+                                          <th>Total Loss</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>';
                         
+                            require_once('DataFetchers/mysql_connect.php');
+                            $query = "SELECT item_name, damage_percentage*10, item_quantity, total_loss FROM damage_item";
+                            $result=mysqli_query($dbc,$query);
+                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                            {
+
+                                    
+                                
+                                    echo '<tr>';
+                                    echo '<td>';
+                                    echo $row['item_name'];
+                                    echo '</td>';
+                                    echo '<td><b>';
+                                    echo $row['damage_percentage*10'];
+                                    echo ' %';
+                                    echo '</b></td>';
+                                    echo '<td>';
+                                    echo $row['item_quantity'];
+                                    echo '</td>';
+                                    echo '<td><b>';
+                                    echo  'Php'." ".number_format($row['total_loss'], 2);
+                                    echo '</b></td>';
+                                    echo '</tr>';
+                                    
+                            } 
+                     echo '</tbody>';
+                    echo '</table>';
+                        
+                             echo '</div>
+                        </div>
+                      </div>';
+                     
+                     
+                    }
+                 
+                 
+                    if($user == 'CFO' || $user == 'SALES')
+                    {
                         //UNPAID ORDERS
                  
                         echo '<div class="col-md-6 col-sm-6 col-xs-12">
@@ -202,7 +264,11 @@
                         </div>
                       </div>';
                     echo '<div class="clearfix"></div>';        
-
+                    }
+                 
+                    if($user == 'SALES')
+                    {
+                        
                          //ORDERS NEARING DELIVERY
                  
                         echo '<div class="col-md-6 col-sm-6 col-xs-12">
@@ -257,6 +323,10 @@
                              echo '</div>
                         </div>
                       </div>';
+                    }
+                 
+                 if($user == 'INV' || $user == 'SALES')
+                 {
                     
                         //FABRICATION APPROVALS
                  
@@ -290,6 +360,61 @@
                                     echo $row['order_date'];
                                     echo '</td>';
                                     echo '<td>';
+                                    echo '</td>';
+                                    echo '</tr>';
+                                    
+                            } 
+                     echo '</tbody>';
+                    echo '</table>';
+                        
+                             echo '</div>
+                        </div>
+                      </div>';
+                    
+                        
+                     
+                    }
+                 
+                 if($user == 'INV')
+                 {
+                    
+                        //RECOMMEND INVENTORY DISCOUNT
+                 
+                        echo '<div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="x_panel">
+                                      <h2><center><i class="fa fa-toggle-down"></i><b>  RECOMMENDED ITEMS FOR DISCOUNT</b></h2>
+                                    <div class="clearfix"></div>
+                                  <div class="x_content">
+
+                                    <table class="table table-bordered">
+                                      <thead>
+                                        <tr>
+                                          <th>SKU</th>
+                                          <th>Item Name</th>
+                                          <th>Last Update</th>
+                                          <th>Action</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>';
+                        
+                            require_once('DataFetchers/mysql_connect.php');
+                            $query = "SELECT * from items_trading WHERE DATEDIFF(month, NOW(), last_update) > 6";
+                            $result=mysqli_query($dbc,$query);
+                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                            {
+
+                                    echo '<tr>';
+                                    echo '<td>';
+                                    echo $row['sku_id'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $row['item_name'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $row['last_update'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    
                                     echo '</td>';
                                     echo '</tr>';
                                     
