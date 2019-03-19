@@ -22,12 +22,6 @@
     <link href="../vendors/fullcalendar/dist/fullcalendar.print.css" rel="stylesheet" media="print">
     <!-- iCheck -->
     <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-    <!-- Datatables -->
-    <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">  
 	
     <!-- bootstrap-progressbar -->
     <link href="../vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
@@ -95,71 +89,103 @@
               <span class="count_top"><i class="fa fa-user"></i> Total Connections</span>
               <div class="count">7,325</div>
               <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
-            </div>
-          </div> -->
+            </div> -->
+          </div> 
           <!-- /top tiles -->
 
-              
-              <div class="dashboard_graph">
-                <div class="clearfix"></div><br>
-                  
-                  <?php
-                  
-                  if($user == "SALES")
-                  {
-                        echo '<h2><b>Orders Nearing Delivery</b></h2>  
-                        <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-                              <thead>
-                                <tr>
-                                  <th>Order Number</th>
-                                  <th>Client Name</th>
-                                  <th>Delivery Date</th>
-                                  <th>Remaining Days</th>
-                                </tr>
-                              </thead>
-                              <tbody> ';
+             <div class="row">
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                      <h2><b>ORDERS NEARING DELIVERY</b></h2><br>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
 
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Order Number</th>
+                          <th>Client Name</th>
+                          <th>Order Date</th>
+                          <th>Delivery Date</th>
+                          <th>Total Amount</th>
+                          <th>Payment Type</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php
+                            
+                            require_once('DataFetchers/mysql_connect.php');
+                            $query = "SELECT * FROM orders ORDER BY orderID ASC;";
+                            $result=mysqli_query($dbc,$query);
+                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                            {
+                                    $queryPaymentType = "SELECT paymenttype FROM ref_payment WHERE payment_id =" . $row['payment_id'] . ";";
+                                    $resultPaymentType = mysqli_query($dbc,$queryPaymentType);
+                                    $rowPaymentType=mysqli_fetch_array($resultPaymentType,MYSQLI_ASSOC);
+                                    $paymentType = $rowPaymentType['paymenttype'];
 
-                                    require_once('DataFetchers/mysql_connect.php');
-                                    $query = "SELECT ordernumber, client_id, delivery_date, DATEDIFF(NOW(), delivery_date) AS 'remain_date' FROM orders WHERE DATEDIFF(NOW(), delivery_date) < 7;  ";
-                                    $result=mysqli_query($dbc,$query);
-                                    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                                    {
+                                    $queryClientName = "SELECT client_name FROM clients WHERE client_id =" . $row['client_id'] . ";";
+                                    $resultClientName = mysqli_query($dbc,$queryClientName);
+                                    $rowClientName=mysqli_fetch_array($resultClientName,MYSQLI_ASSOC);
+                                    $clientName = $rowClientName['client_name'];
+                                    
+                                
+                                    echo '<tr>';
+                                    echo '<td>';
+                                    echo $row['ordernumber'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $clientName;
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $row['order_date'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    
+                                    // if($row['delivery_date'] == null || $row['delivery_date'] == "")
+                                    // {
+                                    //     echo '<button type="submit" class="btn btn-round btn-success"><i class="fa fa-plus"></i> Set Delivery Date</button>';
+                                    // }
+                                    // else
+                                    // {
+                                        echo $row['delivery_date'];
+                                    // }
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo  'Php'." ".number_format($row['totalamt'], 2);
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $paymentType;
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $row['order_status'];
+                                    echo '</td>';
+                                    echo '</tr>';
+                                    
+                            }
+                        ?>  
+                      </tbody>
+                    </table>
 
-                                            $queryClientName = "SELECT client_name FROM clients WHERE client_id =" . $row['client_id'] . ";";
-                                            $resultClientName = mysqli_query($dbc,$queryClientName);
-                                            $rowClientName=mysqli_fetch_array($resultClientName,MYSQLI_ASSOC);
-                                            $clientName = $rowClientName['client_name'];
-
-
-                                            echo '<tr>';
-                                            echo '<td>';
-                                            echo $row['ordernumber'];
-                                            echo '</td>';
-                                            echo '<td>';
-                                            echo $clientName;
-                                            echo '</td>';
-                                            echo '<td>';
-                                            echo $row['delivery_date'];
-                                            echo '</td>';
-                                            echo '<td>';
-                                            echo $row['remain_date'];
-                                            echo ' days left!';
-                                            echo '</td>';
-                                            echo '</tr>';
-
-                                    }
-                              echo '</tbody>
-                            </table><br>';
-                
-                  }
-                   ?>  
-                  
+                  </div>
+                </div>
               </div>
-            </div>
 
+
+              
+
+              <div class="clearfix"></div>
+
+
+            </div>
+        
+           </div>
           </div>
-          <br />
+    
+          <br>
           <div class="row">
             
    
@@ -217,22 +243,6 @@
     <!-- bootstrap-daterangepicker -->
     <script src="../vendors/moment/min/moment.min.js"></script>
     <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-    <!-- Datatables -->
-    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-    <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-    <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-    <script src="../vendors/jszip/dist/jszip.min.js"></script>
-    <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
-    <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
