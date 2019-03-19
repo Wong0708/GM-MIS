@@ -928,7 +928,7 @@ var discount_amount = document.getElementById('discountamt');
             font-weight:normal;
             font-style:normal;
             font-size: 20px;
-            color: #1D2B51;
+            
             }
 
     </style>        
