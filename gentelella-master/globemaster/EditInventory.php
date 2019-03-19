@@ -216,7 +216,7 @@
                                                    <script>
                                                    function insert_and_update_restock()
                                                    {                                                   
-                                                        var GET_RESTOCK_QTY = document.getElementbyId("restockamt");
+                                                        var GET_RESTOCK_QTY = document.getElementById("restockamt").value;
 
                                                         request = $.ajax({
                                                         url: "ajax/insert_and_update_restock.php",
