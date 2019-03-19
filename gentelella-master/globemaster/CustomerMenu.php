@@ -142,13 +142,15 @@
                                   echo '</script>';
                               
 
-                                $sql = "INSERT INTO clients (client_id, client_name, client_address, client_contactno, client_email)
+                                $sql = "INSERT INTO clients (client_id, client_name, client_address, client_contactno, client_email, total_unpaid, client_status)
                                   Values(
                                   '$idinsert',
                                   '$name', 
                                   '$address',
                                   '$contact',
-                                  '$email')";
+                                  '$email',
+                                   0,
+                                   'Allowed')";
 
                                 $resultinsert = mysqli_query($dbc,$sql);
 
@@ -280,7 +282,7 @@
     <script>
     function confirmalert()
     {
-      window.alert("Are you sure you want to enter the following data?");
+      confirm("Are you sure you want to enter the following data?");
     }
     </script>
 

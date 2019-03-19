@@ -66,6 +66,7 @@
                           <th>Total Amount</th>
                           <th>Payment Type</th>
                           <th>Status</th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -116,6 +117,9 @@
                                     echo '</td>';
                                     echo '<td>';
                                     echo $row['order_status'];
+                                    echo '</td>';
+                                    echo '<td align="center">';
+                                    echo '<i class="fa fa-wrench"></i>';
                                     echo '</td>';
                                     echo '</tr>';
                                     

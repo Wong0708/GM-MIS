@@ -163,7 +163,7 @@
                               echo '<td>';
                               echo $rowofResult['warehouse'];
                               echo '</td>';  
-                              echo '<td>';
+                              echo '<td align = "right">';
                               echo  'Php'." ".number_format($rowofResult['price'], 2);
                               echo '</td>';   
                             echo "</tr>";

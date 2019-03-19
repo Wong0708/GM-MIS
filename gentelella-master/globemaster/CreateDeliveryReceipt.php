@@ -47,11 +47,11 @@
                     
 
                     <!-- /top tiles -->
-            <div class="col-md-12 col-sm-6 col-xs-12">
+            <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
-                  <div class="x_title">
+                  <div class="x_title" align="center">
                  
-                    <h1><b>Create Delivery Receipt: </b> [ DR - 
+                    <font color = "black"><h1><b>Create Delivery Receipt: </b> [ DR - 
                     <?php 
                     require_once('DataFetchers/mysql_connect.php');
 
@@ -66,19 +66,22 @@
                   ?> <!-- PHP END -->
                      ]
                    
-                     </h1>
+                     </h1></font>
                     <div class="clearfix"></div>
                   </div>
 
-                  <div class="x_content">
-                    <br>
-
-                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-center"  method = "POST">
+                  
+                  <form class="form-horizontal form-label-center" method="GET">                              
+                    <div class="col-md-6 col-sm-6 col-xs-12 " >
+                        <div class="x_panel" >
+                        <center><font color = "#2a5eb2"><h3>Order Details </h1>
+                                            </h3></font></center>
+                                            <div class="ln_solid"></div>
                     <div class="form-group" >
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" >Order Number: 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                        <select id="orderNumberDropdown" class="form-control col-md-12 col-md-7 col-xs-12" required="" name = "selectItemtype" style=" width:250px";>
+                        <select id="orderNumberDropdown" class="form-control" required="" name = "selectItemtype">
                             <option value="">Choose..</option>
                                 <?php
                                     require_once('DataFetchers/mysql_connect.php');
@@ -105,7 +108,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Expected Date: 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input style=" width:250px"; id="expectedDate" name = "expectedDate" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly" required>
+                          <input id="expectedDate" name = "expectedDate" class="form-control" type="text" readonly="readonly" required>
                         </div>
                       </div>
                      
@@ -113,7 +116,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Delivery Date:
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input class="deliveryDate"  type="date"  style=" width:250px"id="deliveryDate" name="deliveryDate"  min="<?php echo date("Y-m-d", strtotime("+1days")); ?>" required/>
+                          <input class="form-control"  type="date"  id="deliveryDate" name="deliveryDate"  min="<?php echo date("Y-m-d", strtotime("+1days")); ?>" required/>
                             <style>
                                     .deliveryDate {
                                         -moz-appearance:textfield;
@@ -130,8 +133,8 @@
 
                       <div class="form-group" >
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Customer Name: </label>
-                        <div class="col-md-3 col-sm-12 col-xs-12">
-                          <input style=" width:250px"; id="customerName" name = "customerName" class="form-control col-md-7 col-xs-12" type="text" readonly="readonly" >                               
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="customerName" name = "customerName" class="form-control" type="text" readonly="readonly" >                               
                         </div>
                       </div>
 
@@ -140,7 +143,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Client Location: 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input style=" width:250px"; id="locationFromClient" name = "locationFromClient" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
+                          <input id="locationFromClient" name = "locationFromClient" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
                         </div>
                       </div>
 
@@ -148,7 +151,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Truck: 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input style=" width:250px"; id="truckPlate" name = "truckPlate" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
+                          <input id="truckPlate" name = "truckPlate" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
                         </div>
                       </div>
 
@@ -156,12 +159,34 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Driver: 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input style=" width:250px"; id="driverName" name = "driverName" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
+                          <input id="driverName" name = "driverName" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
                         </div>
                       </div>
+                      <div class = "ln_solid"></div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Price: 
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="totalfromOrders" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
+                        </div>
+                      </div>         
+                      
+                            </div><!-- mod start  -->
+                          </div>
+
+
+                          <div class="col-md-6 col-sm-6 col-xs-12" >
+                                        <div class="x_panel" >
+
+                                            <center><h3>Items in Order</h1>
+                                            
+                                            </h3></center>
+                                            <div class="ln_solid"></div>
+
+                                            
 
                          <div class="row" >
-                            <div class="col-md-8 col-sm-9 col-xs-6"  >
+                            <div class="col-md-12 col-sm-12 col-xs-12"  >
                                 <table  id="datatable" class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable_info">
                                     <thead>
                                         <tr role="row">
@@ -184,21 +209,16 @@
                                 </table>
                             </div>
                         </div>
+                                            
+                                        </div> <!--END XPanel-->
+                                    </div> <!--END Class Colmd-->
 
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Price: 
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input style=" width:250px"; id="totalfromOrders" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
-                        </div>
-                      </div>                           
-
+                        <div class = "clearfix"></div>
                       <div class="ln_solid"></div>
                       <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" align="left">
-                          <button class="btn btn-danger" type="button">Cancel</button>
-						  <button class="btn btn-primary" type="reset">Reset</button>
-                          <button type="submit" name = "submitDeliveryReceipt" class="btn btn-success" >Submit</button>
+                        <div class="col-md-12 col-sm-12 col-xs-12" align="right">
+                          <button class="btn btn-primary" type="button">Go Back</button>
+                          <button type="submit" name = "submitDeliveryReceipt" class="btn btn-success" onclick = "confirmSubmit()">Submit</button>
 
                            <?php
                             if(isset($_POST['submitDeliveryReceipt']))
@@ -504,7 +524,13 @@
                                     echo  " };";  //End function                                                        
                                 ?> //PHP END                        
 </script> <!-- Script to add Order Details from DB with PHP inside --> 
-                                      
+           
+           <script>
+             function confirmSubmit()
+             {
+                confirm("Do you want to create a delivery receipt for this order?");
+             }
+            </script>
 
 
 
