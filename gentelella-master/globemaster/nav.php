@@ -41,6 +41,7 @@ if(!(isset($_SESSION['usertype']))){
                 $user=$row['usertype'];
                 
                     echo "<h2><font face='Couture Bold'>Welcome, ";
+                    echo "<br>";
                     echo $_SESSION["firstname"];
                     echo " ";
                     echo $_SESSION["lastname"];
