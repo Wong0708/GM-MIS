@@ -244,12 +244,12 @@
                         }
                         else
                         {
-                          alert("Nakow, pabebe talaga oh");
+                          
                         }
                       }
                       else
                       {
-                        alert("Wag Pabebe please");
+                        
                       }
                     }
                   </script>
@@ -281,7 +281,7 @@
                       }//End IF
                       else
                       {
-                        
+
                       }
                     }//END function
                   </script>
