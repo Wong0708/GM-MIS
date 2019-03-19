@@ -146,14 +146,71 @@
                             } 
                      echo '</tbody>';
                     echo '</table>';
+                        
+                             echo '</div>
+                        </div>
+                      </div>';
+
+                         //ORDERS NEARING DELIVERY
+                 
+                        echo '<div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="x_panel">
+                                      <h2><center><i class="fa fa-car"></i><b>  ORDERS NEARING DELIVERY</b></h2>
+                                    <div class="clearfix"></div>
+                                  <div class="x_content">
+
+                                    <table class="table table-bordered">
+                                      <thead>
+                                        <tr>
+                                          <th>Order Number</th>
+                                          <th>Client Name</th>
+                                          <th>Delivery Date</th>
+                                          <th>Remaining Date</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>';
+                        
+                        require_once('DataFetchers/mysql_connect.php');
+                            $query = "SELECT ordernumber, client_id, delivery_date, DATEDIFF(NOW(), delivery_date) AS 'remain_date' FROM orders WHERE DATEDIFF(NOW(), delivery_date) < 7";
+                            $result=mysqli_query($dbc,$query);
+                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                            {
+
+                                    $queryClientName = "SELECT client_name FROM clients WHERE client_id =" . $row['client_id'] . ";";
+                                    $resultClientName = mysqli_query($dbc,$queryClientName);
+                                    $rowClientName=mysqli_fetch_array($resultClientName,MYSQLI_ASSOC);
+                                    $clientName = $rowClientName['client_name'];
+                                    
+                                
+                                    echo '<tr>';
+                                    echo '<td>';
+                                    echo $row['ordernumber'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $clientName;
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $row['delivery_date'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $row['remain_date'];
+                                    echo ' days left!';
+                                    echo '</td>';
+                                    echo '</tr>';
+                                    
+                            } 
+                     echo '</tbody>';
+                    echo '</table>';
+                        
+                             echo '</div>
+                        </div>
+                      </div>';
+
+                         //ORDERS NEARING DELIVERY
+                     
 
                     }
-                ?>
-                            
-                  </div>
-                </div>
-              </div>
-
+            ?>
 
               
 
