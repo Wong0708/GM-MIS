@@ -66,6 +66,7 @@
                           <th>Customer</th>
                           <th>Destination</th>                                                   
                           <th>Status</th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -100,6 +101,9 @@
                                 echo '</td>';  
                                 echo '<td>';
                                 echo $rowofResult['delivery_status'];
+                                echo '</td>';
+                                echo '<td align = "center">';
+                                echo '<i class = "fa fa-wrench"></i>';
                                 echo '</td>';
                               echo "</tr>";
                               $count++;

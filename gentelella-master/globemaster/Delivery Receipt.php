@@ -49,176 +49,123 @@
                     
 
                     <!--TABLE OF DETAILS FOR DELIVERY RECEIPT-->
-                    <div class="col-md-12 col-sm-9 col-xs-12" >
-                        <div class="x_panel" >
+                    <div class="col-md-12 col-sm-12 col-xs-12" >
+                        <div class="x_panel" id="printDR">
                             <div class="x_title">
-                                <h1 align = "center">Delivery Receipt Details</h1>
+                                <div class="col-md-10 col-sm-10 col-xs-12">
+                                    <font color = "black"><h1>Delivery Receipt - [ADD DR NUMBER HERE]</h1></font> 
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-12" align="right">
+                                    <?php
+                                        include("print.php");
+                                    ?>
+                                        
+                                        <button type="" class="btn btn-primary btn-lg" onclick="printW()"><i class="fa fa-print"></i> Print</button>
+                                     
+                                </div>
                                 
+
                                 <div class="clearfix"></div>
                             </div>
-                           
-                            <div class="x_content">
-                                <br>
-                                <form class="form-horizontal form-label-center">
+                            <form class="form-horizontal form-label-center" method="GET">                              
+                                <div class="col-md-6 col-sm-6 col-xs-12 " >
+                                    <div class="x_panel" >
+                                    <center><font color = "#2a5eb2"><h3>Delivery Receipt Details </h1>
+                                                </h3></font></center>
+                                    <div class="ln_solid"></div>
 
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Delivery Receipt Number </label>
-                                        <div class="col-md-3 col-sm-9 col-xs-12">
+                                        <label class="control-label col-md-4 col-sm-4 col-xs-12">Delivery Receipt Number </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
                                             <input type="text" id = "drNumber" class="form-control" readonly="readonly" >
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Delivery Date</label>
-                                        <div class="col-md-3 col-sm-9 col-xs-12">
+                                        <label class="control-label col-md-4 col-sm-4 col-xs-12">Delivery Date</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
                                             <input type="text" id = "drDate" class="form-control" readonly="readonly" >
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Destination</label>
-                                        <div class="col-md-3 col-sm-9 col-xs-12">
+                                        <label class="control-label col-md-4 col-sm-4 col-xs-12">Destination</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
                                             <input type="text" id = "drDestination" class="form-control" readonly="readonly" >
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Customer Name</label>
-                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <label class="control-label col-md-4 col-sm-4 col-xs-12">Customer Name</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
                                             <input type="text" id = "drCusName" class="form-control" readonly="readonly" >
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Current Status</label>
-                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <label class="control-label col-md-4 col-sm-4 col-xs-12">Current Status</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
                                             <input type="text" id = "drStatus" class="form-control" readonly="readonly">
                                         </div>
                                     </div>
 
-                                    <div class="row" >
-                                        <div class="col-md-8 col-sm-9 col-xs-12"  >
-                                            <table  id="datatable" class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable_info">
-                                                <thead>
-                                                    <tr role="row">
-                                                        <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 263px;">Product</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Pieces</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Price per piece</th>
-                                                    </tr>
-                                                </thead>
-                                                <tr role='row' class='odd'>
-                                                                                                                                     
-                                                     </tr>
-
-                                                <tbody>
-                                                 
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-
+                                    
+                                    <br><br>
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Total</label>
-                                        <div class="col-md-3 col-sm-9 col-xs-6">
+                                        <label class="control-label col-md-4 col-sm-4 col-xs-12">Total Amount</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
                                             <input   type="text" id = "drTotal" class="form-control" readonly="readonly" placeholder="Read-Only Input">
                                         </div>
                                     </div>
 
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-6 col-xs-12" >
+                                    <div class="x_panel" >
+
+                                    <center><h3>Items in This Order</h1>
+                                    
+                                    </h3></center>
+                                    <div class="ln_solid"></div>
+
+                                            <div class="row" >
+                                                <div class="col-md-12 col-sm-12 col-xs-12"  >
+                                                    <table  id="datatable" class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable_info">
+                                                        <thead>
+                                                            <tr role="row">
+                                                                <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 263px;">Product</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Pieces</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Price per piece</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tr role='row' class='odd'>
+                                                                                                                                            
+                                                            </tr>
+
+                                                        <tbody>
+                                                        
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            
+                                    </div> <!--END XPanel-->
+                                </div> <!--END Class Colmd-->
+
+                                <div class = "clearfix"></div>  
                                     <div class="ln_solid"></div>
                                     <div class="form-group">
-                                        <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                                            <button type="button" class="btn btn-primary">Edit</button>
-                                            <button type="reset" class="btn btn-warning" onclick="clearLocalStorage()">Archive</button>
+                                        <div class="col-md-12 col-sm-12 col-xs-12" align = "right ">
+                                            <button type="button" class="btn btn-default"><a href = Deliveries.php>Go Back</a></button>
+                                            <button type="button" class="btn btn-success" onclick = "finishDeliver()"><a href = Deliveries.php>Finish Delivery</a></button>
                                         </div>
                                     </div>
 
-                                </form>
+                                    
+                            </form>
 
                             </div>
                         </div>
                     </div>
-
-                    <!-- <div class="col-md-6 col-sm-9 col-xs-12">
-                        <div class="x_panel">
-                            <div class="x_title">
-                                <h2>Delivery Receipt List </h2>
-                                
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="x_content">
-                                
-                                <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-
-                                   <div class="row">
-                                        <div class="col-sm-12">
-                                        <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
-                                                <thead>
-                                                    <tr role="row">
-                                                        <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 263px;">Delivery Receipt Number</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Delivery date</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Origin</th>
-                                                    </tr>
-                                                </thead>
-
-
-                                                <tbody>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Airi Satou</td>
-                                                        <td>2008/11/28</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Angelica Ramos</td>
-                                                        <td>2009/10/09</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Ashton Cox</td>
-                                                        <td>2009/01/12</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Bradley Greer</td>
-                                                        <td>2012/10/13</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Brenden Wagner</td>
-                                                        <td>2011/06/07</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Brielle Williamson</td>
-                                                        <td>2012/12/02</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Bruno Nash</td>
-                                                        <td>2011/05/03</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Caesar Vance</td>
-                                                        <td>2011/12/12</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Cara Stevens</td>
-                                                        <td>2011/12/06</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Cedric Kelly</td>
-                                                        <td>2012/03/29</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
 
                 </div>
             </div>
@@ -402,6 +349,20 @@ echo '</script>';
     function clearLocalStorage()  
     {
         localStorage.clear();
+    }
+</script>
+
+<script>
+    function printW()
+    {
+        window.print();
+    }
+</script>
+<script>
+    function finishDeliver()
+    {
+        confirm("Do you want to finish this delivery?");
+        confirm("Are you sure?");   
     }
 </script>
 
