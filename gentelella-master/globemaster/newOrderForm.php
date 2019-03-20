@@ -92,8 +92,8 @@
                                                 <?php
 
                                                     require_once('DataFetchers/mysql_connect.php');
-                                                    $query="SELECT client_id, client_name FROM clients";
-                                                    $result=mysqli_query($dbc,$query);
+                                                    $SQL_CLIENT_LIST="SELECT client_id, client_name FROM clients";
+                                                    $result=mysqli_query($dbc,$SQL_CLIENT_LIST);
                                                     while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                                                     {
                                                         echo "<option value=".$row['client_id']."> ".$row['client_name']."</option>";  
@@ -121,8 +121,8 @@
                                                         <?php
 
                                                             require_once('DataFetchers/mysql_connect.php');
-                                                            $query = "SELECT * FROM items_trading;";
-                                                            $result1=mysqli_query($dbc,$query);
+                                                            $SQL_ITEM_LIST = "SELECT * FROM items_trading;";
+                                                            $result1=mysqli_query($dbc,$SQL_ITEM_LIST);
 
                                                             $itemCountArray = array();
                                                             while($row=mysqli_fetch_array($result1,MYSQLI_ASSOC) )
@@ -396,8 +396,8 @@
                         <select class="form-control col-md-7 col-xs-12" name="paymentID" id = "paymentID">
                         <?php
                             require_once('DataFetchers/mysql_connect.php');
-                            $query="SELECT * FROM ref_payment";
-                            $result=mysqli_query($dbc,$query);
+                            $SQL_PAYMENT_LIST="SELECT * FROM ref_payment";
+                            $result=mysqli_query($dbc,$SQL_PAYMENT_LIST);
                             while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                             {
                                 echo "<option value=".$row['payment_id']."> ".$row['paymenttype']."</option>";  

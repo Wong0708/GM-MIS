@@ -52,18 +52,18 @@
                   <div class="x_title" align="center">
                  
                     <font color = "black"><h1><b>Create Delivery Receipt: </b> [ DR - 
-                    <?php 
-                    require_once('DataFetchers/mysql_connect.php');
+                        <?php 
+                        require_once('DataFetchers/mysql_connect.php');
 
-                        $query = "SELECT count(delivery_Receipt) as Count FROM mydb.scheduledelivery;";
-                        $resultofQuery = mysqli_query($dbc, $query);
-                        while($rowofResult=mysqli_fetch_array($resultofQuery,MYSQLI_ASSOC))
-                        {
-                            echo $rowofResult['Count'] + 1;
-                        };
+                            $query = "SELECT count(delivery_Receipt) as Count FROM mydb.scheduledelivery;";
+                            $resultofQuery = mysqli_query($dbc, $query);
+                            while($rowofResult=mysqli_fetch_array($resultofQuery,MYSQLI_ASSOC))
+                            {
+                                echo $rowofResult['Count'] + 1;
+                            };
 
 
-                  ?> <!-- PHP END -->
+                        ?> <!-- PHP END TO GET DR number-->
                      ]
                    
                      </h1></font>
@@ -86,17 +86,17 @@
                                 <?php
                                     require_once('DataFetchers/mysql_connect.php');
 
-                                    $sql1 = "SELECT * FROM order_details 
-                                    where item_status = 'Deliver' 
-                                    group by ordernumber 
-                                    order by orderdetailID";
+                                    $sql1 = "SELECT * FROM orders
+                                    join clients ON orders.client_id = clients.client_id
+                                    where order_status = 'Deliver'                                      
+                                    ";
                                     $result1=mysqli_query($dbc,$sql1);
                                     while($row1=mysqli_fetch_array($result1,MYSQLI_ASSOC))
                                     { 
                                         echo'<option value="';
                                         echo $row1['ordernumber'];
                                         echo'">';
-                                        echo $row1['ordernumber'];
+                                        echo $row1['ordernumber'], " | " ,$row1['client_name'];
                                         echo'</option>';
                                     } 
                                                                    
@@ -116,7 +116,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Delivery Date:
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input class="form-control"  type="date"  id="deliveryDate" name="deliveryDate"  min="<?php echo date("Y-m-d", strtotime("+1days")); ?>" required/>
+                          <input class="form-control deliveryDate"  type="date"  id="deliveryDate" name="deliveryDate"  min="<?php echo date("Y-m-d", strtotime("+1days")); ?>" required/>
                             <style>
                                     .deliveryDate {
                                         -moz-appearance:textfield;
@@ -167,7 +167,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Price: 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="totalfromOrders" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly">
+                          <input id="totalfromOrders" class="date-picker form-control col-md-7 col-xs-12" type="text" readonly="readonly" style="text-align:right;">
                         </div>
                       </div>         
                       
@@ -226,11 +226,14 @@
                                         require_once('DataFetchers/mysql_connect.php');
 
                                         $deliveryReceipt;
+
                                         $dateFromHTML = $_POST['deliveryDate'];
+                                       
                                         $driverFromHTML = $_POST['driverName'];
                                         $truckPlateFromHTML = $_POST['truckPlate'];
                                         $customerNameFromHTML = $_POST['customerName'];
                                         $destinationFromHTML = $_POST['locationFromClient'];
+
                                         $SelectOrderNumber = $_POST['selectItemtype'];
 
                                         $query = "SELECT count(delivery_Receipt) as Count FROM mydb.scheduledelivery;";
@@ -243,12 +246,13 @@
                                         $queryItemID = "SELECT count(SchedID)+1 as Count FROM mydb.scheduledelivery; ";
                                         $resultItemID = mysqli_query($dbc,$queryItemID);
                                         $rowResultItemID = mysqli_fetch_assoc($resultItemID);
-                                        $SchedID = $rowResultItemID['Count']; // Get SchedID and Add 1 for DR - 
+                                        $SchedID = $rowResultItemID['Count']; // Get SchedID and Add 1 for DR - | Extra Query Kase ayaw gawin Auto increment , ambobo talaga
 
                                         $orderNumArray = array();
+
                                         $queryOrderDetails = "SELECT * FROM mydb.orders
                                         join order_details ON orders.ordernumber = order_details.ordernumber 
-                                        WHERE item_status = 'Deliver'
+                                        WHERE order_status = 'Deliver'
                                         group By orders.ordernumber";
                                         $resultOrderDetails = mysqli_query($dbc,$queryOrderDetails);
                                         while($rowResult = mysqli_fetch_array($resultOrderDetails))
@@ -256,63 +260,66 @@
                                             $orderNumArray[] = $rowResult['ordernumber'];
                                         };
 
-                                        for($i = 0; $i < sizeof($orderNumArray); $i++)
-                                        {
-                                            echo $orderNumArray[$i];
-                                            if($orderNumArray[$i] == $SelectOrderNumber) //Inserts Values based on Ordernumber to secure details 
-                                            {
+    
+                                            $INSERT_TO_SCHED_DELIVER_TABLE = "INSERT INTO scheduledelivery(
+                                                SchedID,
+                                                delivery_Receipt,
+                                                ordernumber,
+                                                delivery_Date,
+                                                driver,
+                                                truck_Number,
+                                                customer_Name,
+                                                Destination,
+                                                delivery_status)
                                                 
-                                                $insertQuery = "INSERT INTO scheduledelivery(
-                                                    SchedID,
-                                                    delivery_Receipt,
-                                                    ordernumber,
-                                                    delivery_Date,
-                                                    driver,
-                                                    truck_Number,
-                                                    customer_Name,
-                                                    Destination,
-                                                    delivery_status)
-                                                    
-                                                    VALUES('$SchedID',
-                                                    '$deliveryReceipt',
-                                                    '$SelectOrderNumber',
-                                                    '$dateFromHTML',
-                                                    '$driverFromHTML',
-                                                    '$truckPlateFromHTML',
-                                                    '$customerNameFromHTML',
-                                                    '$destinationFromHTML',
-                                                    'IP');"; //Insert Required Element from HTML to DB
-            
-                                                $result=mysqli_query($dbc,$insertQuery);
-                                                $SchedID++; //Add +1 to Primary to Avoid Error on Duplicate key
-                                                $deliveryReceipt++;
-                                            }                                        
-                                        };
+                                                VALUES('$SchedID',
+                                                '$deliveryReceipt',
+                                                '$SelectOrderNumber',
+                                                '$dateFromHTML',
+                                                '$driverFromHTML',
+                                                '$truckPlateFromHTML',
+                                                '$customerNameFromHTML',
+                                                '$destinationFromHTML',
+                                                'IP');"; //Insert Required Element from HTML to DB
+        
+                                            $RESULT_INSERT_TO_SCHED_DELIVERY_TABLE = mysqli_query($dbc,$INSERT_TO_SCHED_DELIVER_TABLE);
 
-                                        $OrderNumArray = array();
-                                        $OrderDetailID = array();
+                                            $SchedID++; //Add +1 to Primary to Avoid Error on Duplicate key : Stupid kase ayaw gawin Auto incrememt, napaka BOBITO!
+                                            $deliveryReceipt++;
 
-                                        $queryToReplace = "SELECT orderdetailID, ordernumber, item_status FROM mydb.order_details";
-                                        $resulttoReplace = mysqli_query($dbc,$queryToReplace);
-                                        while($rowOfResult = mysqli_fetch_assoc($resulttoReplace))
-                                        {
-                                            $OrderNumArray[] = $rowOfResult['ordernumber'];
-                                            $OrderDetailID[] = $rowOfResult['orderdetailID'];
-                                        }
+                                            // echo $orderNumArray[$i];
+                                            // if($orderNumArray[$i] == $SelectOrderNumber) //Inserts Values based on Ordernumber to secure details 
+                                            // {
+                                                
+                                                
+                                            // }   //END IF                                     
+                                  
+                                    }// END IF ISSET
 
-                                        for ($i = 0; $i < sizeof($OrderNumArray); $i++)
-                                        {
-                                            if($OrderNumArray[$i] == $SelectOrderNumber)
-                                            {
-                                               $TEMP = $OrderDetailID[$i];
+                                    //     $OrderNumArray = array();
+                                    //     $OrderDetailID = array();
+
+                                    //     $queryToReplace = "SELECT orderdetailID, ordernumber, item_status FROM mydb.order_details";
+                                    //     $resulttoReplace = mysqli_query($dbc,$queryToReplace);
+                                    //     while($rowOfResult = mysqli_fetch_assoc($resulttoReplace))
+                                    //     {
+                                    //         $OrderNumArray[] = $rowOfResult['ordernumber'];
+                                    //         $OrderDetailID[] = $rowOfResult['orderdetailID'];
+                                    //     }
+
+                                    //     for ($i = 0; $i < sizeof($OrderNumArray); $i++)
+                                    //     {
+                                    //         if($OrderNumArray[$i] == $SelectOrderNumber)
+                                    //         {
+                                    //            $TEMP = $OrderDetailID[$i];
                                               
-                                                $replaceQuery = "UPDATE order_details 
-                                                set item_status = 'IP'
-                                                where orderdetailID = '$TEMP' AND item_status = 'Deliver';";
-                                                $replaceResult =  mysqli_query($dbc,$replaceQuery); //Update Order_details table to replace 'Delvier' with 'IP'
-                                            }
-                                        }                                        
-                                    }    
+                                    //             $replaceQuery = "UPDATE order_details 
+                                    //             set item_status = 'Delivery in Progress'
+                                    //             where orderdetailID = '$TEMP' AND item_status = 'Deliver';";
+                                    //             $replaceResult =  mysqli_query($dbc,$replaceQuery); //Update Order_details table to replace 'Delvier' with 'IP'
+                                    //         }
+                                    //     }                                        
+                                    // }    
                             ?>
                         </div>
                       </div>
@@ -391,140 +398,146 @@
 <script type="text/javascript">
                                     
                                     
-                                    <?php
-                                    
-                                    require_once('DataFetchers/mysql_connect.php');
-                                    
-                                    echo  'var textBox = document.getElementById("customerName");';
-                                    echo  'var dropdown = document.getElementById("orderNumberDropdown");';
-                                    echo  'var itemBox = document.getElementById("itemfromOrders");';
-                                    echo  'var quantityBox = document.getElementById("quantityfromOrders");';
-                                    echo  'var totalPriceBox = document.getElementById("totalfromOrders");';
+    <?php
+    
+    require_once('DataFetchers/mysql_connect.php');
+    
+    echo  'var textBox = document.getElementById("customerName");';
+    echo  'var dropdown = document.getElementById("orderNumberDropdown");';
+    echo  'var itemBox = document.getElementById("itemfromOrders");';
+    echo  'var quantityBox = document.getElementById("quantityfromOrders");';
+    echo  'var totalPriceBox = document.getElementById("totalfromOrders");';
 
-                                    echo  'var ExpectedDateBox = document.getElementById("expectedDate");';
-                                    echo  'var locationBox = document.getElementById("locationFromClient");';
-                                    echo  'var truckPlateBox = document.getElementById("truckPlate");';
-                                    echo  'var driverBox = document.getElementById("driverName");';
-                                    
+    echo  'var ExpectedDateBox = document.getElementById("expectedDate");';
+    echo  'var locationBox = document.getElementById("locationFromClient");';
+    echo  'var truckPlateBox = document.getElementById("truckPlate");';
+    echo  'var driverBox = document.getElementById("driverName");';
 
-                                    $sql = "SELECT * FROM order_details 
-                                    join clients ON order_details.client_id = clients.client_id
-                                    join items_trading ON order_details.item_id = items_trading.item_id
-                                    join orders ON orders.ordernumber = order_details.ordernumber
-                                    where item_status = 'Deliver'
-                                    group by orderdetailID;";
-                                // and ordernumber = '$valueFromHtmlDropdown'
-                                    $result=mysqli_query($dbc,$sql);                                      
+    $orderNumber = array();
+    $customerName = array();
+    $itemName = array();
+    $quantity = array();
+    $pricePerItem = array();
+    $totalPrice = array();
+    
+    $fabricationStatus = array();
+    $paymentStatus = array();
 
-                                    $orderNumber = array();
-                                    $customerName = array();
-                                    $itemName = array();
-                                    $quantity = array();
-                                    $pricePerItem = array();
-                                    $totalPrice = array();
-                                    
-                                    $fabricationStatus = array();
-                                    $paymentStatus = array();
+    $ExpectedDateFromHTML = array();
+    $locationFromHTML = array();
 
-                                    $ExpectedDateFromHTML = array();
-                                    $locationFromHTML = array();
+    $driverFirstNameFromHTML = array();
+    $driverLastNameFromHTML = array();
+    
+    // $SQL_ORDERS_STATUS = "SELECT * FROM orders WHERE orderstatus = 'Deliver'";
+    // $RESULT_ORDER_STATUS = mysqli_query($dbc,$SQL_ORDERS_STATUS);
+    // while($ROW_RESULT_ORDER_STATUS=mysqli_fetch_array($result,MYSQLI_ASSOC))
+    // {
+    //     $orderNumber[] = $ROW_RESULT_ORDER_STATUS['ordernumber'];
+    // }      
 
-                                    $driverFirstNameFromHTML = array();
-                                    $driverLastNameFromHTML = array();
-                                         
-                                    // echo  "var getORNum = {$row['ordernumber']};";                                         
-                                    // echo "var customerName = '{$row['client_name']}';";                                            
-                                        
-                                    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                                    {                                                                                     
-                                        $orderNumber[] = $row['ordernumber'];
-                                        $customerName[] = $row['client_name'];  
-                                        $itemName[] = $row['item_name'];
-                                        $quantity[] = $row['item_qty'];
-                                        $pricePerItem[] = $row['item_price'];
-                                        // $totalPrice[] = $row['item_qty'] * $row['item_price'];
-                                        $totalPrice[] = $row['totalamt'];
+    $sql = "SELECT * FROM order_details 
+    join clients ON order_details.client_id = clients.client_id
+    join items_trading ON order_details.item_id = items_trading.item_id
+    join orders ON orders.ordernumber = order_details.ordernumber
+    group by orderdetailID;";
 
-                                        $fabricationStatus[] = $row['fabrication_status'];
-                                        $paymentStatus[] = $row['payment_status'];
+    $result=mysqli_query($dbc,$sql);                                      
+    while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+    {                                                                                     
+        $orderNumber[] = $row['ordernumber'];
+        $customerName[] = $row['client_name'];  
+        $itemName[] = $row['item_name'];
+        $quantity[] = $row['item_qty'];
+        $pricePerItem[] = $row['item_price'];
+        // $totalPrice[] = $row['item_qty'] * $row['item_price'];
+        $totalPrice[] = $row['totalamt'];
 
-                                        $ExpectedDateFromHTML[] = $row['expected_date'];
-                                        $locationFromHTML[] = $row['client_city'];
-                                                                                        
-                                    }
-                                    $truckID = array();
-                                    $destinationID = array();
-                                    $sql1 = "SELECT * FROM destination
-                                    JOIN trucktable ON trucktable.truckID = destination.truckID
-                                    join driver ON driver.truckID = trucktable.truckID;";
-                                    $result1=mysqli_query($dbc,$sql1);
-                                    while($row1=mysqli_fetch_array($result1,MYSQLI_ASSOC))
-                                    { // W I P
-                                        $truckID[] = $row1['truckplate'];
-                                        $destinationID[] = $row1['DestinationName'];
-                                        $driverFirstNameFromHTML[]  = $row1['driverFirstName'];
-                                        $driverLastNameFromHTML[]  = $row1['driverLastName'];
-                                    }
-                                    
-                                    echo "var itemNameFromPHP = ".json_encode($itemName).";"; 
-                                    echo "var cusNameFromPHP = ".json_encode($customerName).";"; 
-                                    echo "var orderNumFromPHP = ".json_encode($orderNumber).";";
-                                    echo "var quantityNumFromPHP = ".json_encode($quantity).";";
-                                    echo "var PriceNumFromPHP = ".json_encode($pricePerItem).";";
-                                    echo "var totalNumFromPHP = ".json_encode($totalPrice).";";
+        $fabricationStatus[] = $row['fabrication_status'];
+        $paymentStatus[] = $row['payment_status'];
 
-                                    echo "var fabricationStatusFromPHP = ".json_encode($fabricationStatus).";";
-                                    echo "var paymentStatusFromPHP = ".json_encode($paymentStatus).";";
+        $FORMATTED_DATE = date('F j, Y',strtotime($row['expected_date'])); //Formats date 
 
-                                    echo "var expectedDateFromPHP = ".json_encode($ExpectedDateFromHTML).";";
-                                    echo "var locationFromPHP = ".json_encode($locationFromHTML).";";
+        $ExpectedDateFromHTML[] = $FORMATTED_DATE;
+        $locationFromHTML[] = $row['client_city'];
+                                                        
+    }
 
-                                    echo "var truckPlateFromPHP = ".json_encode($truckID).";";
-                                    echo "var DestinationFromPHP = ".json_encode($destinationID).";";
+    $truckID = array();
+    $destinationID = array();
+    $sql1 = "SELECT * FROM destination
+    JOIN trucktable ON trucktable.truckID = destination.truckID
+    join driver ON driver.truckID = trucktable.truckID;";
+    $result1=mysqli_query($dbc,$sql1);
+    while($row1=mysqli_fetch_array($result1,MYSQLI_ASSOC))
+    { // W I P
+        $truckID[] = $row1['truckplate'];
+        $destinationID[] = $row1['DestinationName'];
+        $driverFirstNameFromHTML[]  = $row1['driverFirstName'];
+        $driverLastNameFromHTML[]  = $row1['driverLastName'];
+    }
+    
+    echo "var itemNameFromPHP = ".json_encode($itemName).";"; 
+    echo "var cusNameFromPHP = ".json_encode($customerName).";"; 
+    echo "var orderNumFromPHP = ".json_encode($orderNumber).";";
+    echo "var quantityNumFromPHP = ".json_encode($quantity).";";
+    echo "var PriceNumFromPHP = ".json_encode($pricePerItem).";";
+    echo "var totalNumFromPHP = ".json_encode($totalPrice).";";
 
-                                    echo "var driverFirstNameFromPHP = ".json_encode($driverFirstNameFromHTML).";";
-                                    echo "var driverLastNameFromPHP = ".json_encode($driverLastNameFromHTML).";";
+    echo "var fabricationStatusFromPHP = ".json_encode($fabricationStatus).";";
+    echo "var paymentStatusFromPHP = ".json_encode($paymentStatus).";";
 
-                                    echo 'var table = document.getElementById("datatable");'; 
-                                    echo 'table.oldHTML=table.innerHTML;';
-                                
-                                    echo  " dropdown.onchange = function(){";
-                                        echo 'table.innerHTML=table.oldHTML;'; //returns to the first state of the Table;
-                                        
-                                    echo  " for (var i = 0; i < ".sizeof($orderNumber)."; i++) {  ";                                                                               
-                                        echo  "  if(dropdown.value == orderNumFromPHP[i])";
-                                            echo  "  {";                                 
-                                             echo  " textBox.value = cusNameFromPHP[i];";               
-                                             echo  " totalPriceBox.value = totalNumFromPHP[i];";
-                                             echo  " ExpectedDateBox.value = expectedDateFromPHP[i];";
-                                             echo  " locationBox.value = locationFromPHP[i];"; 
-                                           
-                                             echo  " for (var j = 0; j < ".sizeof($truckID)."; j++) {  "; 
-                                                echo  "  if(locationFromPHP[i] == DestinationFromPHP[j])"; //checks if location is same as TruckDestinatrion
-                                                echo  "  {";
-                                                    echo  " truckPlateBox.value = truckPlateFromPHP[j];";
-                                                    echo  " driverBox.value = driverFirstNameFromPHP[j] + ' ' +driverLastNameFromPHP[j];";
-                                                echo  "  }"; 
-                                            echo  "  }"; // end 2nd forloop
-                                           
-                                            echo  "var newRow = document.getElementById('datatable').insertRow();";
-                                            echo  'newRow.innerHTML = "<tr><td>" +itemNameFromPHP[i]+ "</td> <td>" +quantityNumFromPHP[i]+ "</td> <td>"+PriceNumFromPHP[i]+"</td></tr>";';
-                                                                         
-                                            echo  "  }"; //End IF
-                                          
+    echo "var expectedDateFromPHP = ".json_encode($ExpectedDateFromHTML).";";
+    echo "var locationFromPHP = ".json_encode($locationFromHTML).";";
+
+    echo "var truckPlateFromPHP = ".json_encode($truckID).";";
+    echo "var DestinationFromPHP = ".json_encode($destinationID).";";
+
+    echo "var driverFirstNameFromPHP = ".json_encode($driverFirstNameFromHTML).";";
+    echo "var driverLastNameFromPHP = ".json_encode($driverLastNameFromHTML).";";
+
+    echo 'var table = document.getElementById("datatable");'; 
+    echo 'table.oldHTML=table.innerHTML;';
+
+    
+
+    echo  " dropdown.onchange = function(){";
+        echo 'table.innerHTML=table.oldHTML;'; //returns to the first state of the Table;
+        
+    echo  " for (var i = 0; i < ".sizeof($orderNumber)."; i++) {  ";                                                                               
+        echo  "  if(dropdown.value == orderNumFromPHP[i])";
+            echo  "  {";                                 
+                echo  " textBox.value = cusNameFromPHP[i];";               
+                echo  " totalPriceBox.value = '₱ '+ totalNumFromPHP[i];";
+                echo  " ExpectedDateBox.value = expectedDateFromPHP[i];";
+                echo  " locationBox.value = locationFromPHP[i];"; 
+            
+                echo  " for (var j = 0; j < ".sizeof($truckID)."; j++) {  "; 
+                echo  "  if(locationFromPHP[i] == DestinationFromPHP[j])"; //checks if location is same as TruckDestinatrion
+                echo  "  {";
+                    echo  " truckPlateBox.value = truckPlateFromPHP[j];";
+                    echo  " driverBox.value = driverFirstNameFromPHP[j] + ' ' +driverLastNameFromPHP[j];";
+                echo  "  }"; 
+            echo  "  }"; // end 2nd forloop
+            
+            echo  "var newRow = document.getElementById('datatable').insertRow();";
+            echo  'newRow.innerHTML = "<tr><td>" +itemNameFromPHP[i]+ "</td> <td>" +quantityNumFromPHP[i]+ "</td> <td align = right> ₱ "+PriceNumFromPHP[i]+"</td></tr>";';
                                             
-                                        echo  "  };"; //END 1st Forloop
-                                        
-                                    echo  " };";  //End function                                                        
-                                ?> //PHP END                        
+            echo  "  }"; //End IF
+            
+            
+        echo  "  };"; //END 1st Forloop
+        
+    echo  " };";  //End function                                                        
+?> //PHP END                        
 </script> <!-- Script to add Order Details from DB with PHP inside --> 
            
-           <script>
-             function confirmSubmit()
-             {
-                confirm("Do you want to create a delivery receipt for this order?");
-             }
-            </script>
+<script>
+    function confirmSubmit()
+    {
+     confirm("Do you want to create a delivery receipt for this order?");
+    }
+</script>
 
 
 

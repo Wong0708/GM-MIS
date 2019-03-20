@@ -188,7 +188,7 @@
                             $filetype = $_FILES['file_reference']['type'];
                             $filesize = $_FILES['file_reference']['size'];
 
-                            $allowed = array("JPG" => "image/JPG", "jpg" => "image/jpg", "jpeg" => "image/jpeg", "png" => "image/png"); //Checks the File type extension 
+                            $allowed = array("JPG" => "image/JPG", "jpg" => "image/jpg", "jpeg" => "image/jpeg", "JPEG" => "image/JPEG", "png" => "image/png", "PNG" => "image/PNG",); //Checks the File type extension 
                             
                             $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
@@ -200,7 +200,7 @@
                             $maxsize = 10 * 1024 * 1024;
                             if($filesize > $maxsize)
                             {
-                              die("Error: File size is larger than the allowed limit.");
+                              die("Error: File size is larger than the allowed limit."); //10 MB max 
                             } 
 
                           }//END IF ISSET FILE REFERENCE
@@ -567,7 +567,7 @@
       var $this = $(this);
       $this.val(parseFloat($this.val()).toFixed(2));
         
-    });
+    }); //Sets the Decimal
 
     var fab_cost = document.getElementById("fab_cost");
     var fab_total = document.getElementById("total_amount");

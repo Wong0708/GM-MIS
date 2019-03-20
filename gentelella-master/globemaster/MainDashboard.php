@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -42,8 +41,8 @@
 
             <!-- sidebar menu -->
             <?php
-        require_once("nav.php");    
-        ?>
+            require_once("nav.php");    
+            ?>
                 
 
             
@@ -69,7 +68,7 @@
               <span class="count_top"><i class="fa fa-thumbs-o-down"></i> Returned Items</span>
               <div class="count">2</div>
               <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>2 </i> Added From Last Week</span>
-            </div>
+            </div><br>
             <!-- <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count"> 
               <span class="count_top"><i class="fa fa-user"></i> Total Males</span>
               <div class="count green">2,500</div>
@@ -89,79 +88,349 @@
               <span class="count_top"><i class="fa fa-user"></i> Total Connections</span>
               <div class="count">7,325</div>
               <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
-            </div>
-          </div> -->
+            </div> -->
+          </div> 
           <!-- /top tiles -->
-
-
-              <!-- <div class="dashboard_graph">
-
-                <div class="row x_title">
-                  <div class="col-md-6">
-                    <h3>Network Activities <small>Graph title sub-title</small></h3>
-                  </div>
-                  <div class="col-md-6">
-                    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
-                      <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                      <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-md-9 col-sm-9 col-xs-12">
-                  <div id="chart_plot_01" class="demo-placeholder"></div>
-                </div>
-                <div class="col-md-3 col-sm-3 col-xs-12 bg-white">
-                  <div class="x_title">
-                    <h2>Top Campaign Performance</h2>
-                    <div class="clearfix"></div>
-                  </div>
-
-                  <div class="col-md-12 col-sm-12 col-xs-6">
-                    <div>
-                      <p>Facebook Campaign</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="80"></div>
+            
+             <div class="row">
+                 <?php
+            
+                    if($user == 'SALES' || $user == 'CEO' || $user == 'MKT')
+                    {
+                        //INVENTORY BELOW THRESHOLD
+                        
+                        echo '<div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="x_panel">
+                                    <h2><center><i class="fa fa-level-down"></i><b>  ITEMS BELOW THRESHOLD</b></h2>  
+                                    <div class="clearfix"></div>
+                                  <div class="x_content">
+                                    <table class="table table-bordered">
+                                      <thead>
+                                        <tr>
+                                          <th>SKU</th>
+                                          <th>Item Name</th>
+                                          <th>Amount In Stock</th>
+                                          <th>Threshold Status</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>';
+                        
+                            require_once('DataFetchers/mysql_connect.php');
+                            $query = "SELECT item_id, sku_id, item_name, item_count, (threshold_amt-item_count) AS 'diff' from items_trading WHERE item_count < threshold_amt";
+                            $result=mysqli_query($dbc,$query);
+                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                            {
+                                
+                                    echo '<tr>';
+                                    echo '<td>';
+                                    echo $row['sku_id'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $row['item_name'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $row['item_count'];
+                                    echo '</td>';
+                                    if($row['diff'] >= 50)
+                                    {
+                                        echo '<td><center><a href ="EditInventory.php?sku_id='.$row['sku_id'].' & item_id='.$row['item_id'].'"><button class="btn btn-danger" ><i onclick = "teit()"class="">Restock now</button></a></center></td>';
+                                    }
+                                    else
+                                    {
+                                        echo '<td><center><a href ="EditInventory.php?sku_id='.$row['sku_id'].' & item_id='.$row['item_id'].'"><button class="btn btn-warning"><i onclick = "teit()"class="">Restock now</button></a></center></td>';
+                                    }
+                                    echo '</td>';
+                                    echo '</tr>';
+                                    
+                            } 
+                     echo '</tbody>';
+                    echo '</table>';
+                        
+                             echo '</div>
                         </div>
-                      </div>
-                    </div>
-                    <div>
-                      <p>Twitter Campaign</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="60"></div>
+                      </div>';
+                    }
+                 
+                    if($user == 'CEO' || $user == 'CFO' || $user == 'MKT')
+                    {
+                         
+                         //LOSSES FOR A MONTH
+                 
+                        echo '<div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="x_panel">
+                                      <h2><center><i class="fa fa-sort-amount-desc"></i><b> Losses</b></h2>
+                                    <div class="clearfix"></div>
+                                  <div class="x_content">
+                                    <table class="table table-bordered">
+                                      <thead>
+                                        <tr>
+                                          <th>Item</th>
+                                          <th>Damage Percent</th>
+                                          <th>Quantity</th>
+                                          <th>Total Loss</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>';
+                        
+                            require_once('DataFetchers/mysql_connect.php');
+                            $query = "SELECT item_name, damage_percentage * 10, item_quantity, total_loss, last_update FROM damage_item WHERE DATEDIFF(NOW(), last_update) / 31 < 1";
+                            $result=mysqli_query($dbc,$query);
+                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                            {
+                                    
+                                
+                                    echo '<tr>';
+                                    echo '<td>';
+                                    echo $row['item_name'];
+                                    echo '</td>';
+                                    echo '<td><b>';
+                                    echo $row['damage_percentage * 10'];
+                                    echo '%';
+                                    echo '</b></td>';
+                                    echo '<td>';
+                                    echo $row['item_quantity'];
+                                    echo '</td>';
+                                    echo '<td><b>';
+                                    echo  'Php'." ".number_format($row['total_loss'], 2);
+                                    echo '</b></td>';
+                                    echo '</tr>';
+                                    
+                            } 
+                     echo '</tbody>';
+                    echo '</table>';
+                        
+                             echo '</div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-12 col-sm-12 col-xs-6">
-                    <div>
-                      <p>Conventional Media</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="40"></div>
+                      </div>';
+                     
+                    echo '<div class="clearfix"></div>';  
+                    }
+                 
+                 
+                    if($user == 'CFO' || $user == 'SALES' || $user == 'MKT')
+                    {
+                        //UNPAID ORDERS
+                 
+                        echo '<div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="x_panel">
+                                      <h2><center><i class="fa fa-minus-circle"></i><b>  UNPAID ORDERS</b></h2>
+                                    <div class="clearfix"></div>
+                                  <div class="x_content">
+                                    <table class="table table-bordered">
+                                      <thead>
+                                        <tr>
+                                          <th>Order Number</th>
+                                          <th>Client Name</th>
+                                          <th>Total Balance</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>';
+                        
+                            require_once('DataFetchers/mysql_connect.php');
+                            $query = "SELECT ordernumber, client_id, totalamt FROM orders WHERE payment_status = 'UNPAID'";
+                            $result=mysqli_query($dbc,$query);
+                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                            {
+                                    $queryClientName = "SELECT client_name FROM clients WHERE client_id =" . $row['client_id'] . ";";
+                                    $resultClientName = mysqli_query($dbc,$queryClientName);
+                                    $rowClientName=mysqli_fetch_array($resultClientName,MYSQLI_ASSOC);
+                                    $clientName = $rowClientName['client_name'];
+                                    
+                                
+                                    echo '<tr>';
+                                    echo '<td>';
+                                    echo $row['ordernumber'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $clientName;
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo  'Php'." ".number_format($row['totalamt'], 2);
+                                    echo '</td>';
+                                    echo '</tr>';
+                                    
+                            } 
+                     echo '</tbody>';
+                    echo '</table>';
+                        
+                             echo '</div>
                         </div>
-                      </div>
-                    </div>
-                    <div>
-                      <p>Bill boards</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
+                      </div>';
+                       
+                    }
+                 
+                    if($user == 'SALES' || $user == 'MKT')
+                    {
+                        if($user != 'MKT')
+                        {
+                             echo '<div class="clearfix"></div>';    
+                        }
+                        
+                         //ORDERS NEARING DELIVERY
+                 
+                        echo '<div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="x_panel">
+                                      <h2><center><i class="fa fa-car"></i><b>  ORDERS NEARING DELIVERY</b></h2>
+                                    <div class="clearfix"></div>
+                                  <div class="x_content">
+                                    <table class="table table-bordered">
+                                      <thead>
+                                        <tr>
+                                          <th>Order Number</th>
+                                          <th>Client Name</th>
+                                          <th>Delivery Date</th>
+                                          <th>Remaining Date</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>';
+                        
+                            require_once('DataFetchers/mysql_connect.php');
+                            $query = "SELECT ordernumber, client_id, delivery_date, DATEDIFF(delivery_date, NOW()) AS 'remain_date' FROM orders WHERE DATEDIFF(NOW(), delivery_date) < 7";
+                            $result=mysqli_query($dbc,$query);
+                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                            {
+                                    $queryClientName = "SELECT client_name FROM clients WHERE client_id =" . $row['client_id'] . ";";
+                                    $resultClientName = mysqli_query($dbc,$queryClientName);
+                                    $rowClientName=mysqli_fetch_array($resultClientName,MYSQLI_ASSOC);
+                                    $clientName = $rowClientName['client_name'];
+                                    
+                                
+                                    echo '<tr>';
+                                    echo '<td>';
+                                    echo $row['ordernumber'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $clientName;
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $row['delivery_date'];
+                                    echo '</td>';
+                                    echo '<td><b>';
+                                    echo $row['remain_date'];
+                                    echo ' days left!';
+                                    echo '</b></td>';
+                                    echo '</tr>';
+                                    
+                            } 
+                     echo '</tbody>';
+                    echo '</table>';
+                        
+                             echo '</div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
+                      </div>';
+                    }
+                 
+                 if($user == 'INV' || $user == 'SALES')
+                 {
+                    
+                        //FABRICATION APPROVALS
+                 
+                        echo '<div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="x_panel">
+                                      <h2><center><i class="fa fa-check-circle"></i><b>  FABRICATIONS FOR APPROVAL</b></h2>
+                                    <div class="clearfix"></div>
+                                  <div class="x_content">
+                                    <table class="table table-bordered">
+                                      <thead>
+                                        <tr>
+                                          <th>Order Number</th>
+                                          <th>Order Date</th>
+                                          <th>Action</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>';
+                        
+                            require_once('DataFetchers/mysql_connect.php');
+                            $query = "SELECT j.order_number, o.order_date FROM joborderfabrication j JOIN orders o ON j.order_number = o.ordernumber WHERE o.fab_status = 'For Approval'";
+                            $result=mysqli_query($dbc,$query);
+                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                            {
+                                    echo '<tr>';
+                                    echo '<td>';
+                                    echo $row['order_number'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $row['order_date'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo '</td>';
+                                    echo '</tr>';
+                                    
+                            } 
+                     echo '</tbody>';
+                    echo '</table>';
+                        
+                             echo '</div>
+                        </div>
+                      </div>';
+                    
+                        
+                     
+                    }
+                 
+                 if($user == 'INV' || $user == 'CEO')
+                 {
+                    
+                        //RECOMMEND INVENTORY DISCOUNT
+                 
+                        echo '<div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="x_panel">
+                                      <h2><center><i class="fa fa-toggle-down"></i><b>  RECOMMENDED ITEMS FOR DISCOUNT</b></h2>
+                                    <div class="clearfix"></div>
+                                  <div class="x_content">
+                                    <table class="table table-bordered">
+                                      <thead>
+                                        <tr>
+                                          <th>SKU</th>
+                                          <th>Item Name</th>
+                                          <th>Last Update</th>
+                                          <th>Action</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>';
+                        
+                            require_once('DataFetchers/mysql_connect.php');
+                            $query = "SELECT * from items_trading WHERE DATEDIFF(NOW(), last_update) / 31 > 6";
+                            $result=mysqli_query($dbc,$query);
+                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
+                            {
+                                    echo '<tr>';
+                                    echo '<td>';
+                                    echo $row['sku_id'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $row['item_name'];
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo $row['last_update'];
+                                    echo '</td>';
+                                    echo '<td><center><a href ="EditInventory.php?sku_id='.$row['sku_id'].' & item_id='.$row['item_id'].'"><button class="btn btn-info"><i onclick = "teit()"class="">Place Discount</button></a></center></td>';
+                                    echo '</tr>';
+                                    
+                            } 
+                     echo '</tbody>';
+                    echo '</table>';
+                        
+                             echo '</div>
+                        </div>
+                      </div>';
+                    
+                        
+                     
+                    }
+            ?>
 
-                </div>
+              
 
-                <div class="clearfix"></div>
-              </div> -->
+              <div class="clearfix"></div>
+
+
             </div>
-
+        
+           </div>
           </div>
-          <br />
+    
+          <br>
           <div class="row">
             
    
@@ -222,6 +491,23 @@
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+
+    <!-- Custom Fonts -->
+    <style>
+        
+        @font-face {
+        font-family: "Couture Bold";
+        src: url("css/fonts/couture-bld.otf");
+        }
+        
+        h2 {
+            font-family: 'COUTURE Bold', Arial, sans-serif;
+            font-weight:normal;
+            font-style:normal;
+            font-size: 25px;
+            color: #1D2B51;
+            }
+    </style>    
 	
   </body>
 </html>

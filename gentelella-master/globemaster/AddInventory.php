@@ -185,6 +185,7 @@
         <!-- /footer content -->
       </div>
     </div>
+   
 
     <script>
       var add_btn = document.getElementById("add_button");    
@@ -303,6 +304,16 @@
       
      
      }
+    </script>
+
+     <script>
+      $("#item_price").change(function()
+      {
+      
+        var $this = $(this);
+        $this.val(parseFloat($this.val()).toFixed(2));
+          
+      }); //Sets the Decimal
     </script>
     
     

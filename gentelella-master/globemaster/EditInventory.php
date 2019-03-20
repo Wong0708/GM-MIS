@@ -210,28 +210,37 @@
                                             <div class="form-group">
                                                 <div class="col-md-12 col-sm-12 col-xs-12" align = "center">
                                                 <!--  -->
-                                                    <button type="submit
-                                                    " class="btn btn-success"  id = "updatestock" name ="restockBtn" onclick = "insert_and_update_restock()" >Update</button>
+                                                    <button type="button" class="btn btn-success"  id = "updatestock" name ="restockBtn" onclick = "insert_and_update_restock()" >Update</button>
 
 
                                                    <script>
                                                    function insert_and_update_restock()
-                                                   {                                                   
-                                                        var GET_RESTOCK_QTY = document.getElementById("restockamt").value;
+                                                   {       
+                                                        var GET_RESTOCK_QTY = document.getElementById("restockamt").value;  
+                                                        if(confirm("Are you sure to Restock Item? "))
+                                                        {
+                                                            request = $.ajax({
+                                                            url: "ajax/insert_and_update_restock.php",
+                                                            type: "POST",
+                                                            data: {
+                                                                post_item_id: <?php echo  $_SESSION['item_IDfromView'];?>,
+                                                                post_restock_quantity: GET_RESTOCK_QTY
+                                                            },
+                                                                success: function(data, textStatus)
+                                                                {
+                                                                    alert(data);
+                                                                    window.location.href = "EditInventory.php";  
+                                                                }//End Scucess                                                        
+                                                            }); // End ajax   
 
-                                                        request = $.ajax({
-                                                        url: "ajax/insert_and_update_restock.php",
-                                                        type: "POST",
-                                                        data: {
-                                                            post_item_id: <?php echo  $_SESSION['item_IDfromView'];?>,
-                                                            post_restock_quantity: GET_RESTOCK_QTY
-                                                        },
-                                                            success: function(data, textStatus)
-                                                            {
-                                                                alert(data);
-                                                                window.location.href = "EditInventory.php";  
-                                                            }//End Scucess                                                        
-                                                        }); // End ajax    
+                                                       }    //END IF
+                                                       else
+                                                       {
+                                                           alert("Action: Cancelled");
+                                                       }                                      
+                                                        
+
+                                                         
                                                    } // End Function
 
                                                    </script>
@@ -357,7 +366,7 @@
                                         
                                         <div class="x_panel">
 
-                                             <center><h3>Recently Added Damages for Item:
+                                             <center><h3>Damage Item List For:
                                              <?php
                                                     if(isset($_GET['id']))
                                                     {
@@ -793,8 +802,7 @@
     function updatediscountalert() //Update Discount
     {
         insertDiscount();
-        
-
+    
     }
 </script>
 
