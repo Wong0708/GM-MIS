@@ -49,19 +49,23 @@
     <link href="../build/css/custom.min.css" rel="stylesheet">
 
     <!-- Onhange Script -->
-    <!-- QR Code Change Referenced from: http://www.snappymaria.com/misc/RealtimeQRCreator.html -- for future reference -->
+    <!-- QR Code Change Referenced from: http://www.snappymaria.com/misc/RealtimeQRCreator.html -- for future reference. This is OFFICIALLY DEPRECATED as of MARCH 18, 2019 -->
+
+    <!-- NEW QR Code generation script referenced from http://goqr.me/api/doc/create-qr-code/ -- for future reference. -->
     <script type = "text/javascript">
       "use strict";
       var prevURL = "", qrSize = 170;
       function OnQRDataChange()
       {
         var qrData = document.getElementById("combine").value;
-        var qrURL = "http://chart.apis.google.com/chart?cht=qr&chs=" + qrSize + "x" + qrSize + "&chl=" + encodeURIComponent(qrData);
+        alert(qrData);
+        var qrURL = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent(qrData) + "&size=" + qrSize + "x" + qrSize + "&bgcolor=e6ff0c";
         // alert(qrURL);
         if(prevURL !== qrURL)
         {
           alert("QR changed! Scan to confirm!");
           prevURL = qrURL;
+          alert(qrURL);
           var qrID = document.getElementById("qrID");
           qrID.src = qrURL;
           qrID.alt = qrURL;
@@ -102,7 +106,7 @@
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
-                          <th>SKU</th>
+                          <th>Item ID</th>
                           <th>Item Name</th>
                           <th>Item Type</th>
                           <th>Supplier</th>
@@ -112,16 +116,17 @@
                       </thead>
                       <tbody>
                         <?php 
-                          require_once('C:\xampp\htdocs\GM-MIS\gentelella-master\globemaster\DataFetchers\mysql_connect.php');
-                          $querytogetDBTable = "SELECT item_id, item_name, itemtype, supplier_name, warehouse, price FROM gmtradingdb.items_trading g 
-                          JOIN gmtradingdb.ref_itemtype f ON g.itemtype_id
-                          JOIN gmtradingdb.suppliers s ON g.supplier_id
-                          JOIN gmtradingdb.warehouses w ON g.warehouse_id
+                          require_once('DataFetchers\mysql_connect.php');
+                          $querytogetDBTable = "SELECT item_id, item_name, itemtype, supplier_name, warehouse, price, sku_id FROM items_trading g 
+                          JOIN ref_itemtype f ON g.itemtype_id
+                          JOIN suppliers s ON g.supplier_id
+                          JOIN warehouses w ON g.warehouse_id
                           WHERE g.itemtype_id = f.itemtype_id
                           AND g.supplier_id = s.supplier_id
                           AND g.warehouse_id = w.warehouse_id
                           ORDER BY g.item_id ASC";
                           $resultofQuery =  mysqli_query($dbc, $querytogetDBTable);
+
                           $itemid = array();
                           $itemname = array();
                           $itemtype = array();
@@ -133,14 +138,15 @@
                           while($rowofResult=mysqli_fetch_array($resultofQuery,MYSQLI_ASSOC))
                           {
                             $itemid[] = $rowofResult['item_id'];
+                            $SKU[] = $rowofResult['sku_id'];
                             $itemname[] = $rowofResult['item_name'];
                             $itemtype[] = $rowofResult['itemtype'];
                             $supplier[] = $rowofResult['supplier_name'];
                             $warehouse[] = $rowofResult['warehouse'];
                             $price[] = $rowofResult['price'];
                             echo " <tr>";
-                              echo '<td id = "SKU" onclick = "SKUclick(this), OnQRDataChange()"  onMouseOver="this.style.cursor="hand"">';
-                              echo $rowofResult['item_id'];
+                              echo '<td id = "SKU" onclick = "SKUclick(this), OnQRDataChange()">';
+                              echo $rowofResult['sku_id'];
                               echo '</input></a></td>';  
                               echo '<td>';
                               echo $rowofResult['item_name'];
@@ -154,8 +160,8 @@
                               echo '<td>';
                               echo $rowofResult['warehouse'];
                               echo '</td>';  
-                              echo '<td>';
-                              echo $rowofResult['price'];
+                              echo '<td align = "right">';
+                              echo '₱'." ".number_format($rowofResult['price'], 2);
                               echo '</td>';   
                             echo "</tr>";
                           };
@@ -166,9 +172,9 @@
                 </div>
               </div>
               <br><br><br><br><br><br><br><br><br><br>
-                <div class="col-md-2 col-sm-2 col-xs-12" id = "printQR">
+                <div class="col-md-2 col-sm-2 col-xs-12" id = "printQR" align = "center">
 
-                 <input type='text' style='' id='itemid' value = ''/>
+                <input type='text' style='display:none' id='itemsku' value = ''/>
                  <input type='text' style='display:none' id='itemname' value = ''/>
                  <input type='text' style='display:none' id='itemtype' value = ''/>
                  <input type='text' style='display:none' id='supplier' value = ''/>
@@ -177,14 +183,20 @@
                  <input type='text' style='display:none' id='combine' value = '' onchange = "OnQRDataChange()" onkeyup = "OnQRDataChange()"/>
                  
                  <!-- <div id = 'result'></div> -->
-
-                 <img id = "qrID" src="http://chart.apis.google.com/chart?chs=170x170&cht=qr&chl=Globe Master Trading" alt="http://chart.apis.google.com/chart?chs=170x170&cht=qr&chl=Globe Master Trading"/>
-                
+                <div align = "center">
+                 <img id = "qrID" src="https://api.qrserver.com/v1/create-qr-code/?data=Globe Master Trading&size=170x170&bgcolor=e6ff0c" alt="https://api.qrserver.com/v1/create-qr-code/?data=Globe Master Trading&size=170x170&bgcolor=e6ff0c"/>
+                <br>
+                 <label id='itemid' value = ''>Globe Master Trading Official QR Code</label>
+                </div>
                  
                 </div>
                 <center><button type="button" class="btn btn-primary" onclick="printDiv('printQR')"><i class="fa fa-print"></i> Print Me!</button></center>
               </div>
             </div>
+            
+            <p class="text-muted font-13 m-b-30">
+                      This QR Code generation tool is referenced from http://goqr.me/api/doc/create-qr-code/. a QR Code API.
+                    </p>
           </div>
         </div>
       </div>
@@ -265,7 +277,9 @@
         var supplier = <?php echo json_encode($supplier); ?>;
         var warehouse = <?php echo json_encode($warehouse); ?>;
         var price  = <?php echo json_encode($price); ?>;
+        var sku = <?php echo json_encode($SKU); ?>;
         var itemidVal = document.getElementById("itemid");
+        var skuVal = document.getElementById("itemsku");
         var itemnameVal = document.getElementById("itemname");
         var itemtypeVal = document.getElementById("itemtype");
         var supplierVal = document.getElementById("supplier");
@@ -274,20 +288,20 @@
         var combineVal = document.getElementById("combine");
         // alert(obj.textContent);
         var varvar = obj.textContent;
-        for(i=0; i <= itemid.length; i++)
+        for(i=0; i <= sku.length; i++)
         {
-          if(varvar == itemid[i])
+          if(varvar == sku[i])
           {
             
-            itemidVal.value = itemid[i];
+            itemidVal.innerHTML = "SKU: " + sku[i];
             itemnameVal.value = itemname[i];
             itemtypeVal.value = itemtype[i];
             supplierVal.value = supplier[i];
             warehouseVal.value = warehouse[i];
             priceVal.value = price[i];
-            combineVal.value = "SKU: " + itemid[i] + " | " + "Item Name: " + itemname[i] + " | " + "Item Type: " + itemtype[i] + " | " + "Supplier: " + supplier[i] + " | " + "Warehouse Location: " + warehouse[i] + " | " + "Item Price: " + price[i];
+            combineVal.value = "SKU: " + sku[i] + " | " + "Item Name: " + itemname[i] + " | " + "Item Type: " + itemtype[i] + " | " + "Supplier: " + supplier[i] + " | " + "Warehouse Location: " + warehouse[i] + " | " + "Item Price: " + price[i];
             // alert(combineVal);
-            var var_data = [itemid[i], itemname[i], itemtype[i], supplier[i], warehouse[i], price[i]];
+            var var_data = [sku[i], itemname[i], itemtype[i], supplier[i], warehouse[i], price[i]];
             // alert(var_data);
             $.ajax({
               url: 'qrcodegeneration.php',
@@ -304,8 +318,9 @@
         }
       }
     </script>
-	
-  <script>
+	<style>
+  td { cursor: pointer; }
+  </style>
   </body>
 </html>
 <?php } ?>
