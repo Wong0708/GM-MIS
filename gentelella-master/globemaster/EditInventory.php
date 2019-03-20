@@ -154,12 +154,7 @@
                                                     <input type="text" id = "supplier_name" class="form-control" readonly="readonly">
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Price</label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="text" id = "item_price" class="form-control" readonly="readonly">
-                                                </div>
-                                            </div>
+                                            
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Warehouse Location</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -176,6 +171,13 @@
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Last Update</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                                     <input type="text" id = "last_update" class="form-control" readonly="readonly">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <br><br>
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Price</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="text" id = "item_price" class="form-control" readonly="readonly" style="text-align:right">
                                                 </div>
                                             </div>
                                             
@@ -334,16 +336,16 @@
                                        </div>
 
                                        <div class="form-group">
-                                           <label class="control-label col-md-3 col-sm-3 col-xs-12">Price Each</label>
+                                           <label class="control-label col-md-3 col-sm-3 col-xs-12">Price Each (Of Unusable)</label>
                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                               <input   name = "damagePrice" type="number" id = "priceeach" class="form-control" readonly="readonly" >
+                                               <input   name = "damagePrice" type="number" id = "priceeach" class="form-control" readonly="readonly" style="text-align:right">
                                            </div>
                                        </div>  
 
                                        <div class="form-group">
                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Loss</label>
                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                               <input   name ="totalLoss" type="number" id = "totalloss" class="form-control" readonly="readonly">
+                                               <input   name ="totalLoss" type="number" id = "totalloss" class="form-control" readonly="readonly" style="text-align:right">
                                            </div>
                                        </div>
 
@@ -363,7 +365,7 @@
                                         
                                         <div class="x_panel">
 
-                                             <center><h3>Damage Item List For:
+                                             <center><h3>List of Damaged Items for:
                                              <?php
                                                     if(isset($_GET['id']))
                                                     {
@@ -390,7 +392,7 @@
                                                         <table id ="damageTable" class="table">
                                                             <thead>
                                                                 <tr>    
-                                                                <th>New Item Name</th>
+                                                                <th>Damaged Item Name</th>
                                                                 <th>Quantity</th>
                                                                 
                                                                 </tr>
