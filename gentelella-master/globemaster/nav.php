@@ -80,7 +80,6 @@ if(!(isset($_SESSION['usertype']))){
                       echo "<ul class='nav child_menu'>";
                       if($user == 'CFO'){
                       echo    "<li><a href='InputPage.php'>Input EOQ Details</a></li>";
-                      echo    "<li><a href='EOQ Input.php'>Input EOQ Details</a></li>";
                       
                       }
                       if($user == 'CEO' or $user == 'CFO' or $user == 'MKT'){
@@ -176,13 +175,12 @@ if(!(isset($_SESSION['usertype']))){
                   echo   "<ul class='nav child_menu'>";
                   echo     "<li><a> Sales <span class='fa fa-chevron-down'></span></a>";
                   echo       "<ul class='nav child_menu'>";
-                  echo         "<li><a href='index.html'>Sales Variance Analysis</a></li>";
+                  echo         "<li data-toggle='modal' data-target='#SalesVarianceAnalysis'><a>Sales Variance Analysis</a></li>";
                   echo         "<li data-toggle='modal' data-target='.bs-example-modal-sm'><a>Sales Forecasting</a></li>";
                   echo       "</ul>";
                   echo    "</li>";
-                  echo    "<li><a> Inventory <span class='fa fa-chevron-dow'></span></a>";
+                  echo    "<li><a> Inventory <span class='fa fa-chevron-down'></span></a>";
                   echo        "<ul class='nav child_menu'>";
-                  echo            "<li><a>Inventory Forecasting</a></li>";
                   echo            "<li><a href='InventoryForecasting.php'>Inventory Forecasting</a></li>";
                   echo         "</ul>";
                   echo    "</li>";
@@ -426,8 +424,32 @@ if(!(isset($_SESSION['usertype']))){
                 </div>
               </div>
             </div>
+
+
             <!-- /modals -->
             
+            <!-- SALES VARIANCE ANALYSIS MODALS -->
+            <div id="SalesVarianceAnalysis" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Sales Variance Analysis</h3>
+                  </div>
+                  <div class="modal-body">
+                    <h4>Choose your store:</h4>
+                    
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Next</button>  
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
 
         <!-- Custom Fonts -->
     <style>
@@ -448,7 +470,19 @@ if(!(isset($_SESSION['usertype']))){
             font-style:normal;
             color: #1D2B51;
             }
-
+        
+        h3 {
+            font-family: 'COUTURE Bold', Arial, sans-serif;
+            font-weight:normal;
+            font-style:normal;
+            color: #1D2B51;
+            }
+        button {
+            font-family: 'COUTURE Bold', Arial, sans-serif;
+            font-weight:normal;
+            font-style:normal;
+            color: #1D2B51;
+            }
     </style>  
 
 
@@ -490,3 +524,5 @@ if(!(isset($_SESSION['usertype']))){
               invforecastlabel.innerHTML = "Custom Date Pick";
             }
           </script>  
+
+          
