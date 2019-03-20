@@ -111,10 +111,11 @@
                                                             <th>Item Name</th>
                                                             <th>Item Type</th>
                                                             <th>Supplier</th>
+                                                            <th>Stock </th>
                                                             <th>Price</th>
                                                             
                                                             <th class="col-md-1 col-sm-1 col-xs-1">Quantity</th>
-                                                            <th>Add to Cart</th>
+                                                            <th>Add</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -153,6 +154,11 @@
                                                                     echo '<td>';
                                                                     echo $supplierName;
                                                                     echo '</td>';
+
+                                                                    echo '<td>';
+                                                                    echo $row['item_count'];
+                                                                    echo '</td>';
+
                                                                     echo '<td>';
                                                                     echo  '₱'." ".number_format($row['price'], 2);
                                                                     echo '</td>';
@@ -161,8 +167,8 @@
                                                                     echo '<input type="number" oninput="validate(this)" id="quantity',$row['item_id'],'" name="quantity',$row['item_id'],'"  min="1" max ="',$row['item_count'],'" value="" placeholder ="0"></input>';
                                                                     echo '</td>';
 
-                                                                    echo '<td>';
-                                                                    echo '<button type="button" class="btn btn-success" name ="add" value ="',$row['item_id'],'" > + </button>';
+                                                                    echo '<td align = center >';
+                                                                    echo '<button type="button" class="btn btn-round btn-success" name ="add" value ="',$row['item_id'],'" > + </button>';
                                                                     echo '</td>';
 
                                                                 echo '</tr>';                                                                                  

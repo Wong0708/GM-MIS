@@ -563,7 +563,7 @@
      function DoAjax()
      {
         request = $.ajax({
-        url: "ajax/insertToDB.php",
+        url: "ajax/insert_dmg_and_usable_to_db.php",
         type: "POST",
             data:{post_damage_qty: input_damage_qty.value, //Never forget to get the Value from the <INPUTS>
                 post_damage_percent: input_damage_percent.value,

@@ -81,9 +81,9 @@
                             {
 
                               echo " <tr>";
-                                echo '<td  id = "delivrow',$count,'"  value="',$rowofResult['delivery_Receipt'],'"  "> <a href="Delivery Receipt.php">';            
+                                echo '<td  id = "delivrow',$count,'"  value="',$rowofResult['delivery_Receipt'],'"  "> ';            
                                 echo $rowofResult['delivery_Receipt'];
-                                echo '</a></td>';  
+                                echo '</td>';  
                                 echo '<td>';
                                 echo $rowofResult['delivery_Date'];
                                 echo '</td>'; 
@@ -103,7 +103,7 @@
                                 echo $rowofResult['delivery_status'];
                                 echo '</td>';
                                 echo '<td align = "center">';
-                                echo '<a href ="Delivery Receipt.php?deliver_number='.$rowofResult['delivery_Receipt'].'"> <i class="fa fa-wrench"></i> </a>';
+                                echo '<a href ="Delivery Receipt.php?deliver_number='.$rowofResult['delivery_Receipt'].'&order_number='.$rowofResult['ordernumber'].' "> <i class="fa fa-wrench"></i> </a>';
                                 echo '</td>';
                               echo "</tr>";
                               $count++;

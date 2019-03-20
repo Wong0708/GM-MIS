@@ -332,7 +332,7 @@
                                             echo '<script language="javascript">';
                                             echo 'alert("Update Successfull");';
                                             echo '</script>';
-                                            // header("Location: Deliveries.php");
+                                            header("Location: Deliveries.php");
                                         }                                                                                   
                                     }// END IF ISSET        
                             ?>

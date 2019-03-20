@@ -195,19 +195,9 @@
                             $resultSupplierID = mysqli_query($dbc,$querySupplierID);                                
                             $rowSupplierID = mysqli_fetch_assoc($resultSupplierID); //Query For getting itemtypeID
 
-                            $queryItemID = "SELECT item_id FROM items_trading ORDER BY item_id DESC LIMIT 1 ";
-                            $resultItemID = mysqli_query($dbc,$queryItemID);
-                            $rowResultItemID = mysqli_fetch_assoc($resultItemID);
-
-                            // var_dump($resultWarehouseID);                               
-                            // print_r($queryWarehouseID);
-
-                            // echo $rowWarehouseID['warehouse_id'];
-                            // echo $rowItemtypeID['itemtype_id'];
-
                             $WareHouseID = $rowWarehouseID['warehouse_id'];
                             $ItemtypeID = $rowItemtypeID['itemtype_id'];
-                            $ItemID = $rowResultItemID['item_id']+1;
+                           
                             $SupplierID = $rowSupplierID['supplier_id'];
                             $DiscountStatus = "Regular Price";
 
@@ -220,9 +210,8 @@
                             echo  "3shold = ".$itemThreshold;
                             echo  "price = ".$itemPrice;
 
-                            $sql = "INSERT INTO items_trading (item_id, sku_id, item_name, itemtype_id, item_count, last_restock, last_update, threshold_amt, warehouse_id, supplier_id, price, onDiscount)
-                            Values(
-                            '$ItemID',
+                            $sql = "INSERT INTO items_trading (sku_id, item_name, itemtype_id, item_count, last_restock, last_update, threshold_amt, warehouse_id, supplier_id, price, onDiscount)
+                            Values(                           
                             '$sku_id',
                             '$itemName', 
                             '$ItemtypeID',

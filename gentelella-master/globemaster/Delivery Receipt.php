@@ -57,12 +57,13 @@
                                     <?php
                                         if(isset($_GET['deliver_number']))
                                         {
-                                            $_SESSION['get_dr_number'] = $_GET['deliver_number'];
-                                            echo $_SESSION['get_dr_number'];
+                                            $_SESSION['get_dr_number_from_deliveries'] = $_GET['deliver_number'];
+                                            $_SESSION['get_or_number_from_deliveries'] = $_GET['order_number'];
+                                            echo $_SESSION['get_dr_number_from_deliveries'];
                                         }
                                         else
                                         {
-                                            echo $_SESSION['get_dr_number'];
+                                            echo $_SESSION['get_dr_number_from_deliveries'];
                                         }
                                         
                                     ?>
@@ -166,7 +167,7 @@
                                     <div class="form-group">
                                         <div class="col-md-12 col-sm-12 col-xs-12" align = "right ">
                                             <button type="button" class="btn btn-default"><a href = Deliveries.php>Go Back</a></button>
-                                            <button type="button" class="btn btn-success" onclick = "finishDeliver()"><a href = Deliveries.php>Finish Delivery</a></button>
+                                            <button type="button" class="btn btn-success" onclick = "finishDeliver()">Finish Delivery</button>
                                         </div>
                                     </div>
 
@@ -252,7 +253,7 @@
 
 require_once('DataFetchers/mysql_connect.php');
 
-$DR_NUM_FROM_VIEW = $_SESSION['get_dr_number'];
+$DR_NUM_FROM_VIEW = $_SESSION['get_dr_number_from_deliveries'];
 
 $orderNumberArray = array();
 $itemName = array();
@@ -260,19 +261,9 @@ $quantity = array();
 $pricePerItem = array();
 $totalPrice = array();
 
-$queryToGetItemList = "SELECT * FROM orders
-JOIN order_details ON orders.ordernumber = order_details.ordernumber
-WHERE (order_status <> 'Deliver') AND (order_status <> 'PickUp') ";
-$resultofQuery1 = mysqli_query($dbc, $queryToGetItemList);
-while($rowofResult1=mysqli_fetch_array($resultofQuery1,MYSQLI_ASSOC))
-{
-    $orderNumberArray[] = $rowofResult1['ordernumber']; 
-    $itemName[] = $rowofResult1['item_name'];
-    $quantity[] = $rowofResult1['item_qty'];
-    $pricePerItem[] = $rowofResult1['item_price'];
-    $totalPrice[] = number_format(($rowofResult1['item_qty'] * $rowofResult1['item_price']),2) ;
 
-}
+
+
 
 
 $SchedDelivOrderNumber = array(); 
@@ -287,8 +278,24 @@ $sqlToGetTableValue = "SELECT * FROM scheduledelivery";
 $resultofQuery2 = mysqli_query($dbc, $sqlToGetTableValue);
 while($rowofResult2=mysqli_fetch_array($resultofQuery2,MYSQLI_ASSOC))
 {
-    $SchedDelivOrderNumber[] = $rowofResult2['ordernumber'];
+    $OR_FROM_SCHED_DELIV_TABLE =  $rowofResult2['ordernumber'];
 
+    $queryToGetItemList = "SELECT * FROM orders
+    JOIN order_details ON orders.ordernumber = order_details.ordernumber
+    WHERE orders.ordernumber = '$OR_FROM_SCHED_DELIV_TABLE'";
+    $resultofQuery1 = mysqli_query($dbc, $queryToGetItemList);
+    while($rowofResult1=mysqli_fetch_array($resultofQuery1,MYSQLI_ASSOC))
+    {
+        $orderNumberArray[] = $rowofResult1['ordernumber']; //Compare this 
+        $itemName[] = $rowofResult1['item_name'];
+        $quantity[] = $rowofResult1['item_qty'];
+        $pricePerItem[] = number_format(($rowofResult1['item_price']),2);
+        $totalPrice[] = number_format(($rowofResult1['totalamt']),2);
+    }
+
+    
+
+    $SchedDelivOrderNumber[] = $rowofResult2['ordernumber']; //To this
     $SchedDelivDR[] = $rowofResult2['delivery_Receipt'];
     $SchedDelivDate[] = $rowofResult2['delivery_Date'];
     $SchedDelivDestination[] = $rowofResult2['Destination'];
@@ -337,16 +344,17 @@ while($rowofResult2=mysqli_fetch_array($resultofQuery2,MYSQLI_ASSOC))
                 echo 'deliverStatusfromHTML.value = drStatFromPHP[i];';
                 echo 'deliverTotalfromHTML.value = "₱ "+ ItemTotalFromPHP[i];';
                 
-                    echo 'var count = OrderNumberFromOrderDetails.length -1;';
+                echo 'var count = OrderNumberFromOrderDetails.length -1;';
 
                 echo 'while(count >= 0){';
                     
                     echo 'console.log("OR From Sched = " + OrderNumberFromSchedDeliver[i]);';
+                    
 
                     echo 'if(OrderNumberFromSchedDeliver[i] == OrderNumberFromOrderDetails[count]) {';
 
                         echo  "var newRow = document.getElementById('datatable').insertRow();";
-                        echo  'newRow.innerHTML = "<tr><td>" +ItemNameFromPHP[count]+ "</td> <td>" +ItemQuantityFromPHP[count]+ "</td><td> ₱" +ItemPriceFromPHP[count]+ "</td></tr>";';
+                        echo  'newRow.innerHTML = "<tr><td>" +ItemNameFromPHP[count]+ "</td> <td align = right>" +ItemQuantityFromPHP[count]+ "</td><td align = right> ₱ " +ItemPriceFromPHP[count]+ "</td></tr>";';
                         // echo 'localStorage.removeItem("DRfromDeliveriesPage");';
                         echo 'count--;';
                         echo 'continue;';
@@ -379,8 +387,20 @@ echo '</script>';
         if(confirm("Do you want to finish this delivery?"))
         {
             if(confirm("Are you sure?"))
-            {
-                alert("Delivery Complete!");
+            {                              
+                request = $.ajax({
+                url: "ajax/finish_delivery.php",
+                type: "POST",
+                data: {
+                    post_dr_number: "<?php echo $_SESSION['get_dr_number_from_deliveries'];?>",
+                    post_or_number:  "<?php echo $_SESSION['get_or_number_from_deliveries'];?>"
+                },
+                    success: function(data)
+                    {
+                        alert("Delivery Complete!");
+                        window.location.href = "Delivery Receipt.php";                         
+                    }//End Scucess               
+                }); // End ajax    
             }   
             else
             {
@@ -390,8 +410,7 @@ echo '</script>';
         else
         {
             alert("Action: Cancelled");
-        }
-        
+        }       
     }
 </script>
 
