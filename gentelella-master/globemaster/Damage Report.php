@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" href="images/favicon.ico" type="image/ico" />
 
-    <title>GM MIS | Damage Item Report</title>
+    <title>GM MIS | Damaged Items Report</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -51,7 +51,67 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h1>Damage Item Report</h1>
+                    <h1>Damaged Items Report as of: DATE RANGE/MONTH-YEAR/YEAR
+
+                    <button type="submit" class="btn btn-primary btn-lg" style="float: right;"  data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-filter"></i> Filter this Report</button>
+                    </h1>
+
+<!-- Small modal for date filter-->
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+        </button>
+        <h3 class="modal-title" id="myModalLabel2">Report Filtering</h3>
+      </div>
+      <div class="modal-body">
+        <h4>Please choose a filter</h4>
+        <div class="form-group">
+          <br>
+          <center>
+            <div class="input-group">
+                <input type="text" class="form-control" aria-label="Text input with dropdown button" value = "Naive Forecasting" id = "salesforecastlabel" readonly>
+                <div class="input-group-btn">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li id = "invnaive" onclick="changetonaive();"><a>Yearly</a>
+                    </li>
+                    <li id = "invshortterm" onclick = "changetost();"><a>Month-Year</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li onclick = "toggledatepicker()" id="customdatepick"><a>Custom Date Range</a>
+                    </li>
+                  </ul>
+              </div>
+            </div>
+          </center>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- /modal end -->
+
+                    <?php 
+                       
+                        $sqlToViewTotalLoss = "SELECT SUM(total_loss) AS accumulated_loss FROM damage_item";
+                        $resultOfSqlTotalLoss =  mysqli_query($dbc,$sqlToViewTotalLoss);
+                        while($rowTotalLoss=mysqli_fetch_array($resultOfSqlTotalLoss,MYSQLI_ASSOC))
+                        {
+                    ?>
+                        <label><b><font color = "black" size = "5px">Total losses for this report: <?php echo '₱'."".number_format($rowTotalLoss['accumulated_loss'], 2);?></font></b></label>
+                    <?php
+                        }
+                    ?>
+                    
                     
                     <div class="clearfix"></div>
                   </div>
@@ -62,8 +122,8 @@
                     <table id="datatable-buttons" class="table table-striped table-bordered">
                       <thead>
                         <tr>
-                          <th>Reference Item Name</th>
-                          <th>Damage Percentage</th>
+                          <th>Item Name Reference</th>
+                          <th>Damaged Percentage</th>
                           <th>Item Quantity</th>
                           <th>Total Loss</th>
                           <th>Date Occured </th>
@@ -75,7 +135,7 @@
                       <tbody>
                        <?php 
                        
-                        $sqlToView = "SELECT * FROM damage_item";
+                        $sqlToView = "SELECT * FROM damage_item ORDER BY total_loss DESC";
                         $resultOfSql =  mysqli_query($dbc,$sqlToView);
                         while($row=mysqli_fetch_array($resultOfSql,MYSQLI_ASSOC))
                         {
@@ -89,8 +149,8 @@
                             echo '<td>';
                             echo $row['item_quantity'];
                             echo '</td>';
-                            echo '<td>';
-                            echo "₱ ", $row['total_loss'];
+                            echo '<td align = "right">';
+                            echo '₱'." ".number_format($row['total_loss'], 2);
                             echo '</td>';
                             echo '<td>';
                             echo $row['last_update'];
