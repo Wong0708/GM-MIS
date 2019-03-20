@@ -51,12 +51,13 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h1>Damaged Items Report as of: DATE RANGE/MONTH-YEAR/YEAR
+                    <h1><font size = "6px"> Damaged Items Report as of: DATE RANGE/MONTH-YEAR/YEAR
 
                     <button type="submit" class="btn btn-primary btn-lg" style="float: right;"  data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-filter"></i> Filter this Report</button>
-                    </h1>
+</font></h1>
 
 <!-- Small modal for date filter-->
+<form action="<?php echo $_SERVER['SalesForecasting.php']; ?>" method="POST" class="form-horizontal form-label-left">
 <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
@@ -71,33 +72,130 @@
         <div class="form-group">
           <br>
           <center>
-            <div class="input-group">
-                <input type="text" class="form-control" aria-label="Text input with dropdown button" value = "Naive Forecasting" id = "salesforecastlabel" readonly>
+            <!-- <div class="input-group col-md-12 col-xs-12">
+                <input type="text" class="form-control" aria-label="Text input with dropdown button" value = "Yearly" id = "salesforecastlabel" readonly style="text-align:center">
                 <div class="input-group-btn">
                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                    <li id = "invnaive" onclick="changetonaive();"><a>Yearly</a>
+                    <li id = "yearly" onclick="changetoyear();"><a>Yearly</a>
                     </li>
-                    <li id = "invshortterm" onclick = "changetost();"><a>Month-Year</a>
+                    <li id = "monthyear" onclick = "changetoMY();"><a>Month-Year</a>
                     </li>
                     <li class="divider"></li>
-                    <li onclick = "toggledatepicker()" id="customdatepick"><a>Custom Date Range</a>
+                    <li onclick = "changetoDP()" id="datepick"><a>Custom Date Range</a>
                     </li>
                   </ul>
               </div>
+            </div> -->
+
+            <div class="input-group col-md-12 col-xs-12">
+              <select class="form-control" value = "" style = "text-align-last:center;" id = "reportfilterlabel"  onchange = "changepickers(this)">
+                <option id = "" value = "">Choose..</option>
+                <option id = "yearly" value = "yearly">Yearly</option>
+                <option id = "monthyear" value = "monthyear">Month-Year</option>
+                <option id="datepick" value="datepick">Custom Date Range</option>
+              </select>
             </div>
+
+            <div class="input-group col-md-12 col-xs-12" style = "display:none" id = "yearpicker">
+              <select class="form-control" style = "text-align-last:center;">
+                <option id = "" value = "">Choose..</option>
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+              </select>
+            </div>
+
+          <div style = "display:none" class="col-md-12 col-xs-12" id = "monthyearpicker">
+            <div class="input-group col-md-12 col-xs-12">
+              <p>Month</p>
+              <select class="form-control" style = "text-align-last:center;">
+                <option id = "" value = "">Choose..</option>
+                <option value="January">January</option>
+                <option value="February">February</option>
+                <option value="March">March</option>
+                <option value="April">April</option>
+                <option value="May">May</option>
+                <option value="June">June</option>
+                <option value="July">July</option>
+                <option value="August">August</option>
+                <option value="September">September</option>
+                <option value="October">October</option>
+                <option value="November">November</option>
+                <option value="December">December</option>
+              </select>
+            </div>
+            <div class="input-group col-md-12 col-xs-12">
+              <p>Year</p>
+              <select class="form-control" style = "text-align-last:center;">
+                <option id = "" value = "">Choose..</option>
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+              </select>
+            </div>
+          </div>
+
+          <div style = "display:none" class="col-md-12 col-xs-12" id = "reportrangepicker">
+          <br><br>
+            <div class='col-md-12'>
+                <div class="form-group">
+                  <input type="date" name="startdate" id = "startdate" onchange ="date_setter(this)" class="form-control col-md-12 col-xs-12 deliveryDate" placeholder = "Start Date">
+                </div>
+            </div>
+
+            <p>to</p>
+
+            <div class='col-md-12'>
+                <div class="form-group">
+                  <input type="date" name="enddate" id = "enddate" class="form-control col-md-12 col-xs-12 deliveryDate" placeholder = "End Date">
+                </div>
+            </div>
+          </div>
+
+<!-- Date Setter Script -->
+<script>
+  function date_setter(obj)
+  {
+    // document.getElementById("enddate").valueAsDate = new Date()
+    var start_date = new Date(obj.valueAsDate);
+    var end_date = start_date.addDays(30)
+
+    end_date = moment(start_date).format('YYYY-MM-DD');
+    
+    
+
+    $('#enddate').val(end_date);
+    
+    var END_DATE_INPUT = document.getElementById('enddate').valueAsDate;
+    
+    var old_start_date = END_DATE_INPUT.addDays(-30);
+
+    start_date = moment(start_date).format('YYYY-MM-DD');
+    old_start_date = moment(END_DATE_INPUT).format('YYYY-MM-DD');
+
+    document.getElementById('enddate').setAttribute('max', start_date);
+    document.getElementById('enddate').setAttribute('min', old_start_date );
+  }
+  
+
+</script>
+<!-- End Date Setter Script -->
           </center>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary">Forecast</button>
       </div>
 
     </div>
   </div>
 </div>
+</form>
 <!-- /modal end -->
 
                     <?php 
@@ -247,6 +345,85 @@
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+
+    <!-- Modal Input Buton Toggles -->
+    <script>
+            var reportfilterlabel = document.getElementById("reportfilterlabel");
+            var reportfilterlabelVal = reportfilterlabel.value;
+            
+            var yearly = document.getElementById("yearly");
+            var monthyear = document.getElementById("monthyear");
+            
+
+            var yearpicker = document.getElementById("yearpicker");
+            var monthyearpicker = document.getElementById("monthyearpicker");
+            var reportrangepicker = document.getElementById("reportrangepicker");
+            
+            function changepickers(obj)
+            {
+              // reportfilterlabel.value = "";
+              // alert(reportfilterlabelVal);
+              console.log(obj.value);
+              if(obj.value == "yearly")
+              {
+                yearpicker.style.display = "block";
+                monthyearpicker.style.display = "none";
+                reportrangepicker.style.display = "none";
+              }
+              else if(obj.value == "monthyear")
+              {
+                monthyearpicker.style.display = "block";
+                yearpicker.style.display = "none";
+                reportrangepicker.style.display = "none";
+              }
+              else if(obj.value == "datepick")
+              {
+                reportrangepicker.style.display = "block";
+                yearpicker.style.display = "none";
+                monthyearpicker.style.display = "none";
+              }
+            }
+            
+    </script>
+
+    <!-- <script>
+            var reportfilterlabel = document.getElementById("reportfilterlabel");
+            
+            var yearly = document.getElementById("yearly");
+            var monthyear = document.getElementById("monthyear");
+            
+
+            var yearpicker = document.getElementById("yearpicker");
+            var monthyearpicker = document.getElementById("monthyearpicker");
+            var reportrangepicker = document.getElementById("reportrangepicker");
+            function changetoMY()
+            {
+              yearpicker.style.display = "none";
+              reportrangepicker.style.display = "none";
+              monthyearpicker.style.display = "block";
+            }
+    </script>
+
+    <script>
+        var reportfilterlabel = document.getElementById("reportfilterlabel");
+            
+        var yearly = document.getElementById("yearly");
+        var monthyear = document.getElementById("monthyear");
+        var datepick = document.getElementById("datepick");
+        
+
+        var yearpicker = document.getElementById("yearpicker");
+        var monthyearpicker = document.getElementById("monthyearpicker");
+        var reportrangepicker = document.getElementById("reportrangepicker");
+        
+        
+        function changetoDP()
+          {
+            yearpicker.style.display = "none";
+            monthyearpicker.style.display = "none";
+            reportrangepicker.style.display = "block";
+          }
+    </script>   -->
 	
   </body>
 </html>
