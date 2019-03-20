@@ -165,6 +165,89 @@
 						              <button class="btn btn-primary" type="reset">Reset</button>
                         <!-- </div>z -->
                       </div>
+
+                      <?php
+
+                      require_once('DataFetchers/mysql_connect.php');
+                        if(isset($_POST['submitBtn']))
+                        {
+                            $sku_id = $_POST['skuid'];
+                            $itemName = $_POST['item_name']; //Stores the Values from Textbox in HTML
+                          
+                            $itemPrice = $_POST['price'];
+                            $itemThreshold = $_POST['threshold'];
+
+                            $warehouseIDfromSelect = $_POST['selectWarehouse'];
+                            $itemTypeIDfromSelect = $_POST['selectItemtype'];
+                            $supplierIDFromSelect = $_POST['supplier'];
+
+                           
+
+                            $queryWarehouseID = "SELECT warehouses.warehouse_id FROM warehouses WHERE warehouse = '$warehouseIDfromSelect'";
+                            $resultWarehouseID = mysqli_query($dbc,$queryWarehouseID);                                
+                            $rowWarehouseID = mysqli_fetch_assoc($resultWarehouseID); //Query for getting WarehouseID 
+
+                            $queryItemtypeID = "SELECT ref_itemtype.itemtype_id FROM ref_itemtype WHERE itemtype = '$itemTypeIDfromSelect'";
+                            $resultItemtype = mysqli_query($dbc,$queryItemtypeID);                                
+                            $rowItemtypeID = mysqli_fetch_assoc($resultItemtype); //Query For getting itemtypeID
+                            
+                            $querySupplierID = "SELECT supplier_id FROM suppliers WHERE supplier_name = '$supplierIDFromSelect'";
+                            $resultSupplierID = mysqli_query($dbc,$querySupplierID);                                
+                            $rowSupplierID = mysqli_fetch_assoc($resultSupplierID); //Query For getting itemtypeID
+
+                            $queryItemID = "SELECT item_id FROM items_trading ORDER BY item_id DESC LIMIT 1 ";
+                            $resultItemID = mysqli_query($dbc,$queryItemID);
+                            $rowResultItemID = mysqli_fetch_assoc($resultItemID);
+
+                            // var_dump($resultWarehouseID);                               
+                            // print_r($queryWarehouseID);
+
+                            // echo $rowWarehouseID['warehouse_id'];
+                            // echo $rowItemtypeID['itemtype_id'];
+
+                            $WareHouseID = $rowWarehouseID['warehouse_id'];
+                            $ItemtypeID = $rowItemtypeID['itemtype_id'];
+                            $ItemID = $rowResultItemID['item_id']+1;
+                            $SupplierID = $rowSupplierID['supplier_id'];
+                            $DiscountStatus = "Regular Price";
+
+                            echo  "warehouse = ".$WareHouseID;
+                            echo  "itemtype = ".$ItemtypeID;
+                            echo  "itemID = ".$ItemID;
+                            echo  "supplierID = ".$SupplierID;
+                            echo  "skuid =  ".$sku_id;
+                            echo  "item name =  ".$itemName;
+                            echo  "3shold = ".$itemThreshold;
+                            echo  "price = ".$itemPrice;
+
+                            $sql = "INSERT INTO items_trading (item_id, sku_id, item_name, itemtype_id, item_count, last_restock, last_update, threshold_amt, warehouse_id, supplier_id, price, onDiscount)
+                            Values(
+                            '$ItemID',
+                            '$sku_id',
+                            '$itemName', 
+                            '$ItemtypeID',
+                            '0', now(),now(),
+                            '$itemThreshold',
+                            '$WareHouseID',
+                            '$SupplierID',
+                            '$itemPrice',
+                            '$DiscountStatus')";
+
+                            $result=mysqli_query($dbc,$sql);
+                            if(!$result) 
+                            {
+                                die('Error: ' . mysqli_error($dbc));
+                            } 
+                            else 
+                            {
+                                echo '<script language="javascript">';
+                                echo 'alert("Items Added Successfully");';
+                                echo '</script>';
+                                header("Location: ViewInventory.php");
+                            }              
+                        }
+
+?>
                       
                     </form>
                   </div>

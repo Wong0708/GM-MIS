@@ -57,7 +57,6 @@
                                      if(isset($_GET['sku_id'], $_GET['item_id']))
                                      {
                                         $_SESSION['getIDfromView'] = $_GET['sku_id'];
-
                                         $_SESSION['item_IDfromView'] = $_GET['item_id']; //Stores the Value of Get from View Inventory
                                         echo $_SESSION['getIDfromView']; 
                                         
@@ -80,7 +79,6 @@
                                     $discountdateend = array();
                                     $discountstatus = array();
                                     $ON_DISCOUNT = "On Discount";
-
                                     $queryDiscountNotif = "SELECT * FROM discounts  
                                     JOIN items_trading ON items_trading.item_id = discounts.item_id
                                     WHERE items_trading.item_id = '$GET_ID' 
@@ -242,7 +240,6 @@
 
                                                          
                                                    } // End Function
-
                                                    </script>
 
                                             </div> <!-- Col MD -->
@@ -436,7 +433,6 @@
     require_once('DataFetchers/mysql_connect.php');
    
     $skuID = $_SESSION['getIDfromView'];
-
     $skuArray = array();
     $itemNameArray = array();
     $itemTypeArray = array();
@@ -446,7 +442,6 @@
     $warehouseArray = array();
     $lastRestockArray = array();
     $lastUpdateArray = array();
-
     $query = "SELECT * FROM items_trading
     JOIN warehouses ON warehouses.warehouse_id = items_trading.warehouse_id
     JOIN suppliers ON suppliers.supplier_id = items_trading.supplier_id
@@ -454,7 +449,6 @@
     WHERE sku_id =  '$skuID'
     order by item_id
     ;";
-
     $result = mysqli_query($dbc, $query);
     while($row = mysqli_fetch_array($result,MYSQLI_ASSOC))
     {
@@ -472,7 +466,6 @@
     
     $_SESSION['current_name'] = $itemNameArray[0];
     echo '<script>';
-
     echo "var sku_idfromPHP = ".json_encode($skuArray).";";
     echo "var itemNamefromPHP = ".json_encode($itemNameArray).";";
     echo "var itemTypefromPHP = ".json_encode($itemTypeArray).";";
@@ -502,9 +495,7 @@
     echo 'warehousefromHTML.value = warehousefromPHP[0];';
     echo 'lastRestockfromHTML.value = lastRestockfromPHP[0];';
     echo 'lastUpdatefromHTML.value = lastUpdatefromPHP[0];';
-
     echo '</script>';
-
     
                                           
     
@@ -512,10 +503,8 @@
 
 <script>
     var confirmButton = document.getElementById('updatedmg'); 
-
     var itemNameInEditInventory = document.getElementById('sku_id');
     var itemPriceInEditInventory = document.getElementById('item_price');
-
     var damagePercentage = document.getElementById('percentdmg');
     var priceEachBox = document.getElementById('priceeach');
     var dmgQtyBox = document.getElementById('dmgqty');
@@ -532,10 +521,8 @@
        
         priceEachBox.innerHTML = priceEach.toFixed(2)
         totalLossBox.innerHTML = totalLoss.toFixed(2);
-
         priceEachBox.value = priceEach.toFixed(2); 
         totalLossBox.value = totalLoss.toFixed(2);
-
     }
     
     confirmButton.onclick = function() 
@@ -543,19 +530,15 @@
         var inputValue = damagePercentage.value;    
    
     }
-
 </script>
 <script>
     
     var update_button = document.getElementById('updatedmg');
-
     var input_damage_qty = document.getElementById('dmgqty');
     var input_damage_percent = document.getElementById('percentdmg');
     var input_damage_price = document.getElementById('priceeach');
     var input_damage_total = document.getElementById('totalloss');
-
     
-
     update_button.onclick = function()
     {
         DoAjax();
@@ -577,9 +560,7 @@
         }
         
        
-
      } //End function
-
      function DoAjax()
      {
         request = $.ajax({
@@ -597,7 +578,6 @@
                 alert(data);   
             }//End Scucess        
         }); // End ajax
-
       
      }
 </script>
@@ -607,7 +587,6 @@
     obj.value = valBetween(obj.value, obj.min, obj.max); //Gets the value of input alongside with min and max
     console.log(obj.value);
     }
-
     function valBetween(v, min, max) {
     return (Math.min(max, Math.max(min, v))); //compares the value between the min and max , returns the max when input value > max
     }
@@ -677,17 +656,13 @@
     var restockbtnE = document.getElementById("restockbtnE");
     var restockbtnD = document.getElementById("restockbtnD");
     var restockinput = document.getElementById("restockamt"); 
-
     var updatestock = document.getElementById("updatestock"); 
-
     restockinput.disabled = true;
     updatestock.disabled = true;
-
     function enableRestocking()
     {
         restockbtnE.style.display = "none";
         restockbtnD.style.display = "block";
-
         restockinput.disabled = false;
         updatestock.disabled = false;
         
@@ -696,20 +671,16 @@
     {
         restockbtnE.style.display = "block";
         restockbtnD.style.display = "none";
-
         restockinput.disabled = true;
         updatestock.disabled = true;
-
         var insideval = restockinput.placeholder = "0";
     }
-
     function updatestockalert()
     {
         
         var insideval = restockinput.value;
         confirm("Do you want to restock this amount: " + insideval);
         
-
     }
     function generalAlert()
     {
@@ -719,49 +690,37 @@
 
 <script>
     // damaged section
-
     var damagedbtn = document.getElementById("addDamage"); 
-
     var damagedqty = document.getElementById("dmgqty"); 
     var percentdmg = document.getElementById("percentdmg"); 
     var priceeach = document.getElementById("priceeach"); 
     var totalloss = document.getElementById("totalloss"); 
-
     var updatedamaged = document.getElementById("updatedmg");  
     var canceldamaged = document.getElementById("canceldmg"); 
-
     damagedbtn.disabled = false;
-
     damagedqty.disabled = true;
     percentdmg.disabled = true;
     priceeach.disabled = true;
     totalloss.disabled = true;
-
     updatedamaged.disabled = true;
     canceldamaged.disabled = true;
-
     function enableDamaged()
     {
         damagedbtn.disabled = true;
-
         damagedqty.disabled = false;
         percentdmg.disabled = false;
         priceeach.disabled = false;
         totalloss.disabled = false;
-
         updatedamaged.disabled = false;
         canceldamaged.disabled = false;
     }
-
     function cancelDamaged()
     {
         damagedbtn.disabled = false;
-
         damagedqty.disabled = true;
         percentdmg.disabled = true;
         priceeach.disabled = true;
         totalloss.disabled = true;
-
         updatedamaged.disabled = true;
         canceldamaged.disabled = true;
     }
@@ -773,17 +732,13 @@
     var discountbtnE = document.getElementById("discountbtnE");
     var discountbtnD = document.getElementById("discountbtnD");
     var discountinput = document.getElementById("discountamt"); 
-
     var updatediscount = document.getElementById("updatediscount"); 
-
     discountinput.disabled = true;
     updatediscount.disabled = true;
-
     function enableDiscount()
     {
         discountbtnE.style.display = "none";
         discountbtnD.style.display = "block";
-
         discountinput.disabled = false;
         updatediscount.disabled = false;
         
@@ -792,13 +747,10 @@
     {
         discountbtnE.style.display = "block";
         discountbtnD.style.display = "none";
-
         discountinput.disabled = true;
         updatediscount.disabled = true;
-
         var insideval1 = discountinput.value = "";
     }
-
     function updatediscountalert() //Update Discount
     {
         insertDiscount();
@@ -811,12 +763,10 @@
     var damageDiv = document.getElementById("damageDiv");
     var unhidebtn = document.getElementById("unhideDamageDivbtn");
     var hidebtn = document.getElementById("hideDamageDivbtn");
-
     var damagedqty = document.getElementById("dmgqty"); 
     var percentdmg = document.getElementById("percentdmg"); 
     var priceeach = document.getElementById("priceeach"); 
     var totalloss = document.getElementById("totalloss"); 
-
     function unhideDamageDiv()
     {
         damageDiv.style.display = "block";
@@ -829,7 +779,6 @@
         damageDiv.style.display = "none";
         hidebtn.style.display = "none";
         unhidebtn.style.display = "block";
-
         damagedqty.value = "";
         percentdmg.value = "";
         priceeach.value = "";
@@ -841,7 +790,6 @@
                                                    
 var discount_button = document.getElementById('discountBtn'); 
 var discount_amount = document.getElementById('discountamt'); 
-
     function insertDiscount()
     {
         if(confirm("Confirm Discount: "+discount_amount.value+"%"))

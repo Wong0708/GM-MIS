@@ -367,57 +367,6 @@
                         
                      
                     }
-                 
-                 if($user == 'INV' || $user == 'CEO')
-                 {
-                    
-                        //RECOMMEND INVENTORY DISCOUNT
-                 
-                        echo '<div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="x_panel">
-                                      <h2><center><i class="fa fa-toggle-down"></i><b>  RECOMMENDED ITEMS FOR DISCOUNT</b></h2>
-                                    <div class="clearfix"></div>
-                                  <div class="x_content">
-                                    <table class="table table-bordered">
-                                      <thead>
-                                        <tr>
-                                          <th>SKU</th>
-                                          <th>Item Name</th>
-                                          <th>Last Update</th>
-                                          <th>Action</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>';
-                        
-                            require_once('DataFetchers/mysql_connect.php');
-                            $query = "SELECT * from items_trading WHERE DATEDIFF(NOW(), last_update) / 31 > 6";
-                            $result=mysqli_query($dbc,$query);
-                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                            {
-                                    echo '<tr>';
-                                    echo '<td>';
-                                    echo $row['sku_id'];
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $row['item_name'];
-                                    echo '</td>';
-                                    echo '<td>';
-                                    echo $row['last_update'];
-                                    echo '</td>';
-                                    echo '<td><center><a href ="EditInventory.php?sku_id='.$row['sku_id'].' & item_id='.$row['item_id'].'"><button class="btn btn-info"><i onclick = "teit()"class="">Place Discount</button></a></center></td>';
-                                    echo '</tr>';
-                                    
-                            } 
-                     echo '</tbody>';
-                    echo '</table>';
-                        
-                             echo '</div>
-                        </div>
-                      </div>';
-                    
-                        
-                     
-                    }
             ?>
 
               
@@ -507,6 +456,10 @@
             font-size: 25px;
             color: #1D2B51;
             }
+<<<<<<< HEAD
+=======
+
+>>>>>>> f4631a7e83c70ad669b8d31c02de97515d57b0be
     </style>    
 	
   </body>
