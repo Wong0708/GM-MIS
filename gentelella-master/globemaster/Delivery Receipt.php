@@ -77,7 +77,71 @@
                                         <button type="" class="btn btn-primary btn-lg" onclick="printW()"><i class="fa fa-print"></i> Print</button>                                    
                                 </div>                              
                                 <div class="clearfix"></div>
+
+                                
                             </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12" >
+                            <?php
+                                    $GET_ID_DELIVERY = $_SESSION['get_dr_number_from_deliveries'];
+                                    $deliveryexpected = array();
+                                    $deliverydate = array();
+                                    $datetoday = date("Y-m-d");
+                                    $queryDeliveryDate = "SELECT * FROM orders o
+                                    JOIN scheduledelivery sd 
+                                    ON o.ordernumber = sd.ordernumber 
+                                    WHERE delivery_Receipt = '$GET_ID_DELIVERY';"; 
+                                    $resultDeliveryDate = mysqli_query($dbc,$queryDeliveryDate);
+                                  
+                                    while($rowDeliveryDate = mysqli_fetch_array($resultDeliveryDate,MYSQLI_ASSOC))
+                                    {
+                                        $deliveryexpected[] = $rowDeliveryDate['expected_date'];
+                                        $deliverydate[] = $rowDeliveryDate['delivery_Date'];
+                                    }
+                                   
+                                  
+                                    for($i = 0; $i < sizeof($deliveryexpected); $i++)
+                                    {
+                                        // to check countdown till delivery
+                                        $queryDeliveryDateDiffNow = "SELECT DATEDIFF(CURDATE(),sd.delivery_Date) 
+                                        AS datedifferenceNow
+                                        FROM orders o
+                                        JOIN scheduledelivery sd 
+                                        ON o.ordernumber = sd.ordernumber 
+                                        WHERE delivery_Receipt = '$GET_ID_DELIVERY';"; 
+                                        $resultDeliveryDateDiffNow = mysqli_query($dbc,$queryDeliveryDateDiffNow);
+                                        $rowDeliveryDateDiffNow = mysqli_fetch_array($resultDeliveryDateDiffNow,MYSQLI_ASSOC);
+                                        if($rowDeliveryDateDiffNow['datedifferenceNow'] > -4 && $rowDeliveryDateDiffNow['datedifferenceNow'] < 1)
+                                        {
+                                            $datedifferenceNow =  abs($rowDeliveryDateDiffNow['datedifferenceNow']);
+                                            $orders = "order's";
+                                            echo '<p><font color = "blue">This '.$orders.' delivery date is due in '.$datedifferenceNow.' days.</font></p>';
+                                        }
+                                        else if($rowDeliveryDateDiffNow['datedifferenceNow'] > 0)
+                                        {
+                                            $datedifferenceNow =  abs($rowDeliveryDateDiffNow['datedifferenceNow']);
+                                            $orders = "order's";
+                                            echo '<p><font color = "red">This order is late by '.$datedifferenceNow.' days.</font></p>';
+                                        }
+
+                                        // to check date difference from expected date
+                                        $queryDeliveryDateDiff = "SELECT DATEDIFF(sd.delivery_Date,o.expected_date) 
+                                        AS datedifference
+                                        FROM orders o
+                                        JOIN scheduledelivery sd 
+                                        ON o.ordernumber = sd.ordernumber 
+                                        WHERE delivery_Receipt = '$GET_ID_DELIVERY';"; 
+                                        $resultDeliveryDateDiff = mysqli_query($dbc,$queryDeliveryDateDiff);
+                                        $rowDeliveryDateDiff = mysqli_fetch_array($resultDeliveryDateDiff,MYSQLI_ASSOC);
+
+                                        if($rowDeliveryDateDiff['datedifference'] > 0)
+                                        {
+                                            $datedifference =  $rowDeliveryDateDiff['datedifference'];
+                                            echo '<p><font color = "#ffc430">This order will be '.$datedifference.' day(s) late from the expected delivery date.</font></p>';
+                                        }
+                                    }
+                                    
+                                ?>
+                                </div>
                             <form class="form-horizontal form-label-center" method="GET">                              
                                 <div class="col-md-6 col-sm-6 col-xs-12 " >
                                     <div class="x_panel" >

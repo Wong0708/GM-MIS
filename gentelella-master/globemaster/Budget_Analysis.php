@@ -397,7 +397,7 @@
 			  $(document).ready(function()
         {
         $.ajax({
-          url: "http://localhost//GM-MIS/gentelella-master/globemaster/DataFetchers/DataTest.php",
+          url: "DataFetchers/DataTest.php",
           method: "GET",
           success: function(data) {
             console.log(data);
@@ -426,19 +426,19 @@
             var ctx = document.getElementById("mybarChart");
             var mybarChart = new Chart(ctx, 
             {
-              type: 'bar',
+              type: 'line',
               data: 
               {
                 labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
                 datasets: [{
                 label: 'Actual Sales',
-                backgroundColor: "#26B99A",
+                borderColor: "#26B99A",
                 data: itemprice},{
                 label: 'Expected Sales',
-                backgroundColor: "#273746",
+                borderColor: "#273746",
                 data: expected},{
                 label: 'Sales Variance',
-                backgroundColor: "#DF013A",
+                borderColor: "#DF013A",
                 data: variancearray}]
             },
 
