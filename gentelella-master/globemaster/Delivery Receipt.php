@@ -53,18 +53,28 @@
                         <div class="x_panel" id="printDR">
                             <div class="x_title">
                                 <div class="col-md-10 col-sm-10 col-xs-12">
-                                    <font color = "black"><h1>Delivery Receipt - [ADD DR NUMBER HERE]</h1></font> 
+                                    <font color = "black"><h1>Delivery Receipt - [
+                                    <?php
+                                        if(isset($_GET['deliver_number']))
+                                        {
+                                            $_SESSION['get_dr_number'] = $_GET['deliver_number'];
+                                            echo $_SESSION['get_dr_number'];
+                                        }
+                                        else
+                                        {
+                                            echo $_SESSION['get_dr_number'];
+                                        }
+                                        
+                                    ?>
+
+                                    ]</h1></font> 
                                 </div>
                                 <div class="col-md-2 col-sm-2 col-xs-12" align="right">
                                     <?php
                                         include("print.php");
-                                    ?>
-                                        
-                                        <button type="" class="btn btn-primary btn-lg" onclick="printW()"><i class="fa fa-print"></i> Print</button>
-                                     
-                                </div>
-                                
-
+                                    ?>                                       
+                                        <button type="" class="btn btn-primary btn-lg" onclick="printW()"><i class="fa fa-print"></i> Print</button>                                    
+                                </div>                              
                                 <div class="clearfix"></div>
                             </div>
                             <form class="form-horizontal form-label-center" method="GET">                              
@@ -112,7 +122,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-4 col-sm-4 col-xs-12">Total Amount</label>
                                         <div class="col-md-6 col-sm-6 col-xs-6">
-                                            <input   type="text" id = "drTotal" class="form-control" readonly="readonly" placeholder="Read-Only Input">
+                                            <input   type="text" id = "drTotal" class="form-control" readonly="readonly" placeholder="Read-Only Input" style="text-align:right;">
                                         </div>
                                     </div>
 
@@ -242,13 +252,17 @@
 
 require_once('DataFetchers/mysql_connect.php');
 
+$DR_NUM_FROM_VIEW = $_SESSION['get_dr_number'];
+
 $orderNumberArray = array();
 $itemName = array();
 $quantity = array();
 $pricePerItem = array();
 $totalPrice = array();
 
-$queryToGetItemList = "SELECT * FROM order_details WHERE item_status ='IP'";
+$queryToGetItemList = "SELECT * FROM orders
+JOIN order_details ON orders.ordernumber = order_details.ordernumber
+WHERE (order_status <> 'Deliver') AND (order_status <> 'PickUp') ";
 $resultofQuery1 = mysqli_query($dbc, $queryToGetItemList);
 while($rowofResult1=mysqli_fetch_array($resultofQuery1,MYSQLI_ASSOC))
 {
@@ -256,10 +270,9 @@ while($rowofResult1=mysqli_fetch_array($resultofQuery1,MYSQLI_ASSOC))
     $itemName[] = $rowofResult1['item_name'];
     $quantity[] = $rowofResult1['item_qty'];
     $pricePerItem[] = $rowofResult1['item_price'];
-    $totalPrice[] = $rowofResult1['item_qty'] * $rowofResult1['item_price'];
+    $totalPrice[] = number_format(($rowofResult1['item_qty'] * $rowofResult1['item_price']),2) ;
 
 }
-
 
 
 $SchedDelivOrderNumber = array(); 
@@ -289,6 +302,8 @@ while($rowofResult2=mysqli_fetch_array($resultofQuery2,MYSQLI_ASSOC))
     echo "var deliverCusNamefromHTML = document.getElementById('drCusName');";
     echo "var deliverStatusfromHTML = document.getElementById('drStatus');";
     echo "var deliverTotalfromHTML = document.getElementById('drTotal');";  //Gets HTML elements (Textbox)
+
+    echo "var DR_NUM_FROM_PHP = ".json_encode($DR_NUM_FROM_VIEW).";";
     
     echo "var drDateFromPHP = ".json_encode($SchedDelivDate).";";
     echo "var drDesFromPHP = ".json_encode($SchedDelivDestination).";";
@@ -310,7 +325,7 @@ while($rowofResult2=mysqli_fetch_array($resultofQuery2,MYSQLI_ASSOC))
         echo 'for(var i = 0; i < DRFromPHP.length ; i++){';   
             
            
-            echo 'if(GetDR.trim() == DRFromPHP[i].trim()) {';
+            echo 'if(DR_NUM_FROM_PHP.trim() == DRFromPHP[i].trim()) {';
                 // echo 'if(){';
                 echo 'console.log("Value From Receipts.php = " + DRFromPHP[i]);';
                 echo 'console.log("Value from Delvieries.php = " + GetDR);';
@@ -320,7 +335,7 @@ while($rowofResult2=mysqli_fetch_array($resultofQuery2,MYSQLI_ASSOC))
                 echo 'deliverDestinationfromHTML.value = drDesFromPHP[i];';
                 echo 'deliverCusNamefromHTML.value = drCusFromPHP[i];';
                 echo 'deliverStatusfromHTML.value = drStatFromPHP[i];';
-                echo 'deliverTotalfromHTML.value = ItemTotalFromPHP[i];';
+                echo 'deliverTotalfromHTML.value = "₱ "+ ItemTotalFromPHP[i];';
                 
                     echo 'var count = OrderNumberFromOrderDetails.length -1;';
 
@@ -331,8 +346,8 @@ while($rowofResult2=mysqli_fetch_array($resultofQuery2,MYSQLI_ASSOC))
                     echo 'if(OrderNumberFromSchedDeliver[i] == OrderNumberFromOrderDetails[count]) {';
 
                         echo  "var newRow = document.getElementById('datatable').insertRow();";
-                        echo  'newRow.innerHTML = "<tr><td>" +ItemNameFromPHP[count]+ "</td> <td>" +ItemQuantityFromPHP[count]+ "</td><td>" +ItemPriceFromPHP[count]+ "</td></tr>";';
-                        echo 'localStorage.removeItem("DRfromDeliveriesPage");';
+                        echo  'newRow.innerHTML = "<tr><td>" +ItemNameFromPHP[count]+ "</td> <td>" +ItemQuantityFromPHP[count]+ "</td><td> ₱" +ItemPriceFromPHP[count]+ "</td></tr>";';
+                        // echo 'localStorage.removeItem("DRfromDeliveriesPage");';
                         echo 'count--;';
                         echo 'continue;';
 
@@ -361,10 +376,34 @@ echo '</script>';
 <script>
     function finishDeliver()
     {
-        confirm("Do you want to finish this delivery?");
-        confirm("Are you sure?");   
+        if(confirm("Do you want to finish this delivery?"))
+        {
+            if(confirm("Are you sure?"))
+            {
+                alert("Delivery Complete!");
+            }   
+            else
+            {
+                alert("Action: Cancelled");
+            }
+        }
+        else
+        {
+            alert("Action: Cancelled");
+        }
+        
     }
 </script>
+
+ <script>
+      $("#drTotal").change(function()
+      {
+      
+        var $this = $(this);
+        $this.val(parseFloat($this.val()).toFixed(2));
+          
+      }); //Sets the Decimal
+    </script>
 
 </body>
 

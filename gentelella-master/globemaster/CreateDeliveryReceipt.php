@@ -71,7 +71,7 @@
                   </div>
 
                   
-                  <form class="form-horizontal form-label-center" method="GET">                              
+                  <form class="form-horizontal form-label-center" method="POST">                              
                     <div class="col-md-6 col-sm-6 col-xs-12 " >
                         <div class="x_panel" >
                         <center><font color = "#2a5eb2"><h3>Order Details </h1>
@@ -221,13 +221,16 @@
                           <button type="submit" name = "submitDeliveryReceipt" class="btn btn-success" onclick = "confirmSubmit()">Submit</button>
 
                            <?php
+                            require_once('DataFetchers/mysql_connect.php');
                             if(isset($_POST['submitDeliveryReceipt']))
-                                {
-                                        require_once('DataFetchers/mysql_connect.php');
-
+                                {         
+                                                             
                                         $deliveryReceipt;
 
-                                        $dateFromHTML = $_POST['deliveryDate'];
+                                        $ACTUAL_DELIVERY_DATE = $_POST['deliveryDate'];
+                                        $EXPECTED_DATE_FROM_HTML = $_POST['expectedDate'];
+
+                                        $SQL_FORMATTED_DATE = date('Y-m-d', strtotime($ACTUAL_DELIVERY_DATE));
                                        
                                         $driverFromHTML = $_POST['driverName'];
                                         $truckPlateFromHTML = $_POST['truckPlate'];
@@ -236,90 +239,102 @@
 
                                         $SelectOrderNumber = $_POST['selectItemtype'];
 
-                                        $query = "SELECT count(delivery_Receipt) as Count FROM mydb.scheduledelivery;";
+                                        $query = "SELECT count(delivery_Receipt) as Count FROM scheduledelivery;";
                                         $resultofQuery = mysqli_query($dbc, $query);
                                         while($rowofResult=mysqli_fetch_array($resultofQuery,MYSQLI_ASSOC))
                                         {
                                             $deliveryReceipt = "DR - ".($rowofResult['Count'] + 1); //Get The Delivery Receipt
                                         };
-
-                                        $queryItemID = "SELECT count(SchedID)+1 as Count FROM mydb.scheduledelivery; ";
+                                        
+                                        //<-----------------------------------------[ QUERY FOR PRIMARY KEY]---------------------------------------->
+                                        $queryItemID = "SELECT count(SchedID)+1 as Count FROM scheduledelivery; ";
                                         $resultItemID = mysqli_query($dbc,$queryItemID);
                                         $rowResultItemID = mysqli_fetch_assoc($resultItemID);
                                         $SchedID = $rowResultItemID['Count']; // Get SchedID and Add 1 for DR - | Extra Query Kase ayaw gawin Auto increment , ambobo talaga
-
-                                        $orderNumArray = array();
-
-                                        $queryOrderDetails = "SELECT * FROM mydb.orders
-                                        join order_details ON orders.ordernumber = order_details.ordernumber 
-                                        WHERE order_status = 'Deliver'
-                                        group By orders.ordernumber";
-                                        $resultOrderDetails = mysqli_query($dbc,$queryOrderDetails);
-                                        while($rowResult = mysqli_fetch_array($resultOrderDetails))
+                                        //<-----------------------------------------[ QUERY FOR PRIMARY KEY]---------------------------------------->   
+                                       
+                                        // $orderNumArray = array();
+                                        // $queryOrderDetails = "SELECT * FROM orders
+                                        // join order_details ON orders.ordernumber = order_details.ordernumber 
+                                        // WHERE order_status = 'Deliver'";
+                                        // $resultOrderDetails = mysqli_query($dbc,$queryOrderDetails);
+                                        // while($rowResult = mysqli_fetch_array($resultOrderDetails))
+                                        // {
+                                        //     $orderNumArray[] = $rowResult['ordernumber'];
+                                        // };
+                                        if(strtotime($ACTUAL_DELIVERY_DATE) < strtotime($EXPECTED_DATE_FROM_HTML) )
                                         {
-                                            $orderNumArray[] = $rowResult['ordernumber'];
-                                        };
-
+                                            $DELIVER_STATUS = "Order In Progress";
+                                            echo "Order In Progress?";
+                                        }
+                                       
+                                        else
+                                        {
+                                            $DELIVER_STATUS = "Late Delivery";
+                                            
+                                            echo "Late Delivery";
+                                        }
     
-                                            $INSERT_TO_SCHED_DELIVER_TABLE = "INSERT INTO scheduledelivery(
-                                                SchedID,
-                                                delivery_Receipt,
-                                                ordernumber,
-                                                delivery_Date,
-                                                driver,
-                                                truck_Number,
-                                                customer_Name,
-                                                Destination,
-                                                delivery_status)
-                                                
-                                                VALUES('$SchedID',
-                                                '$deliveryReceipt',
-                                                '$SelectOrderNumber',
-                                                '$dateFromHTML',
-                                                '$driverFromHTML',
-                                                '$truckPlateFromHTML',
-                                                '$customerNameFromHTML',
-                                                '$destinationFromHTML',
-                                                'IP');"; //Insert Required Element from HTML to DB
-        
-                                            $RESULT_INSERT_TO_SCHED_DELIVERY_TABLE = mysqli_query($dbc,$INSERT_TO_SCHED_DELIVER_TABLE);
+                                        $INSERT_TO_SCHED_DELIVER_TABLE = "INSERT INTO scheduledelivery(
+                                            SchedID,
+                                            delivery_Receipt,
+                                            ordernumber,
+                                            delivery_Date,
+                                            driver,
+                                            truck_Number,
+                                            customer_Name,
+                                            Destination,
+                                            delivery_status)
+                                            
+                                            VALUES('$SchedID',
+                                            '$deliveryReceipt',
+                                            '$SelectOrderNumber',
+                                            '$SQL_FORMATTED_DATE',
+                                            '$driverFromHTML',
+                                            '$truckPlateFromHTML',
+                                            '$customerNameFromHTML',
+                                            '$destinationFromHTML',
+                                            '$DELIVER_STATUS');"; //Insert Required Element from HTML to DB
+    
+                                        $RESULT_INSERT_TO_SCHED_DELIVERY_TABLE = mysqli_query($dbc,$INSERT_TO_SCHED_DELIVER_TABLE);
+                                        if(!$RESULT_INSERT_TO_SCHED_DELIVERY_TABLE) 
+                                        {
+                                            die('Error: ' . mysqli_error($dbc));
+                                            echo '<script language="javascript">';
+                                            echo 'alert("Error In Insert");';
+                                            echo '</script>';
+                                        } 
+                                        else 
+                                        {
+                                            echo '<script language="javascript">';
+                                            echo 'alert("Insert Successfull");';
+                                            echo '</script>';                                           
+                                        }
 
-                                            $SchedID++; //Add +1 to Primary to Avoid Error on Duplicate key : Stupid kase ayaw gawin Auto incrememt, napaka BOBITO!
-                                            $deliveryReceipt++;
+                                        $SchedID++; //Add +1 to Primary to Avoid Error on Duplicate key : Stupid kase ayaw gawin Auto incrememt, napaka BOBITO!
+                                        $deliveryReceipt++;
 
-                                            // echo $orderNumArray[$i];
-                                            // if($orderNumArray[$i] == $SelectOrderNumber) //Inserts Values based on Ordernumber to secure details 
-                                            // {
-                                                
-                                                
-                                            // }   //END IF                                     
-                                  
-                                    }// END IF ISSET
+                                        $UPDATE_ORDERS_TABLE = "UPDATE orders
+                                        SET orders.order_status  = ('$DELIVER_STATUS')                                       
+                                        WHERE ordernumber ='$SelectOrderNumber';";
 
-                                    //     $OrderNumArray = array();
-                                    //     $OrderDetailID = array();
+                                        $RESULT_ORDER_TABLE = mysqli_query($dbc,$UPDATE_ORDERS_TABLE);
 
-                                    //     $queryToReplace = "SELECT orderdetailID, ordernumber, item_status FROM mydb.order_details";
-                                    //     $resulttoReplace = mysqli_query($dbc,$queryToReplace);
-                                    //     while($rowOfResult = mysqli_fetch_assoc($resulttoReplace))
-                                    //     {
-                                    //         $OrderNumArray[] = $rowOfResult['ordernumber'];
-                                    //         $OrderDetailID[] = $rowOfResult['orderdetailID'];
-                                    //     }
-
-                                    //     for ($i = 0; $i < sizeof($OrderNumArray); $i++)
-                                    //     {
-                                    //         if($OrderNumArray[$i] == $SelectOrderNumber)
-                                    //         {
-                                    //            $TEMP = $OrderDetailID[$i];
-                                              
-                                    //             $replaceQuery = "UPDATE order_details 
-                                    //             set item_status = 'Delivery in Progress'
-                                    //             where orderdetailID = '$TEMP' AND item_status = 'Deliver';";
-                                    //             $replaceResult =  mysqli_query($dbc,$replaceQuery); //Update Order_details table to replace 'Delvier' with 'IP'
-                                    //         }
-                                    //     }                                        
-                                    // }    
+                                        if(!$RESULT_ORDER_TABLE) 
+                                        {
+                                            die('Error: ' . mysqli_error($dbc));
+                                            echo '<script language="javascript">';
+                                            echo 'alert("Error In Update");';
+                                            echo '</script>';
+                                        } 
+                                        else 
+                                        {
+                                            echo '<script language="javascript">';
+                                            echo 'alert("Update Successfull");';
+                                            echo '</script>';
+                                            // header("Location: Deliveries.php");
+                                        }                                                                                   
+                                    }// END IF ISSET        
                             ?>
                         </div>
                       </div>
@@ -436,11 +451,11 @@
     //     $orderNumber[] = $ROW_RESULT_ORDER_STATUS['ordernumber'];
     // }      
 
-    $sql = "SELECT * FROM order_details 
-    join clients ON order_details.client_id = clients.client_id
-    join items_trading ON order_details.item_id = items_trading.item_id
-    join orders ON orders.ordernumber = order_details.ordernumber
-    group by orderdetailID;";
+    $sql = "SELECT * FROM orders
+    join clients ON orders.client_id = clients.client_id
+    join order_details ON order_details.ordernumber = orders.ordernumber
+    join items_trading ON order_details.item_id = items_trading.item_id   
+    ;";
 
     $result=mysqli_query($dbc,$sql);                                      
     while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
@@ -449,9 +464,9 @@
         $customerName[] = $row['client_name'];  
         $itemName[] = $row['item_name'];
         $quantity[] = $row['item_qty'];
-        $pricePerItem[] = $row['item_price'];
+        $pricePerItem[] =  number_format(($row['item_price']),2);  //place decimals
         // $totalPrice[] = $row['item_qty'] * $row['item_price'];
-        $totalPrice[] = $row['totalamt'];
+        $totalPrice[] =  number_format(($row['totalamt']),2);
 
         $fabricationStatus[] = $row['fabrication_status'];
         $paymentStatus[] = $row['payment_status'];
@@ -498,8 +513,6 @@
 
     echo 'var table = document.getElementById("datatable");'; 
     echo 'table.oldHTML=table.innerHTML;';
-
-    
 
     echo  " dropdown.onchange = function(){";
         echo 'table.innerHTML=table.oldHTML;'; //returns to the first state of the Table;

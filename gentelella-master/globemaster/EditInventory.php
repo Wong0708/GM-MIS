@@ -466,39 +466,36 @@
     
     $_SESSION['current_name'] = $itemNameArray[0];
     echo '<script>';
-    echo "var sku_idfromPHP = ".json_encode($skuArray).";";
-    echo "var itemNamefromPHP = ".json_encode($itemNameArray).";";
-    echo "var itemTypefromPHP = ".json_encode($itemTypeArray).";";
-    echo "var itemCountfromPHP = ".json_encode($itemCountArray).";";
-    echo "var supplierNamefromPHP = ".json_encode($supplierArray).";";
-    echo "var itempricefromPHP = ".json_encode($priceArray).";";
-    echo "var warehousefromPHP = ".json_encode($warehouseArray).";";
-    echo "var lastRestockfromPHP = ".json_encode($lastRestockArray).";";
-    echo "var lastUpdatefromPHP = ".json_encode($lastUpdateArray).";"; // Get values from items_trading table to JS Variable
+        echo "var sku_idfromPHP = ".json_encode($skuArray).";";
+        echo "var itemNamefromPHP = ".json_encode($itemNameArray).";";
+        echo "var itemTypefromPHP = ".json_encode($itemTypeArray).";";
+        echo "var itemCountfromPHP = ".json_encode($itemCountArray).";";
+        echo "var supplierNamefromPHP = ".json_encode($supplierArray).";";
+        echo "var itempricefromPHP = ".json_encode($priceArray).";";
+        echo "var warehousefromPHP = ".json_encode($warehouseArray).";";
+        echo "var lastRestockfromPHP = ".json_encode($lastRestockArray).";";
+        echo "var lastUpdatefromPHP = ".json_encode($lastUpdateArray).";"; // Get values from items_trading table to JS Variable
+            
+        echo "var SKUfromHTML = document.getElementById('sku_id');";
+        echo "var itemNamefromHTML = document.getElementById('item_name');";
+        echo "var itemTypefromHTML = document.getElementById('item_tyoe');";
+        echo "var itemCountfromHTML = document.getElementById('item_count');";
+        echo "var supplierfromHTML = document.getElementById('supplier_name');";
+        echo "var itemPricefromHTML = document.getElementById('item_price');";
+        echo "var warehousefromHTML = document.getElementById('warehouse_name');";
+        echo "var lastRestockfromHTML = document.getElementById('last_restock');";
+        echo "var lastUpdatefromHTML = document.getElementById('last_update');";
         
-    echo "var SKUfromHTML = document.getElementById('sku_id');";
-    echo "var itemNamefromHTML = document.getElementById('item_name');";
-    echo "var itemTypefromHTML = document.getElementById('item_tyoe');";
-    echo "var itemCountfromHTML = document.getElementById('item_count');";
-    echo "var supplierfromHTML = document.getElementById('supplier_name');";
-    echo "var itemPricefromHTML = document.getElementById('item_price');";
-    echo "var warehousefromHTML = document.getElementById('warehouse_name');";
-    echo "var lastRestockfromHTML = document.getElementById('last_restock');";
-    echo "var lastUpdatefromHTML = document.getElementById('last_update');";
-       
-    echo 'SKUfromHTML.value = sku_idfromPHP[0];';
-    echo 'itemNamefromHTML.value = itemNamefromPHP[0];';
-    echo 'itemTypefromHTML.value = itemTypefromPHP[0];';
-    echo 'itemCountfromHTML.value = itemCountfromPHP[0];';
-    echo 'supplierfromHTML.value = supplierNamefromPHP[0];';
-    echo 'itemPricefromHTML.value = itempricefromPHP[0];';
-    echo 'warehousefromHTML.value = warehousefromPHP[0];';
-    echo 'lastRestockfromHTML.value = lastRestockfromPHP[0];';
-    echo 'lastUpdatefromHTML.value = lastUpdatefromPHP[0];';
+        echo 'SKUfromHTML.value = sku_idfromPHP[0];';
+        echo 'itemNamefromHTML.value = itemNamefromPHP[0];';
+        echo 'itemTypefromHTML.value = itemTypefromPHP[0];';
+        echo 'itemCountfromHTML.value = itemCountfromPHP[0];';
+        echo 'supplierfromHTML.value = supplierNamefromPHP[0];';
+        echo 'itemPricefromHTML.value = itempricefromPHP[0];';
+        echo 'warehousefromHTML.value = warehousefromPHP[0];';
+        echo 'lastRestockfromHTML.value = lastRestockfromPHP[0];';
+        echo 'lastUpdatefromHTML.value = lastUpdatefromPHP[0];';
     echo '</script>';
-    
-                                          
-    
 ?>
 
 <script>

@@ -81,7 +81,7 @@
                             {
 
                               echo " <tr>";
-                                echo '<td  id = "delivrow',$count,'"  value="',$rowofResult['delivery_Receipt'],'"  onclick="getDR(this)"> <a href="Delivery Receipt.php">';            
+                                echo '<td  id = "delivrow',$count,'"  value="',$rowofResult['delivery_Receipt'],'"  "> <a href="Delivery Receipt.php">';            
                                 echo $rowofResult['delivery_Receipt'];
                                 echo '</a></td>';  
                                 echo '<td>';
@@ -103,7 +103,7 @@
                                 echo $rowofResult['delivery_status'];
                                 echo '</td>';
                                 echo '<td align = "center">';
-                                echo '<i class = "fa fa-wrench"></i>';
+                                echo '<a href ="Delivery Receipt.php?deliver_number='.$rowofResult['delivery_Receipt'].'"> <i class="fa fa-wrench"></i> </a>';
                                 echo '</td>';
                               echo "</tr>";
                               $count++;
@@ -167,13 +167,7 @@
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
 
-    <script text/javascript>
-         function getDR(obj) {
-            alert(obj.textContent);
-            var textFromDeliveriesPage = obj.textContent;
-            localStorage.setItem('DRfromDeliveriesPage',textFromDeliveriesPage);
-         }
-    </script>
+    
 
     <!-- Custom Fonts -->
     <style>

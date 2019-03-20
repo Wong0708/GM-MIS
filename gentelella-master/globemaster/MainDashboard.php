@@ -372,19 +372,11 @@
               
 
               <div class="clearfix"></div>
-
-
-            </div>
-        
+            </div>        
            </div>
-          </div>
-    
+          </div>    
           <br>
-          <div class="row">
-            
-   
-
-           
+          <div class="row">           
               </div>
             </div>
           </div>
