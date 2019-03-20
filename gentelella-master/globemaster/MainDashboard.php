@@ -135,11 +135,11 @@
                                     echo '</td>';
                                     if($row['diff'] >= 50)
                                     {
-                                        echo '<td><center><a href ="EditInventory.php?sku_id='.$row['sku_id'].' & item_id='.$row['item_id'].'"><button class="btn btn-danger" ><i onclick = "teit()"class="">Restock now</button></a></center></td>';
+                                        echo '<td><center><a href ="EditInventory.php?sku_id='.$row['sku_id'].' & item_id='.$row['item_id'].'" onclick = "teit()"class=""><button class="btn btn-danger">Restock now</button></a></center></td>';
                                     }
                                     else
                                     {
-                                        echo '<td><center><a href ="EditInventory.php?sku_id='.$row['sku_id'].' & item_id='.$row['item_id'].'"><button class="btn btn-warning"><i onclick = "teit()"class="">Restock now</button></a></center></td>';
+                                        echo '<td><center><a href ="EditInventory.php?sku_id='.$row['sku_id'].' & item_id='.$row['item_id'].'" onclick = "teit()"class=""><button class="btn btn-warning">Restock now</button></a></center></td>';
                                     }
                                     echo '</td>';
                                     echo '</tr>';
@@ -417,7 +417,7 @@
                                     echo '<td>';
                                     echo $row['last_update'];
                                     echo '</td>';
-                                    echo '<td><center><a href ="EditInventory.php?sku_id='.$row['sku_id'].' & item_id='.$row['item_id'].'"><button class="btn btn-info"><i onclick = "teit()"class="">Place Discount</button></a></center></td>';
+                                    echo '<td><center><a href ="EditInventory.php?sku_id='.$row['sku_id'].' & item_id='.$row['item_id'].'" onclick = "teit()"class=""><button class="btn btn-info">Place Discount</button></a></center></td>';
                                     echo '</tr>';
                                     
                             } 
@@ -519,6 +519,12 @@
             font-style:normal;
             font-size: 25px;
             color: #1D2B51;
+            }
+        button {
+            font-family: 'COUTURE Bold', Arial, sans-serif;
+            font-weight:normal;
+            font-style:normal;
+            font-size: 10px;
             }
 
     </style>    
