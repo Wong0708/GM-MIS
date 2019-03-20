@@ -100,7 +100,7 @@ if(!(isset($_SESSION['usertype']))){
                       <?php
                      if($user == 'MKT' or $user == 'SALES' or $user == 'INV'){
                   
-                      echo "<li><a href='qrcodegeneration.php'>Generate QR Code</a></li>";
+                      echo "<li><a href='qrcodegenerationNew.php'>Generate QR Code</a></li>";
                       
                         }
                       ?>
