@@ -66,7 +66,7 @@ require_once('DataFetchers/mysql_connect.php');
             $ROW_CHECK_STATUS = mysqli_fetch_assoc($RESULT_SELECT_ITEM_NAME);
             $CURRENT_ITEM_NAME = $ROW_CHECK_STATUS['item_name']; 
 
-            echo $CURRENT_ITEM_NAME;?> </b>]</h1><br>
+            echo $CURRENT_ITEM_NAME;?> </b></h1><br>
         </div><!-- PHP END -->
         <!-- /top tiles -->
 
@@ -91,6 +91,12 @@ require_once('DataFetchers/mysql_connect.php');
                         <div class="clearfix"></div>
 
                        
+                                    <!-- <div id="echart_line" style="height:350px;"></div> -->
+                                    <!-- /page content -->
+
+                                </div>
+                            </div>
+
                             <!-- jQuery -->
                             <script src="../vendors/jquery/dist/jquery.min.js"></script>
                             <!-- Bootstrap -->

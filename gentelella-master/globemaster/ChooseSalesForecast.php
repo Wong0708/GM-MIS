@@ -93,9 +93,7 @@
                                   </li>
                                   <li id = "invtimerseries" onclick = "changetots(this);" value = "Time-Series Forecasting"><a>Time-Series Forecasting</a>
                                   </li>
-                                  <li class="divider"></li>
-                                  <li onclick = "toggledatepicker()" id="customdatepick"><a>Custom Date Picker</a>
-                                  </li>
+                                  
                                 </ul>
                             </div>
                           </div>
@@ -119,7 +117,7 @@
                         </select>
                         </center>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" >
                         <center>
                         <p>Please choose a date range of forecast.</p>
                         <div class='col-md-12'>
@@ -142,7 +140,7 @@
                         {
                           // document.getElementById("enddate").valueAsDate = new Date()
                           var start_date = new Date(obj.valueAsDate);
-                          var end_date = start_date.addDays(30)
+                          var end_date = start_date.addDays(60)
 
                           end_date = moment(start_date).format('YYYY-MM-DD');
                           
@@ -152,7 +150,7 @@
                           
                           var END_DATE_INPUT = document.getElementById('enddate').valueAsDate;
                           
-                          var old_start_date = END_DATE_INPUT.addDays(-30);
+                          var old_start_date = END_DATE_INPUT.addDays(-60);
 
                           start_date = moment(start_date).format('YYYY-MM-DD');
                           old_start_date = moment(END_DATE_INPUT).format('YYYY-MM-DD');
@@ -248,38 +246,32 @@
 
     <!-- custom scripts -->
 
-    <script>    
+    <script>  
+     var TYPE = "";  
           function changetonaive(obj)      //Naive     
             {              
               var SALES_FORECAST_LABEL = document.getElementById("salesforecastlabel");            
               SALES_FORECAST_LABEL.value = obj.textContent;
+              TYPE = "naive";
+              console.log(TYPE);  
             }
             function changetots(obj)//Long
             {
               var SALES_FORECAST_LABEL = document.getElementById("salesforecastlabel");
               SALES_FORECAST_LABEL.value = obj.textContent;
+              TYPE = "long";
+              console.log(TYPE);  
             }
             function changetost(obj)//short
             {
               var SALES_FORECAST_LABEL = document.getElementById("salesforecastlabel");
-              SALES_FORECAST_LABEL.value= obj.textContent;    
-              console.log(SALES_FORECAST_LABEL.value);         
+              SALES_FORECAST_LABEL.value= obj.textContent;               
+              TYPE = "short";   
+              console.log(TYPE);       
             }
     </script>
 
-    <script>
-      
-        
-        function toggledatepicker()
-        {
-          var customdatepick = document.getElementById("customdatepick");
-          var datepickerdiv = document.getElementById("datepickerdiv"); //FIX THIS 
-          var SALES_FORECAST_LABEL = document.getElementById("invforecastlabel");
-
-          datepickerdiv.style.display = "block";
-          SALES_FORECAST_LABEL.value = "Custom Date Pick";
-        }
-    </script>  
+    
 
     <script>
     function SHOW_FORECAST()
@@ -287,7 +279,8 @@
       var SET_ITEM_NAME = document.getElementById("item_name").value;
       var SET_START_DATE = document.getElementById("startdate").value;
       var SET_END_DATE = document.getElementById("enddate").value;
-
+      var SALES_FORECAST_LABEL = document.getElementById("salesforecastlabel").value;
+     
       
       if(!SET_ITEM_NAME || !SET_START_DATE || !SET_END_DATE) //Checker
       {
@@ -297,7 +290,7 @@
       {
         if(confirm("Show forecast on Selected Item and Dates?"))
         {
-          window.location.href = "SalesForecasting.php?item_id="+SET_ITEM_NAME+"&sd="+SET_START_DATE+"&ed="+SET_END_DATE+""; 
+          window.location.href = "SalesForecasting.php?item_id="+SET_ITEM_NAME+"&sd="+SET_START_DATE+"&ed="+SET_END_DATE+"&type = "+TYPE +" "; 
         }
         else
         {

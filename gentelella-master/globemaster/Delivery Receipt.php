@@ -120,7 +120,7 @@
                                         {
                                             $datedifferenceNow =  abs($rowDeliveryDateDiffNow['datedifferenceNow']);
                                             $orders = "order's";
-                                            echo '<p><font color = "red">This order is late by '.$datedifferenceNow.' days.</font></p>';
+                                            echo '<p><font color = "red">This order is late by '.$datedifferenceNow.' Days.</font></p>';
                                         }
 
                                         // to check date difference from expected date
@@ -136,7 +136,7 @@
                                         if($rowDeliveryDateDiff['datedifference'] > 0)
                                         {
                                             $datedifference =  $rowDeliveryDateDiff['datedifference'];
-                                            echo '<p><font color = "#ffc430">This order will be '.$datedifference.' day(s) late from the expected delivery date.</font></p>';
+                                            echo '<p><font color = "#ffc430">This order will be '.$datedifference.' day(s) late from the Expected Delivery Date.</font></p>';
                                         }
                                     }
                                     
@@ -153,6 +153,12 @@
                                         <label class="control-label col-md-4 col-sm-4 col-xs-12">Delivery Receipt Number </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                             <input type="text" id = "drNumber" class="form-control" readonly="readonly" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4 col-sm-4 col-xs-12">Expected Date</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="text" id = "drexpectedDate" class="form-control" readonly="readonly" >
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -324,7 +330,7 @@ $itemName = array();
 $quantity = array();
 $pricePerItem = array();
 $totalPrice = array();
-
+$expected_date = array();
 
 
 
@@ -355,17 +361,21 @@ while($rowofResult2=mysqli_fetch_array($resultofQuery2,MYSQLI_ASSOC))
         $quantity[] = $rowofResult1['item_qty'];
         $pricePerItem[] = number_format(($rowofResult1['item_price']),2);
         $totalPrice[] = number_format(($rowofResult1['totalamt']),2);
+        $FORMATTED_EXPECTED_DATE = date('F j, Y',strtotime($rowofResult1['expected_date'])); //Formats date 
+        $expected_date[]= $FORMATTED_EXPECTED_DATE;
     }
+    $FORMATTED_DELIV_DATE = date('F j, Y',strtotime($rowofResult2['delivery_Date'])); //Formats date 
    
     $SchedDelivOrderNumber[] = $rowofResult2['ordernumber']; //To this
     $SchedDelivDR[] = $rowofResult2['delivery_Receipt'];
-    $SchedDelivDate[] = $rowofResult2['delivery_Date'];
+    $SchedDelivDate[] = $FORMATTED_DELIV_DATE;
     $SchedDelivDestination[] = $rowofResult2['Destination'];
     $SchedDelivCusName[] = $rowofResult2['customer_Name'];
     $SchedDelivStatus[] =  $rowofResult2['delivery_status'];
 }
     echo '<script text/javascript>';
     echo "var deliverNumberfromHTML = document.getElementById('drNumber');";
+    echo "var expectedDatefromHTML = document.getElementById('drexpectedDate');";
     echo "var deliverDatefromHTML = document.getElementById('drDate');";
     echo "var deliverDestinationfromHTML = document.getElementById('drDestination');";
     echo "var deliverCusNamefromHTML = document.getElementById('drCusName');";
@@ -379,6 +389,7 @@ while($rowofResult2=mysqli_fetch_array($resultofQuery2,MYSQLI_ASSOC))
     echo "var drCusFromPHP = ".json_encode($SchedDelivCusName).";";
     echo "var drStatFromPHP = ".json_encode($SchedDelivStatus).";";
     echo "var DRFromPHP = ".json_encode($SchedDelivDR).";"; 
+    echo "var drExpectedDateFromPHP = ".json_encode($expected_date).";";
     echo "var OrderNumberFromSchedDeliver = ".json_encode($SchedDelivOrderNumber).";";//Values from Sched Delivery Table
 
 
@@ -405,7 +416,7 @@ while($rowofResult2=mysqli_fetch_array($resultofQuery2,MYSQLI_ASSOC))
                 echo 'deliverCusNamefromHTML.value = drCusFromPHP[i];';
                 echo 'deliverStatusfromHTML.value = drStatFromPHP[i];';
                 echo 'deliverTotalfromHTML.value = "₱ "+ ItemTotalFromPHP[i];';
-                
+                echo 'expectedDatefromHTML.value = drExpectedDateFromPHP[i];';
                 echo 'var count = OrderNumberFromOrderDetails.length -1;';
 
                 echo 'while(count >= 0){';
