@@ -87,11 +87,11 @@
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Choose.. <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                  <li id = "invnaive" onclick="changetonaive();"><a>Naive Forecasting</a>
+                                  <li id = "invnaive" onclick="changetonaive(this);" value = "Naive Forecasting" ><a>Naive Forecasting</a>
                                   </li>
-                                  <li id = "invshortterm" onclick = "changetost();"><a>Short-Term Forecasting</a>
+                                  <li id = "invshortterm" onclick = "changetost(this);" value = "Short-Term Forecasting"><a>Short-Term Forecasting</a>
                                   </li>
-                                  <li id = "invtimerseries" onclick = "changetots();"><a>Time-Series Forecasting</a>
+                                  <li id = "invtimerseries" onclick = "changetots(this);" value = "Time-Series Forecasting"><a>Time-Series Forecasting</a>
                                   </li>
                                   <li class="divider"></li>
                                   <li onclick = "toggledatepicker()" id="customdatepick"><a>Custom Date Picker</a>
@@ -113,7 +113,7 @@
                                 
                                 while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
                                 {
-                                   echo '<option value = "'.$row['item_name'].'">'.$row['item_name'].'</option>';
+                                   echo '<option value = "'.$row['item_id'].'">'.$row['item_name'].'</option>';
                                 }
                             ?>             
                         </select>
@@ -248,38 +248,36 @@
 
     <!-- custom scripts -->
 
-    <script>
-            var salesforecastlabel = document.getElementById("salesforecastlabel");
-            
-            var invnaive = document.getElementById("invnaive");
-            var invshortterm = document.getElementById("invshortterm");
-            var invtimeseries = document.getElementById("invtimerseries");
-
-            
-            function changetonaive()
-            {
-              salesforecastlabel.value = "Naive Forecasting";
+    <script>    
+          function changetonaive(obj)      //Naive     
+            {              
+              var SALES_FORECAST_LABEL = document.getElementById("salesforecastlabel");            
+              SALES_FORECAST_LABEL.value = obj.textContent;
             }
-            function changetots()
+            function changetots(obj)//Long
             {
-              salesforecastlabel.value = "Time Series Forecasting";
+              var SALES_FORECAST_LABEL = document.getElementById("salesforecastlabel");
+              SALES_FORECAST_LABEL.value = obj.textContent;
             }
-            function changetost()
+            function changetost(obj)//short
             {
-              salesforecastlabel.value = "Short Term Forecasting";
-              
+              var SALES_FORECAST_LABEL = document.getElementById("salesforecastlabel");
+              SALES_FORECAST_LABEL.value= obj.textContent;    
+              console.log(SALES_FORECAST_LABEL.value);         
             }
     </script>
 
     <script>
-        var customdatepick = document.getElementById("customdatepick");
-        var datepickerdiv = document.getElementById("datepickerdiv");
-        var salesforecastlabel = document.getElementById("invforecastlabel");
+      
         
         function toggledatepicker()
         {
+          var customdatepick = document.getElementById("customdatepick");
+          var datepickerdiv = document.getElementById("datepickerdiv"); //FIX THIS 
+          var SALES_FORECAST_LABEL = document.getElementById("invforecastlabel");
+
           datepickerdiv.style.display = "block";
-          salesforecastlabel.value = "Custom Date Pick";
+          SALES_FORECAST_LABEL.value = "Custom Date Pick";
         }
     </script>  
   </body>

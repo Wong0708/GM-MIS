@@ -276,7 +276,7 @@
                                         }
     
                                         $INSERT_TO_SCHED_DELIVER_TABLE = "INSERT INTO scheduledelivery(
-                                            SchedID,
+                                            
                                             delivery_Receipt,
                                             ordernumber,
                                             delivery_Date,
@@ -286,7 +286,7 @@
                                             Destination,
                                             delivery_status)
                                             
-                                            VALUES('$SchedID',
+                                            VALUES(
                                             '$deliveryReceipt',
                                             '$SelectOrderNumber',
                                             '$SQL_FORMATTED_DATE',
@@ -306,9 +306,9 @@
                                         } 
                                         else 
                                         {
-                                            echo '<script language="javascript">';
-                                            echo 'alert("Insert Successfull");';
-                                            echo '</script>';                                           
+                                            // echo '<script language="javascript">';
+                                            // echo 'alert("Insert Successfull");';
+                                            // echo '</script>';                                           
                                         }
 
                                         $SchedID++; //Add +1 to Primary to Avoid Error on Duplicate key : Stupid kase ayaw gawin Auto incrememt, napaka BOBITO!
@@ -330,7 +330,7 @@
                                         else 
                                         {
                                             echo '<script language="javascript">';
-                                            echo 'alert("Update Successfull");';
+                                            echo 'alert("Create Delivery Receipt Successful");';
                                             echo '</script>';
                                             header("Location: Deliveries.php");
                                         }                                                                                   

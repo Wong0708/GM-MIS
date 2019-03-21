@@ -132,7 +132,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Amount: </label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="text" id = "total_amount" class="form-control" readonly="readonly">
+                                                    <input type="text" id = "total_amount" class="form-control" readonly="readonly"  style="text-align:right;">
                                                 </div>
                                             </div>
                                             
@@ -181,11 +181,11 @@
               
                                         $CLIENT_NAME[] = $rowClientName['client_name'];
                                         
-                                        $time = strtotime($ROW_RESULT_SELECT_ORDERS['order_date']);
-                                        $newformat = date('Y-m-d',$time);
+                                        $TIME = strtotime($ROW_RESULT_SELECT_ORDERS['order_date']);
+                                        $NEW_TIME_FORMAT = date('Y-m-d',$TIME);
 
                                         // $CLIENT_NAME[] = $ROW_RESULT_SELECT_ORDERS['client_id'];
-                                        $ORDER_DATE[] = $newformat;  
+                                        $ORDER_DATE[] = $NEW_TIME_FORMAT;  
                                         $EXPECTED_DATE[] = $ROW_RESULT_SELECT_ORDERS['expected_date'];
                                         // $PAYMENT_TYPE[] = $ROW_RESULT_SELECT_ORDERS['payment_id'];
                                         $PAYMENT_STATUS[] = $ROW_RESULT_SELECT_ORDERS['payment_status'];
@@ -193,9 +193,9 @@
                                         $ORDER_STATUS[] = $ROW_RESULT_SELECT_ORDERS['order_status'];
                                         $INSTALL_STATUS[] = $ROW_RESULT_SELECT_ORDERS['installation_status'];
                                         $FAB_STATUS[] = $ROW_RESULT_SELECT_ORDERS['fab_status'];
-                                        $TOTAL_AMOUNT[] = $ROW_RESULT_SELECT_ORDERS['totalamt'];   
+                                        $TOTAL_AMOUNT[] =  number_format(($ROW_RESULT_SELECT_ORDERS['totalamt']),2);   
 
-
+                                       ;
                                         
                                        
                                     }
@@ -220,7 +220,7 @@
                                         echo 'ORDER_STATUS_BOX.value = ORDER_STATUS_FROM_PHP[i];';
                                         echo 'INSTALL_STATUS_BOX.value = INSTALL_STATUS_FROM_PHP[i];';
                                         echo 'FAB_STATUS_BOX.value = FAB_STATUS_FROM_PHP[i];';
-                                        echo 'TOTAL_AMOUNT_BOX.value = TOTAL_AMOUNT_FROM_PHP[i];';
+                                        echo 'TOTAL_AMOUNT_BOX.value = "₱ "+ TOTAL_AMOUNT_FROM_PHP[i];';
 
                                     echo '}'; //End FOR
 
@@ -266,7 +266,7 @@
                                                                         echo $ROW_RESULT_SELECT['item_name'];
                                                                         echo '</td>';
                                                                         echo '<td>';
-                                                                        echo $ROW_RESULT_SELECT['item_price'];
+                                                                        echo "₱ ", number_format(($ROW_RESULT_SELECT['item_price']),2);  
                                                                         echo '</td>';
                                                                         echo '<td>';
                                                                         echo $ROW_RESULT_SELECT['item_qty'];
@@ -288,7 +288,7 @@
                                <div class="col-md-12 col-sm-12 col-xs-12" align = "right">
                                         
                                         <div class="ln_solid"></div>
-                                            <button name = "confirmButton" type="submit" class="btn btn-success" onclick ="generalAlert()">Finish</button>
+                                            <button name = "confirmButton" type="button" class="btn btn-success" onclick ="FinishOrder()">Finish</button>
                                             <button type="button" class="btn btn-warning" onclick="cancelWarning()">Cancel Order</button>
 
                                         </div><!--END Col MD-->
@@ -373,6 +373,73 @@
 
 <!-- Custom Theme Scripts -->
 <script src="../build/js/custom.min.js"></script>
+
+<script>
+
+    function cancelWarning()
+    {
+        if(confirm("Cancel Current Order?"))
+        {
+            if(confirm("Are you sure?"))
+            {
+                request = $.ajax({
+                url: "ajax/cancel_order.php",
+                type: "POST",
+                data: {
+                    post_or_number:  "<?php echo $_SESSION['order_number_from_view'];?>",                    
+                },
+                    success: function(data)
+                    {
+                        alert("Current Order: Cancelled!");
+                        window.location.href = "ViewOrderDetails.php";                         
+                    }//End Scucess               
+                }); // End ajax    
+            }
+            else
+            {
+                alert("Action: Cancelled");
+            }
+        }
+        else
+        {
+            alert("Action: Cancelled");
+        }
+    }
+
+</script>
+<script>
+
+function FinishOrder()
+{
+    if(confirm("Finish Current Order?"))
+    {
+        if(confirm("Are you sure?"))
+        {
+            request = $.ajax({
+            url: "ajax/finished_order.php",
+            type: "POST",
+            data: {
+                post_or_number:  "<?php echo $_SESSION['order_number_from_view'];?>",                    
+            },
+                success: function(data)
+                {
+                    alert("Current Order: Finished!");
+                    window.location.href = "ViewOrderDetails.php";                         
+                }//End Scucess               
+            }); // End ajax    
+        }
+        else
+        {
+            alert("Action: Cancelled");
+        }
+    }
+    else
+    {
+        alert("Action: Cancelled");
+    }
+}
+
+</script>
 
 </body>
 

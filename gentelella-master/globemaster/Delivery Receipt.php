@@ -292,9 +292,7 @@ while($rowofResult2=mysqli_fetch_array($resultofQuery2,MYSQLI_ASSOC))
         $pricePerItem[] = number_format(($rowofResult1['item_price']),2);
         $totalPrice[] = number_format(($rowofResult1['totalamt']),2);
     }
-
-    
-
+   
     $SchedDelivOrderNumber[] = $rowofResult2['ordernumber']; //To this
     $SchedDelivDR[] = $rowofResult2['delivery_Receipt'];
     $SchedDelivDate[] = $rowofResult2['delivery_Date'];
