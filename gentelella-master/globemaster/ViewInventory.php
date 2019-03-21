@@ -50,10 +50,13 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_content">
-                    <p class="text-muted font-13 m-b-30">
-                      This is where the users will be able to add and remove inventory based on the data tables provided by the company. These can be editable and can be subjected to changes in accordance to the
-                  desires of the head different screen sizes through the dynamic insertion and removal of columns from the table.
-                    </p><br>
+                  
+                    <div>
+                        <form action="AddInventory.php" method="POST">
+                          <button type="submit" class="btn btn-success btn-lg"><i class="fa fa-plus"></i> New Inventory Item</button>
+                          <br><br>
+                        </form>
+                    </div>
 					
                      <table id="datatable-fixed-header" class="table table-striped table-bordered">
                       <thead>
@@ -126,11 +129,6 @@
                         ?>  
                       </tbody>
                     </table><br>
-                    <div>
-                        <form action="AddInventory.php" method="POST">
-                          <button type="submit" class="btn btn-round btn-success"><i class="fa fa-plus"></i> Add Item</button>
-                        </form>
-                    </div>
                   </div>
                 </div>
               </div>

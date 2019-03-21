@@ -100,6 +100,32 @@
                       </div>
                     </div>
                     <div class="item form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">City <span class="required">*</span>
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                  
+                      <select class="form-control col-md-7 col-xs-12" name="city" required="required">
+                      <option value="">Choose..</option>
+                          <?php
+                          require_once('DataFetchers/mysql_connect.php');
+                          $sqlPullDestination = "SELECT * FROM destination";
+                          $resultofDestination =  mysqli_query($dbc,$sqlPullDestination);
+                          while($rowDestination=mysqli_fetch_array($resultofDestination,MYSQLI_ASSOC))
+                          {
+                        
+                                echo'<option value="';
+                                echo $rowDestination['DestinationName'];
+                                echo'">';
+                                echo $rowDestination['DestinationName'];
+                                echo'</option>';
+                        
+                          }
+                         ?>
+                      </select>
+                        <!-- <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="city" placeholder="Please enter the customer's city of delivery" required="required" type="text"> -->
+                      </div>
+                    </div>
+                    <div class="item form-group">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Address
                       </label>
                       <div class="col-md-6 col-sm-6 col-xs-12">
@@ -119,7 +145,7 @@
                     <?php
                             require_once('DataFetchers/mysql_connect.php');
 
-                            $name = $idinsert = $contact = $email = $address = $status = "";
+                            $name = $idinsert = $contact = $email = $address = $status = $city = "";
 
                               if($_SERVER["REQUEST_METHOD"] == "POST")
                               {
@@ -135,20 +161,24 @@
                                 $contact = test_input($_POST['contact']);
                                 $email = test_input($_POST['email']);
                                 $address = test_input($_POST['address']);
+                                $city = test_input($_POST['city']);
                                 // $status = test_input($_POST['status']);
 
                                   echo '<script language="javascript">';
-                                  echo 'alert(Are you sure you want to enter the following data?)';  //not showing an alert box.
+                                  echo 'confirm(Are you sure you want to enter the following data?)';  //not showing an alert box.
                                   echo '</script>';
                               
 
-                                $sql = "INSERT INTO clients (client_id, client_name, client_address, client_contactno, client_email)
+                                $sql = "INSERT INTO clients (client_id, client_name, client_address, client_city, client_contactno, client_email, total_unpaid, client_status)
                                   Values(
                                   '$idinsert',
                                   '$name', 
                                   '$address',
+                                  '$city',
                                   '$contact',
-                                  '$email')";
+                                  '$email',
+                                   0,
+                                   'Allowed')";
 
                                 $resultinsert = mysqli_query($dbc,$sql);
 
@@ -186,10 +216,11 @@
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
-                          <th>Customer ID</th>
                           <th>Customer Name</th>
                           <th>Contact Number</th>
+                          <th>Delivery Address</th>
                           <th>E-mail Address</th>
+                          <th>Total Unpaid</th>
                           <th>Status</th>
                         </tr>
                       </thead>
@@ -203,13 +234,24 @@
 
                             while ($clients = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
                                 //output a row here
-                                echo "<tr><td>".($clients['client_id'])."</td>";
                                 echo "<td>".($clients['client_name'])."</td>";
                                 echo "<td>".($clients['client_contactno'])."</td>";
+                                echo "<td>".($clients['client_city'])." | ".($clients['client_address'])."</td>";
                                 echo "<td>".($clients['client_email'])."</td>";
-                                echo "<td>".($clients['client_id'])."</td></tr>";
+                                echo "<td align = 'right'>₱ ".($clients['total_unpaid'])."</td>";
+                                if($clients['client_status'] == "Allowed")
+                                {
+                      ?>
+                                  <td align = 'center'><font color = "green">Allowed</font></td></tr>
+                      <?php
+                                }
+                                else if($clients['client_status'] == "Disallowed")
+                                {
+                      ?>
+                                  <td align = 'center'><font color = "red ">Disallowed</font></td></tr>
+                      <?php
+                                }
                             }
-
                             echo "</tbody>";
                       ?>
                     </table>
@@ -268,7 +310,7 @@
     <script>
     function confirmalert()
     {
-      window.alert("Are you sure you want to enter the following data?");
+      confirm("Are you sure you want to enter the following data?");
     }
     </script>
 

@@ -49,176 +49,204 @@
                     
 
                     <!--TABLE OF DETAILS FOR DELIVERY RECEIPT-->
-                    <div class="col-md-12 col-sm-9 col-xs-12" >
-                        <div class="x_panel" >
+                    <div class="col-md-12 col-sm-12 col-xs-12" >
+                        <div class="x_panel" id="printDR">
                             <div class="x_title">
-                                <h1 align = "center">Delivery Receipt Details</h1>
-                                
+                                <div class="col-md-10 col-sm-10 col-xs-12">
+                                    <font color = "black"><h1>Delivery Receipt - [
+                                    <?php
+                                        if(isset($_GET['deliver_number']))
+                                        {
+                                            $_SESSION['get_dr_number_from_deliveries'] = $_GET['deliver_number'];
+                                            $_SESSION['get_or_number_from_deliveries'] = $_GET['order_number'];
+                                            echo $_SESSION['get_dr_number_from_deliveries'];
+                                        }
+                                        else
+                                        {
+                                            echo $_SESSION['get_dr_number_from_deliveries'];
+                                        }
+                                        
+                                    ?>
+
+                                    ]</h1></font> 
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-12" align="right">
+                                    <?php
+                                        include("print.php");
+                                    ?>                                       
+                                        <button type="" class="btn btn-primary btn-lg" onclick="printW()"><i class="fa fa-print"></i> Print</button>                                    
+                                </div>                              
                                 <div class="clearfix"></div>
+
+                                
                             </div>
-                           
-                            <div class="x_content">
-                                <br>
-                                <form class="form-horizontal form-label-center">
+                            <div class="col-md-12 col-sm-12 col-xs-12" >
+                            <?php
+                                    $GET_ID_DELIVERY = $_SESSION['get_dr_number_from_deliveries'];
+                                    $deliveryexpected = array();
+                                    $deliverydate = array();
+                                    $datetoday = date("Y-m-d");
+                                    $queryDeliveryDate = "SELECT * FROM orders o
+                                    JOIN scheduledelivery sd 
+                                    ON o.ordernumber = sd.ordernumber 
+                                    WHERE delivery_Receipt = '$GET_ID_DELIVERY';"; 
+                                    $resultDeliveryDate = mysqli_query($dbc,$queryDeliveryDate);
+                                  
+                                    while($rowDeliveryDate = mysqli_fetch_array($resultDeliveryDate,MYSQLI_ASSOC))
+                                    {
+                                        $deliveryexpected[] = $rowDeliveryDate['expected_date'];
+                                        $deliverydate[] = $rowDeliveryDate['delivery_Date'];
+                                    }
+                                   
+                                  
+                                    for($i = 0; $i < sizeof($deliveryexpected); $i++)
+                                    {
+                                        // to check countdown till delivery
+                                        $queryDeliveryDateDiffNow = "SELECT DATEDIFF(CURDATE(),sd.delivery_Date) 
+                                        AS datedifferenceNow
+                                        FROM orders o
+                                        JOIN scheduledelivery sd 
+                                        ON o.ordernumber = sd.ordernumber 
+                                        WHERE delivery_Receipt = '$GET_ID_DELIVERY';"; 
+                                        $resultDeliveryDateDiffNow = mysqli_query($dbc,$queryDeliveryDateDiffNow);
+                                        $rowDeliveryDateDiffNow = mysqli_fetch_array($resultDeliveryDateDiffNow,MYSQLI_ASSOC);
+                                        if($rowDeliveryDateDiffNow['datedifferenceNow'] > -4 && $rowDeliveryDateDiffNow['datedifferenceNow'] < 1)
+                                        {
+                                            $datedifferenceNow =  abs($rowDeliveryDateDiffNow['datedifferenceNow']);
+                                            $orders = "order's";
+                                            echo '<p><font color = "blue">This '.$orders.' delivery date is due in '.$datedifferenceNow.' days.</font></p>';
+                                        }
+                                        else if($rowDeliveryDateDiffNow['datedifferenceNow'] > 0)
+                                        {
+                                            $datedifferenceNow =  abs($rowDeliveryDateDiffNow['datedifferenceNow']);
+                                            $orders = "order's";
+                                            echo '<p><font color = "red">This order is late by '.$datedifferenceNow.' Days.</font></p>';
+                                        }
+
+                                        // to check date difference from expected date
+                                        $queryDeliveryDateDiff = "SELECT DATEDIFF(sd.delivery_Date,o.expected_date) 
+                                        AS datedifference
+                                        FROM orders o
+                                        JOIN scheduledelivery sd 
+                                        ON o.ordernumber = sd.ordernumber 
+                                        WHERE delivery_Receipt = '$GET_ID_DELIVERY';"; 
+                                        $resultDeliveryDateDiff = mysqli_query($dbc,$queryDeliveryDateDiff);
+                                        $rowDeliveryDateDiff = mysqli_fetch_array($resultDeliveryDateDiff,MYSQLI_ASSOC);
+
+                                        if($rowDeliveryDateDiff['datedifference'] > 0)
+                                        {
+                                            $datedifference =  $rowDeliveryDateDiff['datedifference'];
+                                            echo '<p><font color = "#ffc430">This order will be '.$datedifference.' day(s) late from the Expected Delivery Date.</font></p>';
+                                        }
+                                    }
+                                    
+                                ?>
+                                </div>
+                            <form class="form-horizontal form-label-center" method="GET">                              
+                                <div class="col-md-6 col-sm-6 col-xs-12 " >
+                                    <div class="x_panel" >
+                                    <center><font color = "#2a5eb2"><h3>Delivery Receipt Details </h1>
+                                                </h3></font></center>
+                                    <div class="ln_solid"></div>
 
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Delivery Receipt Number </label>
-                                        <div class="col-md-3 col-sm-9 col-xs-12">
+                                        <label class="control-label col-md-4 col-sm-4 col-xs-12">Delivery Receipt Number </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
                                             <input type="text" id = "drNumber" class="form-control" readonly="readonly" >
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Delivery Date</label>
-                                        <div class="col-md-3 col-sm-9 col-xs-12">
+                                        <label class="control-label col-md-4 col-sm-4 col-xs-12">Expected Date</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="text" id = "drexpectedDate" class="form-control" readonly="readonly" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4 col-sm-4 col-xs-12">Delivery Date</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
                                             <input type="text" id = "drDate" class="form-control" readonly="readonly" >
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Destination</label>
-                                        <div class="col-md-3 col-sm-9 col-xs-12">
+                                        <label class="control-label col-md-4 col-sm-4 col-xs-12">Destination</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
                                             <input type="text" id = "drDestination" class="form-control" readonly="readonly" >
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Customer Name</label>
-                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <label class="control-label col-md-4 col-sm-4 col-xs-12">Customer Name</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
                                             <input type="text" id = "drCusName" class="form-control" readonly="readonly" >
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Current Status</label>
-                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                        <label class="control-label col-md-4 col-sm-4 col-xs-12">Current Status</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
                                             <input type="text" id = "drStatus" class="form-control" readonly="readonly">
                                         </div>
                                     </div>
 
-                                    <div class="row" >
-                                        <div class="col-md-8 col-sm-9 col-xs-12"  >
-                                            <table  id="datatable" class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable_info">
-                                                <thead>
-                                                    <tr role="row">
-                                                        <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 263px;">Product</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Pieces</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Price per piece</th>
-                                                    </tr>
-                                                </thead>
-                                                <tr role='row' class='odd'>
-                                                                                                                                     
-                                                     </tr>
-
-                                                <tbody>
-                                                 
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-
+                                    
+                                    <br><br>
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Total</label>
-                                        <div class="col-md-3 col-sm-9 col-xs-6">
-                                            <input   type="text" id = "drTotal" class="form-control" readonly="readonly" placeholder="Read-Only Input">
+                                        <label class="control-label col-md-4 col-sm-4 col-xs-12">Total Amount</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
+                                            <input   type="text" id = "drTotal" class="form-control" readonly="readonly" placeholder="Read-Only Input" style="text-align:right;">
                                         </div>
                                     </div>
 
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-6 col-xs-12" >
+                                    <div class="x_panel" >
+
+                                    <center><h3>Items in This Order</h1>
+                                    
+                                    </h3></center>
+                                    <div class="ln_solid"></div>
+
+                                            <div class="row" >
+                                                <div class="col-md-12 col-sm-12 col-xs-12"  >
+                                                    <table  id="datatable" class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable_info">
+                                                        <thead>
+                                                            <tr role="row">
+                                                                <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 263px;">Product</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Pieces</th>
+                                                                <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Price per piece</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tr role='row' class='odd'>
+                                                                                                                                            
+                                                            </tr>
+
+                                                        <tbody>
+                                                        
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            
+                                    </div> <!--END XPanel-->
+                                </div> <!--END Class Colmd-->
+
+                                <div class = "clearfix"></div>  
                                     <div class="ln_solid"></div>
                                     <div class="form-group">
-                                        <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                                            <button type="button" class="btn btn-primary">Edit</button>
-                                            <button type="reset" class="btn btn-warning" onclick="clearLocalStorage()">Archive</button>
+                                        <div class="col-md-12 col-sm-12 col-xs-12" align = "right ">
+                                            <button type="button" class="btn btn-default"><a href = Deliveries.php>Go Back</a></button>
+                                            <button type="button" class="btn btn-success" onclick = "finishDeliver()">Finish Delivery</button>
                                         </div>
                                     </div>
 
-                                </form>
+                                    
+                            </form>
 
                             </div>
                         </div>
                     </div>
-
-                    <!-- <div class="col-md-6 col-sm-9 col-xs-12">
-                        <div class="x_panel">
-                            <div class="x_title">
-                                <h2>Delivery Receipt List </h2>
-                                
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="x_content">
-                                
-                                <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-
-                                   <div class="row">
-                                        <div class="col-sm-12">
-                                        <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
-                                                <thead>
-                                                    <tr role="row">
-                                                        <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 263px;">Delivery Receipt Number</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Delivery date</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 197px;">Origin</th>
-                                                    </tr>
-                                                </thead>
-
-
-                                                <tbody>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Airi Satou</td>
-                                                        <td>2008/11/28</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Angelica Ramos</td>
-                                                        <td>2009/10/09</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Ashton Cox</td>
-                                                        <td>2009/01/12</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Bradley Greer</td>
-                                                        <td>2012/10/13</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Brenden Wagner</td>
-                                                        <td>2011/06/07</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Brielle Williamson</td>
-                                                        <td>2012/12/02</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Bruno Nash</td>
-                                                        <td>2011/05/03</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Caesar Vance</td>
-                                                        <td>2011/12/12</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="odd">
-                                                        <td class="sorting_1">Cara Stevens</td>
-                                                        <td>2011/12/06</td>
-                                                        <td>Depot</td>
-                                                    </tr>
-                                                    <tr role="row" class="even">
-                                                        <td class="sorting_1">Cedric Kelly</td>
-                                                        <td>2012/03/29</td>
-                                                        <td>Trading</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
 
                 </div>
             </div>
@@ -295,23 +323,16 @@
 
 require_once('DataFetchers/mysql_connect.php');
 
+$DR_NUM_FROM_VIEW = $_SESSION['get_dr_number_from_deliveries'];
+
 $orderNumberArray = array();
 $itemName = array();
 $quantity = array();
 $pricePerItem = array();
 $totalPrice = array();
+$expected_date = array();
 
-$queryToGetItemList = "SELECT * FROM order_details WHERE item_status ='IP'";
-$resultofQuery1 = mysqli_query($dbc, $queryToGetItemList);
-while($rowofResult1=mysqli_fetch_array($resultofQuery1,MYSQLI_ASSOC))
-{
-    $orderNumberArray[] = $rowofResult1['ordernumber']; 
-    $itemName[] = $rowofResult1['item_name'];
-    $quantity[] = $rowofResult1['item_qty'];
-    $pricePerItem[] = $rowofResult1['item_price'];
-    $totalPrice[] = $rowofResult1['item_qty'] * $rowofResult1['item_price'];
 
-}
 
 
 
@@ -327,27 +348,48 @@ $sqlToGetTableValue = "SELECT * FROM scheduledelivery";
 $resultofQuery2 = mysqli_query($dbc, $sqlToGetTableValue);
 while($rowofResult2=mysqli_fetch_array($resultofQuery2,MYSQLI_ASSOC))
 {
-    $SchedDelivOrderNumber[] = $rowofResult2['ordernumber'];
+    $OR_FROM_SCHED_DELIV_TABLE =  $rowofResult2['ordernumber'];
 
+    $queryToGetItemList = "SELECT * FROM orders
+    JOIN order_details ON orders.ordernumber = order_details.ordernumber
+    WHERE orders.ordernumber = '$OR_FROM_SCHED_DELIV_TABLE'";
+    $resultofQuery1 = mysqli_query($dbc, $queryToGetItemList);
+    while($rowofResult1=mysqli_fetch_array($resultofQuery1,MYSQLI_ASSOC))
+    {
+        $orderNumberArray[] = $rowofResult1['ordernumber']; //Compare this 
+        $itemName[] = $rowofResult1['item_name'];
+        $quantity[] = $rowofResult1['item_qty'];
+        $pricePerItem[] = number_format(($rowofResult1['item_price']),2);
+        $totalPrice[] = number_format(($rowofResult1['totalamt']),2);
+        $FORMATTED_EXPECTED_DATE = date('F j, Y',strtotime($rowofResult1['expected_date'])); //Formats date 
+        $expected_date[]= $FORMATTED_EXPECTED_DATE;
+    }
+    $FORMATTED_DELIV_DATE = date('F j, Y',strtotime($rowofResult2['delivery_Date'])); //Formats date 
+   
+    $SchedDelivOrderNumber[] = $rowofResult2['ordernumber']; //To this
     $SchedDelivDR[] = $rowofResult2['delivery_Receipt'];
-    $SchedDelivDate[] = $rowofResult2['delivery_Date'];
+    $SchedDelivDate[] = $FORMATTED_DELIV_DATE;
     $SchedDelivDestination[] = $rowofResult2['Destination'];
     $SchedDelivCusName[] = $rowofResult2['customer_Name'];
     $SchedDelivStatus[] =  $rowofResult2['delivery_status'];
 }
     echo '<script text/javascript>';
     echo "var deliverNumberfromHTML = document.getElementById('drNumber');";
+    echo "var expectedDatefromHTML = document.getElementById('drexpectedDate');";
     echo "var deliverDatefromHTML = document.getElementById('drDate');";
     echo "var deliverDestinationfromHTML = document.getElementById('drDestination');";
     echo "var deliverCusNamefromHTML = document.getElementById('drCusName');";
     echo "var deliverStatusfromHTML = document.getElementById('drStatus');";
     echo "var deliverTotalfromHTML = document.getElementById('drTotal');";  //Gets HTML elements (Textbox)
+
+    echo "var DR_NUM_FROM_PHP = ".json_encode($DR_NUM_FROM_VIEW).";";
     
     echo "var drDateFromPHP = ".json_encode($SchedDelivDate).";";
     echo "var drDesFromPHP = ".json_encode($SchedDelivDestination).";";
     echo "var drCusFromPHP = ".json_encode($SchedDelivCusName).";";
     echo "var drStatFromPHP = ".json_encode($SchedDelivStatus).";";
     echo "var DRFromPHP = ".json_encode($SchedDelivDR).";"; 
+    echo "var drExpectedDateFromPHP = ".json_encode($expected_date).";";
     echo "var OrderNumberFromSchedDeliver = ".json_encode($SchedDelivOrderNumber).";";//Values from Sched Delivery Table
 
 
@@ -363,7 +405,7 @@ while($rowofResult2=mysqli_fetch_array($resultofQuery2,MYSQLI_ASSOC))
         echo 'for(var i = 0; i < DRFromPHP.length ; i++){';   
             
            
-            echo 'if(GetDR.trim() == DRFromPHP[i].trim()) {';
+            echo 'if(DR_NUM_FROM_PHP.trim() == DRFromPHP[i].trim()) {';
                 // echo 'if(){';
                 echo 'console.log("Value From Receipts.php = " + DRFromPHP[i]);';
                 echo 'console.log("Value from Delvieries.php = " + GetDR);';
@@ -373,19 +415,20 @@ while($rowofResult2=mysqli_fetch_array($resultofQuery2,MYSQLI_ASSOC))
                 echo 'deliverDestinationfromHTML.value = drDesFromPHP[i];';
                 echo 'deliverCusNamefromHTML.value = drCusFromPHP[i];';
                 echo 'deliverStatusfromHTML.value = drStatFromPHP[i];';
-                echo 'deliverTotalfromHTML.value = ItemTotalFromPHP[i];';
-                
-                    echo 'var count = OrderNumberFromOrderDetails.length -1;';
+                echo 'deliverTotalfromHTML.value = "₱ "+ ItemTotalFromPHP[i];';
+                echo 'expectedDatefromHTML.value = drExpectedDateFromPHP[i];';
+                echo 'var count = OrderNumberFromOrderDetails.length -1;';
 
                 echo 'while(count >= 0){';
                     
                     echo 'console.log("OR From Sched = " + OrderNumberFromSchedDeliver[i]);';
+                    
 
                     echo 'if(OrderNumberFromSchedDeliver[i] == OrderNumberFromOrderDetails[count]) {';
 
                         echo  "var newRow = document.getElementById('datatable').insertRow();";
-                        echo  'newRow.innerHTML = "<tr><td>" +ItemNameFromPHP[count]+ "</td> <td>" +ItemQuantityFromPHP[count]+ "</td><td>" +ItemPriceFromPHP[count]+ "</td></tr>";';
-                        echo 'localStorage.removeItem("DRfromDeliveriesPage");';
+                        echo  'newRow.innerHTML = "<tr><td>" +ItemNameFromPHP[count]+ "</td> <td align = right>" +ItemQuantityFromPHP[count]+ "</td><td align = right> ₱ " +ItemPriceFromPHP[count]+ "</td></tr>";';
+                        // echo 'localStorage.removeItem("DRfromDeliveriesPage");';
                         echo 'count--;';
                         echo 'continue;';
 
@@ -404,6 +447,55 @@ echo '</script>';
         localStorage.clear();
     }
 </script>
+
+<script>
+    function printW()
+    {
+        window.print();
+    }
+</script>
+<script>
+    function finishDeliver()
+    {
+        if(confirm("Do you want to finish this delivery?"))
+        {
+            if(confirm("Are you sure?"))
+            {                              
+                request = $.ajax({
+                url: "ajax/finish_delivery.php",
+                type: "POST",
+                data: {
+                    post_dr_number: "<?php echo $_SESSION['get_dr_number_from_deliveries'];?>",
+                    post_or_number:  "<?php echo $_SESSION['get_or_number_from_deliveries'];?>"
+                },
+                    success: function(data)
+                    {
+                        alert("Delivery Complete!");
+                        window.location.href = "Delivery Receipt.php";                         
+                    }//End Scucess               
+                }); // End ajax    
+            }   
+            else
+            {
+                alert("Action: Cancelled");
+            }
+        }
+        else
+        {
+            alert("Action: Cancelled");
+        }       
+    }
+</script>
+
+ <script>
+      $("#drTotal").change(function()
+      {
+      
+        var $this = $(this);
+        $this.val(parseFloat($this.val()).toFixed(2));
+          
+      }); //Sets the Decimal
+    </script>
 
 </body>
 

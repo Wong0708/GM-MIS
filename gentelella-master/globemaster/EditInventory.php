@@ -52,12 +52,11 @@
                     <div class="col-md-12 col-sm-12 col-xs-12" >
                         <div class="x_panel" >
                             <div class="x_title">
-                                <h1><center>Edit Inventory | 
+                                <h1>Edit Inventory - 
                                     <?php
                                      if(isset($_GET['sku_id'], $_GET['item_id']))
                                      {
                                         $_SESSION['getIDfromView'] = $_GET['sku_id'];
-
                                         $_SESSION['item_IDfromView'] = $_GET['item_id']; //Stores the Value of Get from View Inventory
                                         echo $_SESSION['getIDfromView']; 
                                         
@@ -80,7 +79,6 @@
                                     $discountdateend = array();
                                     $discountstatus = array();
                                     $ON_DISCOUNT = "On Discount";
-
                                     $queryDiscountNotif = "SELECT * FROM discounts  
                                     JOIN items_trading ON items_trading.item_id = discounts.item_id
                                     WHERE items_trading.item_id = '$GET_ID' 
@@ -120,7 +118,7 @@
                                     <div class="col-md-6 col-sm-6 col-xs-12" >
                                         <div class="x_panel" >
 
-                                            <center><font color = "#2a5eb2"><h3>Item Details
+                                            <center><font color = "#2a5eb2"><h3>Item Details </h1>
                                             
                                             </h3></font></center>
                                             <div class="ln_solid"></div>
@@ -156,12 +154,7 @@
                                                     <input type="text" id = "supplier_name" class="form-control" readonly="readonly">
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Price</label>
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="text" id = "item_price" class="form-control" readonly="readonly">
-                                                </div>
-                                            </div>
+                                            
                                             <div class="form-group">
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Warehouse Location</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -178,6 +171,13 @@
                                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Last Update</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                                     <input type="text" id = "last_update" class="form-control" readonly="readonly">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <br><br>
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Price</label>
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <input type="text" id = "item_price" class="form-control" readonly="readonly" style="text-align:right">
                                                 </div>
                                             </div>
                                             
@@ -201,7 +201,7 @@
                                                 <br>
                                                 <label class="control-label col-md-4 col-sm-4 col-xs-12">Restock Amount:</label>
                                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    <input type="number" name ="restockAmount" id = "restockamt" class="form-control" value = "0" min = "1">
+                                                    <input type="number" name ="restockAmount" oninput = "validate(this)"  id = "restockamt" class="form-control" min = "1" max ="1000" placeholder = "0">
                                                 </div>
                                             </div>
 
@@ -210,44 +210,39 @@
                                             <div class="form-group">
                                                 <div class="col-md-12 col-sm-12 col-xs-12" align = "center">
                                                 <!--  -->
-                                                    <button type="submit" class="btn btn-success" onclick = "updatestockalert(this)" id = "updatestock" name ="restockBtn" >Update</button>
+                                                    <button type="button" class="btn btn-success"  id = "updatestock" name ="restockBtn" onclick = "insert_and_update_restock()" >Update</button>
 
-                                                      <?php  // UPDATE item stock 
+
+                                                   <script>
+                                                   function insert_and_update_restock()
+                                                   {       
+                                                        var GET_RESTOCK_QTY = document.getElementById("restockamt").value;  
+                                                        if(confirm("Are you sure to Restock Item? "))
+                                                        {
+                                                            request = $.ajax({
+                                                            url: "ajax/insert_and_update_restock.php",
+                                                            type: "POST",
+                                                            data: {
+                                                                post_item_id: <?php echo  $_SESSION['item_IDfromView'];?>,
+                                                                post_restock_quantity: GET_RESTOCK_QTY
+                                                            },
+                                                                success: function(data, textStatus)
+                                                                {
+                                                                    alert(data);
+                                                                    window.location.href = "EditInventory.php";  
+                                                                }//End Scucess                                                        
+                                                            }); // End ajax   
+
+                                                       }    //END IF
+                                                       else
+                                                       {
+                                                           alert("Action: Cancelled");
+                                                       }                                      
                                                         
-                                                        require_once('DataFetchers/mysql_connect.php');
-                                                        if(isset($_GET['restockBtn'], $_GET['restockAmount'])) //checks if both GET have values because the form post is = "GET"                                                    
-                                                        {               
+
                                                          
-                                                            $restockCount = $_GET['restockAmount'];
-                                                            
-                                                            $itemIDfromViewInventory = $_SESSION['item_IDfromView'];
-                                                            $sqlInsert = "UPDATE items_trading  
-                                                            SET items_trading.item_count  = (item_count + '$restockCount'),
-                                                            last_restock = Now() 
-                                                            WHERE item_id ='$itemIDfromViewInventory';"; //Updates the item count in DB
-                                                            $result=mysqli_query($dbc,$sqlInsert); 
-                                                            
-                                                            if(!$result) 
-                                                            {
-                                                                die('Error: ' . mysqli_error($dbc));
-                                                            } 
-                                                            else 
-                                                            {
-                                                                echo '<script language="javascript">';
-                                                                echo 'alert("Successful!");';
-                                                                echo '</script>';
-                                                            }
-
-                                                            $itemID =  $_SESSION['item_IDfromView'];
-                                                            $queryToInserttoRestockTable = "INSERT INTO restock_detail (item_id, quantity, restock_date)
-                                                            VALUES ('$itemID','$restockCount',Now())";
-                                                            $result=mysqli_query($dbc,$queryToInserttoRestockTable); 
-
-                                             
-                                                        }                                                     
-                                                    ?>
-
-                                                   
+                                                   } // End Function
+                                                   </script>
 
                                             </div> <!-- Col MD -->
                                         </div> <!-- FormGRP -->
@@ -282,12 +277,6 @@
                                                 <div class="col-md-12 col-sm-12 col-xs-12" align = "center">
                                                 <!--  -->
                                                     <button type="button" class="btn btn-success" onclick = "updatediscountalert()" id = "updatediscount" name ="discountBtn" >Update</button>
-
-                                                    
-                                                     
-
-                                                   
-
                                             </div> <!-- Col MD -->
                                         </div> <!-- FormGRP -->
                                   
@@ -347,16 +336,16 @@
                                        </div>
 
                                        <div class="form-group">
-                                           <label class="control-label col-md-3 col-sm-3 col-xs-12">Price Each</label>
+                                           <label class="control-label col-md-3 col-sm-3 col-xs-12">Price Each (Of Unusable)</label>
                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                               <input   name = "damagePrice" type="number" id = "priceeach" class="form-control" readonly="readonly" >
+                                               <input   name = "damagePrice" type="number" id = "priceeach" class="form-control" readonly="readonly" style="text-align:right">
                                            </div>
                                        </div>  
 
                                        <div class="form-group">
                                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Total Loss</label>
                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                               <input   name ="totalLoss" type="number" id = "totalloss" class="form-control" readonly="readonly">
+                                               <input   name ="totalLoss" type="number" id = "totalloss" class="form-control" readonly="readonly" style="text-align:right">
                                            </div>
                                        </div>
 
@@ -376,7 +365,7 @@
                                         
                                         <div class="x_panel">
 
-                                             <center><h3>Recently Added Damages for Item:
+                                             <center><h3>List of Damaged Items for:
                                              <?php
                                                     if(isset($_GET['id']))
                                                     {
@@ -403,7 +392,7 @@
                                                         <table id ="damageTable" class="table">
                                                             <thead>
                                                                 <tr>    
-                                                                <th>New Item Name</th>
+                                                                <th>Damaged Item Name</th>
                                                                 <th>Quantity</th>
                                                                 
                                                                 </tr>
@@ -440,44 +429,12 @@
                 </div><!--END Container Body-->        
 </body>
 <!-- /page content -->
-<?php  // UPDATE item stock 
-                                                        
-    require_once('DataFetchers/mysql_connect.php');
-    if(isset($_GET['restockBtn'], $_GET['restockAmount'])) //checks if both GET have values because the form post is = "GET"                                                    
-    {               
-        
-        $restockCount = $_GET['restockAmount'];
-        
-        $itemIDfromViewInventory = $_SESSION['item_IDfromView'];
-        $sqlInsert = "UPDATE items_trading  
-        SET items_trading.item_count  = (item_count + '$restockCount'),
-        last_restock = Now() 
-        WHERE item_id ='$itemIDfromViewInventory';"; //Updates the item count in DB
-        $result=mysqli_query($dbc,$sqlInsert); 
-        
-        if(!$result) 
-        {
-            die('Error: ' . mysqli_error($dbc));
-        } 
-        else 
-        {
-            echo '<script language="javascript">';
-            echo 'alert("Successful!");';
-            echo '</script>';
-        }
 
-        $itemID =  $_SESSION['item_IDfromView'];
-        $queryToInserttoRestockTable = "INSERT INTO restock_detail (item_id, quantity, restock_date)
-        VALUES ('$itemID','$restockCount',Now())";
-        $result=mysqli_query($dbc,$queryToInserttoRestockTable); 
 
-    }                                                     
-?>
 <?php
     require_once('DataFetchers/mysql_connect.php');
    
     $skuID = $_SESSION['getIDfromView'];
-
     $skuArray = array();
     $itemNameArray = array();
     $itemTypeArray = array();
@@ -487,7 +444,6 @@
     $warehouseArray = array();
     $lastRestockArray = array();
     $lastUpdateArray = array();
-
     $query = "SELECT * FROM items_trading
     JOIN warehouses ON warehouses.warehouse_id = items_trading.warehouse_id
     JOIN suppliers ON suppliers.supplier_id = items_trading.supplier_id
@@ -495,7 +451,6 @@
     WHERE sku_id =  '$skuID'
     order by item_id
     ;";
-
     $result = mysqli_query($dbc, $query);
     while($row = mysqli_fetch_array($result,MYSQLI_ASSOC))
     {
@@ -513,50 +468,42 @@
     
     $_SESSION['current_name'] = $itemNameArray[0];
     echo '<script>';
-
-    echo "var sku_idfromPHP = ".json_encode($skuArray).";";
-    echo "var itemNamefromPHP = ".json_encode($itemNameArray).";";
-    echo "var itemTypefromPHP = ".json_encode($itemTypeArray).";";
-    echo "var itemCountfromPHP = ".json_encode($itemCountArray).";";
-    echo "var supplierNamefromPHP = ".json_encode($supplierArray).";";
-    echo "var itempricefromPHP = ".json_encode($priceArray).";";
-    echo "var warehousefromPHP = ".json_encode($warehouseArray).";";
-    echo "var lastRestockfromPHP = ".json_encode($lastRestockArray).";";
-    echo "var lastUpdatefromPHP = ".json_encode($lastUpdateArray).";"; // Get values from items_trading table to JS Variable
+        echo "var sku_idfromPHP = ".json_encode($skuArray).";";
+        echo "var itemNamefromPHP = ".json_encode($itemNameArray).";";
+        echo "var itemTypefromPHP = ".json_encode($itemTypeArray).";";
+        echo "var itemCountfromPHP = ".json_encode($itemCountArray).";";
+        echo "var supplierNamefromPHP = ".json_encode($supplierArray).";";
+        echo "var itempricefromPHP = ".json_encode($priceArray).";";
+        echo "var warehousefromPHP = ".json_encode($warehouseArray).";";
+        echo "var lastRestockfromPHP = ".json_encode($lastRestockArray).";";
+        echo "var lastUpdatefromPHP = ".json_encode($lastUpdateArray).";"; // Get values from items_trading table to JS Variable
+            
+        echo "var SKUfromHTML = document.getElementById('sku_id');";
+        echo "var itemNamefromHTML = document.getElementById('item_name');";
+        echo "var itemTypefromHTML = document.getElementById('item_tyoe');";
+        echo "var itemCountfromHTML = document.getElementById('item_count');";
+        echo "var supplierfromHTML = document.getElementById('supplier_name');";
+        echo "var itemPricefromHTML = document.getElementById('item_price');";
+        echo "var warehousefromHTML = document.getElementById('warehouse_name');";
+        echo "var lastRestockfromHTML = document.getElementById('last_restock');";
+        echo "var lastUpdatefromHTML = document.getElementById('last_update');";
         
-    echo "var SKUfromHTML = document.getElementById('sku_id');";
-    echo "var itemNamefromHTML = document.getElementById('item_name');";
-    echo "var itemTypefromHTML = document.getElementById('item_tyoe');";
-    echo "var itemCountfromHTML = document.getElementById('item_count');";
-    echo "var supplierfromHTML = document.getElementById('supplier_name');";
-    echo "var itemPricefromHTML = document.getElementById('item_price');";
-    echo "var warehousefromHTML = document.getElementById('warehouse_name');";
-    echo "var lastRestockfromHTML = document.getElementById('last_restock');";
-    echo "var lastUpdatefromHTML = document.getElementById('last_update');";
-       
-    echo 'SKUfromHTML.value = sku_idfromPHP[0];';
-    echo 'itemNamefromHTML.value = itemNamefromPHP[0];';
-    echo 'itemTypefromHTML.value = itemTypefromPHP[0];';
-    echo 'itemCountfromHTML.value = itemCountfromPHP[0];';
-    echo 'supplierfromHTML.value = supplierNamefromPHP[0];';
-    echo 'itemPricefromHTML.value = itempricefromPHP[0];';
-    echo 'warehousefromHTML.value = warehousefromPHP[0];';
-    echo 'lastRestockfromHTML.value = lastRestockfromPHP[0];';
-    echo 'lastUpdatefromHTML.value = lastUpdatefromPHP[0];';
-
+        echo 'SKUfromHTML.value = sku_idfromPHP[0];';
+        echo 'itemNamefromHTML.value = itemNamefromPHP[0];';
+        echo 'itemTypefromHTML.value = itemTypefromPHP[0];';
+        echo 'itemCountfromHTML.value = itemCountfromPHP[0];';
+        echo 'supplierfromHTML.value = supplierNamefromPHP[0];';
+        echo 'itemPricefromHTML.value = itempricefromPHP[0];';
+        echo 'warehousefromHTML.value = warehousefromPHP[0];';
+        echo 'lastRestockfromHTML.value = lastRestockfromPHP[0];';
+        echo 'lastUpdatefromHTML.value = lastUpdatefromPHP[0];';
     echo '</script>';
-
-    
-                                          
-    
 ?>
 
 <script>
     var confirmButton = document.getElementById('updatedmg'); 
-
     var itemNameInEditInventory = document.getElementById('sku_id');
     var itemPriceInEditInventory = document.getElementById('item_price');
-
     var damagePercentage = document.getElementById('percentdmg');
     var priceEachBox = document.getElementById('priceeach');
     var dmgQtyBox = document.getElementById('dmgqty');
@@ -573,10 +520,8 @@
        
         priceEachBox.innerHTML = priceEach.toFixed(2)
         totalLossBox.innerHTML = totalLoss.toFixed(2);
-
         priceEachBox.value = priceEach.toFixed(2); 
         totalLossBox.value = totalLoss.toFixed(2);
-
     }
     
     confirmButton.onclick = function() 
@@ -584,19 +529,15 @@
         var inputValue = damagePercentage.value;    
    
     }
-
 </script>
 <script>
     
     var update_button = document.getElementById('updatedmg');
-
     var input_damage_qty = document.getElementById('dmgqty');
     var input_damage_percent = document.getElementById('percentdmg');
     var input_damage_price = document.getElementById('priceeach');
     var input_damage_total = document.getElementById('totalloss');
-
     
-
     update_button.onclick = function()
     {
         DoAjax();
@@ -618,13 +559,11 @@
         }
         
        
-
      } //End function
-
      function DoAjax()
      {
         request = $.ajax({
-        url: "ajax/insertToDB.php",
+        url: "ajax/insert_dmg_and_usable_to_db.php",
         type: "POST",
             data:{post_damage_qty: input_damage_qty.value, //Never forget to get the Value from the <INPUTS>
                 post_damage_percent: input_damage_percent.value,
@@ -638,7 +577,6 @@
                 alert(data);   
             }//End Scucess        
         }); // End ajax
-
       
      }
 </script>
@@ -648,7 +586,6 @@
     obj.value = valBetween(obj.value, obj.min, obj.max); //Gets the value of input alongside with min and max
     console.log(obj.value);
     }
-
     function valBetween(v, min, max) {
     return (Math.min(max, Math.max(min, v))); //compares the value between the min and max , returns the max when input value > max
     }
@@ -718,17 +655,13 @@
     var restockbtnE = document.getElementById("restockbtnE");
     var restockbtnD = document.getElementById("restockbtnD");
     var restockinput = document.getElementById("restockamt"); 
-
     var updatestock = document.getElementById("updatestock"); 
-
     restockinput.disabled = true;
     updatestock.disabled = true;
-
     function enableRestocking()
     {
         restockbtnE.style.display = "none";
         restockbtnD.style.display = "block";
-
         restockinput.disabled = false;
         updatestock.disabled = false;
         
@@ -737,72 +670,56 @@
     {
         restockbtnE.style.display = "block";
         restockbtnD.style.display = "none";
-
         restockinput.disabled = true;
         updatestock.disabled = true;
-
-        var insideval = restockinput.value = "0";
+        var insideval = restockinput.placeholder = "0";
     }
-
     function updatestockalert()
     {
         
         var insideval = restockinput.value;
-        alert("Do you want to restock this amount: " + insideval);
+        confirm("Do you want to restock this amount: " + insideval);
         
-
     }
     function generalAlert()
     {
-        alert("Do you want to Continue?");
+        confirm("Do you want to Continue?");
     }
 </script>
 
 <script>
     // damaged section
-
     var damagedbtn = document.getElementById("addDamage"); 
-
     var damagedqty = document.getElementById("dmgqty"); 
     var percentdmg = document.getElementById("percentdmg"); 
     var priceeach = document.getElementById("priceeach"); 
     var totalloss = document.getElementById("totalloss"); 
-
     var updatedamaged = document.getElementById("updatedmg");  
     var canceldamaged = document.getElementById("canceldmg"); 
-
     damagedbtn.disabled = false;
-
     damagedqty.disabled = true;
     percentdmg.disabled = true;
     priceeach.disabled = true;
     totalloss.disabled = true;
-
     updatedamaged.disabled = true;
     canceldamaged.disabled = true;
-
     function enableDamaged()
     {
         damagedbtn.disabled = true;
-
         damagedqty.disabled = false;
         percentdmg.disabled = false;
         priceeach.disabled = false;
         totalloss.disabled = false;
-
         updatedamaged.disabled = false;
         canceldamaged.disabled = false;
     }
-
     function cancelDamaged()
     {
         damagedbtn.disabled = false;
-
         damagedqty.disabled = true;
         percentdmg.disabled = true;
         priceeach.disabled = true;
         totalloss.disabled = true;
-
         updatedamaged.disabled = true;
         canceldamaged.disabled = true;
     }
@@ -814,17 +731,13 @@
     var discountbtnE = document.getElementById("discountbtnE");
     var discountbtnD = document.getElementById("discountbtnD");
     var discountinput = document.getElementById("discountamt"); 
-
     var updatediscount = document.getElementById("updatediscount"); 
-
     discountinput.disabled = true;
     updatediscount.disabled = true;
-
     function enableDiscount()
     {
         discountbtnE.style.display = "none";
         discountbtnD.style.display = "block";
-
         discountinput.disabled = false;
         updatediscount.disabled = false;
         
@@ -833,18 +746,14 @@
     {
         discountbtnE.style.display = "block";
         discountbtnD.style.display = "none";
-
         discountinput.disabled = true;
         updatediscount.disabled = true;
-
         var insideval1 = discountinput.value = "";
     }
-
     function updatediscountalert() //Update Discount
     {
         insertDiscount();
-        
-
+    
     }
 </script>
 
@@ -853,12 +762,10 @@
     var damageDiv = document.getElementById("damageDiv");
     var unhidebtn = document.getElementById("unhideDamageDivbtn");
     var hidebtn = document.getElementById("hideDamageDivbtn");
-
     var damagedqty = document.getElementById("dmgqty"); 
     var percentdmg = document.getElementById("percentdmg"); 
     var priceeach = document.getElementById("priceeach"); 
     var totalloss = document.getElementById("totalloss"); 
-
     function unhideDamageDiv()
     {
         damageDiv.style.display = "block";
@@ -871,7 +778,6 @@
         damageDiv.style.display = "none";
         hidebtn.style.display = "none";
         unhidebtn.style.display = "block";
-
         damagedqty.value = "";
         percentdmg.value = "";
         priceeach.value = "";
@@ -883,7 +789,6 @@
                                                    
 var discount_button = document.getElementById('discountBtn'); 
 var discount_amount = document.getElementById('discountamt'); 
-
     function insertDiscount()
     {
         if(confirm("Confirm Discount: "+discount_amount.value+"%"))
@@ -907,31 +812,6 @@ var discount_amount = document.getElementById('discountamt');
         }
     }                                                                                                     
 </script> 
-
-<!-- Custom Fonts -->
-    <style>
-        
-        @font-face {
-        font-family: "Couture Bold";
-        src: url("css/fonts/couture-bld.otf");
-        }
-        
-        h1 {
-            font-family: 'COUTURE Bold', Arial, sans-serif;
-            font-weight:normal;
-            font-style:normal;
-            font-size: 50px;
-            color: #1D2B51;
-            }
-        h3 {
-            font-family: 'COUTURE Bold', Arial, sans-serif;
-            font-weight:normal;
-            font-style:normal;
-            font-size: 20px;
-            color: #1D2B51;
-            }
-
-    </style>        
 </body>
 
 </html>

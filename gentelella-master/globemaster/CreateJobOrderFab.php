@@ -58,6 +58,7 @@
                            
                            $currentStatus = $_SESSION['DeliveryStatus'];
                            $fabricationStatus = $_SESSION['FabricationStatus'];
+                           $payment_status_from_orders = $_SESSION['payment_status']; 
                           
                            echo $currentStatus,"<br>";
                            echo $fabricationStatus,"<br>";
@@ -80,7 +81,7 @@
                                
                                $ITEM = $_SESSION['item_id'];
                               $EXPLODED_ITEM = explode(",", $ITEM);
-                               echo"Item ID = ",$EXPLODED_ITEM[0],"<br>"; //Explodes String from $_GET to be converted to usable array
+                               echo"Exploded Item ID = ",$EXPLODED_ITEM[0],"<br>"; //Explodes String from $_GET to be converted to usable array
 
 
                                $_SESSION['total'] = $_GET['total_amount']; //Get Total Amount
@@ -187,7 +188,7 @@
                             $filetype = $_FILES['file_reference']['type'];
                             $filesize = $_FILES['file_reference']['size'];
 
-                            $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "png" => "image/png"); //Checks the File type extension 
+                            $allowed = array("JPG" => "image/JPG", "jpg" => "image/jpg", "jpeg" => "image/jpeg", "JPEG" => "image/JPEG", "png" => "image/png", "PNG" => "image/PNG",); //Checks the File type extension 
                             
                             $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
@@ -199,7 +200,7 @@
                             $maxsize = 10 * 1024 * 1024;
                             if($filesize > $maxsize)
                             {
-                              die("Error: File size is larger than the allowed limit.");
+                              die("Error: File size is larger than the allowed limit."); //10 MB max 
                             } 
 
                           }//END IF ISSET FILE REFERENCE
@@ -216,12 +217,13 @@
                           $EXPECTED_DATE = $_SESSION['getDeliveryDate'];
                           $PAYMENT_ID = $_SESSION['payment_id'];
 
-                          $TOTAL_AMOUNT = $_SESSION['total'];
+                          // $TOTAL_AMOUNT = $_SESSION['total'];
+                          $TOTAL_AMOUNT = $_POST['total_amount'];
                           $SANITIZED_TOTAL = filter_var($TOTAL_AMOUNT,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION); //Removes Peso Sign
 
                           $ORDER_STATUS = $currentStatus;
                           $FAB_STATUS = $fabricationStatus;
-                          $PAYMENT_STATUS = "UNPAID";
+                          $PAYMENT_STATUS =  $payment_status_from_orders;
                           if(!empty($_POST['installation']))
                           {
                             $INSTALLATION_STATUS = $_POST['installation'];
@@ -310,6 +312,7 @@
                                   echo '<script language="javascript">';
                                   echo 'alert("Subtract Successfull");';
                                   echo '</script>';
+                                  header("Location: ViewOrders.php");
                               }
                             } //END FOR
 
@@ -341,12 +344,13 @@
                           $ORDER_DATE = $_SESSION['order_date'];                          
                           $PAYMENT_ID = $_SESSION['payment_id'];
 
-                          $TOTAL_AMOUNT = $_SESSION['total'];
+                          // $TOTAL_AMOUNT = $_SESSION['total'];
+                          $TOTAL_AMOUNT = $_POST['total_amount'];
                           $SANITIZED_TOTAL = filter_var($TOTAL_AMOUNT,FILTER_SANITIZE_NUMBER_FLOAT,FILTER_FLAG_ALLOW_FRACTION); //Removes Peso Sign
 
                           $ORDER_STATUS = $currentStatus;
                           $FAB_STATUS = $fabricationStatus;
-                          $PAYMENT_STATUS = "UNPAID";
+                          $PAYMENT_STATUS =  $payment_status_from_orders;
                           $INSTALLATION_STATUS = "No Installation";
                           
                           $sqlToInsertToORDERS = "INSERT INTO orders(ordernumber, client_id, order_date, payment_id, totalamt, order_status,installation_status, fab_status, payment_status)
@@ -360,7 +364,7 @@
                             '$INSTALLATION_STATUS',
                             '$FAB_STATUS',
                             '$PAYMENT_STATUS');";
-                           $resultToInsertORDERS = mysqli_query($dbc,$sqlToInsertToORDERS);
+                           $resultToInsertORDERS = mysqli_query($dbc,$sqlToInsertToORDERS); //Insert To Orders
 
                           if(!$resultToInsertORDERS) //Chceker
                             {
@@ -448,8 +452,9 @@
                           else 
                           {                            
                               echo '<script language="javascript">';
-                              echo 'alert("Order Successful!");';
-                              echo '</script>';                            
+                              echo 'alert("Order Successful!");';                             
+                              echo '</script>';               
+                              header("Location: ViewOrders.php");             
                           }
                         }//END ELSE 
                       } //END IF ISSET POST BTN  
@@ -562,7 +567,7 @@
       var $this = $(this);
       $this.val(parseFloat($this.val()).toFixed(2));
         
-    });
+    }); //Sets the Decimal
 
     var fab_cost = document.getElementById("fab_cost");
     var fab_total = document.getElementById("total_amount");

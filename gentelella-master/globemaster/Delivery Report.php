@@ -107,7 +107,7 @@
                       <tbody>
                       <?php
                           require_once('DataFetchers/mysql_connect.php');
-                          $query = "SELECT * FROM scheduledelivery";                      
+                          $query = "SELECT * FROM scheduledelivery WHERE delivery_status = 'Delivered' OR delivery_status = 'Order Cancelled'";                      
                           $resultofQuery =  mysqli_query($dbc, $query);
                           while($row=mysqli_fetch_array($resultofQuery,MYSQLI_ASSOC))
                           {
