@@ -104,7 +104,7 @@
                         <div class="form-group">
                         <center>
                         <p>Please choose an item to forecast.</p>
-                        <select name="supplier" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                        <select name="supplier" id="item_name" required="required" class="form-control col-md-7 col-xs-12">
                         <option value = "">Choose...</option>
                             <?php
                                 require_once('DataFetchers/mysql_connect.php');
@@ -135,7 +135,7 @@
                               <input type="date" name="enddate" id = "enddate" class="form-control col-md-7 col-xs-12 deliveryDate">
                             </div>
                         </div>
-                        <button type="button" class="btn btn-info">Show Forecast</button>
+                        <button type="button" class="btn btn-info" onclick = "SHOW_FORECAST()">Show Forecast</button>
 
                         <script>
                         function date_setter(obj)
@@ -280,5 +280,31 @@
           SALES_FORECAST_LABEL.value = "Custom Date Pick";
         }
     </script>  
+
+    <script>
+    function SHOW_FORECAST()
+    {
+      var SET_ITEM_NAME = document.getElementById("item_name").value;
+      var SET_START_DATE = document.getElementById("startdate").value;
+      var SET_END_DATE = document.getElementById("enddate").value;
+
+      
+      if(!SET_ITEM_NAME || !SET_START_DATE || !SET_END_DATE) //Checker
+      {
+        alert("Please Fill Up All Input");
+      }//END IF
+      else
+      {
+        if(confirm("Show forecast on Selected Item and Dates?"))
+        {
+          window.location.href = "SalesForecasting.php?item_id="+SET_ITEM_NAME+"&sd="+SET_START_DATE+"&ed="+SET_END_DATE+""; 
+        }
+        else
+        {
+          alert("Action : Cancelled");
+        }
+      }  //END ELSE     
+    }//END FUNCTION
+    </script>
   </body>
 </html>

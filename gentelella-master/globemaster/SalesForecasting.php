@@ -58,7 +58,15 @@ require_once('DataFetchers/mysql_connect.php');
     <div class="right_col" role="main">
         <!-- top tiles -->
         <div class="title_left">
-            <h1>Sales Forecasting Paricipation for:<?php echo $_GET['item_id'];?>[<?php echo '';?>]</h1><br>
+            <h1>Sales Forecasting Participation for:[ <b> <?php 
+            $CURRENT_ITEM_ID = $_GET['item_id'];
+
+            $SELECT_ITEM_NAME = "SELECT * FROM items_trading WHERE item_id ='$CURRENT_ITEM_ID'";
+            $RESULT_SELECT_ITEM_NAME = mysqli_query($dbc,$SELECT_ITEM_NAME);
+            $ROW_CHECK_STATUS = mysqli_fetch_assoc($RESULT_SELECT_ITEM_NAME);
+            $CURRENT_ITEM_NAME = $ROW_CHECK_STATUS['item_name']; 
+
+            echo $CURRENT_ITEM_NAME;?> </b>]</h1><br>
         </div><!-- PHP END -->
         <!-- /top tiles -->
 
@@ -82,89 +90,7 @@ require_once('DataFetchers/mysql_connect.php');
 
                         <div class="clearfix"></div>
 
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="x_panel">
-                                <div class="x_title">
-                                    <h2>Asset List <small></small></h2>
-
-                                    <div class="clearfix"></div>
-                                </div>
-
-                                <div class="x_content">
-                                    <div class="table-responsive">
-                                        <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
-                                            <thead>
-                                            <tr class="headings">
-                                                <th>
-                                                    <input type="checkbox" >
-                                                </th>
-                                                <th class="column-title">SKU </th>
-                                                <th class="column-title">Item Name </th>
-                                                <th class="column-title">Price </th>
-                                                <th class="column-title" width ="50px">Quantity Sold </th>
-                                                <th class="column-title">Total Price Sold </th>
-
-                                                <th class="column-title no-link last"><span class="nobr">Action</span>
-                                                </th>
-                                                <th class="bulk-actions" colspan="7">
-                                                    <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-                                                </th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-
-                                            <?php
-                                            require_once('DataFetchers/mysql_connect.php');
-
-                                            $query = "SELECT * FROM items_trading";
-                                            $result=mysqli_query($dbc,$query);
-
-                                            while($row=mysqli_fetch_array($result,MYSQLI_ASSOC))
-                                            {
-                                                $length = count($row);
-                                                $i = $row['item_id'];
-                                                foreach((array) $row['item_id'] as $count)
-                                                {
-                                                    $query = "SELECT *,SUM(item_qty) as total_amount FROM order_details where item_id = $count GROUP BY 1,2";
-                                                    $resultOrderDetail = mysqli_query($dbc,$query);
-                                                    $qtyfromOrderDeatils = mysqli_fetch_array($resultOrderDetail,MYSQLI_ASSOC);
-                                                    $itemQty = $qtyfromOrderDeatils['total_amount'];
-                                                }
-                                                if($itemQty>0) {
-                                                    echo '<tr class="even pointer">';
-                                                    echo '<td class="a-center">';
-                                                    echo '<input type="checkbox" id="chk_itm_'.$row['item_id'].'" onclick="add_new_chart(this)" item_id="'.$row['item_id'].'" item_name="'.$row['item_name'].'" >';
-                                                    echo '</td>';
-                                                    echo '<td align ="right">';
-                                                    echo $row['sku_id'];
-                                                    echo '</td>';
-                                                    echo '<td align ="right">';
-                                                    echo $row['item_name'];
-                                                    echo '</td>';
-                                                    echo '<td align ="right"> ₱ ';
-                                                    echo $row['price'];
-                                                    echo '</td>';
-                                                    echo '<td align ="right">';
-                                                    echo $itemQty;
-                                                    echo '</td>';
-                                                    echo '<td align ="right"> ₱ ';
-                                                    echo number_format((float)($row['price'] * $itemQty), 2, '.', ',');
-                                                    echo '</td>';
-                                                    echo '<td align = "center" class="last" ><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg">View Details</a></td>';
-                                                    echo '</tr>';
-                                                }
-                                            }
-                                            ;
-                                            ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <!-- <div id="echart_line" style="height:350px;"></div> -->
-                                    <!-- /page content -->
-
-                                </div>
-                            </div>
-
+                       
                             <!-- jQuery -->
                             <script src="../vendors/jquery/dist/jquery.min.js"></script>
                             <!-- Bootstrap -->
@@ -228,12 +154,12 @@ require_once('DataFetchers/mysql_connect.php');
                             <!-- Custom Theme Scripts -->
                             <script src="../build/js/custom.min.js"></script>
 
-                            <a href="/gentelella-master/globemaster/SalesForecasting.php?sd=2018-05-15&ed=2018-08-15&item_id=5&type=long">
+                            <!-- <a href="/gentelella-master/globemaster/SalesForecasting.php?sd=2018-05-15&ed=2018-08-15&item_id=5&type=long"> -->
                             <?php
 
                             // put if here ser.
                         
-                            $_GET['type']; 
+                            // $_GET['type']; 
                             $data = time_series($_GET['sd'],$_GET['ed'],$_GET['item_id']);
                             $dates = $data[0];
                             ?>
