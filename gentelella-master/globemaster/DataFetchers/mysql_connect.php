@@ -1,5 +1,5 @@
 <?php
-$dbc=mysqli_connect('localhost','root','','gm_db');
+$dbc=mysqli_connect('localhost','root','Rane0708!','mydbmiggy');
 
 
 if (!$dbc) {
