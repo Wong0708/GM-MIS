@@ -288,10 +288,36 @@
                                <div class="col-md-12 col-sm-12 col-xs-12" align = "right">
                                         
                                         <div class="ln_solid"></div>
-                                            <button name = "confirmButton" type="button" class="btn btn-success" onclick ="FinishOrder()">Finish</button>
-                                            <button type="button" class="btn btn-warning" onclick="cancelWarning()">Cancel Order</button>
-
-                                        </div><!--END Col MD-->
+                                        <?php
+                                            $SQL_SELECT_FROM_ORDER_ORDERSTATUS = "SELECT * FROM orders WHERE ordernumber = '$GET_OR_FROM_SESSION'";
+                                            $RESULT_SELECT_ORDERSTATUS = mysqli_query($dbc,$SQL_SELECT_FROM_ORDER_ORDERSTATUS);
+                                            while($ROW_RESULT_SELECT_STATUS=mysqli_fetch_array($RESULT_SELECT_ORDERSTATUS,MYSQLI_ASSOC))
+                                            {
+                                                $statohs = $ROW_RESULT_SELECT_STATUS['order_status'];
+                                                if($statohs == "PickUp")
+                                                {
+                                        ?>
+                                                <button name = "confirmButton" type="button" class="btn btn-success" style = "display:block" onclick ="FinishOrder()">Finish</button>
+                                                <button type="button" class="btn btn-warning"  style = "display:block" onclick="cancelWarning()">Cancel Order</button>
+                                        <?php
+                                                }
+                                                else if($statohs == "Order In Progress" || $statohs == "Late Delivery" || $statohs == "Order Cancelled" || $statohs == "Delivered" || $statohs == "Deliver")
+                                                {
+                                        ?>
+                                                <button name = "confirmButton" type="button" class="btn btn-success" style = "display:none" onclick ="FinishOrder()">Finish</button>
+                                                <button type="button" class="btn btn-warning"  style = "display:block" onclick="cancelWarning()">Cancel Order</button>
+                                        <?php
+                                                }
+                                                else if($statohs == "Cancelled" || $statohs == "Finished Order")
+                                                {
+                                        ?>
+                                                <button name = "confirmButton" type="button" class="btn btn-success" onclick ="FinishOrder()" disabled>Finish</button>
+                                                <button type="button" class="btn btn-warning"  onclick="cancelWarning()" disabled>Cancel Order</button>
+                                        <?php
+                                                }
+                                            }
+                                        ?>
+                                </div><!--END Col MD-->
                                     
                             </div> <!--END X Panel-->
                         </div><!--END Col MD-->
